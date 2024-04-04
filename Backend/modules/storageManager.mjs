@@ -1,0 +1,218 @@
+import pg from "pg";
+import { HttpCodes } from "./httpCodes.mjs";
+
+class DBManager {
+
+    #credentials = {};
+
+    constructor(connectionString) {
+        this.#credentials = {
+            connectionString: process.env.DB_CONNECTIONSTRING_PROD,
+            ssl: (process.env.DB_SSL === "true") ? true : false
+        };
+
+    }
+
+    async updateUser(user) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            await client.connect();
+            const sql = 'UPDATE "public"."Users" set "name" = $1, "email" = $2, "pswHash" = $3 where id = $4;'
+            const params = [user.name, user.email, user.pswHash, user.id]
+            const output = await client.query(sql, params);
+
+        } catch (error) {
+            console.error('Error in update user:', error.stack);
+            
+        } finally {
+            client.end();
+        }
+        return user;
+    }
+
+    async deleteUser(user) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            await client.connect();
+            const sql = 'DELETE FROM "public"."Users" WHERE id = $1;'
+            const params = [user.id];
+            const output = await client.query(sql , params);
+            return true;
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            throw error;
+            client.end();
+        }
+    }
+
+    async createUser(user) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            const sql = 'INSERT INTO "public"."Users"("name", "email", "pswHash") VALUES($1::TEXT, $2::TEXT, $3::TEXT) RETURNING id;';
+            const parms = [user.name, user.email, user.pswHash];
+            await client.connect();
+            const output = await client.query(sql, parms);
+
+            if (output.rows.length == 1) {
+                user.id = output.rows[0].id;
+            }
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+            return false;
+        } finally {
+            client.end();
+        }
+
+        return user;
+
+    }
+
+    async getUser(user) {
+
+        const client = new pg.Client(this.#credentials);
+        user = null;
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."Users" WHERE "id" = $1'
+            const params = [user.id]
+            const output = await client.query(sql, params);
+
+            console.log(output);
+            user = output.rows[0];
+        
+        } catch (error) {
+            console.error('Error in getting user :', error.stack);
+        } finally {
+            client.end();
+        }
+
+        return user;
+    }
+
+    async loginUser(email, password) {
+
+        const client = new pg.Client(this.#credentials);
+        let user = null;
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."Users" WHERE "email" = $1';
+            const params = [email]
+            const output = await client.query( sql, params );
+
+            console.log(output);
+            user = output.rows[0];
+
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return user;
+    }
+
+   
+    async createBook(book) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            const sql = 'INSERT INTO "public"."cookbooks"("userId", "contents") VALUES($1::TEXT, $2::TEXT) RETURNING id;';
+            const parms = [book.userId, book.content];
+            await client.connect();
+            const output = await client.query(sql, parms);
+
+            if (output.rows.length == 1) {
+                book.id = output.rows[0].id;
+            }
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+            return false;
+        } finally {
+            client.end(); 
+        }
+
+        return book;
+
+    }
+    async getBook(id) {
+
+        const client = new pg.Client(this.#credentials);
+        let book = null;
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "id" = $1';
+            const params = [id]
+            const output = await client.query( sql, params );
+
+            console.log(output);
+            book = output.rows[0];
+
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return book;
+    }
+
+    async updateBook(book) {
+        const client = new pg.Client(this.#credentials);
+        
+        try {
+            await client.connect();
+            const sql = 'UPDATE "public"."cookbooks" set "contents" = $1 where "id" = $2;'
+            const params = [book.content, book.id];
+            const output = await client.query(sql, params);
+
+
+        } catch (error) {
+            console.error('Error in update shoppinglist:', error.stack);
+        } finally {
+            client.end(); 
+        }
+
+        return book;
+
+    }
+
+    async deleteBook(book) {
+
+        const client = new pg.Client(this.#credentials);
+        try {
+            await client.connect();
+            console.log('Connected to the database');
+            const sql = 'DELETE FROM "public"."cookbooks" WHERE "id" = $1;'
+            const params = [book.id];
+            const output = await client.query(sql, params);
+            console.log('Query executed successfully');
+            return true;
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            throw error;
+            return false;
+        } finally {
+            client.end();
+            console.log('Disconnected from the database');
+
+        }
+
+    }
+
+    
+
+}
+
+export default new DBManager(process.env.DB_CONNECTIONSTRING_PROD);
