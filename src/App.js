@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
+function WelcomePage() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{
+      width: '100%',
+      height: '100vh',
+      background: 'linear-gradient(to bottom right, #ff6e7f, #bfe9ff)', /* Adjust colors as needed */
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      color: 'white',
+    }}>
+      <div>
+        <h1 style={{ fontSize: '3rem' }}>Welcome to My Website</h1>
+        <p style={{ fontSize: '1.5rem' }}>Thank you for visiting!</p>
+      </div>
     </div>
   );
 }
 
-export default App;
+export default WelcomePage;
