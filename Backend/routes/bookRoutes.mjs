@@ -1,5 +1,5 @@
 import express from "express";
-import Book from "../modules/user.mjs";
+import Book from "../modules/book.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
 const BOOK_API = express.Router();
