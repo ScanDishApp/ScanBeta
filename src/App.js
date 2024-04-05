@@ -1,23 +1,24 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './screens/HomeScreen';
+import Scan from './screens/ScanScreen';
+import NavTab from './screens/NavTab';
+import Setting from './screens/SettingScreen';
+import Book from './screens/BookScreen';
 
-function WelcomePage() {
+export default function App() {
   return (
-    <div style={{
-      width: '100%',
-      height: '100vh',
-      background: 'linear-gradient(to bottom right, #ff6e7f, #bfe9ff)', /* Adjust colors as needed */
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      color: 'white',
-    }}>
-      <div>
-        <h1 style={{ fontSize: '3rem' }}>Welcome to My Website</h1>
-        <p style={{ fontSize: '1.5rem' }}>Thank you for visiting!</p>
-      </div>
+    <div>
+      <BrowserRouter>
+        <NavTab />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Scan" element={<Scan />} />
+          <Route path="/Book" element={<Book />} />
+          <Route path="/Setting" element={<Setting />} />
+
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
-
-export default WelcomePage;

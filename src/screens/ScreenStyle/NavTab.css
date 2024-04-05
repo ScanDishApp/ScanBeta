@@ -1,0 +1,46 @@
+/*NavTab.css*/
+
+.nav-tab {
+    background-color: #222;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    padding: 15px 0; /* Increase padding for top and bottom */
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+}
+
+.nav-tab ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center the icons within the navigation bar */
+    width: 100%; /* Ensure the entire width is used */
+}
+
+.nav-tab li {
+    flex-grow: 1; /* Distribute the space between icons equally */
+}
+
+.nav-tab li:last-child {
+    margin-right: 0; /* Remove margin from last item to avoid extra space */
+}
+
+.nav-tab a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease; /* Add smooth transition for color change */
+}
+
+.nav-tab a:hover {
+    color: #ccc; /* Change color on hover */
+}
+
+/* Adjust icon size */
+.nav-tab a svg {
+    font-size: 30px; /* Adjust icon size as needed */
+}
