@@ -2,7 +2,7 @@ import DBManager from "./storageManager.mjs";
 
 class Book {
 
-  constructor(id, userId, content) {
+  constructor(id, userId, contents) {
     this.id = id;
     this.userId = userId;
     this.content = content;
