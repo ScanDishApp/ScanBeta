@@ -6,7 +6,6 @@ const Scan = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [recognizedText, setRecognizedText] = useState('');
   const [showCamera, setShowCamera] = useState(false);
-  const [mediaStream, setMediaStream] = useState(null);
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -19,33 +18,19 @@ const Scan = () => {
     setSelectedImage(URL.createObjectURL(image));
   };
 
-  const handleButtonClick = () => {
-    if (showCamera) {
-      stopCamera();
-    } else {
-      startCamera();
-    }
-    setShowCamera(!showCamera);
-  };
-
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      setMediaStream(stream);
-      videoRef.current.srcObject = stream;
-    } catch (error) {
-      console.error('Error accessing camera:', error);
-    }
-  };
-
-  const stopCamera = () => {
-    if (mediaStream) {
-      mediaStream.getTracks().forEach(track => track.stop());
-      setMediaStream(null);
-    }
+  const openDefaultCameraApp = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.setAttribute('capture', 'environment');
+    input.click();
+    input.addEventListener('change', (event) => {
+      handleImageUpload(event);
+    });
   };
 
   const captureImage = () => {
+    videoRef.current.play();
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     canvas.width = videoRef.current.videoWidth;
@@ -53,7 +38,6 @@ const Scan = () => {
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
     const imageDataUrl = canvas.toDataURL('image/png');
     setSelectedImage(imageDataUrl);
-    stopCamera();
     setShowCamera(false);
   };
 
@@ -73,6 +57,10 @@ const Scan = () => {
         </div>
       </div>
       <div>
+        <button className="button" onClick={openDefaultCameraApp}>
+          Open Camera App
+        </button>
+        <button className="button" onClick={() => fileInputRef.current.click()}>Choose File</button>
         <input
           type="file"
           accept="image/*"
@@ -80,10 +68,6 @@ const Scan = () => {
           ref={fileInputRef}
           style={{ display: 'none' }} // Hide the file input
         />
-        <button className="button" onClick={handleButtonClick}>
-          {showCamera ? 'Close Camera' : 'Open Camera'}
-        </button>
-        <button className="button" onClick={() => fileInputRef.current.click()}>Choose File</button>
         {showCamera && (
           <div className="camera-preview">
             <video ref={videoRef} autoPlay muted />
