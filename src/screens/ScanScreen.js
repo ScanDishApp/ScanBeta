@@ -26,17 +26,16 @@ const Scan = () => {
   };
 
   const handleCameraScan = async () => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-      }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+      captureImage(); // Call captureImage function after starting the video stream
+    } catch (error) {
+      console.error('Error accessing camera:', error);
     }
   };
-
+  
   const captureImage = async () => {
     const canvas = document.createElement('canvas');
     canvas.width = videoRef.current.videoWidth;
