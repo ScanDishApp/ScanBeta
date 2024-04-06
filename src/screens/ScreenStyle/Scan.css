@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+      height: 100vh; /* Set the height to 100% of the viewport height */
+  
+  }
+  
+  .scan-container {
+    text-align: center;
+    margin-top: 50px;
+  
+  }
+  
+  
+  
+
+
+  
+  
+  .rectangle {
+    width: 100%; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    background-color: #222;
+    border-radius: 10px; /* Rounded corners */
+    display: flex;
+    align-items: center;
+  }
+  
+  .rectangle h2 {
+    text-align: left; /* Align text to the left */
+    padding-left: 20px;
+    margin: 0; /* Remove default margin */
+    font-size: 20px;
+    color: white;
+  }
+  
+  .rectangle-grid .rectangle h2 {
+    margin: 0; /* Remove default margin */
+    text-align: left; /* Align text to the left */
+  }
+  
+  
+  .rectangle-grid {
+    margin: 10px;
+    display: flex;
+    justify-content: center; /* Center the rectangles horizontally */
+    align-items: center; /* Center the rectangles vertically */
+    flex-direction: column; /* Stack rectangles vertically */
+    margin-top: 20px; /* Adjust margin between button and rectangles */
+  }
+  
+
+  /* Add this to your Scan.css file or any other CSS file you're using */
+
+.button {
+    background-color: #222; /* Green background */
+    border: none;
+    color: white; /* White text */
+    padding: 15px 32px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
