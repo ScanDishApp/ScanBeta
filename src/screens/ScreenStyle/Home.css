@@ -5,17 +5,16 @@ body {
   padding: 0;
   font-family: 'TestFont', sans-serif;
     height: 100vh; /* Set the height to 100% of the viewport height */
+    overflow: hidden;
+
 }
-
-
-
 
 
 .home-container {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 28px;
+  overflow: hidden;
 }
-
 
 
 .square-grid {
@@ -32,9 +31,26 @@ body {
   background-color: #ccc;
   border-radius: 20px;
   background-color: #222;
+  position: relative;
 
 }
 
+.mini-square {
+  left: 15px;
+  top: 15px;
+  width: 50px;
+  height: 50px;
+  background-color: rgb(255, 255, 255); /* Change color as desired */
+  position: absolute;
+  right: 5px; /* Adjust positioning as needed */
+  z-index: 1; /* Ensure mini squares are above the larger squares */
+  border-radius: 15px;
+  font-size: 20px;
+  /* Centering */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
 
 
 .rectangle {
@@ -67,4 +83,19 @@ body {
   align-items: center; /* Center the rectangles vertically */
   flex-direction: column; /* Stack rectangles vertically */
   margin-top: 20px; /* Adjust margin between button and rectangles */
+}
+
+.big-rectangle {
+  width: calc(100% - 20px); /* Adjusted width with margins on both sides */
+  height: 200px; /* Adjust height as needed */
+  margin-top: 10px; /* Add margin from the top */
+  margin-left: 10px; /* Add margin on the left side */
+  background-color: #222; /* Change color as desired */
+  color: white;
+  /* Centering */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  border-radius: 25px;
+  /* Glowing effect */
 }
