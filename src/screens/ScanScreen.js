@@ -6,46 +6,44 @@ const Scan = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [recognizedText, setRecognizedText] = useState('');
   const fileInputRef = useRef(null);
-  const videoRef = useRef(null);
 
-  const handleImageUpload = async (event) => {
+  const handleImageUpload = (event) => {
     const image = event.target.files[0];
     setSelectedImage(URL.createObjectURL(image));
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const imageData = reader.result;
-      const result = await Tesseract.recognize(imageData);
-      setRecognizedText(result.data.text);
-    };
-    reader.readAsDataURL(image);
   };
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleCameraScan = async () => {
+  const handleCameraButtonClick = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      videoRef.current.srcObject = stream;
-      videoRef.current.play();
-      captureImage(); // Call captureImage function after starting the video stream
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.createElement('video');
+      video.srcObject = mediaStream;
+      video.play();
+
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      video.addEventListener('loadeddata', () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageDataUrl = canvas.toDataURL('image/png');
+        setSelectedImage(imageDataUrl);
+        mediaStream.getTracks().forEach(track => track.stop());
+      });
     } catch (error) {
       console.error('Error accessing camera:', error);
     }
   };
-  
-  const captureImage = async () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    const context = canvas.getContext('2d');
-    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-    const imageData = canvas.toDataURL('image/jpeg');
-    setSelectedImage(imageData);
-    const result = await Tesseract.recognize(imageData);
-    setRecognizedText(result.data.text);
+
+  const recognizeText = async () => {
+    if (selectedImage) {
+      const result = await Tesseract.recognize(selectedImage);
+      setRecognizedText(result.data.text);
+    }
   };
 
   return (
@@ -65,16 +63,14 @@ const Scan = () => {
           style={{ display: 'none' }} // Hide the file input
         />
         <button className="button" onClick={handleButtonClick}>Choose File</button>
-        <button className="button" onClick={handleCameraScan}>Scan with Camera</button>
-        <button className="button" onClick={captureImage}>Capture Image</button>
+        <button className="button" onClick={handleCameraButtonClick}>Open Camera</button>
         {selectedImage && <img src={selectedImage} alt="Selected" />}
-        {recognizedText && (
+        {selectedImage && (
           <div>
             <h2>Recognized Text:</h2>
             <p>{recognizedText}</p>
           </div>
         )}
-        <video ref={videoRef} style={{ display: 'none' }} />
       </div>
     </div>
   );
