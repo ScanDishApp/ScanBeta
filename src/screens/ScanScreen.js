@@ -31,7 +31,6 @@ const Scan = () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         videoRef.current.srcObject = stream;
         videoRef.current.play();
-        captureImage(); // Call captureImage function after starting the video stream
       } catch (error) {
         console.error('Error accessing camera:', error);
       }
@@ -45,6 +44,7 @@ const Scan = () => {
     const context = canvas.getContext('2d');
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
     const imageData = canvas.toDataURL('image/jpeg');
+    setSelectedImage(imageData);
     const result = await Tesseract.recognize(imageData);
     setRecognizedText(result.data.text);
   };
@@ -67,6 +67,7 @@ const Scan = () => {
         />
         <button className="button" onClick={handleButtonClick}>Choose File</button>
         <button className="button" onClick={handleCameraScan}>Scan with Camera</button>
+        <button className="button" onClick={captureImage}>Capture Image</button>
         {selectedImage && <img src={selectedImage} alt="Selected" />}
         {recognizedText && (
           <div>
