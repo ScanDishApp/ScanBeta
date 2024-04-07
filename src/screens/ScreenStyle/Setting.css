@@ -2,47 +2,46 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-      height: 100vh; /* Set the height to 100% of the viewport height */
+      height: 100vh; 
   
   }
   
   .setting-container {
     text-align: center;
-    margin-top: 0px; /* Adjust this value to move the text higher up */
-    overflow: hidden;
+    margin-top: 0px; 
   
   }
 
   
   .rectangle {
-    width: 100%; /* Adjust width as needed */
-    height: 50px; /* Adjust height as needed */
+    width: 100%; 
+    height: 50px; 
     background-color: #222;
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 10px; 
     display: flex;
     align-items: center;
   }
   
   .rectangle h2 {
-    text-align: left; /* Align text to the left */
+    text-align: left; 
     padding-left: 20px;
-    margin: 0; /* Remove default margin */
+    margin: 0; 
     font-size: 20px;
     color: white;
   }
   
   .rectangle-grid .rectangle h2 {
-    margin: 0; /* Remove default margin */
-    text-align: left; /* Align text to the left */
+    margin: 0; 
+    text-align: left; 
   }
   
   
   .rectangle-grid {
     margin: 10px;
     display: flex;
-    justify-content: center; /* Center the rectangles horizontally */
-    align-items: center; /* Center the rectangles vertically */
-    flex-direction: column; /* Stack rectangles vertically */
-    margin-top: 20px; /* Adjust margin between button and rectangles */
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column; 
+    margin-top: 20px; 
   }
   

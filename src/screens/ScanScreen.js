@@ -22,8 +22,8 @@ const Scan = () => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 200; // Set your desired max width
-        const MAX_HEIGHT = 100; // Set your desired max height
+        const MAX_WIDTH = 200; 
+        const MAX_HEIGHT = 100; 
         let width = img.width;
         let height = img.height;
 
@@ -43,7 +43,7 @@ const Scan = () => {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7); // Adjust quality as needed
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7); 
         setSelectedImage(dataUrl);
       };
 
@@ -109,7 +109,7 @@ const Scan = () => {
             <button className="capture-button" onClick={captureImage}>Capture Image</button>
           </div>
         )}
-        {selectedImage && <img src={selectedImage} alt="Selected" />}
+        {selectedImage && <img src={selectedImage} alt="Selected" style={{ margin: '20px' }} />}
         {recognizedText && (
           <div>
             <h2>Recognized Text:</h2>

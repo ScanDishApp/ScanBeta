@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoCameraOutline } from 'react-icons/io5';
-import './ScreenStyle/Home.css'; // Import the external CSS file
+import './ScreenStyle/Home.css';
 
 export default function Home() {
     return (
@@ -14,18 +14,17 @@ export default function Home() {
             </div>
 
             <div className="square-grid">
-                {/* Four squares */}
                 <div className="square">
-                    <div className="mini-square">😀</div> {/* Mini square added with 😀 emoji */}
+                    <div className="mini-square">😀</div> 
                 </div>
                 <div className="square">
-                    <div className="mini-square">😀</div> {/* Mini square added with 😀 emoji */}
+                    <div className="mini-square">😀</div> 
                 </div>
                 <div className="square">
-                    <div className="mini-square">😀</div> {/* Mini square added with 😀 emoji */}
+                    <div className="mini-square">😀</div> 
                 </div>
                 <div className="square">
-                    <div className="mini-square">😀</div> {/* Mini square added with 😀 emoji */}
+                    <div className="mini-square">😀</div> 
                 </div>
             </div>
 

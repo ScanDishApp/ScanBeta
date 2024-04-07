@@ -1,96 +1,77 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-      height: 100vh; /* Set the height to 100% of the viewport height */
-  
-  }
-  
-  .scan-container {
-    text-align: center;
-    margin-top: 0px; /* Adjust this value to move the text higher up */
-    overflow: hidden;
-  }
-  
-  
-  .rectangle {
-    width: 100%; /* Adjust width as needed */
-    height: 50px; /* Adjust height as needed */
-    background-color: #222;
-    border-radius: 10px; /* Rounded corners */
-    display: flex;
-    align-items: center;
-  }
-  
-  .rectangle h2 {
-    text-align: left; /* Align text to the left */
-    padding-left: 20px;
-    margin: 0; /* Remove default margin */
-    font-size: 20px;
-    color: white;
-  }
-  
-  .rectangle-grid .rectangle h2 {
-    margin: 0; /* Remove default margin */
-    text-align: left; /* Align text to the left */
-  }
-  
-  
-  .rectangle-grid {
-    margin: 10px;
-    display: flex;
-    justify-content: center; /* Center the rectangles horizontally */
-    align-items: center; /* Center the rectangles vertically */
-    flex-direction: column; /* Stack rectangles vertically */
-    margin-top: 20px; /* Adjust margin between button and rectangles */
-  }
-  
-
-  /* Add this to your Scan.css file or any other CSS file you're using */
-
-.button {
-    background-color: #222; /* Green background */
-    border: none;
-    color: white; /* White text */
-    padding: 15px 32px; /* Padding */
-    text-align: center; /* Center text */
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px; /* Font size */
-    margin: 4px 2px; /* Margin */
-    cursor: pointer; /* Cursor on hover */
-    border-radius: 10px; /* Rounded corners */
-  }
-  
-/* Scan.css */
-.imported-image {
-  margin: 10px; /* Adjust the margin as needed */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  height: 100vh;
 }
 
-/* Scan.css */
+.scan-container {
+  text-align: center;
+  margin-top: 0px;
+  overflow: hidden;
+}
+
+.rectangle {
+  width: 100%;
+  height: 50px;
+  background-color: #222;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.rectangle h2 {
+  text-align: left;
+  padding-left: 20px;
+  margin: 0;
+  font-size: 20px;
+  color: white;
+}
+
+.rectangle-grid .rectangle h2 {
+  margin: 0;
+  text-align: left;
+}
+
+.rectangle-grid {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.button {
+  background-color: #222;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
 .icon-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  width: 100%; /* Ensure container takes up full width */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .icon {
-  width: 160px;
-  height: 30px;
+  width: 100%;
   padding: 10px;
-  font-size: 2rem; /* Adjust the size as needed */
-  background-color: #222; /* Add background color */
+  margin-top: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 2rem;
+  background-color: #222;
   color: #fff;
-  border-radius: 10px; /* Rounded corners */
-  margin-right: 10px; /* Add gap between icons */
+  border-radius: 10px;
 }
-
-.icon:last-child {
-  margin-right: 0; /* Remove margin from last icon */
-}
-
-
-
-/* Add any other styles you need */
