@@ -9,14 +9,9 @@ body {
   
   .scan-container {
     text-align: center;
-    margin-top: 50px;
-  
+    margin-top: 0px; /* Adjust this value to move the text higher up */
+    overflow: hidden;
   }
-  
-  
-  
-
-
   
   
   .rectangle {
@@ -68,3 +63,34 @@ body {
     border-radius: 10px; /* Rounded corners */
   }
   
+/* Scan.css */
+.imported-image {
+  margin: 10px; /* Adjust the margin as needed */
+}
+
+/* Scan.css */
+.icon-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Ensure container takes up full width */
+}
+
+.icon {
+  width: 160px;
+  height: 30px;
+  padding: 10px;
+  font-size: 2rem; /* Adjust the size as needed */
+  background-color: #222; /* Add background color */
+  color: #fff;
+  border-radius: 10px; /* Rounded corners */
+  margin-right: 10px; /* Add gap between icons */
+}
+
+.icon:last-child {
+  margin-right: 0; /* Remove margin from last icon */
+}
+
+
+
+/* Add any other styles you need */

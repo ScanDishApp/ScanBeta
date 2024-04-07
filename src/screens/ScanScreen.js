@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
+import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
 import './ScreenStyle/Scan.css'; // Import the external CSS file
 
 const Scan = () => {
@@ -15,7 +16,41 @@ const Scan = () => {
 
   const handleImageUpload = (event) => {
     const image = event.target.files[0];
-    setSelectedImage(URL.createObjectURL(image));
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 200; // Set your desired max width
+        const MAX_HEIGHT = 100; // Set your desired max height
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7); // Adjust quality as needed
+        setSelectedImage(dataUrl);
+      };
+
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(image);
   };
 
   const openDefaultCameraApp = () => {
@@ -57,10 +92,10 @@ const Scan = () => {
         </div>
       </div>
       <div>
-        <button className="button" onClick={openDefaultCameraApp}>
-          Open Camera App
-        </button>
-        <button className="button" onClick={() => fileInputRef.current.click()}>Choose File</button>
+        <div className="icon-container">
+          <AiOutlineCamera className="icon" onClick={openDefaultCameraApp} />
+          <AiOutlineFileImage className="icon" onClick={() => fileInputRef.current.click()} />
+        </div>
         <input
           type="file"
           accept="image/*"

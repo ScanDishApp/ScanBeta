@@ -11,8 +11,8 @@ body {
   
   .book-container {
     text-align: center;
-    margin-top: 50px;
-  
+    margin-top: 0px; /* Adjust this value to move the text higher up */
+    overflow: hidden;
   }
   
   

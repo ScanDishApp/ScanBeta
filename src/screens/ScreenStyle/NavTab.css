@@ -44,3 +44,7 @@
 .nav-tab a svg {
     font-size: 30px; /* Adjust icon size as needed */
 }
+
+.nav-tab a:focus {
+    outline: none; /* Remove outline on focus */
+}

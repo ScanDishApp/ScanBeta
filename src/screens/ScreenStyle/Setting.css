@@ -8,15 +8,11 @@ body {
   
   .setting-container {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0px; /* Adjust this value to move the text higher up */
+    overflow: hidden;
   
   }
-  
-  
-  
 
-
-  
   
   .rectangle {
     width: 100%; /* Adjust width as needed */
