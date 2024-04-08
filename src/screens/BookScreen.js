@@ -1,9 +1,9 @@
 import React from 'react';
-import './ScreenStyle/Book.css'; // Import the external CSS file
+import './ScreenStyle/Book.css'; 
 
 export default function Book() {
     const handleDelete = () => {
-        // Implement your delete logic here
+    
         console.log('Delete button clicked');
     };
 

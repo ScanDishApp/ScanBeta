@@ -1,11 +1,11 @@
 import React from 'react';
-import './ScreenStyle/Home.css'; // Import the external CSS file
+import { IoCameraOutline } from 'react-icons/io5';
+import './ScreenStyle/Home.css';
 
 export default function Home() {
     return (
         <div className="home-container">
             <h1>HOME</h1>
-
 
             <div className="rectangle-grid">
                 <div className="rectangle">
@@ -14,11 +14,22 @@ export default function Home() {
             </div>
 
             <div className="square-grid">
-                {/* Four squares */}
-                <div className="square"></div>
-                <div className="square"></div>
-                <div className="square"></div>
-                <div className="square"></div>
+                <div className="square">
+                    <div className="mini-square">😀</div> 
+                </div>
+                <div className="square">
+                    <div className="mini-square">😀</div> 
+                </div>
+                <div className="square">
+                    <div className="mini-square">😀</div> 
+                </div>
+                <div className="square">
+                    <div className="mini-square">😀</div> 
+                </div>
+            </div>
+
+            <div className="big-rectangle">
+                <IoCameraOutline size={48} />
             </div>
         </div>
     );

@@ -6,8 +6,8 @@
     bottom: 0;
     width: 100%;
     display: flex;
-    padding: 15px 0; /* Increase padding for top and bottom */
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+    padding: 15px 0; 
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 .nav-tab ul {
@@ -15,16 +15,16 @@
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center; /* Center the icons within the navigation bar */
-    width: 100%; /* Ensure the entire width is used */
+    justify-content: center; 
+    width: 100%; 
 }
 
 .nav-tab li {
-    flex-grow: 1; /* Distribute the space between icons equally */
+    flex-grow: 1; 
 }
 
 .nav-tab li:last-child {
-    margin-right: 0; /* Remove margin from last item to avoid extra space */
+    margin-right: 0; 
 }
 
 .nav-tab a {
@@ -33,14 +33,29 @@
     align-items: center;
     text-decoration: none;
     color: white;
-    transition: color 0.3s ease; /* Add smooth transition for color change */
+    transition: color 0.3s ease; 
 }
 
 .nav-tab a:hover {
-    color: #ccc; /* Change color on hover */
+    color: yellow; 
 }
 
-/* Adjust icon size */
+
 .nav-tab a svg {
-    font-size: 30px; /* Adjust icon size as needed */
+    font-size: 30px; 
+}
+
+.nav-tab a:focus,
+.nav-tab a:focus svg {
+    outline: none; 
+}
+
+.nav-tab a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease; 
+    background-color: transparent; 
 }

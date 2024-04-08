@@ -1,5 +1,5 @@
 import React from 'react';
-import './ScreenStyle/Setting.css'; // Import the external CSS file
+import './ScreenStyle/Setting.css';
 
 export default function Setting() {
     return (

@@ -1,9 +1,11 @@
+
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
 
-      height: 100vh; /* Set the height to 100% of the viewport height */
+      height: 100vh; 
   
   }
   
@@ -15,65 +17,15 @@ body {
   
   
   
-  .square-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Change to 2 columns */
-    gap: 10px;
-    margin: 10px;
-  }
-  
-  .square {
-    
-    width: 100%;
-    padding-top: 100%; /* This ensures a perfect square */
-    background-color: #ccc;
-    border-radius: 20px;
-    background-color: #222;
-  
-  }
-  
-  
-  
-  .rectangle {
-    width: 100%; /* Adjust width as needed */
-    height: 50px; /* Adjust height as needed */
-    background-color: #222;
-    border-radius: 10px; /* Rounded corners */
-    display: flex;
-    align-items: center;
-  }
-  
-  .rectangle h2 {
-    text-align: left; /* Align text to the left */
-    padding-left: 20px;
-    margin: 0; /* Remove default margin */
-    font-size: 20px;
-    color: white;
-  }
-  
-  .rectangle-grid .rectangle h2 {
-    margin: 0; /* Remove default margin */
-    text-align: left; /* Align text to the left */
-  }
-  
-  
-  .rectangle-grid {
-    margin: 10px;
-    display: flex;
-    justify-content: center; /* Center the rectangles horizontally */
-    align-items: center; /* Center the rectangles vertically */
-    flex-direction: column; /* Stack rectangles vertically */
-    margin-top: 20px; /* Adjust margin between button and rectangles */
-  }
   
 
   .delete-button {
-    background-color: #ff0000; /* Red background color */
-    color: #ffffff; /* White text color */
-    border: none; /* Remove default button border */
-    padding: 10px 20px; /* Add padding */
-    font-size: 16px; /* Adjust font size */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    border-radius: 5px; /* Add some border radius */
-    margin-top: 20px; /* Add some margin */
+    background-color: #ff0000; 
+    color: #ffffff; 
+    border: none; 
+    padding: 10px 20px; 
+    font-size: 50px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    margin-top: 20px; 
 }
