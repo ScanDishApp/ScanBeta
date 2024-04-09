@@ -30,6 +30,32 @@ export default function Book() {
         const response = await deleteBook("http://localhost:8080/book/delete", id);
         console.log(response);
     };
+    const handleGet = async () => {
+        async function getBook(url , data) {
+            const paramUrl = `${url}?userId=${data}`;
+            return await fetchData(paramUrl, "GET");
+        }
+        let userId = null
+        const response = await getBook("http://localhost:8080/book/get", userId);
+        console.log(response);
+    };
+    const handleCreate = async () => {
+        async function createBook(url , data) {
+            return await fetchData(url, "POST", data);
+        }
+       let book = null
+        const response = await createBook("http://localhost:8080/book/", book);
+        console.log(response);
+    };
+    const handleUpdate = async () => {
+        async function updateBook(url , data) {
+            return await fetchData(url, "PUT", data);
+        }
+        let id = null;
+        let book = null;
+        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        console.log(response);
+    };
     
 
     return (
@@ -43,6 +69,7 @@ export default function Book() {
             </div>
 
             <button onClick={handleDelete} className="delete-button">Delete</button>
+
         </div>
     );
 }
