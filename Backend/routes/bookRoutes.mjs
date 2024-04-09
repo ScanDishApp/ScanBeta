@@ -6,8 +6,9 @@ const BOOK_API = express.Router();
 BOOK_API.use(express.json());
 
 
-BOOK_API.post('/get', async (req, res, next) => {
-    const { id } = req.body;
+BOOK_API.get('/get', async (req, res, next) => {
+    const  id  = req.query.id;
+   
 
     if (!id) {
         return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Bok finnes ikke").end();
@@ -18,17 +19,17 @@ BOOK_API.post('/get', async (req, res, next) => {
         const book = new Book();
         book.id = id;
   
-        const loginResult = await book.getBook();
+        const bookResult = await book.getBook();
 
-        if (loginResult.success) {
-            const cookbook = loginResult.book;
+        if (bookResult.success) {
+            const cookbook = bookResult.book;
             res.status(HttpCodes.SuccesfullRespons.Ok).json(cookbook).end();
         } else {
-            console.error("Login failed:", loginResult.message);
-            if (loginResult.error) {
-                console.error("Detailed error:", loginResult.error);
+            console.error("Login failed:", bookResult.message);
+            if (bookResult.error) {
+                console.error("Detailed error:", bookResult.error);
             }
-            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid book credentials");
         }
     } catch (error) {
         
@@ -82,10 +83,11 @@ BOOK_API.put('/:id', async (req, res) => {
 
 });
 
-BOOK_API.delete('/:id', async (req, res) => {
-    const { id } = req.params;
+BOOK_API.delete('/delete', async (req, res) => {
+    const { id } = req.query;
     const book = new Book();
     book.id = id;
+    console.log("delete book")
 
     try {
         await book.delete();
@@ -95,5 +97,11 @@ BOOK_API.delete('/:id', async (req, res) => {
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 });
+
+// BOOK_API.get('/', async (req, res) => {
+//     console.log("get book");
+//     res.status(HttpCodes.SuccesfullRespons.Ok).send("Get bok ok!");
+// });
+
 
 export default BOOK_API
