@@ -51,6 +51,7 @@ export default function Book() {
         async function updateBook(url , data) {
             return await fetchData(url, "PUT", data);
         }
+        let id = null;
         let book = null;
         const response = await updateBook(`http://localhost:8080/book/${id}`, book);
         console.log(response);
@@ -68,7 +69,7 @@ export default function Book() {
             </div>
 
             <button onClick={handleDelete} className="delete-button">Delete</button>
-            
+
         </div>
     );
 }
