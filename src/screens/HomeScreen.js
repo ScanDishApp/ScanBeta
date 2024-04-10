@@ -9,7 +9,7 @@ export default function Home() {
 
             <div className="rectangle-grid">
                 <div className="rectangle">
-                    <h2>👋 Hello...</h2>
+                    <h2>👋 Velkommen...</h2>
                 </div>
             </div>
 

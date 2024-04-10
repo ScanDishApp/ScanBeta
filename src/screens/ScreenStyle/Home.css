@@ -9,14 +9,14 @@ body {
   height: 100vh;
   overflow: hidden; /* Hides the horizontal scrollbar */
   overflow-y: scroll; /* Allows vertical scrolling */
-  background-color: #e7e8d1;
+  background-color: #FECB34;
 }
 
 .home-container {
   text-align: center;
   margin-top: 0px; 
   overflow: hidden;
-  font-family:'testFont';
+  font-family: 'DM Serif Display', serif;
 
 }
 
@@ -25,22 +25,25 @@ body {
   grid-template-columns: repeat(2, 1fr); 
   gap: 10px;
   margin: 10px;
+  margin-top: 10px;
 }
 
 .square {
-  width: 100%;
+  width: calc(100% - 6px); /* Adjusted width to accommodate border */
   padding-top: 100%; 
-  background-color: #919e72;
+  background-color: #f4f0e8;
   border-radius: 20px;
   position: relative;
+  border: 3px solid #222;
 }
+
 
 .mini-square {
   left: 15px;
   top: 15px;
   width: 50px;
   height: 50px;
-  background-color: rgb(255, 255, 255); 
+  background-color: #fff; 
   position: absolute;
   right: 5px; 
   z-index: 1; 
@@ -49,15 +52,20 @@ body {
   display: flex; 
   justify-content: center; 
   align-items: center; 
+  border: 3px solid #222;
+
 }
 
 .rectangle {
-  width: 100%;
+  width: calc(100% - 6px); /* Adjusted width to accommodate border */
   height: 50px;
-  background-color: #65704d;
+  background-color: #FE6465;
   border-radius: 10px;
   display: flex;
   align-items: center;
+  outline: #222;
+  border: 3px solid #222;
+
 }
 
 .rectangle h2 {
@@ -65,12 +73,14 @@ body {
   padding-left: 20px;
   margin: 0;
   font-size: 20px;
-  color: white;
+  color: #222;
+  
 }
 
 .rectangle-grid .rectangle h2 {
   margin: 0;
   text-align: left;
+  
 }
 
 .rectangle-grid {
@@ -80,22 +90,25 @@ body {
   align-items: center;
   flex-direction: column;
   margin-top: 20px;
+  padding-bottom: 5px;
+
 }
 
 .big-rectangle {
-  width: calc(100% - 20px);
+  width: calc(100% - 26px); /* Adjusted width to accommodate border */
   height: 200px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 10px;
-  background-color: #65704d;
-  color: white;
+  background-color: #9EC85C;
+  color: #222;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
   margin-bottom: 80px;
-
+  border: 3px solid #222;
 }
+
 
 .option-text {
   position: absolute;

@@ -104,10 +104,13 @@ const Scan = () => {
         </div>
       </div>
       <div>
-        <div className="icon-container">
-          <AiOutlineCamera className="icon" onClick={openDefaultCameraApp} />
-          <AiOutlineFileImage className="icon" onClick={() => fileInputRef.current.click()} />
+        <div>
+
         </div>
+        <div className="icon-container">
+  <span className="icon-text" onClick={openDefaultCameraApp}>Åpne kamera</span>
+  <span className="icon-text" onClick={() => fileInputRef.current.click()}>Velg bilde</span>
+</div>
         <input
           type="file"
           accept="image/*"
