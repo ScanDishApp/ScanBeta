@@ -46,7 +46,7 @@ USER_API.post('/', async (req, res, next) => {
         user.name = name;
         user.email = email;
         user.pswHash = pswHash;
-
+        console.log("user" + user);
         let exists = false;
 
         if (!exists) {
