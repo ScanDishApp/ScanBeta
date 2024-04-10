@@ -18,39 +18,49 @@ const Scan = () => {
     const image = event.target.files[0];
     const reader = new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 200; 
-        const MAX_HEIGHT = 100; 
-        let width = img.width;
-        let height = img.height;
-
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-        } else {
-          if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7); 
-        setSelectedImage(dataUrl);
+      img.onload = async () => {
+        const preprocessedImage = await preprocessImage(img);
+        setSelectedImage(preprocessedImage);
       };
 
       img.src = e.target.result;
     };
 
     reader.readAsDataURL(image);
+  };
+
+  const preprocessImage = async (image) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Resize the image proportionally
+    const MAX_DIMENSION = 800;
+    let width = image.width;
+    let height = image.height;
+
+    if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+      if (width > height) {
+        height *= MAX_DIMENSION / width;
+        width = MAX_DIMENSION;
+      } else {
+        width *= MAX_DIMENSION / height;
+        height = MAX_DIMENSION;
+      }
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(image, 0, 0, width, height);
+
+    // Convert the image to grayscale for better text recognition
+    ctx.fillStyle = '#fff'; // Set background color to white
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, 0, 0, width, height);
+
+    const imageDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+    return imageDataUrl;
   };
 
   const openDefaultCameraApp = () => {
@@ -78,17 +88,19 @@ const Scan = () => {
 
   const recognizeText = async () => {
     if (selectedImage) {
-      const result = await Tesseract.recognize(selectedImage);
+      const result = await Tesseract.recognize(selectedImage, 'eng', {
+        tessedit_char_blacklist: '!@#$%^&*()_+=-`',
+      });
       setRecognizedText(result.data.text);
     }
   };
 
   return (
     <div className="scan-container">
-      <h1>ScanScreen</h1>
+      <h1>ScanDish</h1>
       <div className="rectangle-grid">
         <div className="rectangle">
-          <h2>⚙️ Scan...</h2>
+          <h2>📸 Scan...</h2>
         </div>
       </div>
       <div>
@@ -109,8 +121,9 @@ const Scan = () => {
             <button className="capture-button" onClick={captureImage}>Capture Image</button>
           </div>
         )}
-        {selectedImage && <img src={selectedImage} alt="Selected" style={{ margin: '20px' }} />}
-        {recognizedText && (
+<div className="image-container">
+  {selectedImage && <img src={selectedImage} alt="Selected" />}
+</div>        {recognizedText && (
           <div>
             <h2>Recognized Text:</h2>
             <p>{recognizedText}</p>
