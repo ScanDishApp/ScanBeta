@@ -51,7 +51,7 @@ class DBManager {
     }
 
     async createUser(user) {
-
+   
         const client = new pg.Client(this.#credentials);
 
         try {
@@ -99,12 +99,12 @@ class DBManager {
         return user;
     }
 
-    async loginUser(email, password) {
-
+    async loginUser(email) {
         const client = new pg.Client(this.#credentials);
         let user = null;
 
         try {
+            
             await client.connect();
             const sql = 'SELECT * FROM "public"."Users" WHERE "email" = $1';
             const params = [email]
@@ -112,6 +112,7 @@ class DBManager {
 
             console.log(output);
             user = output.rows[0];
+           
 
         } catch (error) {
             console.error('Error logging in:', error.stack);
