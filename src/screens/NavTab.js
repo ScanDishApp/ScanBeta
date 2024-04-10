@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineSetting } from 'react-icons/ai'; 
+import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineUser } from 'react-icons/ai'; 
 import './ScreenStyle/NavTab.css'; 
 
 // New component NavTabContainer
@@ -34,7 +34,7 @@ function NavTab() {
                 </li>
                 <li>
                     <Link to="/setting">
-                        <AiOutlineSetting /> 
+                        <AiOutlineUser /> 
                     </Link>
                 </li>
             </ul>

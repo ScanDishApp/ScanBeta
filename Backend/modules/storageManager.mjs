@@ -6,8 +6,9 @@ class DBManager {
     #credentials = {};
 
     constructor(connectionString) {
+        connectionString = process.env.DB_CONNECTIONSTRING_PROD
         this.#credentials = {
-            connectionString: process.env.DB_CONNECTIONSTRING_PROD,
+            connectionString: connectionString,
             ssl: (process.env.DB_SSL === "true") ? true : false
         };
 
@@ -50,7 +51,7 @@ class DBManager {
     }
 
     async createUser(user) {
-
+   
         const client = new pg.Client(this.#credentials);
 
         try {
@@ -98,12 +99,12 @@ class DBManager {
         return user;
     }
 
-    async loginUser(email, password) {
-
+    async loginUser(email) {
         const client = new pg.Client(this.#credentials);
         let user = null;
 
         try {
+            
             await client.connect();
             const sql = 'SELECT * FROM "public"."Users" WHERE "email" = $1';
             const params = [email]
@@ -111,6 +112,7 @@ class DBManager {
 
             console.log(output);
             user = output.rows[0];
+           
 
         } catch (error) {
             console.error('Error logging in:', error.stack);
@@ -149,7 +151,7 @@ class DBManager {
     async getBook(id) {
 
         const client = new pg.Client(this.#credentials);
-        let book = null;
+        let book = [];
 
         try {
             await client.connect();
@@ -188,14 +190,16 @@ class DBManager {
 
     }
 
-    async deleteBook(book) {
-
+    async deleteBook(id) {
+        
         const client = new pg.Client(this.#credentials);
         try {
+           
             await client.connect();
+            
             console.log('Connected to the database');
             const sql = 'DELETE FROM "public"."cookbooks" WHERE "id" = $1;'
-            const params = [book.id];
+            const params = [id];
             const output = await client.query(sql, params);
             console.log('Query executed successfully');
             return true;

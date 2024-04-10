@@ -5,49 +5,46 @@ class Book {
   constructor(id, userId, contents) {
     this.id = id;
     this.userId = userId;
-    this.content = content;
+    this.contents = contents;
   }
 
   async save() {
-   
+
     if (this.id == null) {
       return await DBManager.createBook(this);
     } else {
       return await DBManager.updateUser(this);
-    }updateBook
+    } updateBook
   }
 
   async delete() {
-
+    
+    
     if (this.id != null) {
-      return await DBManager.deleteBook(this);
+      return await DBManager.deleteBook(this.id);
     }
 
   }
 
-  
+
   async getBook() {
+
     let dbBook = await DBManager.getBook(this.id);
 
-    if (getBook.id != null) {
-      
-
-        return {
-          success: true,
-          user: {
-            id: this.id,
-            name: this.name,
-            email: this.email,
-          }
-        }
-    } else {
+    if (dbBook.length > 0) {
 
       return {
+        success: true,
+        dbBook: dbBook
+      };
+    } else {
+      return {
         success: false,
-        message: "User dosent exist"
-      }
+        message: "Book not found"
+      };
     }
   }
+
 }
 
 export default Book;
