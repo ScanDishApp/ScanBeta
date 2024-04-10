@@ -1,7 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineSetting } from 'react-icons/ai'; 
+import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineUser } from 'react-icons/ai'; 
 import './ScreenStyle/NavTab.css'; 
+
+// New component NavTabContainer
+function NavTabContainer() {
+    return (
+        <div className="nav-tab-container">
+            <NavTab />
+        </div>
+    );
+}
+
+// NavTab component
 function NavTab() {
     return (
         <nav className="nav-tab">
@@ -22,8 +33,8 @@ function NavTab() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/setting">
-                        <AiOutlineSetting /> 
+                    <Link to="/profile">
+                        <AiOutlineUser /> 
                     </Link>
                 </li>
             </ul>
@@ -31,4 +42,4 @@ function NavTab() {
     );
 }
 
-export default NavTab;
+export default NavTabContainer; 
