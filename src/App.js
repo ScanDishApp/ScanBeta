@@ -16,7 +16,6 @@ export default function App() {
           <Route path="/Scan" element={<Scan />} />
           <Route path="/Book" element={<Book />} />
           <Route path="/Setting" element={<Setting />} />
-
         </Routes>
       </BrowserRouter>
     </div>

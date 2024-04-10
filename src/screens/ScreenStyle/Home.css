@@ -1,15 +1,23 @@
+.font-face-gm {
+  font-family: "testFont";
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: mon;
-  height: 100vh; 
-  overflow: hidden;
+  font-family: testFont;
+  height: 100vh;
+  overflow: hidden; /* Hides the horizontal scrollbar */
+  overflow-y: scroll; /* Allows vertical scrolling */
+  background-color: #e7e8d1;
 }
 
 .home-container {
   text-align: center;
   margin-top: 0px; 
   overflow: hidden;
+  font-family:'testFont';
+
 }
 
 .square-grid {
@@ -22,7 +30,7 @@ body {
 .square {
   width: 100%;
   padding-top: 100%; 
-  background-color: #222;
+  background-color: #919e72;
   border-radius: 20px;
   position: relative;
 }
@@ -37,7 +45,7 @@ body {
   right: 5px; 
   z-index: 1; 
   border-radius: 15px;
-  font-size: 20px;
+  font-size: 30px;
   display: flex; 
   justify-content: center; 
   align-items: center; 
@@ -46,7 +54,7 @@ body {
 .rectangle {
   width: 100%;
   height: 50px;
-  background-color: #222;
+  background-color: #65704d;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -79,10 +87,20 @@ body {
   height: 200px;
   margin-top: 10px;
   margin-left: 10px;
-  background-color: #222;
+  background-color: #65704d;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
+  margin-bottom: 80px;
+
+}
+
+.option-text {
+  position: absolute;
+  bottom: 50px;
+  left: 15px;
+  font-size: 24px;
+  color: #222;
 }

@@ -22,32 +22,6 @@ async function fetchData(url, method, data) {
 
 
 export default function Setting() {
-    const handleDelete = async () => {
-        async function deleteUser(url) {
-            return await fetchData(url, "DELETE");
-        }
-        let id = localStorage.getItem("userId");
-        const response = await deleteUser(`http://localhost:8080/user/${id}`);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-    };
-    const handleGet = async () => {
-        async function getUser(url, data) {
-            const paramUrl = `${url}?id=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
-        let id = localStorage.getItem("userId");
-        const response = await getUser("http://localhost:8080/user/get", id);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-    };
-
-    const handleLogin = async () => {
-        async function loginUser(url, data) {
-            return await fetchData(url, "POST", data);
-        }
-        const email = document.querySelector('.log-in-email').value;
-        const pswHash = document.querySelector('.log-in-username').value;
 
 
         const user = {
@@ -154,6 +128,7 @@ export default function Setting() {
                 <button onClick={handleUpdate} className="update-button">Endre bruker</button>
                 <button onClick={handleDelete} className="delete-button">Slett bruker</button>
             </div>
+
         </div>
     );
 }
