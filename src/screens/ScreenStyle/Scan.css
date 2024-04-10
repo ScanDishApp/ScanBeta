@@ -13,54 +13,54 @@ body {
 .scan-container {
   text-align: center;
   margin-top: 0px;
-  font-family:'testFont';
+  font-family: 'DM Serif Display', serif;
   overflow-x: hidden;
   padding-bottom: 200px;
-}
 
-.button {
-  background-color: #3e6d86;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
+
+  
 }
 
 .icon-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: center; /* Center text horizontally within the container */
   width: 100%;
 }
 
-.icon {
-  width: 100%;
-  padding: 10px;
-  margin-top: 0;
-  margin-left: 10px;
-  margin-right: 10px;
-  font-size: 2rem;
-  background-color: #3e6d86;
-  color: #fff;
-  border-radius: 10px;
+.icon-text {
+  width: calc(100% - 55px); /* Adjust width to accommodate padding */
+  padding: 15px; /* Adjust padding to create spacing around the text */
+  font-size: 24px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  color: #222;
+  border-radius: 20px;
+  border: 3px solid #222;
+  cursor: pointer;
+  font-weight: bold;
 }
+
+
+.icon-text:hover {
+  background-color: #f0f0f0; /* Change background color on hover */
+}
+
 
 .image-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px; /* Adjust as needed */
+  margin-top: 20px; /* Adjust as needed */
+  margin-bottom: 20px; /* Adjust as needed */
   padding-top: 50px; /* Adjust the padding-top value as needed */
-
+  
 }
 
 .image-container img {
   max-width: 100%; /* Ensure the image doesn't exceed its container */
   height: auto; /* Maintain aspect ratio */
+  border: 3px solid #222;
+  border-radius: 20px;
+
 }

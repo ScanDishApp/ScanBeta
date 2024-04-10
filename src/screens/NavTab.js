@@ -33,7 +33,7 @@ function NavTab() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/setting">
+                    <Link to="/profile">
                         <AiOutlineUser /> 
                     </Link>
                 </li>
@@ -42,4 +42,4 @@ function NavTab() {
     );
 }
 
-export default NavTabContainer; // Export NavTabContainer instead of NavTab
+export default NavTabContainer; 

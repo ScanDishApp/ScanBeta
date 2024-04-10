@@ -1,15 +1,15 @@
 import React from 'react';
-import './ScreenStyle/Setting.css';
+import './ScreenStyle/Profile.css';
+
 async function fetchData(url, method, data) {
     const headers = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*" // Legg til denne linjen for å tillate forespørsler fra alle domener
+        "Access-Control-Allow-Origin": "*"
     };
 
     const options = {
         method,
         headers,
-
     };
 
     if (data) {
@@ -20,9 +20,34 @@ async function fetchData(url, method, data) {
     return response;
 }
 
+export default function Profile() {
+    const handleDelete = async () => {
+        async function deleteUser(url) {
+            return await fetchData(url, "DELETE");
+        }
+        let id = localStorage.getItem("userId");
+        const response = await deleteUser(`http://localhost:8080/user/${id}`);
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+    };
 
-export default function Setting() {
+    const handleGet = async () => {
+        async function getUser(url, data) {
+            const paramUrl = `${url}?id=${data}`;
+            return await fetchData(paramUrl, "GET");
+        }
+        let id = localStorage.getItem("userId");
+        const response = await getUser("http://localhost:8080/user/get", id);
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+    };
 
+    const handleLogin = async () => {
+        async function loginUser(url, data) {
+            return await fetchData(url, "POST", data);
+        }
+        const email = document.querySelector('.log-in-email').value;
+        const pswHash = document.querySelector('.log-in-username').value;
 
         const user = {
             pswHash: pswHash,
@@ -53,6 +78,7 @@ export default function Setting() {
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
+
     const handleUpdate = async () => {
         async function updateUser(url, data) {
             return await fetchData(url, "PUT", data);
@@ -129,6 +155,20 @@ export default function Setting() {
                 <button onClick={handleDelete} className="delete-button">Slett bruker</button>
             </div>
 
+            <div className="set-options">
+                <div className="rectangle tab">
+                    <div className="small-square"></div>
+                    <p>Option 1</p>
+                </div>
+                <div className="rectangle tab">
+                    <div className="small-square"></div>
+                    <p>Option 2</p>
+                </div>
+                <div className="rectangle tab">
+                    <div className="small-square"></div>
+                    <p>Option 3</p>
+                </div>
+            </div>
         </div>
     );
 }

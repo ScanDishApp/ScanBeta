@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './screens/HomeScreen';
 import Scan from './screens/ScanScreen';
 import NavTab from './screens/NavTab';
-import Setting from './screens/SettingScreen';
+import Setting from './screens/ProfileScreen';
 import Book from './screens/BookScreen';
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Scan" element={<Scan />} />
           <Route path="/Book" element={<Book />} />
-          <Route path="/Setting" element={<Setting />} />
+          <Route path="/Profile" element={<Setting />} />
         </Routes>
       </BrowserRouter>
     </div>
