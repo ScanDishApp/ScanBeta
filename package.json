@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "concurrently": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -20,13 +21,10 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "tesseract.js": "^5.0.5",
-    "web-vitals": "^2.1.4",
-    "concurrently": "^6.0.0"
-
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
-  
     "start:client": "react-scripts start",
     "start:server": "node server.mjs",
     "build": "react-scripts build",
@@ -50,5 +48,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-react": "^7.24.1"
   }
 }
