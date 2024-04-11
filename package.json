@@ -29,7 +29,9 @@
     "start:server": "node server.mjs",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:client": "react-scripts build"
+
   },
   "eslintConfig": {
     "extends": [
