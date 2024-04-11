@@ -214,6 +214,92 @@ class DBManager {
         }
 
     }
+    async listFriends(userId) {
+
+        const client = new pg.Client(this.#credentials);
+        let friend = [];
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."friends" WHERE "friendId" = $1 AND "status" = "friends"';
+            const params = [userId]
+            const output = await client.query( sql, params );
+
+            console.log(output);
+            friend = output.rows[0];
+
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return friend;
+
+    }
+    async removeFriend(request) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            await client.connect();
+            const sql = 'UPDATE "public"."friends" set "status" = $1 where "userId" = $2 AND "userId" = $3;'
+            const params = [request.status, request.userId, request.friendId]
+            const output = await client.query(sql, params);
+
+        } catch (error) {
+            console.error('Error in update user:', error.stack);
+            
+        } finally {
+            client.end();
+        }
+        return request;
+
+    }
+    async ansRequest(request) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            const sql = 'UPDATE "public"."friends" set "status" = $1 where "userId" = $2 AND "friendId" = $3;'
+            const params = [request.status, request.userId, request.friendId];
+            const output = await client.query(sql, params);
+         
+        } catch (error) {
+            console.error('Error in update user:', error.stack);
+            
+        } finally {
+            client.end();
+        }
+        return request;
+
+       
+
+    }
+    async sendRequest(request) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            const sql = 'INSERT INTO "public"."friends"("userId", "friendId, status") VALUES($1::TEXT, $2::TEXT) RETURNING status;';
+            const parms = [request.userId, request.friendId, request.status];
+            await client.connect();
+            const output = await client.query(sql, parms);
+
+            if (output.rows.length == 1) {
+                request.status = output.rows[0].status;
+            }
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+            return false;
+        } finally {
+            client.end(); 
+        }
+
+        return request;
+
+    }
 
     
 

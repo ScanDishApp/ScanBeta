@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../modules/user.mjs";
+import Friends from "../modules/friend.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
 const FRIEND_API = express.Router();
@@ -7,31 +7,27 @@ FRIEND_API.use(express.json());
 
 
 FRIEND_API.post('/add', async (req, res, next) => {
-    const { email, pswHash } = req.body;
-
-    if (!email || !pswHash) {
-        return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields").end();
-    }
-    
+    const { userId, friendId, status } = req.body;
 
     try {
-        const user = new User();
-        user.email = email;
-        user.pswHash = pswHash;
-        const loginResult = await user.login();
+        const friend = new Friends();
+        friend.userId = userId;
+        friend.friendId = friendId;
+        friend.status = status;
+        const friendRequest = await friend.save();
 
-        if (loginResult.success) {
-            const userInfo = loginResult.user;
-            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo).end();
+        if (friendRequest.success) {
+            const status = friendRequest.status;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
         } else {
-            console.error("Login failed:", loginResult.message);
-            if (loginResult.error) {
-                console.error("Detailed error:", loginResult.error);
+            console.error("Login failed:", friendRequest.message);
+            if (friendRequest.error) {
+                console.error("Detailed error:", friendRequest.error);
             }
             res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
         }
     } catch (error) {
-        
+
         console.error("Unexpected error:", error);
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
@@ -39,64 +35,84 @@ FRIEND_API.post('/add', async (req, res, next) => {
 
 FRIEND_API.post('/accept', async (req, res, next) => {
 
-    const { name, email, pswHash } = req.body;
+    const { userId, friendId, status } = req.body;
 
-    if (name != "" && email != "" && pswHash != "") {
-        let user = new User();
-        user.name = name;
-        user.email = email;
-        user.pswHash = pswHash;
-        console.log("user" + user);
-        let exists = false;
+    try {
+        const friend = new Friends();
+        friend.userId = userId;
+        friend.friendId = friendId;
+        friend.status = status;
+        const friendRequest = await friend.save();
 
-        if (!exists) {
-            user = await user.save();
-            res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(user)).end();
+        if (friendRequest.success) {
+            const status = friendRequest.status;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
         } else {
-            res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
+            console.error("Login failed:", friendRequest.message);
+            if (friendRequest.error) {
+                console.error("Detailed error:", friendRequest.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
         }
+    } catch (error) {
 
-    } else {
-        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Mangler data felt").end();
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 
 });
 
 FRIEND_API.post('/remove', async (req, res) => {
-    const { name, email, pswHash, id } = req.body;
-    let user = new User(); 
-    console.log(email);
-    console.log(user.email);
-    
-    user.name = name;
-    user.email = email;
-    user.pswHash = pswHash;
-    user.id = id
+    const { userId, friendId, status } = req.body;
 
-    let exists = false;
+    try {
+        const friend = new Friends();
+        friend.userId = userId;
+        friend.friendId = friendId;
+        friend.status = status;
+        const friendRequest = await friend.save();
 
-    if (!exists) {
+        if (friendRequest.success) {
+            const status = friendRequest.status;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
+        } else {
+            console.error("Login failed:", friendRequest.message);
+            if (friendRequest.error) {
+                console.error("Detailed error:", friendRequest.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+        }
+    } catch (error) {
 
-        user = await user.save();
-        res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(user)).end();
-    } else {
-        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 
 });
 
 FRIEND_API.get('/list', async (req, res) => {
-    const { id } = req.params;
-    const user = new User();
-    user.id = id;
-
+    const { userId } = req.params;
     try {
-        await user.delete();
-        res.status(HttpCodes.SuccesfullRespons.Ok).send("User was successfully deleted");
-    } catch (error) {
-        console.error("Error deleting user:", error);
-        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    const friend = new Friends();
+    friend.userId = userId;
+    const friendRequest = await friend.list();
+
+    if (friendRequest.success) {
+        const status = friendRequest.status;
+        res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
+    } else {
+        console.error("Login failed:", friendRequest.message);
+        if (friendRequest.error) {
+            console.error("Detailed error:", friendRequest.error);
+        }
+        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
     }
+} catch (error) {
+
+    console.error("Unexpected error:", error);
+    res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+}
+
 });
 
 export default FRIEND_API
