@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
-    "start:client": "react-scripts start",
+    "start:client": "react-scripts start --port 3000",
     "start:server": "node server.mjs",
     "build": "react-scripts build",
     "test": "react-scripts test",
