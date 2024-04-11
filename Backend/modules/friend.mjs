@@ -1,47 +1,40 @@
 import DBManager from "./storageManager.mjs";
 
-class User {
+class Friends {
 
-  constructor(email, pswHash, name, id) {
-    this.email = email;
-    this.pswHash = pswHash;
-    this.name = name;
-    this.id = id;
+  constructor(userId, friendId, status) {
+    this.userId = userId;
+    this.friendId = friendId;
+    this.status = status;
+ 
   }
 
   async save() {
 
-    console.log(this.id);
-    if (this.id == null) {
-      return await DBManager.createUser(this);
-    } else {
-      return await DBManager.updateUser(this);
+    console.log(this.status);
+    if (this.status == null) {
+      return await DBManager.sendRequest(this);
+    } else if (this.status == "pending"){
+      return await DBManager.ansRequest(this);
+    }else {
+      return await DBManager.removeFriend(this);
     }
   }
 
-  async delete() {
+  async list() {
+    let dbFriend = await DBManager.listFriends(this.friendId);
 
-    if (this.id != null) {
-      return await DBManager.deleteUser(this);
-    }
-
-  }
-
-  async getUser() {
-    let dbUser = await DBManager.loginUser(this.id);
-
-    if (dbUser.id != null) {
-      this.id = dbUser.id;
-      this.name = dbUser.name;
-      this.email = dbUser.email;
-      this.pswHash = dbUser.pswHash;
-
+    if (dbFriend.friendId != null) {
+      this.userId = dbFriend.userId;
+      this.friendId = dbFriend.friendId;
+      this.status = dbFriend.status;
+  
       return {
         success: true,
-        user: {
-          id: this.id,
-          name: this.name,
-          email: this.email,
+        friend: {
+          userId: this.userId,
+          friendId: this.friendId,
+          status: this.status,
         }
       }
     } else {
@@ -50,38 +43,7 @@ class User {
     }
   }
 
-  async login() {
-    let dbUser = await DBManager.loginUser(this.email, this.pswHash);
-
-    if (dbUser.id != null) {
-      if (dbUser.pswHash == this.pswHash) {
-        this.id = dbUser.id;
-        this.name = dbUser.name;
-        this.email = dbUser.email;
-        this.pswHash = dbUser.pswHash;
-
-        return {
-          success: true,
-          user: {
-            id: this.id,
-            name: this.name,
-            email: this.email,
-          }
-        }
-      } else {
-        return {
-          success: false,
-          message: "Invalid login credentials"
-        }
-      }
-    } else {
-
-      return {
-        success: false,
-        message: "User dosent exist"
-      }
-    }
-  }
+  
 }
 
-export default User;
+export default Friends;
