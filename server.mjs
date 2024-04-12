@@ -4,27 +4,25 @@ import USER_API from './Backend/routes/userRoutes.mjs';
 import BOOK_API from './Backend/routes/bookRoutes.mjs';
 import errorHandler from './Backend/modules/errorHandler.mjs';
 import cors from 'cors';
-
-import FRIEND_API from './Backend/routes/friendRoutes.mjs';
-
 import path from 'path';
 
 const server = express();
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 server.use(cors());
 
 const port = process.env.PORT || 8080;
 server.set('port', port);
 
-server.use(express.static('src/screens'));
+// Serve static files from the 'build' directory
+server.use(express.static(path.join(__dirname, 'build')));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
-server.use("/friend", FRIEND_API);
 
+// Serve the React app when the root URL is accessed
 server.get("/", (req, res, next) => {
-   req.originalUrl;
-   res.status(200).send(JSON.stringify({ msg: "Hello there" })).end();
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 server.use(errorHandler);
