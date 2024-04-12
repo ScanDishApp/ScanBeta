@@ -23,7 +23,7 @@ server.use(cors());
 const port = process.env.PORT || 8080;
 server.set('port', port);
 
-
+server.use("/friend", FRIEND_API);
 server.use("/user", USER_API); 
 server.use("/book", BOOK_API );
 
@@ -32,7 +32,7 @@ server.use("/book", BOOK_API );
 
 
 // Serve static files from the 'public' directory
-server.use(express.static('public'));
+server.use(express.static('src'));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
