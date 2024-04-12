@@ -32,7 +32,7 @@ server.use("/book", BOOK_API );
 
 
 // Serve static files from the 'public' directory
-server.use(express.static( 'screens'));
+server.use(express.static('src'));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
