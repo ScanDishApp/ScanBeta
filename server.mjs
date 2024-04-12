@@ -14,8 +14,11 @@ server.use(cors());
 const port = process.env.PORT || 8080;
 server.set('port', port);
 
-server.use(express.static('public'));
+// Serve static files from the 'src/screens' directory
 server.use(express.static(path.join(__dirname, 'src', 'screens')));
+
+// Serve static files from the 'public' directory
+server.use(express.static(path.join(__dirname, 'public')));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
