@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/Profile.css';
 
 async function fetchData(url, method, data) {
@@ -21,6 +22,36 @@ async function fetchData(url, method, data) {
 }
 
 export default function Profile() {
+    const navigate = useNavigate(); // Hook for navigation
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    const handleLogin = async () => {
+        async function loginUser(url, data) {
+            return await fetchData(url, "POST", data);
+        }
+
+        const email = document.querySelector('.log-in-email').value;
+        const pswHash = document.querySelector('.log-in-username').value;
+
+        const user = {
+            pswHash: pswHash,
+            email: email
+        };
+        const response = await loginUser("http://localhost:8080/user/login", user);
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+        let userId = responseData.id
+        localStorage.setItem("userId", userId)
+
+        if (userId) {
+            setLoggedIn(true);
+            navigate('/dummy-page'); // Redirect to DummyPage
+        } else {
+            setLoggedIn(false);
+            // Handle login failure
+        }
+    };
+
     const handleDelete = async () => {
         async function deleteUser(url) {
             return await fetchData(url, "DELETE");
@@ -40,24 +71,6 @@ export default function Profile() {
         const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
-    };
-
-    const handleLogin = async () => {
-        async function loginUser(url, data) {
-            return await fetchData(url, "POST", data);
-        }
-        const email = document.querySelector('.log-in-email').value;
-        const pswHash = document.querySelector('.log-in-username').value;
-
-        const user = {
-            pswHash: pswHash,
-            email: email
-        };
-        const response = await loginUser("http://localhost:8080/user/login", user);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-        let userId = responseData.id
-        localStorage.setItem("userId", userId)
     };
 
     const handleCreate = async () => {
