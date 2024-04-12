@@ -32,7 +32,7 @@ export default function Profile() {
 
         const email = document.querySelector('.log-in-email').value;
         const pswHash = document.querySelector('.log-in-username').value;
-
+        
         const user = {
             pswHash: pswHash,
             email: email
