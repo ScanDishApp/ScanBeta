@@ -1,17 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
-import path from 'path'; // Import path module
+
 import USER_API from './Backend/routes/userRoutes.mjs';
 import BOOK_API from './Backend/routes/bookRoutes.mjs';
-
 import errorHandler from './Backend/modules/errorHandler.mjs';
 import cors from 'cors';
-
-
-
 import FRIEND_API from './Backend/routes/friendRoutes.mjs';
-import errorHandler from './Backend/modules/errorHandler.mjs';
-import cors from 'cors';
+
 
 
 const server = express();
@@ -19,8 +14,6 @@ server.use(cors());
 
 const port = process.env.PORT || 8080;
 server.set('port', port);
-
-
 
 server.use("/user", USER_API); 
 server.use("/book", BOOK_API );

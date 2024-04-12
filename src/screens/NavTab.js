@@ -11,7 +11,8 @@ function NavTabContainer() {
         </div>
     );
 }
-
+const userId = localStorage.getItem('userId');
+console.log(userId);
 // NavTab component
 function NavTab() {
     return (
@@ -32,11 +33,17 @@ function NavTab() {
                         <AiOutlineBook /> 
                     </Link>
                 </li>
-                <li>
-                    <Link to="/profile">
-                        <AiOutlineUser /> 
-                    </Link>
-                </li>
+                 {/* Conditionally render the "Profile" link */}
+                 {userId ? (
+                        <Link to="/book">
+                            <AiOutlineUser /> 
+                        </Link>
+                    ) : (
+                        // Render something else if userid doesn't exist
+                        <Link to="/profile">
+                            <AiOutlineUser /> 
+                        </Link>
+                    )}
             </ul>
         </nav>
     );
