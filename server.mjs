@@ -14,7 +14,7 @@ const port = process.env.PORT || 8080;
 server.set('port', port);
 
 // Serve static files from the 'src/screens' directory
-server.use(express.static(path.join(__dirname, 'src', 'screens')));
+server.use(express.static('src'));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
