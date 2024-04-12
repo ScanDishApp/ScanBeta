@@ -14,18 +14,15 @@ server.use(cors());
 const port = process.env.PORT || 8080;
 server.set('port', port);
 
-// Serve static files from the 'src/screens' directory
-server.use(express.static(path.join(__dirname, 'src', 'screens')));
-
-// Serve static files from the 'public' directory
-server.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the 'build' directory
+server.use(express.static(path.join(__dirname, 'build')));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
 
+// Serve the React app when the root URL is accessed
 server.get("/", (req, res, next) => {
-   req.originalUrl;
-   res.status(200).send(JSON.stringify({ msg: "Hello there" })).end();
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 server.use(errorHandler);
