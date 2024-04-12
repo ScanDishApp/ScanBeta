@@ -1,13 +1,156 @@
-/* DummyPage.css */
+.font-face-gm {
+  font-family: "testFont";
+}
 
-/* Styles for desktop */
-.dummy-page {
-    display: none; /* Hide by default */
-  }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: testFont;
+  height: 100vh;
+  overflow: hidden; /* Hides the horizontal scrollbar */
+  overflow-y: scroll; /* Allows vertical scrolling */
+  background-color: #FECB34;
+}
+
+.profile-container {
+  text-align: center;
+  margin-top: 0px; 
+  overflow: hidden;
+  font-family: 'DM Serif Display', serif;
+}
+
+.square-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 10px;
+  margin: 10px;
+  margin-top: 10px;
+}
+
+.square {
+  width: calc(100% - 6px); /* Adjusted width to accommodate border */
+  padding-top: 100%; 
+  background-color: #f4f0e8;
+  border-radius: 20px;
+  position: relative;
+  border: 3px solid #222;
+}
+
+
+.mini-square {
+  left: 15px;
+  top: 15px;
+  width: 50px;
+  height: 50px;
+  background-color: #fff; 
+  position: absolute;
+  right: 5px; 
+  z-index: 1; 
+  border-radius: 15px;
+  font-size: 30px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  border: 3px solid #222;
+
+}
+
+.rectangle {
+  width: calc(100% - 6px); /* Adjusted width to accommodate border */
+  height: 50px;
+  background-color: #FE6465;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  outline: #222;
+  border: 3px solid #222;
+
+}
+
+.rectangle h2 {
+  text-align: left;
+  padding-left: 20px;
+  margin: 0;
+  font-size: 20px;
+  color: #222;
   
-  @media only screen and (min-width: 768px) {
-    .dummy-page {
-      display: block; /* Display on desktop */
-    }
-  }
+}
+
+.rectangle-grid .rectangle h2 {
+  margin: 0;
+  text-align: left;
   
+}
+
+.rectangle-grid {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  padding-bottom: 5px;
+
+}
+
+.big-rectangle {
+  width: calc(100% - 26px); /* Adjusted width to accommodate border */
+  height: 80px;
+  margin-top: 15px;
+  margin-left: 10px;
+  background-color: #9EC85C;
+  color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  margin-bottom: 80px;
+  border: 3px solid #222;
+}
+
+
+.option-text {
+  position: absolute;
+  bottom: 50px;
+  left: 15px;
+  font-size: 24px;
+  color: #222;
+}
+
+.counter {
+  width: calc(100% - 25px);
+  height: 30px;
+  background-color: lightblue;
+  border-radius: 20px;
+  display: flex;
+margin-top: 0px;  
+align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 3px solid #222;
+}
+
+.counter h2 {
+  font-size: 16px;
+}
+
+.counter span {
+  font-weight: bold;
+}
+
+
+.rectangle-profile {
+  width: calc(100% - 25px);
+  height: 30px;
+  background-color: lightblue;
+  border-radius: 20px;
+  display: flex;
+align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 3px solid #222;
+}
