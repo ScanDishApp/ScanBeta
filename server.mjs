@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import USER_API from './Backend/routes/userRoutes.mjs';
 import BOOK_API from './Backend/routes/bookRoutes.mjs';
+import FRIEND_API from './Backend/routes/friendRoutes.mjs;'
 import errorHandler from './Backend/modules/errorHandler.mjs';
 import cors from 'cors';
 import path from 'path';
@@ -19,6 +20,7 @@ server.use(express.static(path.join(__dirname, 'build')));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
+server.use("/friend", FRIEND_API);
 
 // Serve the React app when the root URL is accessed
 server.get("/", (req, res, next) => {
