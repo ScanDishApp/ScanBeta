@@ -1,0 +1,68 @@
+/* DummyPage.css */
+
+/* Styles for desktop */
+.bookdesign-page {
+  display: none;
+  align-items: center;
+  /* Hide by default */
+}
+
+@media only screen and (min-width: 768px) {
+  .bookdesign-page {
+    display: block;
+    
+    align-items: center;
+    /* Display on desktop */
+  }
+}
+
+.bookdesign-content {
+  display: flex;
+  /* Set display to flex */
+  
+  align-items: center;
+  /* Align items vertically */
+}
+
+canvas {
+  margin-right: 20px;
+  /* Add some spacing between canvas and buttons */
+}
+
+.design-button-container {
+  display: flex;
+  /* Set display to flex */
+  flex-direction: column;
+  align-items: last baseline;
+
+}
+
+.design-button-container button {
+  margin-bottom: 10px;
+  /* Add some spacing between buttons */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.design-button-container button:hover {
+  background-color: #e0e0e0;
+}
+
+.navigate-button-container button {
+  margin: 10px;
+  /* Add some spacing between buttons */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navigate-button-container button:hover {
+  background-color: #e0e0e0;
+}
