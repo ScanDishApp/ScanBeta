@@ -37,7 +37,7 @@ export default function Profile() {
             pswHash: pswHash,
             email: email
         };
-        const response = await loginUser("https://scanbeta.onrender.com/profile/user/login", user);
+        const response = await loginUser("http://localhost:8080/user/login", user);
         const responseData = await response.json();
         console.log("Response:", responseData);
         let userId = responseData.id
