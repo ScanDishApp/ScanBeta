@@ -19,7 +19,9 @@ server.use("/user", USER_API);
 server.use("/book", BOOK_API);
 server.use("/friend", FRIEND_API);
 
+
 //server.use(express.static(path.join(__dirname, 'src', 'screens')));
+
 
 
 server.get("/", (req, res, next) => {
