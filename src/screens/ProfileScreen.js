@@ -32,7 +32,7 @@ export default function Profile() {
 
         const email = document.querySelector('.log-in-email').value;
         const pswHash = document.querySelector('.log-in-username').value;
-        
+
         const user = {
             pswHash: pswHash,
             email: email
@@ -73,23 +73,8 @@ export default function Profile() {
         console.log("Response:", responseData);
     };
 
-    const handleCreate = async () => {
-        async function createUser(url, data) {
-            return await fetchData(url, "POST", data);
-        }
-        const name = document.querySelector('.create-username').value;
-        const pswHash = document.querySelector('.create-password').value;
-        const email = document.querySelector('.create-email').value;
-
-        const user = {
-            name: name,
-            pswHash: pswHash,
-            email: email
-        };
-        console.log(user);
-        const response = await createUser("http://localhost:8080/user/", user);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
+    const handleCreatePage = async () => {
+        navigate('/new-user-page');
     };
 
     const handleUpdate = async () => {
@@ -107,7 +92,7 @@ export default function Profile() {
             email: email,
             id: id
         };
-        
+
         const response = await updateUser(`http://localhost:8080/user/${id}`, user);
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -127,61 +112,10 @@ export default function Profile() {
                     <input className="log-in-username"></input>
                 </div>
                 <button onClick={handleLogin} className="login-button">Logg inn</button>
-                <br></br>
-                <br></br>
-                <br></br>
-                <h1>Lag en ny bruker</h1>
-                <div className="rectangle">
-                    <h2>Brukernavn: </h2>
-                    <input className="create-username"></input>
-                </div>
-                <br></br>
-                <div className="rectangle">
-                    <h2>Email: </h2>
-                    <input className="create-email"></input>
-                </div>
-                <br></br>
-                <div className="rectangle">
-                    <h2>Passord: </h2>
-                    <input className="create-password"></input>
-                </div>
-                <button onClick={handleCreate} className="create-button">Lag bruker</button>
-                <br></br>
-                <br></br>
-                <br></br>
-                <h1>Endre bruker</h1>
-                <div className="rectangle">
-                    <h2>Brukernavn: </h2>
-                    <input className="update-username"></input>
-                </div>
-                <br></br>
-                <div className="rectangle">
-                    <h2>Email: </h2>
-                    <input className="update-email"></input>
-                </div>
-                <br></br>
-                <div className="rectangle">
-                    <h2>Passord: </h2>
-                    <input className="update-password"></input>
-                </div>
-                <button onClick={handleUpdate} className="update-button">Endre bruker</button>
-                <button onClick={handleDelete} className="delete-button">Slett bruker</button>
+                <button onClick={handleCreatePage} className="create-button">Lag bruker</button>
             </div>
 
-            <div className="set-options">
-                <div className="rectangle tab">
-                    <div className="small-square"></div>
-                    <p>Option 1</p>
-                </div>
-                <div className="rectangle tab">
-                    <div className="small-square"></div>
-                    <p>Option 2</p>
-                </div>
-                <div className="rectangle tab">
-                    <div className="small-square"></div>
-                    <p>Option 3</p>
-                </div>
-            </div>
+
         </div>
     );
 }
