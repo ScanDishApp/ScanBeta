@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoCameraOutline } from 'react-icons/io5';
 import './ScreenStyle/DummyPage.css';
 
@@ -7,6 +7,19 @@ export default function DummyPage() {
     const contentCount = 20; // Replace with actual count
     const followersCount = 1000; // Replace with actual count
     const followingCount = 500; // Replace with actual count
+    
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            setImage(e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    };
 
     return (
         <div className="profile-container">
@@ -17,14 +30,22 @@ export default function DummyPage() {
                     <h2>👑 Profil...</h2>
                 </div>
             </div>
-
             <div className="rectangle-grid">
                 <div className="rectangle-profile">
-                    <h2>Another Rectangle</h2>
+                    <div className="small-square">
+                        <h2>Hei, Kevin</h2>
+                    </div>
+                    <label className="pfp-square" htmlFor="imageUpload">
+                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p> }
+                        <input 
+                            type="file" 
+                            id="imageUpload" 
+                            accept="image/*" 
+                            onChange={handleImageChange} 
+                            style={{ display: 'none' }} 
+                        />
+                    </label>
                 </div>
-            </div>
-
-            <div className="rectangle-grid">
                 <div className="counter">
                     <h2>{contentCount} posts // {followersCount} følgere // {followingCount} følger</h2>
                 </div>
