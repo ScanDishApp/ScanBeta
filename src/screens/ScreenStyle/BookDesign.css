@@ -7,10 +7,10 @@
   /* Hide by default */
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 768px) {
   .bookdesign-page {
     display: block;
-    
+
     align-items: center;
     /* Display on desktop */
   }
@@ -19,20 +19,21 @@
 .bookdesign-content {
   display: flex;
   /* Set display to flex */
-  
+
   align-items: center;
   /* Align items vertically */
 }
 
 canvas {
-  margin-right: 20px;
+  
+  margin-bottom: 20px;
   /* Add some spacing between canvas and buttons */
 }
 
 .design-button-container {
   display: flex;
   /* Set display to flex */
-  flex-direction: column;
+
   align-items: last baseline;
 
 }
@@ -46,6 +47,7 @@ canvas {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .design-button-container button:hover {
