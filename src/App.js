@@ -8,8 +8,9 @@ import Book from './screens/BookScreen';
 import DummyPage from './screens/DummyPage'; // Assuming DummyPage is your new component
 
 import NewUser from './screens/NewUserScreen';
-
+import Temperature from './screens/TemperatureScreen';
 import BookDesign from './screens/BookDesignPage';
+import Calculator from './screens/CalculatorScreen';
 
 
 export default function App() {
@@ -29,6 +30,8 @@ export default function App() {
 
 
           <Route path="/bookDesign" element={<BookDesign />} /> {/* New route for DummyPage */}
+          <Route path="/Calculator" element={<Calculator />} /> {/* New route for DummyPage */}
+          <Route path="/Temperature" element={<Temperature />} /> {/* New route for DummyPage */}
 
         </Routes>
       </Router>
