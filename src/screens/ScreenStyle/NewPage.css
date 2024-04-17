@@ -1,0 +1,84 @@
+html, body, .NewPage-container, .note-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Optional: If you want to hide any overflowing content */
+    font-family: 'DM Serif Display', serif;
+
+}
+
+.coverPage {
+    width: 100%; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    background-color: #ff0000; /* Set the background color to red (you can use any color code or name here) */
+}
+
+.title {
+    margin-bottom: 20px;
+    font-family: 'DM Serif Display', serif;
+}
+
+.NewPage-container {
+    background-color: rgba(255, 255, 255, 0.5);
+    background-image: linear-gradient(rgba(150, 150, 150, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(150, 150, 150, 0.3) 1px, transparent 1px);
+    background-size: 20px 20px, 20px 20px;
+    background-position: -1px -1px, -1px -1px;
+
+
+    
+
+}
+
+
+.NewPage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh; /* Set the height of the container to fill the whole viewport */
+        margin-bottom: 100px;
+    
+    
+}
+
+.note-title-input {
+     text-align: left;
+background-color: transparent;
+font-family: 'DM Serif Display', serif;
+font-weight: bold;
+font-size: 30px;
+outline: none; /* Remove outline */
+
+}
+
+
+
+
+.note-textarea {
+    width: 100%; /* Make the textarea fill the entire width of the note container */
+    height: 100vh;
+    border: none; /* Remove border */
+    padding: 20px; /* Add padding */
+    padding-top: 0; /* Add padding */
+
+    font-size: 26px; /* Adjust font size */
+    font-family: inherit; /* Inherit font family */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+    background-color: transparent;
+    overflow-y: auto; /* Adds vertical scrollbar when content exceeds height */
+    outline: none; /* Remove outline */
+}
+
+
+
+
+
+.image-preview {
+    position: absolute;
+    cursor: pointer;
+  }
+  
+  .image-preview img {
+    max-width: 100px; /* Adjust as needed */
+    max-height: 100px; /* Adjust as needed */
+  }
