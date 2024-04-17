@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { IoCameraOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './ScreenStyle/Home.css';
 
 export default function Home() {
-
     const [image, setImage] = useState(null);
 
     const handleImageChange = (e) => {
@@ -64,9 +64,10 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="big-rectangle">
+            {/* Wrap the big rectangle with Link component */}
+            <Link to="/newpage" className="big-rectangle">
                 <IoCameraOutline size={48} />
-            </div>
+            </Link>
         </div>
     );
 }
