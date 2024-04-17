@@ -50,14 +50,16 @@ function BookDesign() {
 
       </div>
       <div className="design-button-container">
-        <button className="scan-button"><AiOutlineScan /></button>
-        <button className="text-button"><AiOutlineFileText /></button>
-        <button className="font-button"><AiOutlineBold /></button>
-        <button className="font-size-button"><AiOutlineFontSize /></button>
-        <button className="font-color-button"><AiOutlineFontColors /></button>
-        <button className="picture-button"><AiOutlinePicture /></button>
-        <button className="symbol-button"><AiOutlineSmile /></button>
-        <button className="remove-button"><AiOutlineDelete /></button>
+      <div className="scrollable-buttons">
+          <button className="scan-button"><AiOutlineScan /></button>
+          <button className="text-button"><AiOutlineFileText /></button>
+          <button className="font-button"><AiOutlineBold /></button>
+          <button className="font-size-button"><AiOutlineFontSize /></button>
+          <button className="font-color-button"><AiOutlineFontColors /></button>
+          <button className="picture-button"><AiOutlinePicture /></button>
+          <button className="symbol-button"><AiOutlineSmile /></button>
+          <button className="remove-button"><AiOutlineDelete /></button>
+        </div>
       </div>
     </div>
   );
