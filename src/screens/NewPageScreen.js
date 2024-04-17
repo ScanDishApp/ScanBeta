@@ -79,19 +79,17 @@ export default function NewPage() {
     return (
         <div className="NewPage-container">
             <h1>Design din bok</h1>
-
-
+    
             <div className="navigate-button-container">
                 <button className="back-button"><AiOutlineArrowLeft /></button>
                 <button className="next-button"><AiOutlineArrowRight /></button>
                 <button className="save-button">Lagre</button>
                 <button className="add-page-button"><AiOutlineFileAdd /></button>
             </div>
-
-
+    
             <div className="coverPage"></div>
-           
-
+    
+            
             <div className="input-container">
                 {image && (
                     <div className="image-preview"
@@ -103,10 +101,12 @@ export default function NewPage() {
                     </div>
                 )}
                 <input
+                    id="file-input"
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
                     className="image-upload"
+                    style={{ display: 'none' }} // Hide the file input
                 />
                 <input
                     type="text"
@@ -121,6 +121,8 @@ export default function NewPage() {
                     onChange={handleContentChange}
                     placeholder="Write your note here..."
                 />
+               
+    
             </div>
             <div className="design-button-container">
                 <button className="scan-button"><AiOutlineScan /></button>
@@ -128,11 +130,12 @@ export default function NewPage() {
                 <button className="font-button"><AiOutlineBold /></button>
                 <button className="font-size-button"><AiOutlineFontSize /></button>
                 <button className="font-color-button"><AiOutlineFontColors /></button>
-                <button className="picture-button"><AiOutlinePicture /></button>
+                <button className="picture-button" onClick={() => document.getElementById('file-input').click()}><AiOutlinePicture /></button>
                 <button className="symbol-button"><AiOutlineSmile /></button>
                 <button className="remove-button"><AiOutlineDelete /></button>
             </div>
-
+            
         </div >
     );
-}
+    
+}    
