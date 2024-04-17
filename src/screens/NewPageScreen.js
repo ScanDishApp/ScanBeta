@@ -30,18 +30,24 @@ export default function NewPage() {
     };
 
     const handleMouseDown = (event) => {
+        event.preventDefault();
         setDragging(true);
+        const clientX = event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
+        const clientY = event.type.includes('touch') ? event.touches[0].clientY : event.clientY;
         const rect = event.target.getBoundingClientRect();
-        const offsetX = event.clientX - rect.left;
-        const offsetY = event.clientY - rect.top;
+        const offsetX = clientX - rect.left;
+        const offsetY = clientY - rect.top;
         setOffset({ x: offsetX, y: offsetY });
     };
 
     const handleMouseMove = (event) => {
+        event.preventDefault();
         if (dragging) {
+            const clientX = event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
+            const clientY = event.type.includes('touch') ? event.touches[0].clientY : event.clientY;
             setPosition({
-                x: event.clientX - offset.x,
-                y: event.clientY - offset.y
+                x: clientX - offset.x,
+                y: clientY - offset.y
             });
         }
     };
@@ -53,14 +59,17 @@ export default function NewPage() {
     useEffect(() => {
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('touchmove', handleMouseMove);
+        document.addEventListener('touchend', handleMouseUp);
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('touchmove', handleMouseMove);
+            document.removeEventListener('touchend', handleMouseUp);
         };
     }, [dragging]);
 
     useEffect(() => {
-        // Save the note whenever title or content changes
         localStorage.setItem('noteTitle', title);
         localStorage.setItem('noteContent', content);
     }, [title, content]);
@@ -74,6 +83,7 @@ export default function NewPage() {
                     <div className="image-preview"
                          style={{ left: position.x, top: position.y }}
                          onMouseDown={handleMouseDown}
+                         onTouchStart={handleMouseDown}
                     >
                         <img src={image} alt="Uploaded" />
                     </div>
