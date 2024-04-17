@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete } from 'react-icons/ai';
+
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 
@@ -76,14 +78,26 @@ export default function NewPage() {
 
     return (
         <div className="NewPage-container">
-            <h1 className='title'>ScanDish</h1>
+            <h1>Design din bok</h1>
+
+
+            <div className="navigate-button-container">
+                <button className="back-button"><AiOutlineArrowLeft /></button>
+                <button className="next-button"><AiOutlineArrowRight /></button>
+                <button className="save-button">Lagre</button>
+                <button className="add-page-button"><AiOutlineFileAdd /></button>
+            </div>
+
+
             <div className="coverPage"></div>
+           
+
             <div className="input-container">
                 {image && (
                     <div className="image-preview"
-                         style={{ left: position.x, top: position.y }}
-                         onMouseDown={handleMouseDown}
-                         onTouchStart={handleMouseDown}
+                        style={{ left: position.x, top: position.y }}
+                        onMouseDown={handleMouseDown}
+                        onTouchStart={handleMouseDown}
                     >
                         <img src={image} alt="Uploaded" />
                     </div>
@@ -108,6 +122,17 @@ export default function NewPage() {
                     placeholder="Write your note here..."
                 />
             </div>
-        </div>
+            <div className="design-button-container">
+                <button className="scan-button"><AiOutlineScan /></button>
+                <button className="text-button"><AiOutlineFileText /></button>
+                <button className="font-button"><AiOutlineBold /></button>
+                <button className="font-size-button"><AiOutlineFontSize /></button>
+                <button className="font-color-button"><AiOutlineFontColors /></button>
+                <button className="picture-button"><AiOutlinePicture /></button>
+                <button className="symbol-button"><AiOutlineSmile /></button>
+                <button className="remove-button"><AiOutlineDelete /></button>
+            </div>
+
+        </div >
     );
 }
