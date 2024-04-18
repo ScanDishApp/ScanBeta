@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IoCameraOutline } from 'react-icons/io5';
 import './ScreenStyle/DummyPage.css';
 
 export default function DummyPage() {
+    const navigate = useNavigate();
     // Dummy data for content, followers, and following
     const contentCount = 20; // Replace with actual count
     const followersCount = 1000; // Replace with actual count
@@ -20,6 +22,11 @@ export default function DummyPage() {
 
         reader.readAsDataURL(file);
     };
+    const handleLogOut = () => {
+        let userId = null
+        localStorage.setItem("userId", userId)
+        navigate('/Profile');  
+    }
 
     return (
         <div className="profile-container">
@@ -71,7 +78,7 @@ export default function DummyPage() {
             </div>
 
             <div className="big-rectangle">
-                <h2>Logg Ut</h2>
+                <h2 onClick={handleLogOut}>Logg Ut</h2>
             </div>
         </div>
     );
