@@ -2,6 +2,7 @@ import express from "express";
 import User from "../modules/user.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
+
 const USER_API = express.Router();
 USER_API.use(express.json());
 
@@ -39,13 +40,14 @@ USER_API.post('/login', async (req, res, next) => {
 
 USER_API.post('/', async (req, res, next) => {
 
-    const { name, email, pswHash } = req.body;
+    const { name, email, pswHash, img } = req.body;
 
     if (name != "" && email != "" && pswHash != "") {
         let user = new User();
         user.name = name;
         user.email = email;
         user.pswHash = pswHash;
+        user.img = img;
         console.log("user" + user);
         let exists = false;
 

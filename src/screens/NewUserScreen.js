@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ScreenStyle/Profile.css';
+import './ScreenStyle/NewUser.css';
+import defaultImage from '../assets/hatt.png'
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -15,7 +16,7 @@ async function fetchData(url, method, data) {
 
     if (data) {
         options.body = JSON.stringify(data);
-    }
+    } 
 
     const response = await fetch(url, options);
     return response;
@@ -43,18 +44,20 @@ export default function NewUser() {
         const name = document.querySelector('.create-username').value;
         const pswHash = document.querySelector('.create-password').value;
         const email = document.querySelector('.create-email').value;
-
+        let img = image;
+        if (!img){
+             img = defaultImage; 
+        }
         const user = {
             name: name,
             pswHash: pswHash,
-            email: email
+            email: email,
+            img: img
         };
         console.log(user);
         const response = await createUser("http://localhost:8080/user/", user);
         const responseData = await response.json();
         console.log("Response:", responseData);
-        let userId = responseData.id 
-        localStorage.setItem("userId", userId);
         navigate('/dummy-page')
     };
 
