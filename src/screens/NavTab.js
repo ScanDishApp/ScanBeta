@@ -22,7 +22,7 @@ function NavTab() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/profile">
+                    <Link to="/dummy-page">
                         <AiOutlineUser /> 
                     </Link>
                 </li>
