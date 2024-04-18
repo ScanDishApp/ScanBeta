@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { IoCameraOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import './ScreenStyle/Home.css';
 
 export default function Home() {
     const [image, setImage] = useState(null);
@@ -17,15 +16,17 @@ export default function Home() {
         reader.readAsDataURL(file);
     };
 
+    // Array of squares with unique IDs
+    const squares = [
+        { id: 1, emoji: '⭐️', text: 'Favoritter 1', route: '/fav1' },
+        { id: 2, emoji: '📝', text: 'Blank side', route: '/newpage' },
+        { id: 3, emoji: '🌡️', text: 'Temperatur', route: '/temperatur' },
+        { id: 4, emoji: '🧮', text: 'Mål og vekt', route: '/calculator' }
+    ];
+
     return (
         <div className="home-container">
-            <h1>ScanDish</h1>
-
-            <div className="rectangle-grid">
-                <div className="rectangle">
-                    <h2>👋 Velkommen...</h2>
-                </div>
-            </div>
+            <h1>Hjem</h1>
 
             <div className="rectangle-grid">
                 <div className="rectangle-profile">
@@ -33,7 +34,7 @@ export default function Home() {
                         <h2>Hei, Kevin</h2>
                     </div>
                     <label className="pfp-square" htmlFor="imageUpload">
-                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p> }
+                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bildet</p> }
                         <input 
                             type="file" 
                             id="imageUpload" 
@@ -46,26 +47,17 @@ export default function Home() {
             </div>
 
             <div className="square-grid">
-                <div className="square">
-                    <div className="mini-square">⭐️</div>
-                    <div className="option-text">Favoritter 1</div>
-                </div>
-                <div className="square">
-                    <div className="mini-square">👨‍🍳</div>
-                    <div className="option-text">Chef 2</div>
-                </div>
-                <div className="square">
-                    <div className="mini-square">🛒</div>
-                    <div className="option-text">Notis 3</div>
-                </div>
-                <div className="square">
-                    <div className="mini-square">🧮</div>
-                    <div className="option-text">Kalkulator 4</div>
-                </div>
+                {/* Map over the squares array to render each square */}
+                {squares.map(square => (
+                    <Link key={square.id} to={square.route} className="square">
+                        <div className="mini-square">{square.emoji}</div>
+                        <div className="option-text">{square.text}</div>
+                    </Link>
+                ))}
             </div>
 
             {/* Wrap the big rectangle with Link component */}
-            <Link to="/newpage" className="big-rectangle">
+            <Link to="/scan" className="big-rectangle">
                 <IoCameraOutline size={48} />
             </Link>
         </div>

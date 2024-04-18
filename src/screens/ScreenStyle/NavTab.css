@@ -1,7 +1,7 @@
 /*NavTab.css*/
 
 .nav-tab {
-    background-color: #222;
+    background: linear-gradient(0deg, #F2C449, #F2D243);   ;
     width: 100;
     position: fixed;
     bottom: 0;
@@ -38,12 +38,12 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: white;
+    color: rgb(34, 34, 34);
     transition: color 0.3s ease; 
 }
 
 .nav-tab a:hover {
-    color: #9EC85C; 
+    color: #fff; 
 }
 
 
@@ -62,7 +62,7 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: white;
+    color: rgb(37, 37, 37);
     transition: color 0.3s ease; 
     background-color: transparent; 
 }

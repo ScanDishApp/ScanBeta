@@ -9,7 +9,6 @@ body {
   height: 100vh;
   overflow: hidden; /* Hides the horizontal scrollbar */
   overflow-y: scroll; /* Allows vertical scrolling */
-  background-color: #FECB34;
 }
 
 .profile-container {

@@ -10,7 +10,7 @@ body {
 .converter-container {
     margin-top: 20px;
     padding: 30px; /* Increased padding */
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #F2C449, #F2D243);
     border-radius: 20px; /* Border radius applied */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* Include padding and border in the width */
@@ -72,7 +72,7 @@ body {
 .result-container {
     margin-top: 20px;
     padding: 30px; /* Increased padding */
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #F2C449, #F2D243);
     border-radius: 20px; /* Border radius applied */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* Include padding and border in the width */
