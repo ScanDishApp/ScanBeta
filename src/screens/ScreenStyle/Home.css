@@ -8,8 +8,12 @@ body {
   font-family: 'testFont'; /* Fixed the font family reference */
   height: 100vh;
   overflow: hidden; /* Hides the horizontal scrollbar */
+
   overflow-y: scroll; /* Allows vertical scrolling */
 background-color: white;
+
+  background-color: #FECB34;
+
 }
 
 

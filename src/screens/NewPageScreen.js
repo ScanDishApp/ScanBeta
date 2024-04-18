@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
+
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 
@@ -56,11 +58,25 @@ export default function NewPage() {
         setDragging(false);
     };
 
+    const handleRemoveImage = () => {
+        setImage(null); // Set image state to null to remove the image
+        setPosition({ x: 0, y: 0 }); // Reset position
+    };
+
+    const handleDrop = (event) => {
+        event.preventDefault();
+        if (image && position.x !== 0 && position.y !== 0) {
+            // Reset image and position
+            setImage(null);
+            setPosition({ x: 0, y: 0 });
+        }
+    };
+
     useEffect(() => {
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-        document.addEventListener('touchmove', handleMouseMove);
-        document.addEventListener('touchend', handleMouseUp);
+        document.addEventListener('mousemove', handleMouseMove, { passive: false });
+        document.addEventListener('mouseup', handleMouseUp, { passive: false });
+        document.addEventListener('touchmove', handleMouseMove, { passive: false });
+        document.addEventListener('touchend', handleMouseUp, { passive: false });
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
@@ -68,6 +84,7 @@ export default function NewPage() {
             document.removeEventListener('touchend', handleMouseUp);
         };
     }, [dragging]);
+    
 
     useEffect(() => {
         localStorage.setItem('noteTitle', title);
@@ -76,23 +93,39 @@ export default function NewPage() {
 
     return (
         <div className="NewPage-container">
-            <h1 className='title'>ScanDish</h1>
+            <h1>Design din bok</h1>
+
+            <div className="navigate-button-container">
+                <button className="back-button"><AiOutlineArrowLeft /></button>
+                <button className="next-button"><AiOutlineArrowRight /></button>
+                <button className="save-button">Lagre</button>
+                <button className="add-page-button"><AiOutlineFileAdd /></button>
+                <button onClick={handleDrop} className="remove-button"><AiOutlineDelete /></button>
+                <button className="info-button"><AiOutlineInfoCircle /></button>
+            </div>
+
             <div className="coverPage"></div>
+
             <div className="input-container">
                 {image && (
-                    <div className="image-preview"
-                         style={{ left: position.x, top: position.y }}
-                         onMouseDown={handleMouseDown}
-                         onTouchStart={handleMouseDown}
+                    <div
+                        className="image-preview"
+                        style={{ left: position.x, top: position.y }}
+                        onMouseDown={handleMouseDown}
+                        onTouchStart={handleMouseDown}
+                        onDrop={handleDrop}
+                        onDragOver={(e) => e.preventDefault()}
                     >
                         <img src={image} alt="Uploaded" />
                     </div>
                 )}
                 <input
+                    id="file-input"
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
                     className="image-upload"
+                    style={{ display: 'none' }} // Hide the file input
                 />
                 <input
                     type="text"
@@ -108,6 +141,15 @@ export default function NewPage() {
                     placeholder="Write your note here..."
                 />
             </div>
-        </div>
+            <div className="design-button-container">
+                <button className="scan-button"><AiOutlineScan /></button>
+                <button className="text-button"><AiOutlineFileText /></button>
+                <button className="font-button"><AiOutlineBold /></button>
+                <button className="font-size-button"><AiOutlineFontSize /></button>
+                <button className="font-color-button"><AiOutlineFontColors /></button>
+                <button className="picture-button" onClick={() => document.getElementById('file-input').click()}><AiOutlinePicture /></button>
+                <button className="symbol-button"><AiOutlineSmile /></button>
+            </div>
+        </div >
     );
 }

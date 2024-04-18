@@ -1,3 +1,4 @@
+
 html, body, .NewPage-container, .note-container {
     margin: 0;
     padding: 0;
@@ -8,11 +9,7 @@ html, body, .NewPage-container, .note-container {
 
 }
 
-.coverPage {
-    width: 100%; /* Adjust width as needed */
-    height: 50px; /* Adjust height as needed */
-    background-color: #ff0000; /* Set the background color to red (you can use any color code or name here) */
-}
+
 
 .title {
     margin-bottom: 20px;
@@ -35,10 +32,14 @@ html, body, .NewPage-container, .note-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh; /* Set the height of the container to fill the whole viewport */
+    height: 90vh; /* Set the height of the container to fill the whole viewport */
         margin-bottom: 100px;
     
     
+}
+.input-container{
+   
+    max-height: 70%;
 }
 
 .note-title-input {
@@ -50,6 +51,8 @@ font-size: 30px;
 outline: none; /* Remove outline */
 
 }
+
+
 
 
 
@@ -69,6 +72,16 @@ outline: none; /* Remove outline */
     outline: none; /* Remove outline */
 }
 
+button{
+    margin: 10px;
+    /* Add some spacing between buttons */
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;  
+}
 
 
 
