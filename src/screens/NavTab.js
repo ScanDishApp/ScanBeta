@@ -17,7 +17,7 @@ function NavTab() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/book">
+                    <Link to="/MyBooks">
                         <AiOutlineBook /> 
                     </Link>
                 </li>

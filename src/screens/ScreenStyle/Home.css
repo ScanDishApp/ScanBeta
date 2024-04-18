@@ -9,8 +9,10 @@ body {
   height: 100vh;
   overflow: hidden; /* Hides the horizontal scrollbar */
   overflow-y: scroll; /* Allows vertical scrolling */
-  background-color: #FECB34;
+background-color: white;
 }
+
+
 
 .home-container {
   text-align: center;
@@ -28,12 +30,14 @@ body {
 }
 
 .square {
-  width: calc(100% - 6px); /* Adjusted width to accommodate border */
+  width: calc(100%); /* Adjusted width to accommodate border */
   padding-top: 100%; 
-  background-color: #f4f0e8;
+  background: linear-gradient(135deg, #F2C449, #F2D243);
   border-radius: 20px;
   position: relative;
-  border: 3px solid #222;
+  border: none;
+  
+  
 }
 
 .mini-square {
@@ -50,7 +54,10 @@ body {
   display: flex; 
   justify-content: center; 
   align-items: center; 
-  border: 3px solid #222;
+  border: none;
+
+  
+
 }
 
 .rectangle {
@@ -61,7 +68,6 @@ body {
   display: flex;
   align-items: center;
   outline: #222;
-  border: 3px solid #222;
 }
 
 .rectangle h2 {
@@ -88,18 +94,19 @@ body {
 }
 
 .big-rectangle {
-  width: calc(100% - 26px); /* Adjusted width to accommodate border */
-  height: 200px;
+  width: calc(100% - 20px); /* Adjusted width to accommodate border */
+  height: 100px;
   margin-top: 15px;
   margin-left: 10px;
-  background-color: #9EC85C;
+  background: linear-gradient(135deg, #F2C449, #F2D243);
+
   color: #222;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
   margin-bottom: 80px;
-  border: 3px solid #222;
+  border: none;
 }
 
 .option-text {
@@ -113,9 +120,10 @@ body {
 
 
 .rectangle-profile {
-  width: calc(100% - 25px);
+  width: calc(100% - 20px);
   height: 95px;
-  background-color: lightblue;
+  background: linear-gradient(135deg, #F2C449, #F2D243);
+
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -123,37 +131,36 @@ body {
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
-  border: 3px solid #222;
   margin-top: -15px;
   margin-bottom: -5px;
-
+  border: none;
   position: relative; 
 }
 
 .small-square {
   width: 200px; 
   height: 65%; 
-  background-color: #ffffff; 
+  background-color: #f7e2a8;
   position: absolute; 
   top: 50%; 
   left: 100px; 
   transform: translate(-50%, -50%); 
-  border: 3px solid #222;
   border-radius: 0 20px 20px 0; 
   overflow: hidden; /* Ensure the image fits inside the square */
+  border: none;
 
 }
 .pfp-square {
   width: 80px;
   height: 80px;
-  background-color: #ffffff;
+  background-color: #f7e2a8;
   position: absolute;
   top: 50%;
   right: -25px;
   transform: translate(-50%, -50%);
-  border: 3px solid #222;
   border-radius: 20px;
   overflow: hidden; /* Ensure the image fits inside the square */
+  border: none;
 
 
 }

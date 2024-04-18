@@ -6,14 +6,12 @@ import NavTab from './screens/NavTab';
 import Setting from './screens/ProfileScreen';
 import Book from './screens/BookScreen';
 import DummyPage from './screens/DummyPage'; // Assuming DummyPage is your new component
-
+import MyBooks from './screens/MyBooksScreen';
 import NewUser from './screens/NewUserScreen';
-import Temperature from './screens/TemperatureScreen';
+import Temperatur from './screens/TemperatureScreen';
 import BookDesign from './screens/BookDesignPage';
 import Calculator from './screens/CalculatorScreen';
-import MyBooks from './screens/MyBooksScreen';
 import NewPage from './screens/NewPageScreen';
-
 
 
 export default function App() {
@@ -34,7 +32,7 @@ export default function App() {
 
           <Route path="/bookDesign" element={<BookDesign />} /> {/* New route for DummyPage */}
           <Route path="/Calculator" element={<Calculator />} /> {/* New route for DummyPage */}
-          <Route path="/Temperature" element={<Temperature />} /> {/* New route for DummyPage */}
+          <Route path="/Temperatur" element={<Temperatur />} /> {/* New route for DummyPage */}
           <Route path="/MyBooks" element={<MyBooks />} /> {/* New route for DummyPage */}
           <Route path="/NewPage" element={<NewPage />} /> {/* New route for DummyPage */}
 

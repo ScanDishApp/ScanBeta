@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Temp.css';
 
-export default function Home() {
+export default function Temperatur() {
     const [celsius, setCelsius] = useState('');
     const [fahrenheit, setFahrenheit] = useState('');
 

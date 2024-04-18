@@ -97,16 +97,9 @@ const Scan = () => {
 
   return (
     <div className="scan-container">
-      <h1>ScanDish</h1>
+      <h1>Scan</h1>
       <div className="rectangle-grid">
-        <div className="rectangle">
-          <h2>📸 Scan...</h2>
-        </div>
-      </div>
-      <div>
-        <div>
 
-        </div>
         <div className="icon-container">
   <span className="icon-text" onClick={openDefaultCameraApp}>Åpne kamera</span>
   <span className="icon-text" onClick={() => fileInputRef.current.click()}>Velg bilde</span>
