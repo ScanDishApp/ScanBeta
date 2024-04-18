@@ -12,7 +12,6 @@ body {
   overflow-y: scroll; /* Allows vertical scrolling */
 background-color: white;
 
-  background-color: #FECB34;
 
 }
 
@@ -176,4 +175,3 @@ background-color: white;
   z-index: -1; /* Ensure the image is behind any other content */
 
 }
-
