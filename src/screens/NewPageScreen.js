@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
+import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 
+const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
+
+const fontOptions = {
+    Default: 'DM Serif Display, sans-serif',
+    Monospace: 'Courier New, monospace',
+    Serif: 'Times New Roman, serif'
+};
+
 export default function NewPage() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [image, setImage] = useState(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [images, setImages] = useState([]);
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
+    const [selectedColor, setSelectedColor] = useState('#000000');
+    const [showColorMenu, setShowColorMenu] = useState(false);
+    const [showFontMenu, setShowFontMenu] = useState(false);
+    const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
+    const [deleteImageIndex, setDeleteImageIndex] = useState(null);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -21,75 +34,107 @@ export default function NewPage() {
     };
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setImage(reader.result);
-            };
-            reader.readAsDataURL(file);
+        const files = event.target.files;
+        if (files) {
+            const imageArray = [];
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    imageArray.push({ src: reader.result, position: { x: 0, y: 0 } });
+                    if (imageArray.length === files.length) {
+                        setImages([...images, ...imageArray]);
+                    }
+                };
+                reader.readAsDataURL(files[i]);
+            }
         }
     };
 
-    const handleMouseDown = (event) => {
+    const handleMouseDown = (event, index) => {
         event.preventDefault();
         setDragging(true);
-        const clientX = event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
-        const clientY = event.type.includes('touch') ? event.touches[0].clientY : event.clientY;
+        const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+        const clientY = event.clientY || (event.touches && event.touches[0].clientY);
         const rect = event.target.getBoundingClientRect();
         const offsetX = clientX - rect.left;
         const offsetY = clientY - rect.top;
         setOffset({ x: offsetX, y: offsetY });
+
+        const updatedImages = [...images];
+        updatedImages[index].offset = { x: offsetX, y: offsetY };
+        updatedImages[index].zIndex = 9999;
+        setImages(updatedImages);
     };
 
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event, index) => {
         event.preventDefault();
         if (dragging) {
-            const clientX = event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
-            const clientY = event.type.includes('touch') ? event.touches[0].clientY : event.clientY;
-            setPosition({
-                x: clientX - offset.x,
-                y: clientY - offset.y
-            });
+            const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+            const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+
+            const updatedImages = [...images];
+            updatedImages[index].position = {
+                x: clientX - updatedImages[index].offset.x,
+                y: clientY - updatedImages[index].offset.y
+            };
+            setImages(updatedImages);
         }
+    };
+
+    const handleTouchForceChange = (event, index) => {
+        const force = event.touches[0].force;
+        const updatedImages = [...images];
+        updatedImages[index].position = {
+            x: event.touches[0].clientX - updatedImages[index].offset.x * force,
+            y: event.touches[0].clientY - updatedImages[index].offset.y * force
+        };
+        setImages(updatedImages);
     };
 
     const handleMouseUp = () => {
         setDragging(false);
     };
 
-    const handleRemoveImage = () => {
-        setImage(null); // Set image state to null to remove the image
-        setPosition({ x: 0, y: 0 }); // Reset position
+    const handleRemoveImage = (index) => {
+        const updatedImages = [...images];
+        updatedImages.splice(index, 1);
+        setImages(updatedImages);
+    };
+
+    const handleDeleteConfirm = (index) => {
+        setDeleteImageIndex(null);
+        handleRemoveImage(index);
     };
 
     const handleDrop = (event) => {
         event.preventDefault();
-        if (image && position.x !== 0 && position.y !== 0) {
-            // Reset image and position
-            setImage(null);
-            setPosition({ x: 0, y: 0 });
+        if (images.length > 0) {
+            const updatedImages = [...images];
+            updatedImages.forEach((image) => {
+                image.position = { x: 0, y: 0 };
+            });
+            setImages(updatedImages);
         }
     };
-
-    useEffect(() => {
-        document.addEventListener('mousemove', handleMouseMove, { passive: false });
-        document.addEventListener('mouseup', handleMouseUp, { passive: false });
-        document.addEventListener('touchmove', handleMouseMove, { passive: false });
-        document.addEventListener('touchend', handleMouseUp, { passive: false });
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-            document.removeEventListener('touchmove', handleMouseMove);
-            document.removeEventListener('touchend', handleMouseUp);
-        };
-    }, [dragging]);
-    
 
     useEffect(() => {
         localStorage.setItem('noteTitle', title);
         localStorage.setItem('noteContent', content);
     }, [title, content]);
+
+    const handleColorChange = (color) => {
+        setSelectedColor(color);
+        setShowColorMenu(false);
+    };
+
+    const handleFontChange = (font) => {
+        setSelectedFont(font);
+        setShowFontMenu(false);
+    };
+
+    const handleTouchStartDelete = (index) => {
+        setDeleteImageIndex(index);
+    };
 
     return (
         <div className="NewPage-container">
@@ -100,56 +145,106 @@ export default function NewPage() {
                 <button className="next-button"><AiOutlineArrowRight /></button>
                 <button className="save-button">Lagre</button>
                 <button className="add-page-button"><AiOutlineFileAdd /></button>
-                <button onClick={handleDrop} className="remove-button"><AiOutlineDelete /></button>
                 <button className="info-button"><AiOutlineInfoCircle /></button>
             </div>
 
             <div className="coverPage"></div>
 
             <div className="input-container">
-                {image && (
+                {images.map((image, index) => (
                     <div
+                        key={index}
                         className="image-preview"
-                        style={{ left: position.x, top: position.y }}
-                        onMouseDown={handleMouseDown}
-                        onTouchStart={handleMouseDown}
+                        style={{
+                            left: image.position.x,
+                            top: image.position.y,
+                            zIndex: image.zIndex || 1
+                        }}
+                        onMouseDown={(event) => handleMouseDown(event, index)}
+                        onTouchStart={(event) => handleMouseDown(event, index)}
+                        onTouchForceChange={(event) => handleTouchForceChange(event, index)}
+                        onMouseMove={(event) => handleMouseMove(event, index)}
+                        onTouchMove={(event) => handleMouseMove(event, index)}
+                        onMouseUp={handleMouseUp}
+                        onTouchEnd={handleMouseUp}
                         onDrop={handleDrop}
                         onDragOver={(e) => e.preventDefault()}
                     >
-                        <img src={image} alt="Uploaded" />
+                        <img src={image.src} alt={`Uploaded ${index}`} />
+                        {deleteImageIndex === index && (
+                            <div className="delete-overlay">
+                                <button onClick={() => handleDeleteConfirm(index)}>Delete</button>
+                            </div>
+                        )}
                     </div>
-                )}
+                ))}
                 <input
                     id="file-input"
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
                     className="image-upload"
-                    style={{ display: 'none' }} // Hide the file input
+                    style={{ display: 'none' }}
+                    multiple
                 />
                 <input
                     type="text"
                     className="note-title-input"
                     value={title}
                     onChange={handleTitleChange}
-                    placeholder="titel"
+                    placeholder="Tittel"
                 />
                 <textarea
                     className="note-textarea"
                     value={content}
                     onChange={handleContentChange}
-                    placeholder="Write your note here..."
+                    placeholder="Skriv..."
+                    style={{ color: selectedColor, fontFamily: selectedFont }}
                 />
             </div>
-            <div className="design-button-container">
-                <button className="scan-button"><AiOutlineScan /></button>
-                <button className="text-button"><AiOutlineFileText /></button>
-                <button className="font-button"><AiOutlineBold /></button>
-                <button className="font-size-button"><AiOutlineFontSize /></button>
-                <button className="font-color-button"><AiOutlineFontColors /></button>
-                <button className="picture-button" onClick={() => document.getElementById('file-input').click()}><AiOutlinePicture /></button>
-                <button className="symbol-button"><AiOutlineSmile /></button>
+
+            {/* Font popup menu */}
+            {showFontMenu && (
+                <div className="font-menu">
+                    {Object.entries(fontOptions).map(([key, value]) => (
+                        <button
+                            key={key}
+                            className="font-option"
+                            onClick={() => handleFontChange(value)}
+                            style={{ fontFamily: value }}
+                        >
+                            {key}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+            {/* Color menu */}
+            <div className="funky">
+                <div className="menu-placement">
+                    {showColorMenu && (
+                        <div className="colorMenu">
+                            {predefinedColors.map((color, index) => (
+                                <button
+                                    key={index}
+                                    className="color-button"
+                                    style={{ backgroundColor: color }}
+                                    onClick={() => handleColorChange(color)}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+                <div className="icon-row">
+                    <AiOutlineFontSize className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
+                    <AiOutlineFontColors className="icon" />
+                    <AiOutlineScan className="icon" />
+                    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
+                    <AiOutlineFileText className="icon" />
+                    <AiOutlineSmile className="icon" />
+                    <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
+                </div>
             </div>
-        </div >
+        </div>
     );
 }
