@@ -2,11 +2,12 @@ import DBManager from "./storageManager.mjs";
 
 class User {
 
-  constructor(email, pswHash, name, id) {
+  constructor(email, pswHash, name, id, img) {
     this.email = email;
     this.pswHash = pswHash;
     this.name = name;
     this.id = id;
+    this.img = img;
   }
 
   async save() {
@@ -59,6 +60,7 @@ class User {
         this.name = dbUser.name;
         this.email = dbUser.email;
         this.pswHash = dbUser.pswHash;
+        this.img = dbUser.img;
 
         return {
           success: true,
@@ -66,6 +68,7 @@ class User {
             id: this.id,
             name: this.name,
             email: this.email,
+            img: this.img
           }
         }
       } else {

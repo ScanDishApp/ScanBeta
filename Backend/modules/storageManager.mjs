@@ -55,8 +55,8 @@ class DBManager {
         const client = new pg.Client(this.#credentials);
 
         try {
-            const sql = 'INSERT INTO "public"."Users"("name", "email", "pswHash") VALUES($1::TEXT, $2::TEXT, $3::TEXT) RETURNING id;';
-            const parms = [user.name, user.email, user.pswHash];
+            const sql = 'INSERT INTO "public"."Users"("name", "email", "pswHash", "img") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING id;';
+            const parms = [user.name, user.email, user.pswHash, user.img];
             await client.connect();
             const output = await client.query(sql, parms);
 
@@ -110,7 +110,7 @@ class DBManager {
             const params = [email]
             const output = await client.query( sql, params );
 
-            console.log(output);
+            
             user = output.rows[0];
            
 
