@@ -1,12 +1,11 @@
 
+
+
 html, body, .NewPage-container, .note-container {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Optional: If you want to hide any overflowing content */
     font-family: 'DM Serif Display', serif;
-
+    
 }
 
 
@@ -23,7 +22,6 @@ html, body, .NewPage-container, .note-container {
     background-position: -1px -1px, -1px -1px;
 
 
-    
 
 }
 
@@ -32,8 +30,10 @@ html, body, .NewPage-container, .note-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 90vh; /* Set the height of the container to fill the whole viewport */
+    height: 95vh; /* Set the height of the container to fill the whole viewport */
         margin-bottom: 100px;
+        height: 100%;
+
     
     
 }
@@ -49,7 +49,8 @@ font-family: 'DM Serif Display', serif;
 font-weight: bold;
 font-size: 30px;
 outline: none; /* Remove outline */
-
+margin-bottom: 0px;
+width: 90%;
 }
 
 
@@ -63,24 +64,12 @@ outline: none; /* Remove outline */
     border: none; /* Remove border */
     padding: 20px; /* Add padding */
     padding-top: 0; /* Add padding */
-
-    font-size: 26px; /* Adjust font size */
+    font-size: 20px; /* Adjust font size */
     font-family: inherit; /* Inherit font family */
     box-sizing: border-box; /* Ensure padding and border are included in width */
     background-color: transparent;
     overflow-y: auto; /* Adds vertical scrollbar when content exceeds height */
     outline: none; /* Remove outline */
-}
-
-button{
-    margin: 10px;
-    /* Add some spacing between buttons */
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;  
 }
 
 
@@ -95,3 +84,84 @@ button{
     max-width: 100px; /* Adjust as needed */
     max-height: 100px; /* Adjust as needed */
   }
+
+
+
+  
+  .colorMenu {
+    padding: 10px;
+    position: fixed;
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the menu */
+    display: flex;
+    bottom: 120px;
+    flex-wrap: wrap;
+    border: 1px solid #222;
+    border-radius: 20px;
+    background-color: white;
+  }
+  
+  
+  .color-button {
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #222    ; 
+
+  }
+  
+  .funky {
+    position: fixed;
+    width: 100%;
+    border-radius: 20px;
+    bottom: 85px;
+}
+
+.icon-row {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icons horizontally */
+    justify-content: space-evenly; /* Evenly space the icons */
+}
+
+.icon {
+    font-size: 30px; /* Adjust the size as needed */
+    background-color: #99B952 
+    ;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+.font-menu {
+    position: absolute;
+    bottom: 280px; /* Adjust this value to position the font menu vertically */
+    left: 50%; /* Position the menu at the horizontal center of its parent */
+    transform: translateX(-50%); /* Adjust to move the menu back to the left by half of its width */
+    display: flex;
+    flex-direction: row; /* Display the options in a row */
+    justify-content: center; /* Center the font options horizontally */
+    background-color: #fff; /* Background color */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow */
+    z-index: 999; /* Ensure the menu appears above other elements */
+    padding: 8px; /* Add padding to space out the options */
+}
+
+.font-option {
+    padding: 8px 12px; /* Padding */
+    cursor: pointer;
+    font-size: 14px; /* Font size */
+    font-weight: normal;
+    transition: background-color 0.3s ease; /* Smooth transition */
+    margin: 0 5px; /* Margin to space out the font options */
+}
+
+  
+  .font-option:hover {
+    background-color: #f5f5f5; /* Background color on hover */
+  }
+  

@@ -1,6 +1,5 @@
-.font-face-gm {
-  font-family: "testFont";
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 
 body {
   margin: 0;
@@ -11,8 +10,6 @@ body {
 
   overflow-y: scroll; /* Allows vertical scrolling */
 background-color: white;
-
-
 }
 
 

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
-import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
+import { AiOutlineCamera, AiOutlineFileImage, AiOutlineCopy } from 'react-icons/ai';
 import './ScreenStyle/Scan.css'; // Import the external CSS file
 
 const Scan = () => {
@@ -95,15 +95,19 @@ const Scan = () => {
     }
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(recognizedText);
+    alert('Text copied to clipboard!');
+  };
+
   return (
     <div className="scan-container">
       <h1>Scan</h1>
       <div className="rectangle-grid">
-
         <div className="icon-container">
-  <span className="icon-text" onClick={openDefaultCameraApp}>Åpne kamera</span>
-  <span className="icon-text" onClick={() => fileInputRef.current.click()}>Velg bilde</span>
-</div>
+          <span className="icon-text" onClick={openDefaultCameraApp}>Open Camera</span>
+          <span className="icon-text" onClick={() => fileInputRef.current.click()}>Choose Image</span>
+        </div>
         <input
           type="file"
           accept="image/*"
@@ -117,12 +121,14 @@ const Scan = () => {
             <button className="capture-button" onClick={captureImage}>Capture Image</button>
           </div>
         )}
-<div className="image-container">
-  {selectedImage && <img src={selectedImage} alt="Selected" />}
-</div>        {recognizedText && (
-          <div>
+        <div className="image-container">
+          {selectedImage && <img src={selectedImage} alt="Selected" />}
+        </div>
+        {recognizedText && (
+          <div className="recognized-text">
             <h2>Recognized Text:</h2>
             <p>{recognizedText}</p>
+            <button className="copy-button" onClick={copyToClipboard}><AiOutlineCopy /> Copy to Clipboard</button>
           </div>
         )}
       </div>
