@@ -20,8 +20,8 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'UPDATE "public"."Users" set "name" = $1, "email" = $2, "pswHash" = $3 where id = $4;'
-            const params = [user.name, user.email, user.pswHash, user.id]
+            const sql = 'UPDATE "public"."Users" set "name" = $1, "email" = $2, "pswHash" = $3, "img" = $4 where id = $5;'
+            const params = [user.name, user.email, user.pswHash, user.img, user.id]
             const output = await client.query(sql, params);
 
         } catch (error) {

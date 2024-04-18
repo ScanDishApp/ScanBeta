@@ -64,7 +64,7 @@ export default function DummyPage() {
         }
 
         const email = document.querySelector('.log-in-email').value;
-        const pswHash = document.querySelector('.log-in-username').value;
+        const pswHash = document.querySelector('.log-in-password').value;
 
         const user = {
             pswHash: pswHash,
@@ -79,10 +79,13 @@ export default function DummyPage() {
         localStorage.setItem("userId", userId)
         let profileName = responseData.name
         localStorage.setItem("profileName", profileName) 
+        let profileEmail = responseData.email
+        localStorage.setItem("profileEmail", profileEmail)
         let profileImg = responseData.img
         console.log(profileImg);
         localStorage.setItem("profileImg", profileImg)
         setProfileImage(profileImg);
+        
 
         navigate('/dummy-page'); // Redirect to DummyPage
 
@@ -156,7 +159,7 @@ export default function DummyPage() {
                     <br></br>
                     <div className="rectangle">
                         <h2>Passord: </h2>
-                        <input className="log-in-username"></input>
+                        <input className="log-in-password" type='password'></input>
                     </div>
                     <button onClick={handleLogin} className="login-button">Logg inn</button>
                     <button onClick={handleCreatePage} className="create-button">Lag bruker</button>

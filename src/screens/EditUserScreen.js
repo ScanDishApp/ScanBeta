@@ -23,7 +23,9 @@ async function fetchData(url, method, data) {
 
 export default function EditUser() {
     const navigate = useNavigate(); // Hook for navigation
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(localStorage.getItem("profileImg")); 
+    const profileName = localStorage.getItem("profileName");
+    const profileEmail = localStorage.getItem("profileEmail");
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -88,12 +90,23 @@ export default function EditUser() {
             name: name,
             pswHash: pswHash,
             email: email,
-            id: id
+            img: image,
+            id: id,
+
         };
 
         const response = await updateUser(`http://localhost:8080/user/${id}`, user);
         const responseData = await response.json();
+        let profileName = responseData.name
+        localStorage.setItem("profileName", profileName) 
+        let profileEmail = responseData.email
+        localStorage.setItem("profileEmail", profileEmail)
+        let profileImg = responseData.img
+        console.log(profileImg);
+        localStorage.setItem("profileImg", profileImg)
+      
         console.log("Response:", responseData);
+        navigate('/dummy-page');
     };
 
     return (
@@ -116,17 +129,17 @@ export default function EditUser() {
                 <div className="rectangle">
 
                     <h2>Brukernavn: </h2>
-                    <input className="update-username"></input>
+                    <input className="update-username" value={profileName}></input>
                 </div>
                 <br></br>
                 <div className="rectangle">
                     <h2>Email: </h2>
-                    <input className="update-email"></input>
+                    <input className="update-email" value={profileEmail}></input>
                 </div>
                 <br></br>
                 <div className="rectangle">
                     <h2>Passord: </h2>
-                    <input className="update-password"></input>
+                    <input className="update-password" type='password'></input>
                 </div>
                 <button onClick={handleUpdate} className="update-button">Endre bruker</button>
                 <button onClick={handleDelete} className="delete-button">Slett bruker</button>

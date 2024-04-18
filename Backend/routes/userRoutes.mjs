@@ -65,7 +65,7 @@ USER_API.post('/', async (req, res, next) => {
 });
 
 USER_API.put('/:id', async (req, res) => {
-    const { name, email, pswHash, id } = req.body;
+    const { name, email, pswHash, id, img} = req.body;
     let user = new User(); 
     console.log(email);
     console.log(user.email);
@@ -73,7 +73,8 @@ USER_API.put('/:id', async (req, res) => {
     user.name = name;
     user.email = email;
     user.pswHash = pswHash;
-    user.id = id
+    user.id = id;
+    user.img = img;
 
     let exists = false;
 

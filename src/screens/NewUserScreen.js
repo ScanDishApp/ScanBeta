@@ -88,7 +88,7 @@ export default function NewUser() {
                 <br></br>
                 <div className="rectangle">
                     <h2>Passord: </h2>
-                    <input className="create-password"></input>
+                    <input className="create-password" type='password'></input>
                 </div>
                 <button onClick={handleCreate} className="create-button">Lag bruker</button>
             </div>
