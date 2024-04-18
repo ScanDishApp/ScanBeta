@@ -23,26 +23,17 @@ async function fetchData(url, method, data) {
 
 export default function NewUser() {
     const navigate = useNavigate(); // Hook for navigation
+    const [image, setImage] = useState(null);
 
-    const handleDelete = async () => {
-        async function deleteUser(url) {
-            return await fetchData(url, "DELETE");
-        }
-        let id = localStorage.getItem("userId");
-        const response = await deleteUser(`http://localhost:8080/user/${id}`);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
-    };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
 
-    const handleGet = async () => {
-        async function getUser(url, data) {
-            const paramUrl = `${url}?id=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
-        let id = localStorage.getItem("userId");
-        const response = await getUser("http://localhost:8080/user/get", id);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
+        reader.onload = (e) => {
+            setImage(e.target.result);
+        };
+
+        reader.readAsDataURL(file);
     };
 
     const handleCreate = async () => {
@@ -62,34 +53,26 @@ export default function NewUser() {
         const response = await createUser("http://localhost:8080/user/", user);
         const responseData = await response.json();
         console.log("Response:", responseData);
-    };
-
-    const handleUpdate = async () => {
-        async function updateUser(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
-        const name = document.querySelector('.update-username').value;
-        const pswHash = document.querySelector('.update-password').value;
-        const email = document.querySelector('.update-email').value;
-        let id = localStorage.getItem("userId")
-
-        const user = {
-            name: name,
-            pswHash: pswHash,
-            email: email,
-            id: id
-        };
-        
-        const response = await updateUser(`http://localhost:8080/user/${id}`, user);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
+        let userId = responseData.id 
+        localStorage.setItem("userId", userId);
+        navigate('/dummy-page')
     };
 
     return (
-        <div className="login-container">
+        <div className="create-user-container">
             <div className="rectangle-grid">
                 
                 <h1>Lag en ny bruker</h1>
+                <label className="pfp-square" htmlFor="imageUpload">
+                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p>}
+                    <input
+                        type="file"
+                        id="imageUpload"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{ display: 'none' }}
+                    />
+                </label>
                 <div className="rectangle">
                     <h2>Brukernavn: </h2>
                     <input className="create-username"></input>
@@ -105,26 +88,6 @@ export default function NewUser() {
                     <input className="create-password"></input>
                 </div>
                 <button onClick={handleCreate} className="create-button">Lag bruker</button>
-                <br></br>
-                <br></br>
-                <br></br>
-                <h1>Endre bruker</h1>
-                <div className="rectangle">
-                    <h2>Brukernavn: </h2>
-                    <input className="update-username"></input>
-                </div>
-                <br></br>
-                <div className="rectangle">
-                    <h2>Email: </h2>
-                    <input className="update-email"></input>
-                </div>
-                <br></br>
-                <div className="rectangle">
-                    <h2>Passord: </h2>
-                    <input className="update-password"></input>
-                </div>
-                <button onClick={handleUpdate} className="update-button">Endre bruker</button>
-                <button onClick={handleDelete} className="delete-button">Slett bruker</button>
             </div>
 
            

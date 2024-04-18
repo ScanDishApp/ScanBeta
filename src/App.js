@@ -12,6 +12,7 @@ import Temperatur from './screens/TemperatureScreen';
 import BookDesign from './screens/BookDesignPage';
 import Calculator from './screens/CalculatorScreen';
 import NewPage from './screens/NewPageScreen';
+import EditUser from './screens/EditUserScreen';
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/dummy-page" element={<DummyPage />} /> {/* New route for DummyPage */}
 
           <Route path="/new-user-page" element={<NewUser />} /> {/* New route for DummyPage */}
+          <Route path="/edit-user-page" element={<EditUser />} /> {/* New route for DummyPage */}
 
 
           <Route path="/bookDesign" element={<BookDesign />} /> {/* New route for DummyPage */}

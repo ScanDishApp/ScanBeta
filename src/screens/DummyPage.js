@@ -27,6 +27,9 @@ export default function DummyPage() {
         localStorage.setItem("userId", userId)
         navigate('/Profile');  
     }
+    const handleEditUser = () => {
+        navigate('/edit-user-page');  
+    }
 
     return (
         <div className="profile-container">
@@ -71,9 +74,9 @@ export default function DummyPage() {
                     <div className="mini-square">🛒</div>
                     <div className="option-text">Notis 3</div>
                 </div>
-                <div className="square">
+                <div onClick={handleEditUser} className="square">
                     <div className="mini-square">🔨</div>
-                    <div className="option-text">Innstillinger 4</div>
+                    <div className="option-text">Innstillinger</div>
                 </div>
             </div>
 
