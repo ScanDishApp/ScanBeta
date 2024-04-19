@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/NewUser.css';
-import defaultImage from '../assets/hatt.png'
+import defaultImage from '../assets/xug.png'
 
 async function fetchData(url, method, data) {
     const headers = {
