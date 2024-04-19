@@ -2,8 +2,33 @@ import express from "express";
 import User from "../modules/user.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
+
 const USER_API = express.Router();
 USER_API.use(express.json());
+
+USER_API.get('/get', async (req, res, next) => {
+    const { id } = req.query
+    console.log(id);
+    try {
+        const user = new User();
+        user.id = id;
+        const getUserResult = await user.getUser();
+        if (getUserResult.success) {
+            const userInfo = getUserResult.user;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo).end();
+        } else {
+            console.error("Login failed:", getUserResult.message);
+            if (getUserResult.error) {
+                console.error("Detailed error:", getUserResult.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+        }
+    } catch (error) {
+        // Handle other errors
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
+})
 
 
 USER_API.post('/login', async (req, res, next) => {
@@ -39,13 +64,14 @@ USER_API.post('/login', async (req, res, next) => {
 
 USER_API.post('/', async (req, res, next) => {
 
-    const { name, email, pswHash } = req.body;
+    const { name, email, pswHash, img } = req.body;
 
     if (name != "" && email != "" && pswHash != "") {
         let user = new User();
         user.name = name;
         user.email = email;
         user.pswHash = pswHash;
+        user.img = img;
         console.log("user" + user);
         let exists = false;
 
@@ -63,7 +89,7 @@ USER_API.post('/', async (req, res, next) => {
 });
 
 USER_API.put('/:id', async (req, res) => {
-    const { name, email, pswHash, id } = req.body;
+    const { name, email, pswHash, id, img} = req.body;
     let user = new User(); 
     console.log(email);
     console.log(user.email);
@@ -71,7 +97,8 @@ USER_API.put('/:id', async (req, res) => {
     user.name = name;
     user.email = email;
     user.pswHash = pswHash;
-    user.id = id
+    user.id = id;
+    user.img = img;
 
     let exists = false;
 
@@ -98,5 +125,6 @@ USER_API.delete('/:id', async (req, res) => {
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 });
+
 
 export default USER_API
