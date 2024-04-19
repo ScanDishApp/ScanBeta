@@ -76,15 +76,15 @@ class DBManager {
 
     }
 
-    async getUser(user) {
+    async getUser(id) {
 
         const client = new pg.Client(this.#credentials);
-        user = null;
+        let user = null;
 
         try {
             await client.connect();
             const sql = 'SELECT * FROM "public"."Users" WHERE "id" = $1'
-            const params = [user.id]
+            const params = [id]
             const output = await client.query(sql, params);
 
             console.log(output);

@@ -58,6 +58,23 @@ export default function DummyPage() {
     useEffect(() => {
         setProfileImage(profileImg);
     }, []);
+    const handleGet = async (id) => {
+        async function getUser(url, data) {
+            const paramUrl = `${url}?id=${data}`;
+            return await fetchData(paramUrl, "GET");
+        }
+        const response = await getUser("http://localhost:8080/user/get", id);
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+        let profileName = responseData.name
+        localStorage.setItem("profileName", profileName) 
+        let profileEmail = responseData.email
+        localStorage.setItem("profileEmail", profileEmail)
+        let profileImg = responseData.img
+        console.log(profileImg);
+        localStorage.setItem("profileImg", profileImg)
+        setProfileImage(profileImg);
+    };
 
     const handleLogin = async () => {
         async function loginUser(url, data) {
@@ -85,22 +102,19 @@ export default function DummyPage() {
         console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId)
-        let profileName = responseData.name
-        localStorage.setItem("profileName", profileName) 
-        let profileEmail = responseData.email
-        localStorage.setItem("profileEmail", profileEmail)
-        let profileImg = responseData.img
-        console.log(profileImg);
-        localStorage.setItem("profileImg", profileImg)
-        setProfileImage(profileImg);
         
-
+        
+        
         navigate('/dummy-page'); // Redirect to DummyPage
+        handleGet(userId)
 
     };
 
+  
+
     const handleCreatePage = async () => {
         navigate('/new-user-page');
+        
     };
 
     if (userId) {

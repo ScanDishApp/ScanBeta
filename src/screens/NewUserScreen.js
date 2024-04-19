@@ -23,9 +23,11 @@ async function fetchData(url, method, data) {
 }
 
 export default function NewUser() {
+    let userId = localStorage.getItem("userId");
     const navigate = useNavigate(); // Hook for navigation
     const [image, setImage] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null); // State for error message
+    const [profileImage, setProfileImage] = useState(null);
     
 
     const handleImageChange = (e) => {
@@ -37,6 +39,24 @@ export default function NewUser() {
         };
 
         reader.readAsDataURL(file);
+    };
+    const handleGet = async (id) => {
+        async function getUser(url, data) {
+            const paramUrl = `${url}?id=${data}`;
+            return await fetchData(paramUrl, "GET");
+        }
+        const response = await getUser("http://localhost:8080/user/get", id);
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+        
+        let profileName = responseData.name
+        localStorage.setItem("profileName", profileName) 
+        let profileEmail = responseData.email
+        localStorage.setItem("profileEmail", profileEmail)
+        let profileImg = responseData.img
+        console.log(profileImg);
+        localStorage.setItem("profileImg", profileImg)
+        setProfileImage(profileImg);
     };
 
     const handleCreate = async () => {
@@ -67,9 +87,14 @@ export default function NewUser() {
         }
         console.log(response);
         const responseData = await response.json();
-        console.log("Response:", responseData);
-       
+        const responseDataJson = JSON.parse(responseData)
+        console.log("Response:", responseDataJson);
+        let userId = responseDataJson.id
+        localStorage.setItem("userId", userId);
+        await handleGet(userId)
         navigate('/dummy-page')
+       
+       
     };
 
     return (
