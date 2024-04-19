@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/NewUser.css';
-import defaultImage from '../assets/xug.png'
+import defaultImage from '../assets/xug.png';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -25,6 +25,8 @@ async function fetchData(url, method, data) {
 export default function NewUser() {
     const navigate = useNavigate(); // Hook for navigation
     const [image, setImage] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null); // State for error message
+    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -38,6 +40,7 @@ export default function NewUser() {
     };
 
     const handleCreate = async () => {
+        console.log("handleCreate function called"); 
         async function createUser(url, data) {
             return await fetchData(url, "POST", data);
         }
@@ -56,8 +59,16 @@ export default function NewUser() {
         };
         console.log(user);
         const response = await createUser("http://localhost:8080/user/", user);
+        if (response.status !== 200) {
+            setErrorMsg("Alle feltene må fylles ut!"); // Update error message state
+            console.log("Error message:", errorMsg);
+        } else {
+            setErrorMsg(null); // Clear error message if login is successful
+        }
+        console.log(response);
         const responseData = await response.json();
         console.log("Response:", responseData);
+       
         navigate('/dummy-page')
     };
 
@@ -67,7 +78,7 @@ export default function NewUser() {
                 
                 <h1>Lag en ny bruker</h1>
                 <label className="pfp-square" htmlFor="imageUpload">
-                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p>}
+                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bilde</p>} {/* Corrected typo */}
                     <input
                         type="file"
                         id="imageUpload"
@@ -90,6 +101,7 @@ export default function NewUser() {
                     <h2>Passord: </h2>
                     <input className="create-password" type='password'></input>
                 </div>
+                <p>{errorMsg}</p> {/* Render error message here */}
                 <button onClick={handleCreate} className="create-button">Lag bruker</button>
             </div>
 
