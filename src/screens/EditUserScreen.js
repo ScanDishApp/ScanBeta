@@ -23,10 +23,15 @@ async function fetchData(url, method, data) {
 
 export default function EditUser() {
     const navigate = useNavigate(); // Hook for navigation
-    const [image, setImage] = useState(localStorage.getItem("profileImg")); 
+    const [image, setImage] = useState(localStorage.getItem("profileImg"));
     const [errorMsg, setErrorMsg] = useState(null);
-    const profileName = localStorage.getItem("profileName");
-    const profileEmail = localStorage.getItem("profileEmail");
+   
+    const [profileName, setProfileName] = useState(localStorage.getItem("profileName"));
+    const [profileEmail, setProfileEmail] = useState(localStorage.getItem("profileEmail"));
+   
+
+    const [profileImage, setProfileImage] = useState(null);
+    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -44,19 +49,30 @@ export default function EditUser() {
         }
         let id = localStorage.getItem("userId");
         const response = await deleteUser(`http://localhost:8080/user/${id}`);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
+        localStorage.removeItem("profileName")
+        localStorage.removeItem("profileEmail")
+        localStorage.removeItem("profileImg")
+        localStorage.removeItem("userId")
+        navigate('/dummy-page')
     };
 
-    const handleGet = async () => {
+    const handleGet = async (id) => {
         async function getUser(url, data) {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-        let id = localStorage.getItem("userId");
         const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
+
+        let profileName = responseData.name
+        localStorage.setItem("profileName", profileName)
+        let profileEmail = responseData.email
+        localStorage.setItem("profileEmail", profileEmail)
+        let profileImg = responseData.img
+        console.log(profileImg);
+        localStorage.setItem("profileImg", profileImg)
+        setProfileImage(profileImg);
     };
 
     const handleCreate = async () => {
@@ -95,7 +111,7 @@ export default function EditUser() {
             id: id,
 
         };
-        
+
         if (pswHash == "") {
             setErrorMsg("Husk å skrive passord!"); // Update error message state
             console.log("Error message:", errorMsg);
@@ -103,16 +119,16 @@ export default function EditUser() {
             setErrorMsg(null); // Clear error message if login is successful
             const response = await updateUser(`http://localhost:8080/user/${id}`, user);
             const responseData = await response.json();
-            let profileName = responseData.name
-            localStorage.setItem("profileName", profileName) 
-            let profileEmail = responseData.email
-            localStorage.setItem("profileEmail", profileEmail)
-            let profileImg = responseData.img
-            console.log(profileImg);
-            localStorage.setItem("profileImg", profileImg)
-            navigate('/dummy-page');
+            const responseDataJson = JSON.parse(responseData)
+            console.log("Response:", responseDataJson);
+            let userId = responseDataJson.id
+            localStorage.setItem("userId", userId);
+            console.log(userId);
+            await handleGet(userId)
+            navigate('/dummy-page')
+           
         }
-      
+
     };
 
     return (
@@ -135,12 +151,20 @@ export default function EditUser() {
                 <div className="rectangle">
 
                     <h2>Brukernavn: </h2>
-                    <input className="update-username" value={profileName}></input>
+                    <input
+                        className="update-username"
+                        value={profileName}
+                        onChange={(e) => setProfileName(e.target.value)}
+                    />
                 </div>
                 <br></br>
                 <div className="rectangle">
                     <h2>Email: </h2>
-                    <input className="update-email" value={profileEmail}></input>
+                    <input
+    className="update-email"
+    value={profileEmail}
+    onChange={(e) => setProfileEmail(e.target.value)}
+/>
                 </div>
                 <br></br>
                 <div className="rectangle">

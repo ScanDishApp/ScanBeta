@@ -29,13 +29,14 @@ class User {
   }
 
   async getUser() {
-    let dbUser = await DBManager.loginUser(this.id);
-
+    let dbUser = await DBManager.getUser(this.id);
+    
     if (dbUser.id != null) {
       this.id = dbUser.id;
       this.name = dbUser.name;
       this.email = dbUser.email;
       this.pswHash = dbUser.pswHash;
+      this.img = dbUser.img
 
       return {
         success: true,
@@ -43,6 +44,7 @@ class User {
           id: this.id,
           name: this.name,
           email: this.email,
+          img: this.img
         }
       }
     } else {

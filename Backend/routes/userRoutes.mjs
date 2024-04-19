@@ -6,6 +6,30 @@ import { HttpCodes } from "../modules/httpCodes.mjs";
 const USER_API = express.Router();
 USER_API.use(express.json());
 
+USER_API.get('/get', async (req, res, next) => {
+    const { id } = req.query
+    console.log(id);
+    try {
+        const user = new User();
+        user.id = id;
+        const getUserResult = await user.getUser();
+        if (getUserResult.success) {
+            const userInfo = getUserResult.user;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo).end();
+        } else {
+            console.error("Login failed:", getUserResult.message);
+            if (getUserResult.error) {
+                console.error("Detailed error:", getUserResult.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+        }
+    } catch (error) {
+        // Handle other errors
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
+})
+
 
 USER_API.post('/login', async (req, res, next) => {
     const { email, pswHash } = req.body;
@@ -101,5 +125,6 @@ USER_API.delete('/:id', async (req, res) => {
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 });
+
 
 export default USER_API
