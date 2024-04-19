@@ -55,9 +55,6 @@ width: 90%;
 
 
 
-
-
-
 .note-textarea {
     width: 100%; /* Make the textarea fill the entire width of the note container */
     height: 100vh;
@@ -89,16 +86,17 @@ width: 90%;
 
   
   .colorMenu {
-    padding: 10px;
     position: fixed;
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center the menu */
+    bottom: 145px;
+    left: 5px;
+    right: 5px;
+    text-align: center; /* Center the contents horizontally */
     display: flex;
-    bottom: 120px;
-    flex-wrap: wrap;
-    border: 1px solid #222;
-    border-radius: 20px;
-    background-color: white;
+    justify-content: space-between; /* Evenly space the buttons */
+    background-color: #99B952;
+    padding: 12px;
+    border-radius: 10px;
+        z-index: 0;
   }
   
   
@@ -124,6 +122,10 @@ width: 90%;
     align-items: center;
     justify-content: center; /* Center the icons horizontally */
     justify-content: space-evenly; /* Evenly space the icons */
+    margin-left: 3px;
+    margin-right: 3px;
+    
+    color: white;
 }
 
 .icon {
@@ -132,36 +134,83 @@ width: 90%;
     ;
     padding: 10px;
     border-radius: 10px;
+    width: 100%;
+    margin: 0 2.5px;
+    
+  
 }
 
 
 .font-menu {
-    position: absolute;
-    bottom: 280px; /* Adjust this value to position the font menu vertically */
-    left: 50%; /* Position the menu at the horizontal center of its parent */
-    transform: translateX(-50%); /* Adjust to move the menu back to the left by half of its width */
+    position: fixed;
+    bottom: 145px;
+    left: 5px;
+    right: 5px;
+    text-align: center; /* Center the contents horizontally */
     display: flex;
-    flex-direction: row; /* Display the options in a row */
-    justify-content: center; /* Center the font options horizontally */
-    background-color: #fff; /* Background color */
-    border: 1px solid #ccc; /* Border */
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow */
-    z-index: 999; /* Ensure the menu appears above other elements */
-    padding: 8px; /* Add padding to space out the options */
+    justify-content: space-between; /* Evenly space the buttons */
+    background-color: #99B952;
+    padding: 9px;
+    border-radius: 10px;
+    z-index: 0;
 }
 
 .font-option {
-    padding: 8px 12px; /* Padding */
+    font-size: 14px;
     cursor: pointer;
-    font-size: 14px; /* Font size */
-    font-weight: normal;
-    transition: background-color 0.3s ease; /* Smooth transition */
-    margin: 0 5px; /* Margin to space out the font options */
+    border-radius: 5px;
+    background-color: white;
+    border: none;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 20px; /* Adjust margin to make buttons closer */
+    width: 100%;
 }
 
+
   
-  .font-option:hover {
-    background-color: #f5f5f5; /* Background color on hover */
-  }
+  .font-size-menu {
+    position: fixed;
+    bottom: 145px;
+    left: 5px;
+    right: 5px;
+    text-align: center; /* Center the contents horizontally */
+    display: flex;
+    justify-content: space-between; /* Evenly space the buttons */
+    background-color: #99B952;
+    padding: 11px;
+    border-radius: 10px;
+        z-index: 0;
+
+}
+
+.font-size-menu .font-size-option {
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: white;
+    border: none;
+    padding: 5px;
+    width: 100%;
+    margin: 0 10px;
+}
+
+.bullet-list-message {
+    position: fixed;
+    bottom: 145px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center; /* Center the contents horizontally */
+    align-items: center; /* Center the contents vertically */
+    background-color: #00000089;
+    padding: 13px;
+    border-radius: 10px;
+    z-index: 0; 
+    margin: 0 5px;
+    color: white;
+}
+
+
   

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
+import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 import './ScreenStyle/Home.css';
@@ -13,6 +13,8 @@ const fontOptions = {
     Serif: 'Times New Roman, serif'
 };
 
+const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
+
 export default function NewPage() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -22,15 +24,43 @@ export default function NewPage() {
     const [selectedColor, setSelectedColor] = useState('#000000');
     const [showColorMenu, setShowColorMenu] = useState(false);
     const [showFontMenu, setShowFontMenu] = useState(false);
+    const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
+    const [selectedFontSize, setSelectedFontSize] = useState('16px'); // Initial font size
+    const [isBulletListActive, setIsBulletListActive] = useState(false);
+    const [showBulletListMessage, setShowBulletListMessage] = useState(false);
+
+    useEffect(() => {
+        if (showBulletListMessage) {
+            const timer = setTimeout(() => {
+                setShowBulletListMessage(false);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [showBulletListMessage]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
 
     const handleContentChange = (event) => {
-        setContent(event.target.value);
+        let newContent = event.target.value;
+        if (isBulletListActive) {
+            // Split content into lines
+            const lines = newContent.split('\n');
+            // Check each line if it starts with a bullet character
+            const newLines = lines.map((line, index) => {
+                // If the line is not empty and does not start with a bullet character, add a bullet
+                if (line.trim() !== '' && !line.startsWith('\u2022')) {
+                    return `\u2022 ${line}`;
+                }
+                return line;
+            });
+            // Join lines back into content
+            newContent = newLines.join('\n');
+        }
+        setContent(newContent);
     };
 
     const handleImageChange = (event) => {
@@ -71,7 +101,7 @@ export default function NewPage() {
         if (dragging) {
             const clientX = event.clientX || (event.touches && event.touches[0].clientX);
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
-
+    
             const updatedImages = [...images];
             updatedImages[index].position = {
                 x: clientX - updatedImages[index].offset.x,
@@ -80,17 +110,7 @@ export default function NewPage() {
             setImages(updatedImages);
         }
     };
-
-    const handleTouchForceChange = (event, index) => {
-        const force = event.touches[0].force;
-        const updatedImages = [...images];
-        updatedImages[index].position = {
-            x: event.touches[0].clientX - updatedImages[index].offset.x * force,
-            y: event.touches[0].clientY - updatedImages[index].offset.y * force
-        };
-        setImages(updatedImages);
-    };
-
+    
     const handleMouseUp = () => {
         setDragging(false);
     };
@@ -117,35 +137,38 @@ export default function NewPage() {
         }
     };
 
-    useEffect(() => {
-        localStorage.setItem('noteTitle', title);
-        localStorage.setItem('noteContent', content);
-    }, [title, content]);
+    const handleFontChange = (font) => {
+        setSelectedFont(font);
+        setShowFontMenu(false);
+    };
 
     const handleColorChange = (color) => {
         setSelectedColor(color);
         setShowColorMenu(false);
     };
 
-    const handleFontChange = (font) => {
-        setSelectedFont(font);
-        setShowFontMenu(false);
+    const handleFontSizeChange = (fontSize) => {
+        setSelectedFontSize(fontSize);
+        document.querySelector('.note-textarea').style.fontSize = fontSize;
+        setShowFontSizeMenu(false);
     };
 
-    const handleTouchStartDelete = (index) => {
-        setDeleteImageIndex(index);
+    const toggleBulletList = () => {
+        setIsBulletListActive(!isBulletListActive);
+        setShowBulletListMessage(true); // Show the message when bullet list is toggled
     };
 
     return (
         <div className="NewPage-container">
             <h1>Design din bok</h1>
 
-            <div className="navigate-button-container">
-                <button className="back-button"><AiOutlineArrowLeft /></button>
-                <button className="next-button"><AiOutlineArrowRight /></button>
-                <button className="save-button">Lagre</button>
-                <button className="add-page-button"><AiOutlineFileAdd /></button>
-                <button className="info-button"><AiOutlineInfoCircle /></button>
+            <div className="icon-row">
+            <AiOutlineArrowLeft className="icon" />
+
+                    <AiOutlineArrowRight className="icon" />
+                    <AiOutlineSave className="icon" />
+                    <AiOutlineInfoCircle className="icon" />
+
             </div>
 
             <div className="coverPage"></div>
@@ -162,7 +185,6 @@ export default function NewPage() {
                         }}
                         onMouseDown={(event) => handleMouseDown(event, index)}
                         onTouchStart={(event) => handleMouseDown(event, index)}
-                        onTouchForceChange={(event) => handleTouchForceChange(event, index)}
                         onMouseMove={(event) => handleMouseMove(event, index)}
                         onTouchMove={(event) => handleMouseMove(event, index)}
                         onMouseUp={handleMouseUp}
@@ -199,25 +221,48 @@ export default function NewPage() {
                     value={content}
                     onChange={handleContentChange}
                     placeholder="Skriv..."
-                    style={{ color: selectedColor, fontFamily: selectedFont }}
+                    style={{
+                        color: selectedColor,
+                        fontFamily: selectedFont,
+                        fontSize: selectedFontSize,
+                        listStyleType: isBulletListActive ? 'disc' : 'none'
+                    }}
                 />
+
             </div>
 
-            {/* Font popup menu */}
-            {showFontMenu && (
-                <div className="font-menu">
-                    {Object.entries(fontOptions).map(([key, value]) => (
-                        <button
-                            key={key}
-                            className="font-option"
-                            onClick={() => handleFontChange(value)}
-                            style={{ fontFamily: value }}
-                        >
-                            {key}
-                        </button>
-                    ))}
+            {/* Font and Font Size options */}
+            <div className="funky">
+                <div className="menu-placement">
+                    {showFontMenu && (
+                        <div className="font-menu">
+                            {Object.entries(fontOptions).map(([key, value]) => (
+                                <button
+                                    key={key}
+                                    className="font-option"
+                                    onClick={() => handleFontChange(value)}
+                                    style={{ fontFamily: value }}
+                                >
+                                    {key}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                    {showFontSizeMenu && (
+                        <div className="font-size-menu">
+                            {fontSizes.map((size, index) => (
+                                <button
+                                    key={index}
+                                    className="font-size-option"
+                                    onClick={() => handleFontSizeChange(size)}
+                                >
+                                    {size}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
 
             {/* Color menu */}
             <div className="funky">
@@ -234,17 +279,22 @@ export default function NewPage() {
                             ))}
                         </div>
                     )}
+                </div>            {showBulletListMessage && (
+                <div className="bullet-list-message">
+                    {isBulletListActive ? '✅ Bullet list Enabled' : '🔴 Bullet list Disabled'}
                 </div>
+            )}
                 <div className="icon-row">
-                    <AiOutlineFontSize className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
-                    <AiOutlineFontColors className="icon" />
+                    <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />
+                    <AiOutlineUnorderedList className="icon" onClick={toggleBulletList} />
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-                    <AiOutlineFileText className="icon" />
+                    <AiOutlineFontSize className="icon" onClick={() => setShowFontSizeMenu(!showFontSizeMenu)} />
                     <AiOutlineSmile className="icon" />
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
                 </div>
             </div>
+
         </div>
     );
 }
