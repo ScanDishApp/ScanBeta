@@ -12,7 +12,7 @@ import Temperatur from './screens/TemperatureScreen';
 import BookDesign from './screens/BookDesignPage';
 import Calculator from './screens/CalculatorScreen';
 import NewPage from './screens/NewPageScreen';
-
+import StickerMenu from './screens/Stickers';
 
 export default function App() {
   return (
@@ -35,6 +35,7 @@ export default function App() {
           <Route path="/Temperatur" element={<Temperatur />} /> {/* New route for DummyPage */}
           <Route path="/MyBooks" element={<MyBooks />} /> {/* New route for DummyPage */}
           <Route path="/NewPage" element={<NewPage />} /> {/* New route for DummyPage */}
+          <Route path="/StickerMenu" element={<StickerMenu   />} /> {/* New route for DummyPage */}
 
 
         </Routes>
