@@ -24,6 +24,7 @@ async function fetchData(url, method, data) {
 export default function EditUser() {
     const navigate = useNavigate(); // Hook for navigation
     const [image, setImage] = useState(localStorage.getItem("profileImg")); 
+    const [errorMsg, setErrorMsg] = useState(null);
     const profileName = localStorage.getItem("profileName");
     const profileEmail = localStorage.getItem("profileEmail");
 
@@ -94,19 +95,24 @@ export default function EditUser() {
             id: id,
 
         };
-
-        const response = await updateUser(`http://localhost:8080/user/${id}`, user);
-        const responseData = await response.json();
-        let profileName = responseData.name
-        localStorage.setItem("profileName", profileName) 
-        let profileEmail = responseData.email
-        localStorage.setItem("profileEmail", profileEmail)
-        let profileImg = responseData.img
-        console.log(profileImg);
-        localStorage.setItem("profileImg", profileImg)
+        
+        if (pswHash == "") {
+            setErrorMsg("Husk å skrive passord!"); // Update error message state
+            console.log("Error message:", errorMsg);
+        } else {
+            setErrorMsg(null); // Clear error message if login is successful
+            const response = await updateUser(`http://localhost:8080/user/${id}`, user);
+            const responseData = await response.json();
+            let profileName = responseData.name
+            localStorage.setItem("profileName", profileName) 
+            let profileEmail = responseData.email
+            localStorage.setItem("profileEmail", profileEmail)
+            let profileImg = responseData.img
+            console.log(profileImg);
+            localStorage.setItem("profileImg", profileImg)
+            navigate('/dummy-page');
+        }
       
-        console.log("Response:", responseData);
-        navigate('/dummy-page');
     };
 
     return (
@@ -141,6 +147,7 @@ export default function EditUser() {
                     <h2>Passord: </h2>
                     <input className="update-password" type='password'></input>
                 </div>
+                <p>{errorMsg}</p>
                 <button onClick={handleUpdate} className="update-button">Endre bruker</button>
                 <button onClick={handleDelete} className="delete-button">Slett bruker</button>
             </div>

@@ -23,9 +23,10 @@ async function fetchData(url, method, data) {
 }
 
 export default function DummyPage() {
-    let userId = localStorage.getItem("userId")
-    let profileName = localStorage.getItem("profileName")
-    let profileImg = localStorage.getItem("profileImg")
+    let userId = localStorage.getItem("userId");
+    let profileName = localStorage.getItem("profileName");
+    let profileImg = localStorage.getItem("profileImg");
+    const [errorMsg, setErrorMsg] = useState(null); // State for error message
 
 
     const navigate = useNavigate();
@@ -72,6 +73,13 @@ export default function DummyPage() {
         };
         //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
         const response = await loginUser("http://localhost:8080/user/login", user);
+
+        if (response.status !== 200) {
+            setErrorMsg("Feil brukernavn eller passord!"); // Update error message state
+            console.log(errorMsg);
+        } else {
+            setErrorMsg(null); // Clear error message if login is successful
+        }
 
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -161,6 +169,7 @@ export default function DummyPage() {
                         <h2>Passord: </h2>
                         <input className="log-in-password" type='password'></input>
                     </div>
+                    <p>{errorMsg}</p>
                     <button onClick={handleLogin} className="login-button">Logg inn</button>
                     <button onClick={handleCreatePage} className="create-button">Lag bruker</button>
                 </div>
