@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './screens/Header'; // Import the Header component
 import Home from './screens/HomeScreen';
 import Scan from './screens/ScanScreen';
 import NavTab from './screens/NavTab';
@@ -17,16 +18,14 @@ import StickerMenu from './screens/Stickers';
 
 import EditUser from './screens/EditUserScreen';
 
-
-
 export default function App() {
   let userId = localStorage.getItem("userId");
   return (
     <div>
       <Router>
+        <Header />
         <NavTab />
         <Routes>
-    
           <Route path="/" element={<Home />} />
           <Route path="/Scan" element={<Scan />} />
           <Route path="/Book" element={<Book />} />
@@ -40,8 +39,6 @@ export default function App() {
           <Route path="/MyBooks" element={<MyBooks />} /> {/* New route for DummyPage */}
           <Route path="/NewPage" element={<NewPage />} /> {/* New route for DummyPage */}
           <Route path="/StickerMenu" element={<StickerMenu   />} /> {/* New route for DummyPage */}
-
-
         </Routes>
       </Router>
     </div>
