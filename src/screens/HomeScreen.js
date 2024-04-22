@@ -1,65 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IoCameraOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
+// Import your images
+import temperatureImage from '../../src/assets/temperature.png';
+import coverImage from '../../src/assets/hei.png'; // Assuming you have a cover image
+import addBookIcon from '../../src/assets/addbook.png';
+
 export default function Home() {
-    const [image, setImage] = useState(null);
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            setImage(e.target.result);
-        };
-
-        reader.readAsDataURL(file);
-    };
-
-    // Array of squares with unique IDs
+    // Array of squares with unique IDs and corresponding images
     const squares = [
-        { id: 1, emoji: '⭐️', text: 'Favoritter 1', route: '/fav1' },
-        { id: 2, emoji: '📝', text: 'Blank side', route: '/newpage' },
-        { id: 3, emoji: '🌡️', text: 'Temperatur', route: '/temperatur' },
-        { id: 4, emoji: '🧮', text: 'Mål og vekt', route: '/calculator' }
+        { id: 1, route: '/fav1', image: temperatureImage },
+        { id: 2, route: '/fav1', image: temperatureImage },
     ];
 
     return (
         <div className="home-container">
-            <h1>Hjem</h1>
-
-            <div className="rectangle-grid">
-                <div className="rectangle-profile">
-                    <div className="small-square">
-                        <h2>Hei, Kevin</h2>
-                    </div>
-                    <label className="pfp-square" htmlFor="imageUpload">
-                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bildet</p> }
-                        <input 
-                            type="file" 
-                            id="imageUpload" 
-                            accept="image/*" 
-                            onChange={handleImageChange} 
-                            style={{ display: 'none' }} 
-                        />
-                    </label>
-                </div>
-            </div>
-
+            {/* Cover image rectangle */}
+     
+            <div className="cover-rectangle" style={{ backgroundImage: `url(${coverImage})` }}></div>
+                <div className='randomText'>What's Cookin, Good Lookin</div>
             <div className="square-grid">
                 {/* Map over the squares array to render each square */}
                 {squares.map(square => (
-                    <Link key={square.id} to={square.route} className="square">
-                        <div className="mini-square">{square.emoji}</div>
-                        <div className="option-text">{square.text}</div>
+                    <Link key={square.id} to={square.route} className="square-home">
+                        <div className="square-content">
+                            <img src={square.image} alt={square.text} className="square-image" />
+                            <div className="option-text">{square.text}</div>
+                        </div>
                     </Link>
                 ))}
             </div>
 
-            {/* Wrap the big rectangle with Link component */}
-            <Link to="/scan" className="big-rectangle">
-                <IoCameraOutline size={48} />
-            </Link>
+            <div className='AddBook'>
+                <img src={addBookIcon} alt='Add Book' className='add-icon' />
+            </div>
+            <div className='goScan'>
+                <img src={addBookIcon} alt='Add Book' className='add-icon' />
+            </div>
         </div>
     );
 }

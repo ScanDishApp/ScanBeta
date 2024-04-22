@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:60px; /* Adjust the height as needed */
+    background-color: #FFD581;    margin-bottom: 10px;
+  }
+  
+  .logo {
+    /* Add styles for your logo */
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
