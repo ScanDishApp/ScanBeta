@@ -23,6 +23,15 @@ async function fetchData(url, method, data) {
     const response = await fetch(url, options);
     return response;
 }
+async function listBook(url) {
+    return await fetchData(url, "GET");
+}
+const userId = localStorage.getItem("userId");
+const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`, userId);
+console.log(response);
+const responseData = await response.json();
+
+console.log("Response:", responseData);
 
 export default function MyBooks() {
     const navigate = useNavigate();
@@ -94,17 +103,40 @@ export default function MyBooks() {
         localStorage.setItem('rectangles', JSON.stringify(rectangles));
     };
 
-    const displayRectangleId = (id) => {
+    const displayRectangleId = async (id) => {
+        async function getBook(url) {
+            return await fetchData(url, "GET");
+        }
+       
+        const response = await getBook(`http://localhost:8080/book/get?id=${id}`, id);
+        console.log(response);
+        const responseData = await response.json();
+        
+        console.log("Response:", responseData);
+        
+        // Stringify responseData.contents before storing in local storage
+        const contentsString = responseData.contents;
+        console.log(contentsString);
+        localStorage.setItem("contents", contentsString);
+        try {
+            const contentsArray = JSON.parse(`[${contentsString}]`);
+            console.log("contentsArray:", contentsArray);
+        } catch (error) {
+            console.error("Error parsing contentsString:", error);
+        }
+        
+        
         navigate(`/NewPage?id=${id}`);
     };
-
+    
+    let number = 39;
     return (
         <div className="myBooks-container">
             <h1>Mine Bøker</h1>
 
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => displayRectangleId(rectangle.id)}>
+                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => displayRectangleId(number)}>
                         <span>{rectangle.title}</span>
                         <FaPencilAlt className="edit-icon" onClick={(e) => e.stopPropagation()} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />

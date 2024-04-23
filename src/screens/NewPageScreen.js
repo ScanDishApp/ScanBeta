@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineBold, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
+import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 import './ScreenStyle/Home.css';
@@ -13,9 +13,24 @@ const fontOptions = {
     Serif: 'Times New Roman, serif'
 };
 
+
 const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
+async function updateBook(url, data) {
+    const header = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        } ,
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch(url, header);
+    return response;
+}
 
 export default function NewPage() {
+    const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
@@ -30,6 +45,70 @@ export default function NewPage() {
     const [selectedFontSize, setSelectedFontSize] = useState('16px'); // Initial font size
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [showBulletListMessage, setShowBulletListMessage] = useState(false);
+    const [pages, setPages] = useState([]);
+ 
+    useEffect(() => {
+        // Get pages from local storage
+        const storedPages = localStorage.getItem("contents");
+    
+        if (storedPages) {
+            // Parse the stored pages from JSON
+            const parsedPages = JSON.parse(storedPages);
+            // Update the state with the stored pages
+            setPages(parsedPages);
+        }
+    }, []);
+    useEffect(() => {
+        // Set initial page content if there are pages
+        if (pages.length > 0) {
+            const initialPage = pages[currentPageIndex];
+            setTitle(initialPage.title);
+            setContent(initialPage.content);
+            setImages(initialPage.images);
+            setSelectedColor(initialPage.selectedColor);
+            setSelectedFont(initialPage.selectedFont);
+            setSelectedFontSize(initialPage.selectedFontSize);
+            setIsBulletListActive(initialPage.isBulletListActive);
+        }
+    }, [pages, currentPageIndex]);
+    useEffect(() => {
+        resetPageState();
+    }, [pages]);
+
+
+    const resetPageState = () => {
+        setTitle('');
+        setContent('');
+        setImages([]);
+        setSelectedColor('#000000');
+        setSelectedFont('DM Serif Display, sans-serif');
+        setSelectedFontSize('16px');
+        setIsBulletListActive(false);
+    };
+    const addNewPage = () => {
+            const newPage = {
+                title,
+                content,
+                images,
+                selectedColor,
+                selectedFont,
+                selectedFontSize,
+                isBulletListActive
+            };
+            setPages(prevPages => [...prevPages, newPage]);
+            resetPageState(); // Reset page state here
+            console.log(newPage);
+            console.log(pages);
+        
+    };
+
+    const handlePreviousPage = () => {
+        setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
+    };
+
+    const handleNextPage = () => {
+        setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
+    };
 
     useEffect(() => {
         if (showBulletListMessage) {
@@ -157,18 +236,31 @@ export default function NewPage() {
         setIsBulletListActive(!isBulletListActive);
         setShowBulletListMessage(true); // Show the message when bullet list is toggled
     };
-
+    const handleUpdate = async () => {
+      
+        const id = 38;
+        const userId = localStorage.getItem("userId");
+        const book = {
+            id: id,
+            userId: userId,
+            contents: JSON.stringify(pages) 
+        };
+        console.log(JSON.stringify(pages) + "dette er pages");
+        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        console.log(response);
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+    };
     return (
         <div className="NewPage-container">
             <h1>Design din bok</h1>
-
+           
             <div className="icon-row">
-            <AiOutlineArrowLeft className="icon" />
-
-                    <AiOutlineArrowRight className="icon" />
-                    <AiOutlineSave className="icon" />
-                    <AiOutlineInfoCircle className="icon" />
-
+            <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
+            <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
+                <AiOutlineSave className="icon" onClick={handleUpdate}/>
+                <AiOutlineFileAdd className="icon" onClick={addNewPage} />
+                <AiOutlineInfoCircle className="icon" />
             </div>
 
             <div className="coverPage"></div>
@@ -279,11 +371,12 @@ export default function NewPage() {
                             ))}
                         </div>
                     )}
-                </div>            {showBulletListMessage && (
-                <div className="bullet-list-message">
-                    {isBulletListActive ? '✅ Bullet list Enabled' : '🔴 Bullet list Disabled'}
                 </div>
-            )}
+                {showBulletListMessage && (
+                    <div className="bullet-list-message">
+                        {isBulletListActive ? '✅ Bullet list Enabled' : '🔴 Bullet list Disabled'}
+                    </div>
+                )}
                 <div className="icon-row">
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />

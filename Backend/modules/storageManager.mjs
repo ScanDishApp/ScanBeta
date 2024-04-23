@@ -20,7 +20,7 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'UPDATE "public"."Users" set "name" = $1, "email" = $2, "pswHash" = $3, "img" = $4 where id = $5;'
+            const sql = 'UPDATE "public"."Users" set "name" = $1, "email" = $2, "pswHash" = $3, "img" = $4 where "id" = $5;'
             const params = [user.name, user.email, user.pswHash, user.img, user.id]
             const output = await client.query(sql, params);
 
@@ -39,7 +39,7 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'DELETE FROM "public"."Users" WHERE id = $1;'
+            const sql = 'DELETE FROM "public"."Users" WHERE "id" = $1;'
             const params = [user.id];
             const output = await client.query(sql , params);
             return true;
@@ -151,16 +151,37 @@ class DBManager {
     async getBook(id) {
 
         const client = new pg.Client(this.#credentials);
-        let book = [];
+        let book = null;
 
         try {
             await client.connect();
             const sql = 'SELECT * FROM "public"."cookbooks" WHERE "id" = $1';
-            const params = [id]
+            const params = [id];
             const output = await client.query( sql, params );
 
             console.log(output);
             book = output.rows[0];
+
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return book;
+    }
+    async listBook(userId) {
+
+        const client = new pg.Client(this.#credentials);
+        let book = [];
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" = $1';
+            const params = [userId];
+            const output = await client.query( sql, params );
+
+            console.log(output);
+            book.push(...book.rows);
 
         } catch (error) {
             console.error('Error logging in:', error.stack);
@@ -175,11 +196,12 @@ class DBManager {
         
         try {
             await client.connect();
-            const sql = 'UPDATE "public"."cookbooks" set "contents" = $1 where "id" = $2;'
-            const params = [book.content, book.id];
+            const sql = 'UPDATE "public"."cookbooks" set "contents" = $1 WHERE "id" = $2;'
+            const params = [book.contents, book.id];
             const output = await client.query(sql, params);
+          
 
-
+            
         } catch (error) {
             console.error('Error in update shoppinglist:', error.stack);
         } finally {

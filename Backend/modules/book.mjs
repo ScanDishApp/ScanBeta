@@ -13,8 +13,8 @@ class Book {
     if (this.id == null) {
       return await DBManager.createBook(this);
     } else {
-      return await DBManager.updateUser(this);
-    } updateBook
+      return await DBManager.updateBook(this);
+    } 
   }
 
   async delete() {
@@ -31,11 +31,42 @@ class Book {
 
     let dbBook = await DBManager.getBook(this.id);
 
-    if (dbBook.length > 0) {
+    if (dbBook) {
+      this.id = dbBook.id;
+      this.userId = dbBook.userId;
+      this.contents = dbBook.contents;
 
       return {
         success: true,
-        dbBook: dbBook
+        dbBook: {
+          id: this.id,
+          userId: this.userId,
+          contents: this.contents
+        }
+      };
+    } else {
+      return {
+        success: false,
+        message: "Book not found"
+      };
+    }
+  }
+  async listBook() {
+
+    let dbBook = await DBManager.listBook(this.userId);
+
+    if (dbBook) {
+      this.id = dbBook.id;
+      this.userId = dbBook.userId;
+      this.contents = dbBook.contents;
+
+      return {
+        success: true,
+        dbBook: {
+          id: this.id,
+          userId: this.userId,
+          contents: this.contents
+        }
       };
     } else {
       return {
@@ -46,5 +77,6 @@ class Book {
   }
 
 }
+
 
 export default Book;

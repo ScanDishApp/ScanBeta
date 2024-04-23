@@ -1,28 +1,47 @@
 import express from "express";
 import Book from "../modules/book.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
+import { logDOM } from "@testing-library/react";
 
 const BOOK_API = express.Router();
 BOOK_API.use(express.json());
 
 
 BOOK_API.get('/get', async (req, res, next) => {
-    const  id  = req.query.id;
-   
-
-    if (!id) {
-        return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Bok finnes ikke").end();
-    }
-    
-
-    try {
+    const { id }  = req.query;
+     try {
         const book = new Book();
         book.id = id;
   
         const bookResult = await book.getBook();
 
         if (bookResult.success) {
-            const cookbook = bookResult.book;
+            const cookbook = bookResult.dbBook;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(cookbook).end();
+        } else {
+            console.error("Login failed:", bookResult.message);
+            if (bookResult.error) {
+                console.error("Detailed error:", bookResult.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid book credentials");
+        }
+    } catch (error) {
+        
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
+});
+
+BOOK_API.get('/list', async (req, res, next) => {
+    const { userId }  = req.query;
+     try {
+        const book = new Book();
+        book.userId = userId;
+  
+        const bookResult = await book.listBook();
+
+        if (bookResult.success) {
+            const cookbook = bookResult.dbBook;
             res.status(HttpCodes.SuccesfullRespons.Ok).json(cookbook).end();
         } else {
             console.error("Login failed:", bookResult.message);
@@ -63,20 +82,21 @@ BOOK_API.post('/', async (req, res, next) => {
 });
 
 BOOK_API.put('/:id', async (req, res) => {
-    const { userId, contents, id } = req.body;
-    let book = new Book(); 
-    
-    
-    book.userId = userId;
-    book.contents = contents;
-    book.id = id
+    const {id, userId, contents} = req.body;
+  
+    let dbBook = new Book(); 
+   
+    dbBook.id = id
+    dbBook.userId = userId;
+    dbBook.contents = contents;
+  
 
     let exists = false;
 
     if (!exists) {
 
-        book = await user.book();
-        res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(book)).end();
+        dbBook = await dbBook.save();
+        res.status(HttpCodes.SuccesfullRespons.Ok).json(dbBook).end();
     } else {
         res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
     }
