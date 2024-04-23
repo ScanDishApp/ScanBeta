@@ -13,6 +13,7 @@ USER_API.get('/get', async (req, res, next) => {
         const user = new User();
         user.id = id;
         const getUserResult = await user.getUser();
+        
         if (getUserResult.success) {
             const userInfo = getUserResult.user;
             res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo).end();

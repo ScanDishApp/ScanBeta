@@ -37,7 +37,6 @@ export default function DummyPage() {
 
     const [image, setImage] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-    console.log("Profile Image URL:", profileImage);
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
