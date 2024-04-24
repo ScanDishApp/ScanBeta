@@ -238,7 +238,7 @@ export default function NewPage() {
     };
     const handleUpdate = async () => {
       
-const id = localStorage.getItem("bookId")
+    const id = localStorage.getItem("bookId")
         const userId = localStorage.getItem("userId");
         const book = {
             id: id,
