@@ -129,7 +129,7 @@ class DBManager {
 
         try {
             const sql = 'INSERT INTO "public"."cookbooks"("userId", "contents") VALUES($1::TEXT, $2::TEXT) RETURNING id;';
-            const parms = [book.userId, book.content];
+            const parms = [book.userId, book.contents];
             await client.connect();
             const output = await client.query(sql, parms);
 
@@ -180,15 +180,22 @@ class DBManager {
             const params = [userId];
             const output = await client.query( sql, params );
 
-            console.log(output);
-            book.push(...book.rows);
-
+            
+            for (let i = 0; i < output.rows.length; i++){
+                book.push(output.rows[i])
+                console.log(book);
+                
+            }
+            
+      
+         
         } catch (error) {
             console.error('Error logging in:', error.stack);
         } finally {
             client.end();
         }
         return book;
+  
     }
 
     async updateBook(book) {

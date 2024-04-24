@@ -23,46 +23,54 @@ async function fetchData(url, method, data) {
     const response = await fetch(url, options);
     return response;
 }
+
 async function listBook(url) {
     return await fetchData(url, "GET");
 }
-const userId = localStorage.getItem("userId");
-const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`, userId);
-console.log(response);
-const responseData = await response.json();
-
-console.log("Response:", responseData);
 
 export default function MyBooks() {
     const navigate = useNavigate();
-
+    const [id, setId] = useState([]);
     const [rectangles, setRectangles] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
-        const savedRectangles = JSON.parse(localStorage.getItem('rectangles'));
-        if (savedRectangles) {
-            setRectangles(savedRectangles);
+        async function fetchBooks() {
+          
+            const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
+            const responseData = await response.json();
+            // Construct rectangles array from responseData
+            const rectanglesFromData = responseData.map((item, index) => ({
+                id: item.id,
+                title: item.id,
+                color: `#${Math.floor(Math.random() * 16777215).toString(16)}` // Generate random color
+            }));
+            
+            setRectangles(rectanglesFromData);
         }
+        fetchBooks();
     }, []);
 
     const addRectangle = async () => {
-        const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-        const newRectangle = {
-            id: rectangles.length + 1,
-            title: titleText,
-            color: randomColor
+        const randomColor 
+        = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        let contents = "";
+        const book = {
+            userId: userId,
+            contents: contents
         };
+    
 
-        const updatedRectangles = [...rectangles, newRectangle];
+        const updatedRectangles = [...rectangles, book];
         setRectangles(updatedRectangles);
         setShowModal(false);
         setTitleText("");
         saveRectangles(updatedRectangles);
 
-        await saveToServer(newRectangle);
-        console.log("Book added successfully to the server:", newRectangle);
+        await saveToServer(book);
+        console.log("Book added successfully to the server:", book);
     };
 
     const deleteRectangle = async (id) => {
@@ -77,11 +85,14 @@ export default function MyBooks() {
         }
     };
 
-    const saveToServer = async (newRectangle) => {
+    const saveToServer = async (book) => {
         try {
-            const response = await fetchData("http://localhost:8080/book/", "POST", newRectangle);
+            const response = await fetchData("http://localhost:8080/book/", "POST", book);
             if (response.ok) {
-                console.log("Book saved to server successfully:", newRectangle);
+                const responseData = await response.json();
+                const responseParse= JSON.parse(responseData)
+                localStorage.setItem("bookId" , responseParse.id )
+               displayRectangleId(responseParse.id)
             } else {
                 console.log("Error saving book to server.");
             }
@@ -108,7 +119,7 @@ export default function MyBooks() {
             return await fetchData(url, "GET");
         }
        
-        const response = await getBook(`http://localhost:8080/book/get?id=${id}`, id);
+        const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
         console.log(response);
         const responseData = await response.json();
         
@@ -125,20 +136,18 @@ export default function MyBooks() {
             console.error("Error parsing contentsString:", error);
         }
         
-        
-        navigate(`/NewPage?id=${id}`);
+        localStorage.setItem("bookId" , id )
+        navigate(`/NewPage`);
     };
-    
-    let number = 39;
+
     return (
         <div className="myBooks-container">
             <h1>Mine Bøker</h1>
 
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => displayRectangleId(number)}>
+                    <div className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => displayRectangleId(rectangle.id)}>
                         <span>{rectangle.title}</span>
-                        <FaPencilAlt className="edit-icon" onClick={(e) => e.stopPropagation()} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}
