@@ -41,8 +41,8 @@ BOOK_API.get('/list', async (req, res, next) => {
         const bookResult = await book.listBook();
 
         if (bookResult.success) {
-            const cookbook = bookResult.dbBook;
-            res.status(HttpCodes.SuccesfullRespons.Ok).json(cookbook).end();
+            let dbBook = bookResult.dbBook
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(dbBook).end();
         } else {
             console.error("Login failed:", bookResult.message);
             if (bookResult.error) {
@@ -61,18 +61,16 @@ BOOK_API.post('/', async (req, res, next) => {
 
     const { userId , contents } = req.body;
 
-    if (userId != "" && contents != "") {
+    if (userId != "") {
         let book = new Book();
         book.userId = userId;
         book.contents = contents;
 
-        let exists = false;
-
-        if (!exists) {
+     try{
             book = await book.save();
             res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(book)).end();
-        } else {
-            res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
+        }catch{
+            res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Noe gikk galt ").end();
         }
 
     } else {

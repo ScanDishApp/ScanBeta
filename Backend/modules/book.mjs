@@ -62,11 +62,7 @@ class Book {
 
       return {
         success: true,
-        dbBook: {
-          id: this.id,
-          userId: this.userId,
-          contents: this.contents
-        }
+        dbBook: dbBook
       };
     } else {
       return {
