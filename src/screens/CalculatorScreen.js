@@ -46,52 +46,50 @@ export default function Calculator() {
         const inputValueFloat = parseFloat(inputValue);
         if (!isNaN(inputValueFloat)) {
             const conversionFactor = unitConversions[fromUnit][toUnit];
-            setResult((inputValueFloat * conversionFactor).toFixed(2));
+            const convertedValue = (inputValueFloat * conversionFactor).toFixed(2);
+            setResult(`${convertedValue} ${toUnit}`); // Concatenate the unit to the result
         } else {
             setResult('Invalid input');
         }
     };
 
     return (
-            <div className="home-container">
-                <h1>ScanDish</h1>
-        
-                <div className="rectangle-grid">
-                    <div className="rectangle">
-                        <h2>👋 Food unit converter...</h2>
-                    </div>
-        
-                    <div className="converter-container">
-                        <label>
-                            Quantity:
-                            <input type="text" value={inputValue} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            From:
-                            <select value={fromUnit} onChange={handleFromUnitChange}>
-                                {Object.keys(unitConversions).map((unit) => (
-                                    <option key={unit} value={unit}>
-                                        {unit}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-                        <label>
-                            To:
-                            <select value={toUnit} onChange={handleToUnitChange}>
-                                {Object.keys(unitConversions).map((unit) => (
-                                    <option key={unit} value={unit}>
-                                        {unit}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-                        <button onClick={convertUnits}>Convert</button>
-                    </div>
-                    <div className="result-container">
-                       <span className="result">{result}</span>
-                    </div>
+        <div className="home-container">
+            <div className="rectangle-grid">
+                <div className="rectangle">
+                    <h2>👋 Food unit converter...</h2>
+                </div>
+                <div className="converter-container">
+                    <label>
+                        Quantity:
+                        <input type="text" value={inputValue} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        From:
+                        <select value={fromUnit} onChange={handleFromUnitChange}>
+                            {Object.keys(unitConversions).map((unit) => (
+                                <option key={unit} value={unit}>
+                                    {unit}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                    <label>
+                        To:
+                        <select value={toUnit} onChange={handleToUnitChange}>
+                            {Object.keys(unitConversions).map((unit) => (
+                                <option key={unit} value={unit}>
+                                    {unit}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                    <button onClick={convertUnits}>Convert</button>
+                </div>
+                <div className="result-container">
+                    <span className="result">{result}</span>
                 </div>
             </div>
+        </div>
     );
 }

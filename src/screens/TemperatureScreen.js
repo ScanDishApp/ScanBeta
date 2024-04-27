@@ -1,41 +1,73 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Temp.css';
 
-export default function Temperatur() {
-    const [celsius, setCelsius] = useState('');
-    const [fahrenheit, setFahrenheit] = useState('');
+export default function TemperatureConverter() {
+    const [inputValue, setInputValue] = useState('');
+    const [fromUnit, setFromUnit] = useState('Celsius');
+    const [toUnit, setToUnit] = useState('Fahrenheit');
+    const [result, setResult] = useState('');
 
-    const handleCelsiusChange = (e) => {
-        const value = e.target.value;
-        setCelsius(value);
-        setFahrenheit(value !== '' ? (parseFloat(value) * 9/5) + 32 : '');
+    const temperatureConversions = {
+        Celsius: {
+            Fahrenheit: (celsius) => (celsius * 9 / 5) + 32,
+        },
+        Fahrenheit: {
+            Celsius: (fahrenheit) => (fahrenheit - 32) * 5 / 9,
+        },
     };
 
-    const handleFahrenheitChange = (e) => {
-        const value = e.target.value;
-        setFahrenheit(value);
-        setCelsius(value !== '' ? (parseFloat(value) - 32) * 5/9 : '');
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const handleFromUnitChange = (e) => {
+        setFromUnit(e.target.value);
+    };
+
+    const handleToUnitChange = (e) => {
+        setToUnit(e.target.value);
+    };
+
+    const convertTemperature = () => {
+        const inputValueFloat = parseFloat(inputValue);
+        if (!isNaN(inputValueFloat)) {
+            const conversionFunction = temperatureConversions[fromUnit][toUnit];
+            const convertedValue = conversionFunction(inputValueFloat).toFixed(2);
+            setResult(`${convertedValue} ${toUnit}`);
+        } else {
+            setResult('Invalid input');
+        }
     };
 
     return (
         <div className="home-container">
-            <h1>ScanDish</h1>
-
             <div className="rectangle-grid">
                 <div className="rectangle">
-                    <h2>👋 Velkommen...</h2>
+                    <h2>🌡️ Temperature Converter...</h2>
                 </div>
-            </div>
-
-            <div className="temp-container">
-                <h2>Temperature Converter</h2>
-                <div>
-                    <label>Celsius:</label>
-                    <input type="number" value={celsius} onChange={handleCelsiusChange} />
+                <div className="converter-container">
+                    <label>
+                        Temperature:
+                        <input type="text" value={inputValue} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        From:
+                        <select value={fromUnit} onChange={handleFromUnitChange}>
+                            <option value="Celsius">Celsius</option>
+                            <option value="Fahrenheit">Fahrenheit</option>
+                        </select>
+                    </label>
+                    <label>
+                        To:
+                        <select value={toUnit} onChange={handleToUnitChange}>
+                            <option value="Celsius">Celsius</option>
+                            <option value="Fahrenheit">Fahrenheit</option>
+                        </select>
+                    </label>
+                    <button onClick={convertTemperature}>Convert</button>
                 </div>
-                <div>
-                    <label>Fahrenheit:</label>
-                    <input type="number" value={fahrenheit} onChange={handleFahrenheitChange} />
+                <div className="result-container">
+                    <span className="result">{result}</span>
                 </div>
             </div>
         </div>

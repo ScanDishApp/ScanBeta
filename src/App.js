@@ -1,4 +1,6 @@
 import React from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './screens/Header'; // Import the Header component
 import Home from './screens/HomeScreen';
@@ -11,11 +13,10 @@ import MyBooks from './screens/MyBooksScreen';
 import NewUser from './screens/NewUserScreen';
 import Temperatur from './screens/TemperatureScreen';
 import BookDesign from './screens/BookDesignPage';
-import Calculator from './screens/CalculatorScreen';
 import NewPage from './screens/NewPageScreen';
-
+import TemperatureConverter from './screens/TemperatureScreen';
 import StickerMenu from './screens/Stickers';
-
+import Calculator from './screens/CalculatorScreen';
 import EditUser from './screens/EditUserScreen';
 
 export default function App() {
@@ -35,7 +36,7 @@ export default function App() {
           <Route path="/edit-user-page" element={<EditUser />} /> {/* New route for DummyPage */}
           <Route path="/bookDesign" element={<BookDesign />} /> {/* New route for DummyPage */}
           <Route path="/Calculator" element={<Calculator />} /> {/* New route for DummyPage */}
-          <Route path="/Temperatur" element={<Temperatur />} /> {/* New route for DummyPage */}
+          <Route path="/TemperatureConverter" element={<TemperatureConverter />} /> {/* New route for DummyPage */}
           <Route path="/MyBooks" element={<MyBooks />} /> {/* New route for DummyPage */}
           <Route path="/NewPage" element={<NewPage />} /> {/* New route for DummyPage */}
           <Route path="/StickerMenu" element={<StickerMenu   />} /> {/* New route for DummyPage */}

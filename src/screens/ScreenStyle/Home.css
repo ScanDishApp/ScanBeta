@@ -8,7 +8,7 @@ body {
   overflow: hidden; /* Hides the horizontal scrollbar */
 
   overflow-y: scroll; /* Allows vertical scrolling */
-background-color: #FFD581;
+background-color: #fff;
 }
 
 
@@ -17,39 +17,49 @@ background-color: #FFD581;
   margin-top: 0px; 
   overflow: hidden;
   font-family: 'DM Serif Display', serif;
-}
-.square-home {
-  width: calc(100% ); /* Adjusted width to accommodate border */
-  height: 0px; /* Adjust the height as needed */
-  padding-top: 65%; /* Adjust the padding-top to make the element smaller */
-  border-radius: 40px;
-  position: relative;
-  border: none;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a small drop shadow */
-
+  letter-spacing: 2px; /* Adjust the value as needed */
 }
 
-.square-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center; /* Center text horizontally */
+
+/* CSS styles */
+.boxes-container {
+  display: flex;
+  justify-content: center; /* Center the items horizontally */
+  align-items: flex-start; /* Align items to the top */
+  margin: 10px;
+  font-weight: 580;
+
+  
 }
 
 
 
+/* Remove margin from the last .box element */
+.box:last-child {
+  margin-right: 0;
+}
+.nested-box{
+  background-color: #c0d86c;
+  ;
+  font-size: 16px;
+  border-radius: 20px 20px 0 0 ;
+  padding: 10px;
 
-.square-image {
-  max-width: 70%; /* Ensure image doesn't exceed square's width */
-  max-height: 70%; /* Ensure image doesn't exceed square's height */
-  object-fit: contain; /* Ensure the entire image fits within the square */
-  border-radius: inherit; /* Inherit border-radius from parent */
 
 }
 
+.box1, .box2 {
+  width: calc(50% - 0px); /* Set width to 50% of the container width minus 10px (adjust as needed for the desired gap) */
+  height: 140px;
+  border-radius: 20px;
+  box-sizing: border-box; /* Include padding and border in element's total width */
+  background-color: #ddf193;
 
+}
+
+.box1 {
+  margin-right: 10px; /* Add right margin to create a gap between .box1 and .box2 */
+}
 
 
 .rectangle h2 {
@@ -88,14 +98,12 @@ background-color: #FFD581;
   align-items: center; /* Center the contents vertically */
   background-color: #00000089;
   padding: 30px;
-  border-radius: 40px;
+  border-radius: 20px;
   z-index: 0;
-  margin: 0 10px;
   margin-bottom: 10px;
   color: white;
   background-size:cover; /* Make the background image cover the entire div */
   background-position: center; /* Center the background image horizontally and vertically */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a small drop shadow */
 
 }
 .randomText{
@@ -104,23 +112,8 @@ background-color: #FFD581;
   font-weight: bold;
 }
 
-.AddBook, .goScan{
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center; /* Center the contents horizontally */
-  align-items: center; /* Center the contents vertically */
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 40px;
-  z-index: 0;
-  margin: 0 10px;
-  color: white;
-  background-size: cover; /* Make the background image cover the entire div */
-  background-position: center; /* Center the background image horizontally and vertically */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a small drop shadow */
 
-}
+
 
 
 .add-icon {
@@ -128,19 +121,30 @@ background-color: #FFD581;
   max-height: 50px; /* Ensure the icon fits within the container */
 }
 
-
-.goScan{
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center; /* Center the contents horizontally */
-  align-items: center; /* Center the contents vertically */
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 40px;
-  z-index: 0;
-  margin: 10px 10px;
-  color: white;
-  background-size: cover; /* Make the background image cover the entire div */
-  background-position: center; /* Center the background image horizontally and vertically */
+.book-rectangle {
+  /* Additional rectangle styles */
+  background-color: #ddf193;
+width: calc(100% - 20px);
+border-radius: 20px;
 }
+
+.nested-rectangle {
+
+  background-color: #c0d86c;
+  font-size: 24px;
+  font-weight: BOLD;
+  border-radius: 20px 20px 0 0 ;
+  padding: 10px;
+
+
+
+}
+
+.add-icon-book {
+  max-width: 50px; /* Ensure the icon fits within the container */
+  max-height: 50px; /* Ensure the icon fits within the container */
+  padding: 20px;
+
+}
+
+

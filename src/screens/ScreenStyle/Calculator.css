@@ -4,13 +4,27 @@ body {
     padding: 0;
     margin-left: 15px;
     margin-right: 15px;
+    background-color: #d9f0ea;
+    font-family: 'DM Serif Display', serif;
+
 }
 
+.rectangle {
+    width: calc(100% - 6px); /* Adjusted width to accommodate border */
+    height: 50px;
+    background-color: #b1d261;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: none;
+  
+  }
 /* Style the container for the converter */
 .converter-container {
     margin-top: 20px;
     padding: 30px; /* Increased padding */
-    background: linear-gradient(135deg, #F2C449, #F2D243);
+    background-color: #b1d261;
     border-radius: 20px; /* Border radius applied */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* Include padding and border in the width */
@@ -30,27 +44,48 @@ body {
     display: block;
     margin-bottom: 10px;
     font-size: 1.2rem;
-    color: #555;
+    color: #222;
 }
 
 /* Style the input fields and select dropdowns */
-.converter-container input[type="text"],
+
 .converter-container select {
     width: calc(100% - 24px); /* Adjusted width */
     padding: 12px;
     margin-bottom: 20px;
     border: none;
     border-radius: 6px;
-    background-color: #f9f9f9;
     font-size: 1.2rem;
     color: #333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center the text within the select element */
+    font-family: 'Helvetica', serif;
+
+
+    
 }
+
+.converter-container input[type="text"]
+ {
+    font-family: 'Helvetica', serif;
+    padding: 20px;
+    font-size: 16px;
+    border: none;
+    text-align: center;
+    padding: 12px;
+    font-size: 1.2rem;
+    width: calc(100% - 26px); /* Subtract the total padding (5px on each side) from the width */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    margin-right: 10px;
+    
+}
+
+
 
 /* Style the conversion button */
 .converter-container button {
-    background-color: #264fc9;
-    color: white;
+    background-color: #53a586;
+    color: #ffffff;
     padding: 12px 24px;
     border: none;
     border-radius: 6px;
@@ -71,8 +106,9 @@ body {
 
 .result-container {
     margin-top: 20px;
+    height: 110px;
     padding: 30px; /* Increased padding */
-    background: linear-gradient(135deg, #F2C449, #F2D243);
+    background-color: #b1d261;
     border-radius: 20px; /* Border radius applied */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* Include padding and border in the width */
