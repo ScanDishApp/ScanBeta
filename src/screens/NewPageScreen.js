@@ -50,14 +50,28 @@ export default function NewPage() {
     useEffect(() => {
         // Get pages from local storage
         const storedPages = localStorage.getItem("contents");
-    
+        
         if (storedPages) {
             // Parse the stored pages from JSON
             const parsedPages = JSON.parse(storedPages);
             // Update the state with the stored pages
             setPages(parsedPages);
+    
+            // Set initial page content to the first page if there are pages
+            if (parsedPages.length > 0) {
+                const initialPage = parsedPages[currentPageIndex];
+                setTitle(initialPage.title);
+                setContent(initialPage.content);
+                setImages(initialPage.images);
+                setSelectedColor(initialPage.selectedColor);
+                setSelectedFont(initialPage.selectedFont);
+                setSelectedFontSize(initialPage.selectedFontSize);
+                setIsBulletListActive(initialPage.isBulletListActive);
+            }
         }
     }, []);
+
+    
     useEffect(() => {
         // Set initial page content if there are pages
         if (pages.length > 0) {
@@ -71,9 +85,11 @@ export default function NewPage() {
             setIsBulletListActive(initialPage.isBulletListActive);
         }
     }, [pages, currentPageIndex]);
+    
     useEffect(() => {
         resetPageState();
     }, [pages]);
+    
 
 
     const resetPageState = () => {
@@ -86,20 +102,21 @@ export default function NewPage() {
         setIsBulletListActive(false);
     };
     const addNewPage = () => {
-            const newPage = {
-                title,
-                content,
-                images,
-                selectedColor,
-                selectedFont,
-                selectedFontSize,
-                isBulletListActive
-            };
-            setPages(prevPages => [...prevPages, newPage]);
-            resetPageState(); // Reset page state here
-            console.log(newPage);
-            console.log(pages);
-        
+        const newPage = {
+            title,
+            content,
+            images,
+            selectedColor,
+            selectedFont,
+            selectedFontSize,
+            isBulletListActive
+        };
+        setPages(prevPages => [...prevPages, newPage]);
+        const newIndex = pages.length; // Index of the newly added page
+        setCurrentPageIndex(newIndex); // Set the current page index to the newly added page
+        resetPageState(); // Reset page state here
+        console.log(newPage);
+        console.log(pages);
     };
 
     const handlePreviousPage = () => {

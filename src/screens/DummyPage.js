@@ -108,11 +108,15 @@ export default function DummyPage() {
         handleGet(userId)
 
     };
-
+  
   
 
     const handleCreatePage = async () => {
         navigate('/new-user-page');
+        
+    };
+    const handleFriendPage = async () => {
+        navigate('/friends');
         
     };
 
@@ -149,7 +153,7 @@ export default function DummyPage() {
                     </div>
                     <div className="square">
                         <div className="mini-square">👯</div>
-                        <div className="option-text">Venner</div>
+                        <div className="option-text" onClick={handleFriendPage}>Venner</div>
                     </div>
                     <div className="square">
                         <div className="mini-square">🛒</div>
