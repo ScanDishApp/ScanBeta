@@ -250,12 +250,40 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'SELECT * FROM "public"."friends" WHERE "friendId" = $1 AND "status" = "friends"';
-            const params = [userId]
+            const sql = 'SELECT * FROM "public"."friends" WHERE "friendId" = $1 AND "status" = $2';
+            const status = "friend";
+            const params = [userId, status];
             const output = await client.query( sql, params );
 
-            console.log(output);
-            friend = output.rows[0];
+            for (let i = 0; i < output.rows.length; i++){
+                friend.push(output.rows[i])
+                
+            }
+
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return friend;
+
+    }
+    async listFriendRequest(userId) {
+
+        const client = new pg.Client(this.#credentials);
+        let friend = [];
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."friends" WHERE "friendId" = $1 AND "status" = $2';
+            const status = "pending";
+            const params = [userId, status];
+            const output = await client.query( sql, params );
+
+            for (let i = 0; i < output.rows.length; i++){
+                friend.push(output.rows[i])
+                
+            }
 
         } catch (error) {
             console.error('Error logging in:', error.stack);
@@ -271,10 +299,13 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'UPDATE "public"."friends" set "status" = $1 where "userId" = $2 AND "userId" = $3;'
-            const params = [request.status, request.userId, request.friendId]
+            const sql = 'UPDATE "public"."friends" SET "status" = $1 WHERE "id" = $2;'
+            console.log("hello" + request.status + request.id);
+            const params = [request.status, request.id];
+            console.log("before");
             const output = await client.query(sql, params);
-
+            console.log("after");
+   
         } catch (error) {
             console.error('Error in update user:', error.stack);
             
@@ -285,14 +316,18 @@ class DBManager {
 
     }
     async ansRequest(request) {
-
+       
         const client = new pg.Client(this.#credentials);
 
         try {
-            const sql = 'UPDATE "public"."friends" set "status" = $1 where "userId" = $2 AND "friendId" = $3;'
-            const params = [request.status, request.userId, request.friendId];
+            await client.connect();
+            const sql = 'UPDATE "public"."friends" SET "status" = $1 WHERE "id" = $2;'
+            console.log("hello" + request.status + request.id);
+            const params = [request.status, request.id];
+            console.log("before");
             const output = await client.query(sql, params);
-         
+            console.log("after");
+   
         } catch (error) {
             console.error('Error in update user:', error.stack);
             
@@ -301,16 +336,14 @@ class DBManager {
         }
         return request;
 
-       
-
     }
-    async sendRequest(request) {
 
+    async sendRequest(request) {
         const client = new pg.Client(this.#credentials);
 
         try {
-            const sql = 'INSERT INTO "public"."friends"("userId", "friendId, status") VALUES($1::TEXT, $2::TEXT) RETURNING status;';
-            const parms = [request.userId, request.friendId, request.status];
+            const sql = 'INSERT INTO "public"."friends"("userId", "friendId", "status", "name") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING status;';
+            const parms = [request.userId, request.friendId, request.status, request.name];
             await client.connect();
             const output = await client.query(sql, parms);
 
