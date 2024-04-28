@@ -1,7 +1,7 @@
 /*NavTab.css*/
 
 .nav-tab {
-   background-color: white;
+   background-color: #c0d86c;
     width: 100;
     position: fixed;
     bottom: 0;
@@ -44,7 +44,7 @@
 }
 
 .nav-tab a:hover {
-    color: #ff9100; 
+    color: #fff; 
 }
 
 
