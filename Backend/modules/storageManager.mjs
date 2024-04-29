@@ -26,7 +26,7 @@ class DBManager {
 
         } catch (error) {
             console.error('Error in update user:', error.stack);
-            
+
         } finally {
             client.end();
         }
@@ -41,7 +41,7 @@ class DBManager {
             await client.connect();
             const sql = 'DELETE FROM "public"."Users" WHERE "id" = $1;'
             const params = [user.id];
-            const output = await client.query(sql , params);
+            const output = await client.query(sql, params);
             return true;
         } catch (error) {
             console.error("Error deleting user:", error);
@@ -51,7 +51,7 @@ class DBManager {
     }
 
     async createUser(user) {
-   
+
         const client = new pg.Client(this.#credentials);
 
         try {
@@ -89,7 +89,7 @@ class DBManager {
 
             console.log(output);
             user = output.rows[0];
-        
+
         } catch (error) {
             console.error('Error in getting user :', error.stack);
         } finally {
@@ -104,15 +104,12 @@ class DBManager {
         let user = null;
 
         try {
-            
+
             await client.connect();
             const sql = 'SELECT * FROM "public"."Users" WHERE "email" = $1';
             const params = [email]
-            const output = await client.query( sql, params );
-
-            
+            const output = await client.query(sql, params);
             user = output.rows[0];
-           
 
         } catch (error) {
             console.error('Error logging in:', error.stack);
@@ -122,7 +119,7 @@ class DBManager {
         return user;
     }
 
-   
+
     async createBook(book) {
 
         const client = new pg.Client(this.#credentials);
@@ -142,12 +139,12 @@ class DBManager {
             throw error;
             return false;
         } finally {
-            client.end(); 
+            client.end();
         }
-
         return book;
 
     }
+
     async getBook(id) {
 
         const client = new pg.Client(this.#credentials);
@@ -157,7 +154,7 @@ class DBManager {
             await client.connect();
             const sql = 'SELECT * FROM "public"."cookbooks" WHERE "id" = $1';
             const params = [id];
-            const output = await client.query( sql, params );
+            const output = await client.query(sql, params);
 
             console.log(output);
             book = output.rows[0];
@@ -169,6 +166,7 @@ class DBManager {
         }
         return book;
     }
+
     async listBook(userId) {
 
         const client = new pg.Client(this.#credentials);
@@ -178,24 +176,22 @@ class DBManager {
             await client.connect();
             const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1';
             const params = [`%${userId}%`];
-            const output = await client.query( sql, params );
+            const output = await client.query(sql, params);
 
-            for (let i = 0; i < output.rows.length; i++){
+            for (let i = 0; i < output.rows.length; i++) {
                 book.push(output.rows[i])
                 console.log(book);
-                
+
             }
-            
-      
-         
         } catch (error) {
             console.error('Error logging in:', error.stack);
         } finally {
             client.end();
         }
         return book;
-  
+
     }
+    
     async listSharedBook(userId) {
 
         const client = new pg.Client(this.#credentials);
@@ -205,40 +201,37 @@ class DBManager {
             await client.connect();
             const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1';
             const params = [`%${userId},%`];
-            const output = await client.query( sql, params );
+            const output = await client.query(sql, params);
 
-            for (let i = 0; i < output.rows.length; i++){
+            for (let i = 0; i < output.rows.length; i++) {
                 book.push(output.rows[i])
                 console.log(book);
-                
+
             }
-            
-      
-         
         } catch (error) {
             console.error('Error logging in:', error.stack);
         } finally {
             client.end();
         }
         return book;
-  
+
     }
 
     async updateBook(book) {
         const client = new pg.Client(this.#credentials);
-        
+
         try {
             await client.connect();
             const sql = 'UPDATE "public"."cookbooks" set "contents" = $1 WHERE "id" = $2;'
             const params = [book.contents, book.id];
             const output = await client.query(sql, params);
-          
 
-            
+
+
         } catch (error) {
             console.error('Error in update shoppinglist:', error.stack);
         } finally {
-            client.end(); 
+            client.end();
         }
 
         return book;
@@ -246,12 +239,12 @@ class DBManager {
     }
 
     async deleteBook(id) {
-        
+
         const client = new pg.Client(this.#credentials);
         try {
-           
+
             await client.connect();
-            
+
             console.log('Connected to the database');
             const sql = 'DELETE FROM "public"."cookbooks" WHERE "id" = $1;'
             const params = [id];
@@ -279,11 +272,11 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."friends" WHERE "friendId" = $1 AND "status" = $2';
             const status = "friend";
             const params = [userId, status];
-            const output = await client.query( sql, params );
+            const output = await client.query(sql, params);
 
-            for (let i = 0; i < output.rows.length; i++){
+            for (let i = 0; i < output.rows.length; i++) {
                 friend.push(output.rows[i])
-                
+
             }
 
         } catch (error) {
@@ -304,11 +297,11 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."friends" WHERE "friendId" = $1 AND "status" = $2';
             const status = "pending";
             const params = [userId, status];
-            const output = await client.query( sql, params );
+            const output = await client.query(sql, params);
 
-            for (let i = 0; i < output.rows.length; i++){
+            for (let i = 0; i < output.rows.length; i++) {
                 friend.push(output.rows[i])
-                
+
             }
 
         } catch (error) {
@@ -331,10 +324,10 @@ class DBManager {
             console.log("before");
             const output = await client.query(sql, params);
             console.log("after");
-   
+
         } catch (error) {
             console.error('Error in update user:', error.stack);
-            
+
         } finally {
             client.end();
         }
@@ -342,7 +335,7 @@ class DBManager {
 
     }
     async ansRequest(request) {
-       
+
         const client = new pg.Client(this.#credentials);
 
         try {
@@ -353,10 +346,10 @@ class DBManager {
             console.log("before");
             const output = await client.query(sql, params);
             console.log("after");
-   
+
         } catch (error) {
             console.error('Error in update user:', error.stack);
-            
+
         } finally {
             client.end();
         }
@@ -382,14 +375,11 @@ class DBManager {
             throw error;
             return false;
         } finally {
-            client.end(); 
+            client.end();
         }
 
         return request;
-
     }
-
-    
 
 }
 

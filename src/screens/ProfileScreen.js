@@ -22,7 +22,7 @@ async function fetchData(url, method, data) {
 }
 
 export default function Profile() {
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useState(false);
 
     const handleLogin = async () => {
@@ -37,7 +37,7 @@ export default function Profile() {
             pswHash: pswHash,
             email: email
         };
-      //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
+        //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
         const response = await loginUser("http://localhost:8080/user/login", user);
 
         const responseData = await response.json();
@@ -47,7 +47,7 @@ export default function Profile() {
 
         if (userId) {
             setLoggedIn(true);
-            navigate('/dummy-page'); // Redirect to DummyPage
+            navigate('/dummy-page');
         } else {
             setLoggedIn(false);
             // Handle login failure
@@ -118,8 +118,6 @@ export default function Profile() {
                 <button onClick={handleLogin} className="login-button">Logg inn</button>
                 <button onClick={handleCreatePage} className="create-button">Lag bruker</button>
             </div>
-
-
         </div>
     );
 }

@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 
-// Import sticker images
 import sticker1 from '../assets/Fruit/Apple.png';
-// Import more stickers as needed
 
-// Define sticker data with image source and unique ID
 const stickerData = [
   { id: 1, src: sticker1 },
-  // Add more stickers as needed
+
 ];
 
-// CustomDropdown component with image previews
 const CustomDropdown = ({ options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);

@@ -57,10 +57,8 @@ export default function FriendRequest() {
             //const response = await fetchData("http://localhost:8080/friends/add", "POST", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
-            // Handle UI updates or further actions based on the response here
         } catch (error) {
             console.error("Error:", error);
-            // Handle errors here
         }
     };
     
@@ -82,7 +80,6 @@ export default function FriendRequest() {
             console.log("Response:", responseData);
         } catch(error) {
             console.error("Error:", error);
-            // Handle errors here
         }
     };
     
@@ -137,7 +134,6 @@ export default function FriendRequest() {
             </div>
             <h1>Forespøsler</h1>
             <div className='Request'>
-                {/* Map over friendRequests array and render each request */}
                 {  
                     friendRequests.map(request =>  (
                     <div key={request.id} className="friend-request-item">

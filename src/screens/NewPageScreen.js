@@ -13,7 +13,6 @@ const fontOptions = {
     Serif: 'Times New Roman, serif'
 };
 
-
 const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
 async function updateBook(url, data) {
     const header = {
@@ -21,7 +20,7 @@ async function updateBook(url, data) {
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
-        } ,
+        },
         body: JSON.stringify(data)
     };
 
@@ -46,18 +45,14 @@ export default function NewPage() {
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [showBulletListMessage, setShowBulletListMessage] = useState(false);
     const [pages, setPages] = useState([]);
- 
+
     useEffect(() => {
-        // Get pages from local storage
         const storedPages = localStorage.getItem("contents");
-        
+
         if (storedPages) {
-            // Parse the stored pages from JSON
             const parsedPages = JSON.parse(storedPages);
-            // Update the state with the stored pages
             setPages(parsedPages);
-    
-            // Set initial page content to the first page if there are pages
+
             if (parsedPages.length > 0) {
                 const initialPage = parsedPages[currentPageIndex];
                 setTitle(initialPage.title);
@@ -71,9 +66,7 @@ export default function NewPage() {
         }
     }, []);
 
-    
     useEffect(() => {
-        // Set initial page content if there are pages
         if (pages.length > 0) {
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
@@ -85,12 +78,10 @@ export default function NewPage() {
             setIsBulletListActive(initialPage.isBulletListActive);
         }
     }, [pages, currentPageIndex]);
-    
+
     useEffect(() => {
         resetPageState();
     }, [pages]);
-    
-
 
     const resetPageState = () => {
         setTitle('');
@@ -101,6 +92,7 @@ export default function NewPage() {
         setSelectedFontSize('16px');
         setIsBulletListActive(false);
     };
+
     const addNewPage = () => {
         const newPage = {
             title,
@@ -112,9 +104,9 @@ export default function NewPage() {
             isBulletListActive
         };
         setPages(prevPages => [...prevPages, newPage]);
-        const newIndex = pages.length; // Index of the newly added page
-        setCurrentPageIndex(newIndex); // Set the current page index to the newly added page
-        resetPageState(); // Reset page state here
+        const newIndex = pages.length;
+        setCurrentPageIndex(newIndex);
+        resetPageState();
         console.log(newPage);
         console.log(pages);
     };
@@ -143,17 +135,13 @@ export default function NewPage() {
     const handleContentChange = (event) => {
         let newContent = event.target.value;
         if (isBulletListActive) {
-            // Split content into lines
             const lines = newContent.split('\n');
-            // Check each line if it starts with a bullet character
             const newLines = lines.map((line, index) => {
-                // If the line is not empty and does not start with a bullet character, add a bullet
                 if (line.trim() !== '' && !line.startsWith('\u2022')) {
                     return `\u2022 ${line}`;
                 }
                 return line;
             });
-            // Join lines back into content
             newContent = newLines.join('\n');
         }
         setContent(newContent);
@@ -197,7 +185,7 @@ export default function NewPage() {
         if (dragging) {
             const clientX = event.clientX || (event.touches && event.touches[0].clientX);
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
-    
+
             const updatedImages = [...images];
             updatedImages[index].position = {
                 x: clientX - updatedImages[index].offset.x,
@@ -206,7 +194,7 @@ export default function NewPage() {
             setImages(updatedImages);
         }
     };
-    
+
     const handleMouseUp = () => {
         setDragging(false);
     };
@@ -251,21 +239,21 @@ export default function NewPage() {
 
     const toggleBulletList = () => {
         setIsBulletListActive(!isBulletListActive);
-        setShowBulletListMessage(true); // Show the message when bullet list is toggled
+        setShowBulletListMessage(true);
     };
     const handleUpdate = async () => {
-      
-    const id = localStorage.getItem("bookId")
+
+        const id = localStorage.getItem("bookId")
         const userId = localStorage.getItem("userId");
         const book = {
             id: id,
             userId: userId,
-            contents: JSON.stringify(pages) 
+            contents: JSON.stringify(pages)
         };
         console.log(JSON.stringify(pages) + "dette er pages");
-        
+
         const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
-       // const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        // const response = await updateBook(`http://localhost:8080/book/${id}`, book);
         console.log(response);
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -273,11 +261,10 @@ export default function NewPage() {
     return (
         <div className="NewPage-container">
             <h1>Design din bok</h1>
-           
             <div className="icon-row">
-            <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
-            <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
-                <AiOutlineSave className="icon" onClick={handleUpdate}/>
+                <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
+                <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
+                <AiOutlineSave className="icon" onClick={handleUpdate} />
                 <AiOutlineFileAdd className="icon" onClick={addNewPage} />
                 <AiOutlineInfoCircle className="icon" />
             </div>
@@ -341,8 +328,6 @@ export default function NewPage() {
                 />
 
             </div>
-
-            {/* Font and Font Size options */}
             <div className="funky">
                 <div className="menu-placement">
                     {showFontMenu && (
@@ -374,8 +359,6 @@ export default function NewPage() {
                     )}
                 </div>
             </div>
-
-            {/* Color menu */}
             <div className="funky">
                 <div className="menu-placement">
                     {showColorMenu && (

@@ -27,15 +27,12 @@ const Scan = () => {
 
       img.src = e.target.result;
     };
-
     reader.readAsDataURL(image);
   };
 
   const preprocessImage = async (image) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-
-    // Resize the image proportionally
     const MAX_DIMENSION = 800;
     let width = image.width;
     let height = image.height;
@@ -53,9 +50,7 @@ const Scan = () => {
     canvas.width = width;
     canvas.height = height;
     ctx.drawImage(image, 0, 0, width, height);
-
-    // Convert the image to grayscale for better text recognition
-    ctx.fillStyle = '#fff'; // Set background color to white
+    ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, width, height);
 
@@ -113,7 +108,7 @@ const Scan = () => {
           accept="image/*"
           onChange={handleImageUpload}
           ref={fileInputRef}
-          style={{ display: 'none' }} // Hide the file input
+          style={{ display: 'none' }}
         />
         {showCamera && (
           <div className="camera-preview">
