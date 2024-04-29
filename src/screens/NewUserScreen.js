@@ -24,9 +24,9 @@ async function fetchData(url, method, data) {
 
 export default function NewUser() {
     let userId = localStorage.getItem("userId");
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate(); 
     const [image, setImage] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null); // State for error message
+    const [errorMsg, setErrorMsg] = useState(null); 
     const [profileImage, setProfileImage] = useState(null);
     
 
@@ -84,10 +84,10 @@ export default function NewUser() {
         const response = await createUser("https://scanbeta.onrender.com/user/", user);
        // const response = await createUser("http://localhost:8080/user/", user);
         if (response.status !== 200) {
-            setErrorMsg("Alle feltene må fylles ut!"); // Update error message state
+            setErrorMsg("Alle feltene må fylles ut!"); 
             console.log("Error message:", errorMsg);
         } else {
-            setErrorMsg(null); // Clear error message if login is successful
+            setErrorMsg(null); 
         }
         console.log(response);
         const responseData = await response.json();
@@ -130,7 +130,7 @@ export default function NewUser() {
                     <h2>Passord: </h2>
                     <input className="create-password" type='password'></input>
                 </div>
-                <p>{errorMsg}</p> {/* Render error message here */}
+                <p>{errorMsg}</p> 
                 <button onClick={handleCreate} className="create-button">Lag bruker</button>
             </div>
 

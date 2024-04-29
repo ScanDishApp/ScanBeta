@@ -42,22 +42,18 @@ export default function NewPage() {
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
-    const [selectedFontSize, setSelectedFontSize] = useState('16px'); // Initial font size
+    const [selectedFontSize, setSelectedFontSize] = useState('16px'); 
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [showBulletListMessage, setShowBulletListMessage] = useState(false);
     const [pages, setPages] = useState([]);
  
     useEffect(() => {
-        // Get pages from local storage
         const storedPages = localStorage.getItem("contents");
         
         if (storedPages) {
-            // Parse the stored pages from JSON
             const parsedPages = JSON.parse(storedPages);
-            // Update the state with the stored pages
             setPages(parsedPages);
     
-            // Set initial page content to the first page if there are pages
             if (parsedPages.length > 0) {
                 const initialPage = parsedPages[currentPageIndex];
                 setTitle(initialPage.title);
@@ -73,7 +69,6 @@ export default function NewPage() {
 
     
     useEffect(() => {
-        // Set initial page content if there are pages
         if (pages.length > 0) {
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
@@ -112,9 +107,9 @@ export default function NewPage() {
             isBulletListActive
         };
         setPages(prevPages => [...prevPages, newPage]);
-        const newIndex = pages.length; // Index of the newly added page
-        setCurrentPageIndex(newIndex); // Set the current page index to the newly added page
-        resetPageState(); // Reset page state here
+        const newIndex = pages.length; 
+        setCurrentPageIndex(newIndex); 
+        resetPageState(); 
         console.log(newPage);
         console.log(pages);
     };
@@ -143,17 +138,17 @@ export default function NewPage() {
     const handleContentChange = (event) => {
         let newContent = event.target.value;
         if (isBulletListActive) {
-            // Split content into lines
+     
             const lines = newContent.split('\n');
-            // Check each line if it starts with a bullet character
+           
             const newLines = lines.map((line, index) => {
-                // If the line is not empty and does not start with a bullet character, add a bullet
+            
                 if (line.trim() !== '' && !line.startsWith('\u2022')) {
                     return `\u2022 ${line}`;
                 }
                 return line;
             });
-            // Join lines back into content
+   
             newContent = newLines.join('\n');
         }
         setContent(newContent);
@@ -251,7 +246,7 @@ export default function NewPage() {
 
     const toggleBulletList = () => {
         setIsBulletListActive(!isBulletListActive);
-        setShowBulletListMessage(true); // Show the message when bullet list is toggled
+        setShowBulletListMessage(true); 
     };
     const handleUpdate = async () => {
       
@@ -342,7 +337,6 @@ export default function NewPage() {
 
             </div>
 
-            {/* Font and Font Size options */}
             <div className="funky">
                 <div className="menu-placement">
                     {showFontMenu && (
@@ -375,7 +369,7 @@ export default function NewPage() {
                 </div>
             </div>
 
-            {/* Color menu */}
+            {/* Farge meny */}
             <div className="funky">
                 <div className="menu-placement">
                     {showColorMenu && (

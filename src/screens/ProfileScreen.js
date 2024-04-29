@@ -22,7 +22,7 @@ async function fetchData(url, method, data) {
 }
 
 export default function Profile() {
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate(); 
     const [loggedIn, setLoggedIn] = useState(false);
 
     const handleLogin = async () => {
@@ -47,10 +47,10 @@ export default function Profile() {
 
         if (userId) {
             setLoggedIn(true);
-            navigate('/dummy-page'); // Redirect to DummyPage
+            navigate('/dummy-page'); 
         } else {
             setLoggedIn(false);
-            // Handle login failure
+        
         }
     };
 

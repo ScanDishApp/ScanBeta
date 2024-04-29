@@ -47,7 +47,7 @@ export default function Calculator() {
         if (!isNaN(inputValueFloat)) {
             const conversionFactor = unitConversions[fromUnit][toUnit];
             const convertedValue = (inputValueFloat * conversionFactor).toFixed(2);
-            setResult(`${convertedValue} ${toUnit}`); // Concatenate the unit to the result
+            setResult(`${convertedValue} ${toUnit}`); 
         } else {
             setResult('Invalid input');
         }

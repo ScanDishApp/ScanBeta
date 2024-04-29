@@ -1,66 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  overflow: hidden; /* Hides the horizontal scrollbar */
-
-  overflow-y: scroll; /* Allows vertical scrolling */
-background-color: #fff;
-}
-
 
 .home-container {
   text-align: center;
-  margin-top: 0px; 
+  margin-top: 0px;
   overflow: hidden;
   font-family: 'DM Serif Display', serif;
-  letter-spacing: 2px; /* Adjust the value as needed */
+  letter-spacing: 2px;
 }
 
-
-/* CSS styles */
 .boxes-container {
   display: flex;
-  justify-content: center; /* Center the items horizontally */
-  align-items: flex-start; /* Align items to the top */
+  justify-content: center;
+  align-items: flex-start;
   margin: 10px;
   font-weight: 580;
-
-  
 }
 
-
-
-/* Remove margin from the last .box element */
 .box:last-child {
   margin-right: 0;
 }
-.nested-box{
+
+.nested-box {
   background-color: #c0d86c;
-  ;
   font-size: 16px;
-  border-radius: 20px 20px 0 0 ;
+  border-radius: 20px 20px 0 0;
   padding: 10px;
-
-
 }
 
-.box1, .box2 {
-  width: calc(50% - 0px); /* Set width to 50% of the container width minus 10px (adjust as needed for the desired gap) */
+.box1,
+.box2 {
+  width: calc(50% - 0px);
   height: 140px;
   border-radius: 20px;
-  box-sizing: border-box; /* Include padding and border in element's total width */
+  box-sizing: border-box;
   background-color: #ddf193;
-
 }
 
 .box1 {
-  margin-right: 10px; /* Add right margin to create a gap between .box1 and .box2 */
+  margin-right: 10px;
 }
-
 
 .rectangle h2 {
   text-align: left;
@@ -85,66 +65,50 @@ background-color: #fff;
   padding-bottom: 5px;
 }
 
-
-
-
-
 .cover-rectangle {
   left: 0;
   right: 0;
   height: 200px;
   display: flex;
-  justify-content: center; /* Center the contents horizontally */
-  align-items: center; /* Center the contents vertically */
+  justify-content: center;
+  align-items: center;
   background-color: #00000089;
   padding: 30px;
   border-radius: 20px;
   z-index: 0;
   margin-bottom: 10px;
   color: white;
-  background-size:cover; /* Make the background image cover the entire div */
-  background-position: center; /* Center the background image horizontally and vertically */
-
+  background-size: cover;
+  background-position: center;
 }
-.randomText{
+
+.randomText {
   font-size: 20px;
   font-style: italic;
   font-weight: bold;
 }
 
-
-
-
-
 .add-icon {
-  max-width: 50px; /* Ensure the icon fits within the container */
-  max-height: 50px; /* Ensure the icon fits within the container */
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .book-rectangle {
-  /* Additional rectangle styles */
   background-color: #ddf193;
-width: calc(100% - 20px);
-border-radius: 20px;
+  width: calc(100% - 20px);
+  border-radius: 20px;
 }
 
 .nested-rectangle {
-
   background-color: #c0d86c;
   font-size: 24px;
-  font-weight: BOLD;
-  border-radius: 20px 20px 0 0 ;
+  font-weight: bold;
+  border-radius: 20px 20px 0 0;
   padding: 10px;
-
-
-
 }
 
 .add-icon-book {
-  max-width: 50px; /* Ensure the icon fits within the container */
-  max-height: 50px; /* Ensure the icon fits within the container */
+  max-width: 50px;
+  max-height: 50px;
   padding: 20px;
-
 }
-
-

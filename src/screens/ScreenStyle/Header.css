@@ -2,12 +2,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height:60px; /* Adjust the height as needed */
+    height:60px;
     background-color: #FFF;    margin-bottom: 10px;
   }
   
   .logo {
-    /* Add styles for your logo */
     font-size: 24px;
     font-weight: bold;
   }
