@@ -263,7 +263,9 @@ export default function NewPage() {
             contents: JSON.stringify(pages) 
         };
         console.log(JSON.stringify(pages) + "dette er pages");
-        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        
+        const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
+       // const response = await updateBook(`http://localhost:8080/book/${id}`, book);
         console.log(response);
         const responseData = await response.json();
         console.log("Response:", responseData);

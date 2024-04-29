@@ -61,8 +61,9 @@ export default function DummyPage() {
         async function getUser(url, data) {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
-        }
-        const response = await getUser("http://localhost:8080/user/get", id);
+        } 
+        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         let profileName = responseData.name
@@ -87,8 +88,8 @@ export default function DummyPage() {
             pswHash: pswHash,
             email: email
         };
-        //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
-        const response = await loginUser("http://localhost:8080/user/login", user);
+        const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
+        //const response = await loginUser("http://localhost:8080/user/login", user);
 
         if (response.status !== 200) {
             setErrorMsg("Feil brukernavn eller passord!"); // Update error message state

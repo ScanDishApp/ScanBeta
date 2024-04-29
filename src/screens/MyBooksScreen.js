@@ -39,7 +39,8 @@ export default function MyBooks() {
     useEffect(() => {
         async function fetchBooks() {
           
-            const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
+            const response = await listBook(`https://scanbeta.onrender.com/book/list?userId=${userId}`);
+            //const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
             const responseData = await response.json();
             // Construct rectangles array from responseData
             const rectanglesFromData = responseData.map((item, index) => ({
@@ -87,7 +88,8 @@ export default function MyBooks() {
 
     const saveToServer = async (book) => {
         try {
-            const response = await fetchData("http://localhost:8080/book/", "POST", book);
+            const response = await fetchData("https://scanbeta.onrender.com/book/", "POST", book);
+            //const response = await fetchData("http://localhost:8080/book/", "POST", book);
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse= JSON.parse(responseData)
@@ -103,7 +105,8 @@ export default function MyBooks() {
 
     const deleteFromServer = async (id) => {
         try {
-            const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
+            const response = await fetchData(`https://scanbeta.onrender.com/book/delete?id=${id}`, "DELETE");
+           // const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -123,8 +126,10 @@ export default function MyBooks() {
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
+        
        
-        const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
+        //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
         console.log(response);
         const responseData = await response.json();
         
