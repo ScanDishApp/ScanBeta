@@ -56,6 +56,30 @@ BOOK_API.get('/list', async (req, res, next) => {
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 });
+BOOK_API.get('/listShared', async (req, res, next) => {
+    const { userId }  = req.query;
+     try {
+        const book = new Book();
+        book.userId = userId;
+  
+        const bookResult = await book.listSharedBook();
+
+        if (bookResult.success) {
+            let dbBook = bookResult.dbBook
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(dbBook).end();
+        } else {
+            console.error("Login failed:", bookResult.message);
+            if (bookResult.error) {
+                console.error("Detailed error:", bookResult.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid book credentials");
+        }
+    } catch (error) {
+        
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
+});
 
 BOOK_API.post('/', async (req, res, next) => {
 
@@ -116,10 +140,7 @@ BOOK_API.delete('/delete', async (req, res) => {
     }
 });
 
-// BOOK_API.get('/', async (req, res) => {
-//     console.log("get book");
-//     res.status(HttpCodes.SuccesfullRespons.Ok).send("Get bok ok!");
-// });
+
 
 
 export default BOOK_API

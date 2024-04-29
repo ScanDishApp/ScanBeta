@@ -114,6 +114,11 @@ export default function MyBooks() {
         localStorage.setItem('rectangles', JSON.stringify(rectangles));
     };
 
+    const handleSharedBooks = async () => {
+        navigate('/shared-books');
+        
+    };
+
     const displayRectangleId = async (id) => {
         async function getBook(url) {
             return await fetchData(url, "GET");
@@ -138,12 +143,17 @@ export default function MyBooks() {
         
         localStorage.setItem("bookId" , id )
         navigate(`/NewPage`);
+
+    
     };
 
     return (
         <div className="myBooks-container">
             <h1>Mine Bøker</h1>
-
+            <div>
+                <button>Alle bøker</button>
+                <button onClick={handleSharedBooks}>Delte bøker</button>
+            </div>
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
                     <div className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => displayRectangleId(rectangle.id)}>
