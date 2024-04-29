@@ -14,7 +14,7 @@ import NewUser from './screens/NewUserScreen';
 import Temperatur from './screens/TemperatureScreen';
 import BookDesign from './screens/BookDesignPage';
 import NewPage from './screens/NewPageScreen';
-
+import SharedBooks from './screens/ShareBookScreen';
 import Friends from './screens/FriendListScreen';
 import FriendRequest from './screens/FriendRequestScreen';
 
@@ -48,6 +48,8 @@ export default function App() {
           <Route path="/StickerMenu" element={<StickerMenu   />} /> {/* New route for DummyPage */}
           <Route path="/Friends" element={<Friends   />} /> {/* New route for DummyPage */}
           <Route path="/friend-request-screen" element={<FriendRequest   />} /> {/* New route for DummyPage */}
+          <Route path="/shared-books" element={<SharedBooks   />} /> {/* New route for DummyPage */}
+
 
 
         </Routes>

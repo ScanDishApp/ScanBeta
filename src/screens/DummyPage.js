@@ -119,6 +119,11 @@ export default function DummyPage() {
         navigate('/friends');
         
     };
+    const handleSharedBooks = async () => {
+        navigate('/shared-books');
+        
+    };
+
 
     if (userId) {
 
@@ -149,7 +154,11 @@ export default function DummyPage() {
                 <div className="square-grid">
                     <div className="square">
                         <div className="mini-square">🔔</div>
-                        <div className="option-text">Varsler</div>
+                        <div className="option-text">Favoritter</div>
+                    </div>
+                    <div onClick={handleEditUser} className="square">
+                        <div className="mini-square">🔨</div>
+                        <div className="option-text">Innstillinger</div>
                     </div>
                     <div className="square">
                         <div className="mini-square">👯</div>
@@ -157,11 +166,7 @@ export default function DummyPage() {
                     </div>
                     <div className="square">
                         <div className="mini-square">🛒</div>
-                        <div className="option-text">Notis 3</div>
-                    </div>
-                    <div onClick={handleEditUser} className="square">
-                        <div className="mini-square">🔨</div>
-                        <div className="option-text">Innstillinger</div>
+                        <div className="option-text" onClick={handleSharedBooks}>Delte bøker</div>
                     </div>
                 </div>
 

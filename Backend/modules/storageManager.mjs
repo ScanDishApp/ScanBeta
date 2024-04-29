@@ -176,11 +176,37 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" = $1';
-            const params = [userId];
+            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1';
+            const params = [`%${userId}%`];
             const output = await client.query( sql, params );
 
+            for (let i = 0; i < output.rows.length; i++){
+                book.push(output.rows[i])
+                console.log(book);
+                
+            }
             
+      
+         
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return book;
+  
+    }
+    async listSharedBook(userId) {
+
+        const client = new pg.Client(this.#credentials);
+        let book = [];
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1';
+            const params = [`%${userId},%`];
+            const output = await client.query( sql, params );
+
             for (let i = 0; i < output.rows.length; i++){
                 book.push(output.rows[i])
                 console.log(book);

@@ -71,8 +71,31 @@ class Book {
       };
     }
   }
+  async listSharedBook() {
+
+    let dbBook = await DBManager.listSharedBook(this.userId);
+  
+    if (dbBook) {
+      this.id = dbBook.id;
+      this.userId = dbBook.userId;
+      this.contents = dbBook.contents;
+  
+      return {
+        success: true,
+        dbBook: dbBook
+      };
+    } else {
+      return {
+        success: false,
+        message: "Book not found"
+      };
+    }
+  }
+  
+  
 
 }
+
 
 
 export default Book;
