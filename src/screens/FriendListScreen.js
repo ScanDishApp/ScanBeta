@@ -39,8 +39,10 @@ export default function Friends() {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-    
-        const response = await getRequest("http://localhost:8080/friends/requests", id);
+        
+        const response = await getRequest("https://scanbeta.onrender.com/friends/requests", id);
+        //const response = await getRequest("http://localhost:8080/friends/requests", id);
+
         const responseData = await response.json();
         console.log("Response:", responseData);
         const parsedJson = JSON.stringify(responseData)
@@ -54,7 +56,9 @@ export default function Friends() {
             return await fetchData(paramUrl, "GET");
         }
     
-        const response = await getFriend("http://localhost:8080/friends/get", id);
+        const response = await getFriend("https://scanbeta.onrender.com/friends/get", id);
+        //const response = await getFriend("http://localhost:8080/friends/get", id);
+
         const responseData = await response.json();
         console.log("Response:", responseData);
         
@@ -75,7 +79,8 @@ export default function Friends() {
         console.log(request);
 
         try {
-            const response = await declineFriend("http://localhost:8080/friends/remove", request);
+            const response = await declineFriend("https://scanbeta.onrender.com/friends/remove", request);
+            //const response = await declineFriend("http://localhost:8080/friends/remove", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
         } catch(error) {

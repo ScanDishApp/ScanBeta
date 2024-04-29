@@ -45,7 +45,9 @@ export default function NewUser() {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-        const response = await getUser("http://localhost:8080/user/get", id);
+        
+        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         
@@ -78,7 +80,9 @@ export default function NewUser() {
             img: img
         };
         console.log(user);
-        const response = await createUser("http://localhost:8080/user/", user);
+
+        const response = await createUser("https://scanbeta.onrender.com/user/", user);
+       // const response = await createUser("http://localhost:8080/user/", user);
         if (response.status !== 200) {
             setErrorMsg("Alle feltene må fylles ut!"); // Update error message state
             console.log("Error message:", errorMsg);

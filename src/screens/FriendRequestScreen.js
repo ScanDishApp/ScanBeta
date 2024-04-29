@@ -53,7 +53,8 @@ export default function FriendRequest() {
         };
 
         try {
-            const response = await fetchData("http://localhost:8080/friends/add", "POST", request);
+            const response = await fetchData("https://scanbeta.onrender.com/friends/add", "POST", request);
+            //const response = await fetchData("http://localhost:8080/friends/add", "POST", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
             // Handle UI updates or further actions based on the response here
@@ -75,7 +76,8 @@ export default function FriendRequest() {
         console.log(request);
 
         try {
-            const response = await addFriend("http://localhost:8080/friends/ans", request);
+            const response = await addFriend("https://scanbeta.onrender.com/friends/ans", request);
+           // const response = await addFriend("http://localhost:8080/friends/ans", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
         } catch(error) {
@@ -96,7 +98,9 @@ export default function FriendRequest() {
         console.log(request);
 
         try {
-            const response = await declineFriend("http://localhost:8080/friends/ans", request);
+           
+            const response = await declineFriend("https://scanbeta.onrender.com/friends/ans", request);
+            //const response = await declineFriend("http://localhost:8080/friends/ans", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
         } catch(error) {

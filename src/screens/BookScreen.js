@@ -30,7 +30,8 @@ export default function Book() {
             return await fetchData(paramUrl, "DELETE");
         }
         let id = 4;
-        const response = await deleteBook("http://localhost:8080/book/delete", id);
+        const response = await deleteBook("https://scanbeta.onrender.com/book/delete", id);
+        //const response = await deleteBook("http://localhost:8080/book/delete", id);
         console.log(response);
     };
     const handleGet = async () => {
@@ -39,7 +40,9 @@ export default function Book() {
             return await fetchData(paramUrl, "GET");
         }
         let userId = null
-        const response = await getBook("http://localhost:8080/book/get", userId);
+        const response = await getBook("https://scanbeta.onrender.com/book/get", userId);
+       // const response = await getBook("http://localhost:8080/book/get", userId);
+
         console.log(response);
     };
     const handleCreate = async () => {
@@ -47,7 +50,8 @@ export default function Book() {
             return await fetchData(url, "POST", data);
         }
         let book = null
-        const response = await createBook("http://localhost:8080/book/", book);
+        const response = await createBook("https://scanbeta.onrender.com/book/", book);
+        //const response = await createBook("http://localhost:8080/book/", book);
         console.log(response);
     };
 

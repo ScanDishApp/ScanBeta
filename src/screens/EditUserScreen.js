@@ -48,7 +48,9 @@ export default function EditUser() {
             return await fetchData(url, "DELETE");
         }
         let id = localStorage.getItem("userId");
-        const response = await deleteUser(`http://localhost:8080/user/${id}`);
+      
+        const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
+       // const response = await deleteUser(`http://localhost:8080/user/${id}`);
         localStorage.removeItem("profileName")
         localStorage.removeItem("profileEmail")
         localStorage.removeItem("profileImg")
@@ -61,7 +63,9 @@ export default function EditUser() {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-        const response = await getUser("http://localhost:8080/user/get", id);
+ 
+        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+       // const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -89,7 +93,9 @@ export default function EditUser() {
             email: email
         };
         console.log(user);
-        const response = await createUser("http://localhost:8080/user/", user);
+       
+        const response = await createUser("https://scanbeta.onrender.com/user/", user);
+       // const response = await createUser("http://localhost:8080/user/", user);
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
@@ -117,7 +123,9 @@ export default function EditUser() {
             console.log("Error message:", errorMsg);
         } else {
             setErrorMsg(null); // Clear error message if login is successful
-            const response = await updateUser(`http://localhost:8080/user/${id}`, user);
+          
+            const response = await updateUser(`https://scanbeta.onrender.com/user/${id}`, user);
+           // const response = await updateUser(`http://localhost:8080/user/${id}`, user);
             const responseData = await response.json();
             const responseDataJson = JSON.parse(responseData)
             console.log("Response:", responseDataJson);
