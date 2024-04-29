@@ -1,22 +1,19 @@
 .converter-container {
     margin-top: 20px;
-    padding: 30px; /* Increased padding */
+    padding: 30px;
     background-color: #b1d261;
-    border-radius: 20px; /* Border radius applied */
+    border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Include padding and border in the width */
-    width: calc(100% - 0px); /* 30px padding on each side */
+    box-sizing: border-box;
+    width: calc(100% - 0px);
 }
 
-
-/* Style the headings */
 .converter-container h2 {
     margin-bottom: 20px;
     font-size: 1.8rem;
     color: #333;
 }
 
-/* Style the labels */
 .converter-container label {
     display: block;
     margin-bottom: 10px;
@@ -24,10 +21,8 @@
     color: #222;
 }
 
-/* Style the input fields and select dropdowns */
-
 .converter-container select {
-    width: calc(100% - 24px); /* Adjusted width */
+    width: calc(100% - 24px);
     padding: 12px;
     margin-bottom: 20px;
     border: none;
@@ -35,31 +30,21 @@
     font-size: 1.2rem;
     color: #333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center the text within the select element */
+    text-align: center;
     font-family: 'Helvetica', serif;
-
-
-    
 }
 
-.converter-container input[type="text"]
- {
+.converter-container input[type="text"] {
     font-family: 'Helvetica', serif;
-    padding: 20px;
-    font-size: 16px;
-    border: none;
-    text-align: center;
     padding: 12px;
     font-size: 1.2rem;
-    width: calc(100% - 26px); /* Subtract the total padding (5px on each side) from the width */
-    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    border: none;
+    text-align: center;
+    width: calc(100% - 26px);
+    box-sizing: border-box;
     margin-right: 10px;
-    
 }
 
-
-
-/* Style the conversion button */
 .converter-container button {
     background-color: #53a586;
     color: #ffffff;
@@ -70,26 +55,18 @@
     font-size: 1.2rem;
     transition: background-color 0.3s;
     display: block;
-    margin: 0 auto; /* Centered */
-}
-
-
-/* Style the result */
-.converter-container .result {
-    margin-top: 20px;
-    font-size: 1.4rem;
-    color: #333;
+    margin: 0 auto;
 }
 
 .result-container {
     margin-top: 20px;
     height: 110px;
-    padding: 30px; /* Increased padding */
+    padding: 30px;
     background-color: #b1d261;
-    border-radius: 20px; /* Border radius applied */
+    border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Include padding and border in the width */
-    width: calc(100% - 0px); /* 30px padding on each side */
+    box-sizing: border-box;
+    width: calc(100% - 0px);
 }
 
 .result {

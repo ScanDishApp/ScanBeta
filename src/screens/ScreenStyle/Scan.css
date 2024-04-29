@@ -1,15 +1,9 @@
-/* General styles */
+
 .font-face-gm {
   font-family: "testFont";
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  overflow-x: hidden;
-  
-}
+
 
 .scan-container {
   text-align: center;
@@ -17,21 +11,18 @@ body {
   font-family: 'DM Serif Display', serif;
   overflow-x: hidden;
   padding-bottom: 200px;
-
-
-  
 }
 
 .icon-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center text horizontally within the container */
+  align-items: center;
   width: 100%;
 }
 
 .icon-text {
-  width: calc(100% - 55px); /* Adjust width to accommodate padding */
-  padding: 15px; /* Adjust padding to create spacing around the text */
+  width: calc(100% - 55px);
+  padding: 15px;
   font-size: 24px;
   background-color: #fff;
   margin-bottom: 10px;
@@ -42,26 +33,22 @@ body {
   font-weight: bold;
 }
 
-
 .icon-text:hover {
-  background-color: #f0f0f0; /* Change background color on hover */
+  background-color: #f0f0f0;
 }
-
 
 .image-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px; /* Adjust as needed */
-  margin-bottom: 20px; /* Adjust as needed */
-  padding-top: 50px; /* Adjust the padding-top value as needed */
-  
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 50px;
 }
 
 .image-container img {
-  max-width: 100%; /* Ensure the image doesn't exceed its container */
-  height: auto; /* Maintain aspect ratio */
+  max-width: 100%;
+  height: auto;
   border: 3px solid #222;
   border-radius: 20px;
-
 }

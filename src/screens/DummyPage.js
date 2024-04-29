@@ -26,14 +26,14 @@ export default function DummyPage() {
     let userId = localStorage.getItem("userId");
     let profileName = localStorage.getItem("profileName");
     let profileImg = localStorage.getItem("profileImg");
-    const [errorMsg, setErrorMsg] = useState(null); // State for error message
+    const [errorMsg, setErrorMsg] = useState(null); 
 
 
     const navigate = useNavigate();
-    // Dummy data for content, followers, and following
-    const contentCount = 20; // Replace with actual count
-    const followersCount = 1000; // Replace with actual count
-    const followingCount = 500; // Replace with actual count
+
+    const contentCount = 20; 
+    const followersCount = 1000; 
+    const followingCount = 500; 
 
     const [image, setImage] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
@@ -92,10 +92,10 @@ export default function DummyPage() {
         //const response = await loginUser("http://localhost:8080/user/login", user);
 
         if (response.status !== 200) {
-            setErrorMsg("Feil brukernavn eller passord!"); // Update error message state
+            setErrorMsg("Feil brukernavn eller passord!"); 
             console.log(errorMsg);
         } else {
-            setErrorMsg(null); // Clear error message if login is successful
+            setErrorMsg(null); 
         }
 
         const responseData = await response.json();
@@ -105,7 +105,7 @@ export default function DummyPage() {
         
         
         
-        navigate('/dummy-page'); // Redirect to DummyPage
+        navigate('/dummy-page'); 
         handleGet(userId)
 
     };
