@@ -92,8 +92,8 @@ export default function DummyPage() {
             pswHash: pswHash,
             email: email
         };
-        const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
-        //const response = await loginUser("http://localhost:8080/user/login", user);
+        //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
+        const response = await loginUser("http://localhost:8080/user/login", user);
 
         if (response.status !== 200) {
             setErrorMsg("Feil brukernavn eller passord!");
@@ -113,6 +113,10 @@ export default function DummyPage() {
 
     const handleCreatePage = async () => {
         navigate('/new-user-page');
+
+    };
+    const handleFavoritePage = async () => {
+        navigate('/favorites-screen');
 
     };
 
@@ -152,7 +156,7 @@ export default function DummyPage() {
                 </div>
 
                 <div className="square-grid">
-                    <div className="square">
+                    <div onClick={handleFavoritePage} className="square">
                         <div className="mini-square">🔔</div>
                         <div className="option-text">Favoritter</div>
                     </div>

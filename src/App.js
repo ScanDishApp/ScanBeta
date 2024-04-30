@@ -22,6 +22,8 @@ import TemperatureConverter from './screens/TemperatureScreen';
 import StickerMenu from './screens/Stickers';
 import Calculator from './screens/CalculatorScreen';
 import EditUser from './screens/EditUserScreen';
+import LookMyBooks from './screens/LookAtBookScreen';
+import Favorites from './screens/FavouriteScreen';
 
 export default function App() {
   return (
@@ -47,6 +49,8 @@ export default function App() {
           <Route path="/friend-request-screen" element={<FriendRequest   />} /> 
           <Route path="/shared-books" element={<SharedBooks   />} /> 
           <Route path="/PaperEnhancer" element={<PaperEnhancer />} />
+          <Route path="/look-my-book" element={<LookMyBooks />} />
+          <Route path="/favorites-screen" element={<Favorites />} />
         </Routes>
       </Router>
     </div>
