@@ -40,20 +40,20 @@ export default function SharedBooks() {
 
     useEffect(() => {
         async function fetchBooks() {
-            
+
             //const response = await listBook(`http://localhost:8080/book/listShared?userId=${userId}`);
             const response = await listBook(`https://scanbeta.onrender.com/book/listShared?userId=${userId}`);
             const responseData = await response.json();
-            // Construct rectangles array from responseData
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
                 title: item.id,
-                color: `#${Math.floor(Math.random() * 16777215).toString(16)}` // Generate random color
+                color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
             }));
             setRectangles(rectanglesFromData);
         }
         fetchBooks();
     }, []);
+
     useEffect(() => {
         handleGetFriend(userId);
     }, []);
@@ -67,8 +67,6 @@ export default function SharedBooks() {
         const response = await getFriend("https://scanbeta.onrender.com/friends/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
-
-        // Update the friendsList state with the fetched data
         setFriendsList(responseData); // Assuming responseData is an array of friend objects
     };
 
@@ -139,13 +137,11 @@ export default function SharedBooks() {
             return await fetchData(url, "GET");
         }
         const response = await getBook(`https://scanbeta.onrender.com/book/get?id=${id}`);
-       // const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        // const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
         console.log(response);
         const responseData = await response.json();
 
         console.log("Response:", responseData);
-
-        // Stringify responseData.contents before storing in local storage
         const contentsString = responseData.contents;
         console.log(contentsString);
         localStorage.setItem("contents", contentsString);
@@ -162,10 +158,8 @@ export default function SharedBooks() {
 
     const handleFriendSelection = (e) => {
         const selectedFriendId = e.target.value;
-        // Assuming your friend object contains an ID
         const selectedFriend = friendsList.find(friend => friend.userId === selectedFriendId);
         if (selectedFriend) {
-            // Update the selectedFriends state
             setselectedFriends([...selectedFriends, selectedFriend]);
         }
     };
@@ -173,7 +167,7 @@ export default function SharedBooks() {
     const handleMyBooks = async () => {
         navigate('/MyBooks');
     };
-    
+
     return (
         <div className="myBooks-container">
             <h1>Delte Bøker</h1>
@@ -211,17 +205,13 @@ export default function SharedBooks() {
                             <option value="">Velg venn</option>
                             {friendsList.map(friend => (
                                 <option key={friend.userId} value={friend.userId}>{friend.name}</option>
-                                
-                            ))} 
+
+                            ))}
                         </select>
                         <FaCheck className="check-icon" onClick={addRectangle} />
                     </div>
                 </div>
             )}
-
-
-
-
         </div>
     );
 }

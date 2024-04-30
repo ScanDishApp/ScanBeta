@@ -2,10 +2,11 @@ import React from 'react';
 import './ScreenStyle/Book.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+
 async function fetchData(url, method, data) {
     const headers = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*" // Legg til denne linjen for å tillate forespørsler fra alle domener
+        "Access-Control-Allow-Origin": "*"
     };
 
     const options = {
@@ -34,6 +35,7 @@ export default function Book() {
         //const response = await deleteBook("http://localhost:8080/book/delete", id);
         console.log(response);
     };
+
     const handleGet = async () => {
         async function getBook(url, data) {
             const paramUrl = `${url}?userId=${data}`;
@@ -41,10 +43,11 @@ export default function Book() {
         }
         let userId = null
         const response = await getBook("https://scanbeta.onrender.com/book/get", userId);
-       // const response = await getBook("http://localhost:8080/book/get", userId);
+        // const response = await getBook("http://localhost:8080/book/get", userId);
 
         console.log(response);
     };
+
     const handleCreate = async () => {
         async function createBook(url, data) {
             return await fetchData(url, "POST", data);
@@ -59,8 +62,6 @@ export default function Book() {
         navigate('/bookDesign');
     };
 
-
-
     return (
         <div className="book-container">
             <h1>Mine Bøker</h1>
@@ -74,9 +75,6 @@ export default function Book() {
                     <button onClick={handleDelete} className="NewBook">Slett</button>
                 </div>
             </div>
-
-
-
         </div>
     );
 }

@@ -26,14 +26,14 @@ export default function DummyPage() {
     let userId = localStorage.getItem("userId");
     let profileName = localStorage.getItem("profileName");
     let profileImg = localStorage.getItem("profileImg");
-    const [errorMsg, setErrorMsg] = useState(null); 
+
+    const [errorMsg, setErrorMsg] = useState(null);
 
 
     const navigate = useNavigate();
-
-    const contentCount = 20; 
-    const followersCount = 1000; 
-    const followingCount = 500; 
+    const contentCount = 20;
+    const followersCount = 1000;
+    const followingCount = 500;
 
     const [image, setImage] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
@@ -47,27 +47,31 @@ export default function DummyPage() {
 
         reader.readAsDataURL(file);
     };
+
     const handleLogOut = () => {
         localStorage.removeItem("userId")
         navigate('/dummy-page');
     }
+
     const handleEditUser = () => {
         navigate('/edit-user-page');
     }
+
     useEffect(() => {
         setProfileImage(profileImg);
     }, []);
+
     const handleGet = async (id) => {
         async function getUser(url, data) {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
-        } 
+        }
         const response = await getUser("https://scanbeta.onrender.com/user/get", id);
         //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         let profileName = responseData.name
-        localStorage.setItem("profileName", profileName) 
+        localStorage.setItem("profileName", profileName)
         let profileEmail = responseData.email
         localStorage.setItem("profileEmail", profileEmail)
         let profileImg = responseData.img
@@ -92,42 +96,37 @@ export default function DummyPage() {
         //const response = await loginUser("http://localhost:8080/user/login", user);
 
         if (response.status !== 200) {
-            setErrorMsg("Feil brukernavn eller passord!"); 
+            setErrorMsg("Feil brukernavn eller passord!");
             console.log(errorMsg);
         } else {
-            setErrorMsg(null); 
+            setErrorMsg(null);
         }
 
         const responseData = await response.json();
         console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId)
-        
-        
-        
-        navigate('/dummy-page'); 
-        handleGet(userId)
+        navigate('/dummy-page');
 
+        handleGet(userId)
     };
-  
-  
 
     const handleCreatePage = async () => {
         navigate('/new-user-page');
-        
+
     };
+
     const handleFriendPage = async () => {
         navigate('/friends');
-        
+
     };
+
     const handleSharedBooks = async () => {
         navigate('/shared-books');
-        
+
     };
 
-
     if (userId) {
-
         return (
             <div className="profile-container">
                 <h1>ScanDish</h1>
@@ -143,8 +142,8 @@ export default function DummyPage() {
                             <h2>Hei! {profileName}</h2>
                         </div>
                         <label className="pfp-square" htmlFor="imageUpload">
-                        <img src={profileImage} alt="Profile" />
-                           
+                            <img src={profileImage} alt="Profile" />
+
                         </label>
                     </div>
                     <div className="counter">
@@ -177,8 +176,6 @@ export default function DummyPage() {
             </div>
         );
     } else {
-
-
         return (
             <div className="login-container">
                 <div className="rectangle-grid">
@@ -196,8 +193,6 @@ export default function DummyPage() {
                     <button onClick={handleLogin} className="login-button">Logg inn</button>
                     <button onClick={handleCreatePage} className="create-button">Lag bruker</button>
                 </div>
-
-
             </div>
         );
     }

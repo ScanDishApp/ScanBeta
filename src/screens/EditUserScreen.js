@@ -25,13 +25,9 @@ export default function EditUser() {
     const navigate = useNavigate(); // Hook for navigation
     const [image, setImage] = useState(localStorage.getItem("profileImg"));
     const [errorMsg, setErrorMsg] = useState(null);
-   
     const [profileName, setProfileName] = useState(localStorage.getItem("profileName"));
     const [profileEmail, setProfileEmail] = useState(localStorage.getItem("profileEmail"));
-   
-
     const [profileImage, setProfileImage] = useState(null);
-    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -43,14 +39,15 @@ export default function EditUser() {
 
         reader.readAsDataURL(file);
     };
+
     const handleDelete = async () => {
         async function deleteUser(url) {
             return await fetchData(url, "DELETE");
         }
         let id = localStorage.getItem("userId");
-      
+
         const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
-       // const response = await deleteUser(`http://localhost:8080/user/${id}`);
+        // const response = await deleteUser(`http://localhost:8080/user/${id}`);
         localStorage.removeItem("profileName")
         localStorage.removeItem("profileEmail")
         localStorage.removeItem("profileImg")
@@ -63,9 +60,9 @@ export default function EditUser() {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
- 
+
         const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-       // const response = await getUser("http://localhost:8080/user/get", id);
+        // const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -93,9 +90,9 @@ export default function EditUser() {
             email: email
         };
         console.log(user);
-       
+
         const response = await createUser("https://scanbeta.onrender.com/user/", user);
-       // const response = await createUser("http://localhost:8080/user/", user);
+        // const response = await createUser("http://localhost:8080/user/", user);
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
@@ -119,13 +116,13 @@ export default function EditUser() {
         };
 
         if (pswHash == "") {
-            setErrorMsg("Husk å skrive passord!"); // Update error message state
+            setErrorMsg("Husk å skrive passord!");
             console.log("Error message:", errorMsg);
         } else {
-            setErrorMsg(null); // Clear error message if login is successful
-          
+            setErrorMsg(null);
+
             const response = await updateUser(`https://scanbeta.onrender.com/user/${id}`, user);
-           // const response = await updateUser(`http://localhost:8080/user/${id}`, user);
+            // const response = await updateUser(`http://localhost:8080/user/${id}`, user);
             const responseData = await response.json();
             const responseDataJson = JSON.parse(responseData)
             console.log("Response:", responseDataJson);
@@ -134,16 +131,12 @@ export default function EditUser() {
             console.log(userId);
             await handleGet(userId)
             navigate('/dummy-page')
-           
         }
-
     };
 
     return (
         <div className="edit-user-container">
-
             <div className="rectangle-grid">
-
                 <h1>Endre bruker</h1>
                 <label className="pfp-square" htmlFor="imageUpload">
                     {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p>}
@@ -155,7 +148,6 @@ export default function EditUser() {
                         style={{ display: 'none' }}
                     />
                 </label>
-
                 <div className="rectangle">
 
                     <h2>Brukernavn: </h2>
@@ -169,10 +161,10 @@ export default function EditUser() {
                 <div className="rectangle">
                     <h2>Email: </h2>
                     <input
-    className="update-email"
-    value={profileEmail}
-    onChange={(e) => setProfileEmail(e.target.value)}
-/>
+                        className="update-email"
+                        value={profileEmail}
+                        onChange={(e) => setProfileEmail(e.target.value)}
+                    />
                 </div>
                 <br></br>
                 <div className="rectangle">
@@ -183,10 +175,6 @@ export default function EditUser() {
                 <button onClick={handleUpdate} className="update-button">Endre bruker</button>
                 <button onClick={handleDelete} className="delete-button">Slett bruker</button>
             </div>
-
-
-
-
         </div>
     );
 }
