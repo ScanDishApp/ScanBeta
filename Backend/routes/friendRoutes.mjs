@@ -1,5 +1,5 @@
 import express from "express";
-import Friends from "../modules/friend.mjs";
+import Friends from "../dom/friend.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
 const FRIEND_API = express.Router();

@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../modules/user.mjs";
+import User from "../dom/user.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
 
@@ -25,7 +25,7 @@ USER_API.get('/get', async (req, res, next) => {
             res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
         }
     } catch (error) {
-        // Handle other errors
+      
         console.error("Unexpected error:", error);
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
@@ -39,7 +39,6 @@ USER_API.post('/login', async (req, res, next) => {
         return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields").end();
     }
     
-
     try {
         const user = new User();
         user.email = email;
