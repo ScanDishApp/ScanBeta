@@ -1,7 +1,6 @@
 import React from 'react';
 import './ScreenStyle/Header.css';
 
-
 const Header = () => {
   return (
     <header className="header">

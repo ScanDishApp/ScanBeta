@@ -127,5 +127,4 @@ USER_API.delete('/:id', async (req, res) => {
     }
 });
 
-
 export default USER_API

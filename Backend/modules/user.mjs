@@ -30,7 +30,7 @@ class User {
 
   async getUser() {
     let dbUser = await DBManager.getUser(this.id);
-    
+
     if (dbUser.id != null) {
       this.id = dbUser.id;
       this.name = dbUser.name;

@@ -14,9 +14,9 @@ class Friends {
   async save() {
 
     console.log(this.status + this.id);
-    if ((this.id == null) && (this.status) == "pending" ) {
+    if ((this.id == null) && (this.status) == "pending") {
       return await DBManager.sendRequest(this);
-    } else if ((this.status == "friend") && (this.id != null)|| (this.status == "declined") && (this.id != null)) {
+    } else if ((this.status == "friend") && (this.id != null) || (this.status == "declined") && (this.id != null)) {
       return await DBManager.ansRequest(this);
     } else {
       return await DBManager.removeFriend(this);
@@ -47,28 +47,27 @@ class Friends {
   }
 
   async listRequest() {
-  let dbFriend = await DBManager.listFriendRequest(this.userId);
+    let dbFriend = await DBManager.listFriendRequest(this.userId);
 
-  if (dbFriend) {
-    this.userId = dbFriend.userId;
-    this.friendId = dbFriend.friendId;
-    this.status = dbFriend.status;
-    this.name = dbFriend.name;
+    if (dbFriend) {
+      this.userId = dbFriend.userId;
+      this.friendId = dbFriend.friendId;
+      this.status = dbFriend.status;
+      this.name = dbFriend.name;
 
-    return {
-      success: true,
-      dbFriend: dbFriend
+      return {
+        success: true,
+        dbFriend: dbFriend
+      }
+    } else {
+
+      return {
+        success: false,
+        message: "request not found"
+      };
     }
-  } else {
-
-    return {
-      success: false,
-      message: "request not found"
-    };
   }
-}
 
-  
 }
 
 export default Friends;

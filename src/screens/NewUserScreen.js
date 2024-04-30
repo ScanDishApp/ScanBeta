@@ -16,7 +16,7 @@ async function fetchData(url, method, data) {
 
     if (data) {
         options.body = JSON.stringify(data);
-    } 
+    }
 
     const response = await fetch(url, options);
     return response;
@@ -24,11 +24,10 @@ async function fetchData(url, method, data) {
 
 export default function NewUser() {
     let userId = localStorage.getItem("userId");
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const [image, setImage] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null); 
+    const [errorMsg, setErrorMsg] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -40,19 +39,20 @@ export default function NewUser() {
 
         reader.readAsDataURL(file);
     };
+
     const handleGet = async (id) => {
         async function getUser(url, data) {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-        
+
         const response = await getUser("https://scanbeta.onrender.com/user/get", id);
         //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
-        
+
         let profileName = responseData.name
-        localStorage.setItem("profileName", profileName) 
+        localStorage.setItem("profileName", profileName)
         let profileEmail = responseData.email
         localStorage.setItem("profileEmail", profileEmail)
         let profileImg = responseData.img
@@ -62,7 +62,7 @@ export default function NewUser() {
     };
 
     const handleCreate = async () => {
-        console.log("handleCreate function called"); 
+        console.log("handleCreate function called");
         async function createUser(url, data) {
             return await fetchData(url, "POST", data);
         }
@@ -70,8 +70,8 @@ export default function NewUser() {
         const pswHash = document.querySelector('.create-password').value;
         const email = document.querySelector('.create-email').value;
         let img = image;
-        if (!img){
-             img = defaultImage; 
+        if (!img) {
+            img = defaultImage;
         }
         const user = {
             name: name,
@@ -80,14 +80,13 @@ export default function NewUser() {
             img: img
         };
         console.log(user);
-
         const response = await createUser("https://scanbeta.onrender.com/user/", user);
-       // const response = await createUser("http://localhost:8080/user/", user);
+        // const response = await createUser("http://localhost:8080/user/", user);
         if (response.status !== 200) {
-            setErrorMsg("Alle feltene må fylles ut!"); 
+            setErrorMsg("Alle feltene må fylles ut!");
             console.log("Error message:", errorMsg);
         } else {
-            setErrorMsg(null); 
+            setErrorMsg(null);
         }
         console.log(response);
         const responseData = await response.json();
@@ -97,17 +96,15 @@ export default function NewUser() {
         localStorage.setItem("userId", userId);
         await handleGet(userId)
         navigate('/dummy-page')
-       
-       
     };
 
     return (
         <div className="create-user-container">
             <div className="rectangle-grid">
-                
+
                 <h1>Lag en ny bruker</h1>
                 <label className="pfp-square" htmlFor="imageUpload">
-                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bilde</p>} {/* Corrected typo */}
+                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bilde</p>}
                     <input
                         type="file"
                         id="imageUpload"
@@ -130,11 +127,9 @@ export default function NewUser() {
                     <h2>Passord: </h2>
                     <input className="create-password" type='password'></input>
                 </div>
-                <p>{errorMsg}</p> 
+                <p>{errorMsg}</p>
                 <button onClick={handleCreate} className="create-button">Lag bruker</button>
             </div>
-
-           
         </div>
     );
 }

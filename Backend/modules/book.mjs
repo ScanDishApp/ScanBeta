@@ -14,12 +14,11 @@ class Book {
       return await DBManager.createBook(this);
     } else {
       return await DBManager.updateBook(this);
-    } 
+    }
   }
 
   async delete() {
-    
-    
+
     if (this.id != null) {
       return await DBManager.deleteBook(this.id);
     }
@@ -74,12 +73,12 @@ class Book {
   async listSharedBook() {
 
     let dbBook = await DBManager.listSharedBook(this.userId);
-  
+
     if (dbBook) {
       this.id = dbBook.id;
       this.userId = dbBook.userId;
       this.contents = dbBook.contents;
-  
+
       return {
         success: true,
         dbBook: dbBook
@@ -91,8 +90,8 @@ class Book {
       };
     }
   }
-  
-  
+
+
 
 }
 

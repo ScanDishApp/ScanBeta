@@ -5,7 +5,6 @@ import { HttpCodes } from "../modules/httpCodes.mjs";
 const FRIEND_API = express.Router();
 FRIEND_API.use(express.json());
 
-
 FRIEND_API.post('/add', async (req, res, next) => {
     const { userId, friendId, status, name } = req.body;
 

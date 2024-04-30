@@ -1,4 +1,3 @@
-// FontDropdown.js
 import React from 'react';
 
 const FontDropdown = ({ selectedFont, handleFontChange }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './ScreenStyle/BookDesign.css'; // Import your CSS file for styling
-import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineScan, AiOutlinePicture, AiOutlineUpCircle, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave, AiOutlineFileAdd } from 'react-icons/ai'; 
+import './ScreenStyle/BookDesign.css';
+import { AiOutlineFontSize, AiOutlineFontColors, AiOutlineScan, AiOutlinePicture, AiOutlineUpCircle, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave, AiOutlineFileAdd } from 'react-icons/ai';
 
 function BookDesign() {
     const [selectedFont, setSelectedFont] = useState('Arial');
@@ -10,14 +10,13 @@ function BookDesign() {
 
     const fontOptions = [
         { name: 'sans-serif', fontFamily: 'sans-serif' },
-        { name: 'monospace',fontFamily: 'monospace'},
-        { name: 'serif',fontFamily: 'serif'},
-
+        { name: 'monospace', fontFamily: 'monospace' },
+        { name: 'serif', fontFamily: 'serif' },
     ];
 
     const handleFontChange = (font) => {
         setSelectedFont(font);
-        setShowFontOptions(false); 
+        setShowFontOptions(false);
     };
 
     const handleTextChange = (event) => {
@@ -29,10 +28,11 @@ function BookDesign() {
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.font = `16px ${selectedFont}`;
-        context.fillText(text, 10, 50); 
+        context.fillText(text, 10, 50);
     }, [text, selectedFont]);
 
     const handleUpdate = async () => {
+        // Handle book update logic
     };
 
     return (

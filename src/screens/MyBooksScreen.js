@@ -38,30 +38,29 @@ export default function MyBooks() {
 
     useEffect(() => {
         async function fetchBooks() {
-          
+
             const response = await listBook(`https://scanbeta.onrender.com/book/list?userId=${userId}`);
             //const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
             const responseData = await response.json();
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
                 title: item.id,
-                color: `#${Math.floor(Math.random() * 16777215).toString(16)}` // Generate random color
+                color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
             }));
-            
+
             setRectangles(rectanglesFromData);
         }
         fetchBooks();
     }, []);
 
     const addRectangle = async () => {
-        const randomColor 
-        = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        const randomColor
+            = '#' + Math.floor(Math.random() * 16777215).toString(16);
         let contents = "";
         const book = {
             userId: userId,
             contents: contents
         };
-    
 
         const updatedRectangles = [...rectangles, book];
         setRectangles(updatedRectangles);
@@ -91,9 +90,9 @@ export default function MyBooks() {
             //const response = await fetchData("http://localhost:8080/book/", "POST", book);
             if (response.ok) {
                 const responseData = await response.json();
-                const responseParse= JSON.parse(responseData)
-                localStorage.setItem("bookId" , responseParse.id )
-               displayRectangleId(responseParse.id)
+                const responseParse = JSON.parse(responseData)
+                localStorage.setItem("bookId", responseParse.id)
+                displayRectangleId(responseParse.id)
             } else {
                 console.log("Error saving book to server.");
             }
@@ -105,7 +104,7 @@ export default function MyBooks() {
     const deleteFromServer = async (id) => {
         try {
             const response = await fetchData(`https://scanbeta.onrender.com/book/delete?id=${id}`, "DELETE");
-           // const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
+            // const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -118,23 +117,20 @@ export default function MyBooks() {
 
     const handleSharedBooks = async () => {
         navigate('/shared-books');
-        
+
     };
 
     const displayRectangleId = async (id) => {
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
-        
-       
+
         const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
         //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
         console.log(response);
         const responseData = await response.json();
-        
+
         console.log("Response:", responseData);
-        
-        // Stringify responseData.contents before storing in local storage
         const contentsString = responseData.contents;
         console.log(contentsString);
         localStorage.setItem("contents", contentsString);
@@ -144,11 +140,11 @@ export default function MyBooks() {
         } catch (error) {
             console.error("Error parsing contentsString:", error);
         }
-        
-        localStorage.setItem("bookId" , id )
+
+        localStorage.setItem("bookId", id)
         navigate(`/NewPage`);
 
-    
+
     };
 
     return (

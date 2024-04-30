@@ -140,7 +140,4 @@ BOOK_API.delete('/delete', async (req, res) => {
     }
 });
 
-
-
-
 export default BOOK_API
