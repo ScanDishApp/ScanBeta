@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import sticker1 from '../assets/Fruit/Apple.png';
 
 const stickerData = [

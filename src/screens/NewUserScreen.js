@@ -130,8 +130,6 @@ export default function NewUser() {
                 <p>{errorMsg}</p>
                 <button onClick={handleCreate} className="create-button">Lag bruker</button>
             </div>
-
-
         </div>
     );
 }

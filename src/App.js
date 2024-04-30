@@ -17,6 +17,7 @@ import NewPage from './screens/NewPageScreen';
 import SharedBooks from './screens/ShareBookScreen';
 import Friends from './screens/FriendListScreen';
 import FriendRequest from './screens/FriendRequestScreen';
+import PaperEnhancer from './screens/ScanConvert';
 import TemperatureConverter from './screens/TemperatureScreen';
 import StickerMenu from './screens/Stickers';
 import Calculator from './screens/CalculatorScreen';
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/Friends" element={<Friends   />} /> 
           <Route path="/friend-request-screen" element={<FriendRequest   />} /> 
           <Route path="/shared-books" element={<SharedBooks   />} /> 
+          <Route path="/PaperEnhancer" element={<PaperEnhancer />} />
         </Routes>
       </Router>
     </div>

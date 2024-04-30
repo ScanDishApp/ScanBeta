@@ -41,7 +41,7 @@ export default function NewPage() {
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
-    const [selectedFontSize, setSelectedFontSize] = useState('16px'); // Initial font size
+    const [selectedFontSize, setSelectedFontSize] = useState('16px'); 
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [showBulletListMessage, setShowBulletListMessage] = useState(false);
     const [pages, setPages] = useState([]);
@@ -104,6 +104,7 @@ export default function NewPage() {
             isBulletListActive
         };
         setPages(prevPages => [...prevPages, newPage]);
+
         const newIndex = pages.length;
         setCurrentPageIndex(newIndex);
         resetPageState();
@@ -137,6 +138,7 @@ export default function NewPage() {
         if (isBulletListActive) {
             const lines = newContent.split('\n');
             const newLines = lines.map((line, index) => {
+
                 if (line.trim() !== '' && !line.startsWith('\u2022')) {
                     return `\u2022 ${line}`;
                 }
@@ -240,7 +242,9 @@ export default function NewPage() {
     const toggleBulletList = () => {
         setIsBulletListActive(!isBulletListActive);
         setShowBulletListMessage(true);
+
     };
+  
     const handleUpdate = async () => {
 
         const id = localStorage.getItem("bookId")
@@ -258,6 +262,7 @@ export default function NewPage() {
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
+  
     return (
         <div className="NewPage-container">
             <h1>Design din bok</h1>

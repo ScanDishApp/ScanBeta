@@ -26,6 +26,7 @@ export default function DummyPage() {
     let userId = localStorage.getItem("userId");
     let profileName = localStorage.getItem("profileName");
     let profileImg = localStorage.getItem("profileImg");
+
     const [errorMsg, setErrorMsg] = useState(null);
 
 
@@ -106,6 +107,7 @@ export default function DummyPage() {
         let userId = responseData.id
         localStorage.setItem("userId", userId)
         navigate('/dummy-page');
+
         handleGet(userId)
     };
 

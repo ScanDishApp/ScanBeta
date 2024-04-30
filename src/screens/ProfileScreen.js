@@ -50,7 +50,7 @@ export default function Profile() {
             navigate('/dummy-page');
         } else {
             setLoggedIn(false);
-            // Handle login failure
+        
         }
     };
 
