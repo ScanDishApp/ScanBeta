@@ -31,7 +31,6 @@ const Home = () => {
                     <img src={calkIcon} alt='Add calk' className='add-icon-book' />
                 </Link>
 
-                {/* Box 2 - Navigate to '/scan' */}
                 <Link to="/TemperatureConverter" className="box2" style={linkStyle}>
                     <div className="nested-box">
                         TEMPERATUR
@@ -40,7 +39,6 @@ const Home = () => {
                 </Link>
             </div>
 
-            {/* Additional rectangle at the bottom - Navigate to '/add-book' */}
             <Link to="/add-book" className="book-rectangle" style={linkStyle}>
                 <div className="nested-rectangle">
                     LEGG TIL NY BOK 

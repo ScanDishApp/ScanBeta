@@ -42,7 +42,6 @@ export default function MyBooks() {
             const response = await listBook(`https://scanbeta.onrender.com/book/list?userId=${userId}`);
             //const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
             const responseData = await response.json();
-            // Construct rectangles array from responseData
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
                 title: item.id,

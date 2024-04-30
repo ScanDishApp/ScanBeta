@@ -12,12 +12,12 @@ function BookDesign() {
         { name: 'sans-serif', fontFamily: 'sans-serif' },
         { name: 'monospace',fontFamily: 'monospace'},
         { name: 'serif',fontFamily: 'serif'},
-        // Add more font options as needed
+
     ];
 
     const handleFontChange = (font) => {
         setSelectedFont(font);
-        setShowFontOptions(false); // Close font options dropdown after selection
+        setShowFontOptions(false); 
     };
 
     const handleTextChange = (event) => {
@@ -29,11 +29,10 @@ function BookDesign() {
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.font = `16px ${selectedFont}`;
-        context.fillText(text, 10, 50); // Adjust position as needed
+        context.fillText(text, 10, 50); 
     }, [text, selectedFont]);
 
     const handleUpdate = async () => {
-        // Handle book update logic
     };
 
     return (
