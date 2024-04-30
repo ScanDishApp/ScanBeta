@@ -1,4 +1,4 @@
-import DBManager from "../modules/storageManager.mjs"
+import DBManager from "../modules/storageManager.mjs";
 
 class Favorites {
 
