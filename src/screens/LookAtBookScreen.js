@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineHeart, AiOutlineSave } from 'react-icons/ai';
+import html2pdf from 'html2pdf.js';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -76,6 +77,19 @@ export default function LookMyBooks() {
       
 
     };
+    const downloadJsonAsPDF = () => {
+        const contentString = content // Convert JSON to string with pretty formatting
+        const contentHTML = `<pre>${contentString}</pre>`;
+        const opt = {
+            margin: 0.5,
+            filename: 'my_books.json.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().from(contentHTML).set(opt).save();
+    };
 
     return (
         <div className="myBooks-container">
@@ -83,7 +97,7 @@ export default function LookMyBooks() {
             <div className="icon-row">
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
-                <AiOutlineSave className="icon" />
+                <AiOutlineSave className="icon"  onClick={downloadJsonAsPDF}/>
                 <AiOutlineHeart className="icon"  onClick={handleFavorite}/>
             </div>
             <h1 className='bookTitle'></h1>
