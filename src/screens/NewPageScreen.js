@@ -57,6 +57,7 @@ export default function NewPage() {
             if (parsedPages.length > 0) {
                 const initialPage = parsedPages[currentPageIndex];
                 setTitle(initialPage.title);
+                setIngridens(initialPage.ingridens);
                 setContent(initialPage.content);
                 setImages(initialPage.images);
                 setSelectedColor(initialPage.selectedColor);

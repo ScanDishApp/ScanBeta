@@ -61,7 +61,7 @@ width: 90%;
 .ingridens-input {
     text-align: left;
 background-color: transparent;
-font-family: 'DM Serif Display', serif;
+font-family: inherit;
 font-size: 20px;
 outline: none;
 margin-bottom: 0px;
