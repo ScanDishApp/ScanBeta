@@ -31,6 +31,7 @@ async function updateBook(url, data) {
 export default function NewPage() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [title, setTitle] = useState('');
+    const [ingridens, setIngridens] = useState('');
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
     const [dragging, setDragging] = useState(false);
@@ -70,6 +71,7 @@ export default function NewPage() {
         if (pages.length > 0) {
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
+            setIngridens(initialPage.ingridens);
             setContent(initialPage.content);
             setImages(initialPage.images);
             setSelectedColor(initialPage.selectedColor);
@@ -85,6 +87,7 @@ export default function NewPage() {
 
     const resetPageState = () => {
         setTitle('');
+        setIngridens('');
         setContent('');
         setImages([]);
         setSelectedColor('#000000');
@@ -96,6 +99,7 @@ export default function NewPage() {
     const addNewPage = () => {
         const newPage = {
             title,
+            ingridens,
             content,
             images,
             selectedColor,
@@ -131,6 +135,10 @@ export default function NewPage() {
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
+    };
+
+    const handleIngridensChange = (event) => {
+        setIngridens(event.target.value);
     };
 
     const handleContentChange = (event) => {
@@ -318,6 +326,13 @@ export default function NewPage() {
                     value={title}
                     onChange={handleTitleChange}
                     placeholder="Tittel"
+                />
+                <input
+                    type="text"
+                    className="ingridens-input"
+                    value={ingridens}
+                    onChange={handleIngridensChange}
+                    placeholder="Ingridens.."
                 />
                 <textarea
                     className="note-textarea"
