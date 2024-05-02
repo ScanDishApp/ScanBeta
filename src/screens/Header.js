@@ -1,10 +1,13 @@
 import React from 'react';
 import './ScreenStyle/Header.css';
+import logo from '../assets/Logo.png'
 
 const Header = () => {
   return (
     <header className="header">
-      <div className="logo">ScanDish</div>
+      <div className="logo">
+      <img src={logo} alt="Logo"style={{  maxHeight: '40px' }}/>
+      </div>
     </header>
   );
 };
