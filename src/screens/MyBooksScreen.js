@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IoAdd, IoClose, IoTrash } from 'react-icons/io5';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import './ScreenStyle/Home.css';
+import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
 
 async function fetchData(url, method, data) {
@@ -54,8 +54,6 @@ export default function MyBooks() {
     }, []);
 
     const addRectangle = async () => {
-        const randomColor
-            = '#' + Math.floor(Math.random() * 16777215).toString(16);
         let contents = "";
         const book = {
             userId: userId,
@@ -174,13 +172,18 @@ export default function MyBooks() {
     return (
         <div className="myBooks-container">
             <h1>Mine Bøker</h1>
-            <div>
-                <button>Alle bøker</button>
-                <button onClick={handleSharedBooks}>Delte bøker</button>
+            <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+            <div className='top-buttons-container'>
+                <button className="my-books-button" >Alle bøker</button>
+                <button className="shared-books-button" onClick={handleSharedBooks}>Delte bøker</button>
+                <div className="add-book-button" onClick={() => setShowModal(true)}>
+                <IoAdd />
             </div>
+            </div>
+
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={ () => handleLookAtBook(rectangle.id)}>
+                    <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={ () => handleLookAtBook(rectangle.id)}>
                         <span>{rectangle.title}</span>
                         <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation();displayRectangleId(rectangle.id);}}/>
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
@@ -190,9 +193,7 @@ export default function MyBooks() {
 
             <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
-            <div className="square-button" onClick={() => setShowModal(true)}>
-                <IoAdd />
-            </div>
+
 
             {showModal && (
                 <div className="modal">
