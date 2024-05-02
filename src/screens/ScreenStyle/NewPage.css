@@ -60,15 +60,18 @@ width: 90%;
 
 .ingridens-input {
     text-align: left;
-background-color: transparent;
-font-family: inherit;
-font-size: 20px;
-outline: none;
-margin-bottom: 0px;
-width: 90%;
+    font-family: inherit;
+    font-size: 20px;
+    outline: none;
+    margin-bottom: 0px;
+    width: 90%;
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+    padding: 8px;
+    resize: none;
+    height: 100px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
-
-
 
 .note-textarea {
     width: 100%; 
