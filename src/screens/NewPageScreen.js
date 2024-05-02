@@ -135,7 +135,19 @@ export default function NewPage() {
     };
 
     const handleIngridensChange = (event) => {
-        setIngridens(event.target.value);
+        let newIngridens = event.target.value;
+        // Split the text into lines
+        const lines = newIngridens.split('\n');
+        // Map through each line, adding a bullet point if it doesn't already have one
+        const bulletLines = lines.map(line => {
+            // Trim to remove whitespace and check if it starts with a bullet
+            if (line.trim() && !line.trim().startsWith('\u2022')) {
+                return `\u2022 ${line}`;
+            }
+            return line;
+        });
+        // Join the lines back into a single string
+        setIngridens(bulletLines.join('\n'));
     };
 
     const handleContentChange = (event) => {
@@ -350,12 +362,17 @@ export default function NewPage() {
                     onChange={handleTitleChange}
                     placeholder="Tittel"
                 />
-                <input
-                    type="text"
+                <textarea
                     className="ingridens-input"
                     value={ingridens}
                     onChange={handleIngridensChange}
                     placeholder="Ingridens.."
+                    style={{
+                        fontFamily: 'inherit',
+                        border: 'none', // Removes the border
+                        outline: 'none', // Removes the outline on focus
+                        background: 'transparent' // Makes the background transparent ?
+                    }}
                 />
                 <textarea
                     className="note-textarea"

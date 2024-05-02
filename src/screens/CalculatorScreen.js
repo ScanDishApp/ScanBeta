@@ -3,28 +3,28 @@ import './ScreenStyle/Calculator.css';
 
 export default function Calculator() {
     const [inputValue, setInputValue] = useState('');
-    const [fromUnit, setFromUnit] = useState('grams');
+    const [fromUnit, setFromUnit] = useState('gram');
     const [toUnit, setToUnit] = useState('ounces');
     const [result, setResult] = useState('');
 
     const unitConversions = {
-        grams: {
+        gram: {
             ounces: 0.035274,
             pounds: 0.00220462,
-            kilograms: 0.001,
+            kilogras: 0.001,
         },
         ounces: {
-            grams: 28.3495,
+            gram: 28.3495,
             pounds: 0.0625,
-            kilograms: 0.0283495,
+            kilogram: 0.0283495,
         },
         pounds: {
-            grams: 453.592,
+            gram: 453.592,
             ounces: 16,
-            kilograms: 0.453592,
+            kilogram: 0.453592,
         },
-        kilograms: {
-            grams: 1000,
+        kilogram: {
+            gram: 1000,
             ounces: 35.274,
             pounds: 2.20462,
         },
@@ -57,15 +57,15 @@ export default function Calculator() {
         <div className="home-container">
             <div className="rectangle-grid">
                 <div className="rectangle">
-                    <h2>👋 Food unit converter...</h2>
+                    <h2>🧂 Mengde og vekt kalkulator.</h2>
                 </div>
                 <div className="converter-container">
                     <label>
-                        Quantity:
+                        Mengde:
                         <input type="text" value={inputValue} onChange={handleInputChange} />
                     </label>
                     <label>
-                        From:
+                        Fra:
                         <select value={fromUnit} onChange={handleFromUnitChange}>
                             {Object.keys(unitConversions).map((unit) => (
                                 <option key={unit} value={unit}>
@@ -75,7 +75,7 @@ export default function Calculator() {
                         </select>
                     </label>
                     <label>
-                        To:
+                        Til:
                         <select value={toUnit} onChange={handleToUnitChange}>
                             {Object.keys(unitConversions).map((unit) => (
                                 <option key={unit} value={unit}>
@@ -84,7 +84,7 @@ export default function Calculator() {
                             ))}
                         </select>
                     </label>
-                    <button onClick={convertUnits}>Convert</button>
+                    <button onClick={convertUnits}>Regn om</button>
                 </div>
                 <div className="result-container">
                     <span className="result">{result}</span>

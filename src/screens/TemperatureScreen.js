@@ -43,28 +43,28 @@ export default function TemperatureConverter() {
         <div className="home-container">
             <div className="rectangle-grid">
                 <div className="rectangle">
-                    <h2>🌡️ Temperature Converter...</h2>
+                    <h2>🌡️ Temperatur konvertere</h2>
                 </div>
                 <div className="converter-container">
                     <label>
-                        Temperature:
+                        Temperatur:
                         <input type="text" value={inputValue} onChange={handleInputChange} />
                     </label>
                     <label>
-                        From:
+                        Fra:
                         <select value={fromUnit} onChange={handleFromUnitChange}>
                             <option value="Celsius">Celsius</option>
                             <option value="Fahrenheit">Fahrenheit</option>
                         </select>
                     </label>
                     <label>
-                        To:
+                        Til:
                         <select value={toUnit} onChange={handleToUnitChange}>
                             <option value="Celsius">Celsius</option>
                             <option value="Fahrenheit">Fahrenheit</option>
                         </select>
                     </label>
-                    <button onClick={convertTemperature}>Convert</button>
+                    <button onClick={convertTemperature}>Konvertere</button>
                 </div>
                 <div className="result-container">
                     <span className="result">{result}</span>
