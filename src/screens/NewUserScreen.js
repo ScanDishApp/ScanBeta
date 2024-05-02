@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/NewUser.css';
 import defaultImage from '../assets/xug.png';
+import logo from '../assets/Logo_Big.png'
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -100,36 +101,40 @@ export default function NewUser() {
 
     return (
         <div className="create-user-container">
-            <div className="rectangle-grid">
+                <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
 
+            <div className="create-user-grid">
                 <h1>Lag en ny bruker</h1>
-                <label className="pfp-square" htmlFor="imageUpload">
-                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bilde</p>}
-                    <input
-                        type="file"
-                        id="imageUpload"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        style={{ display: 'none' }}
-                    />
-                </label>
-                <div className="rectangle">
+                <div className="create-user-rectangle">
                     <h2>Brukernavn: </h2>
                     <input className="create-username"></input>
                 </div>
                 <br></br>
-                <div className="rectangle">
+                <div className="create-user-rectangle">
                     <h2>Email: </h2>
                     <input className="create-email"></input>
                 </div>
                 <br></br>
-                <div className="rectangle">
+                <div className="create-user-rectangle">
                     <h2>Passord: </h2>
                     <input className="create-password" type='password'></input>
                 </div>
+                <div className="profile-img-rectangle" >
+                    <h2>Profil bilde:</h2>
+                    <label className="pfp-square-create" htmlFor="imageUpload">
+                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bilde</p>}
+                        <input
+                            type="file"
+                            id="imageUpload"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ display: 'none' }}
+                        />
+                    </label>
+                </div>
                 <p>{errorMsg}</p>
-                <button onClick={handleCreate} className="create-button">Lag bruker</button>
             </div>
+            <button onClick={handleCreate} className="create-button">Lag bruker</button>
         </div>
     );
 }

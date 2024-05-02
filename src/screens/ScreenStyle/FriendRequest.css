@@ -1,0 +1,81 @@
+.friend-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.add-request-rectangle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 26px);
+    background-color: #53a687;
+    border-radius: 25px;
+    height: 220px;
+    margin-bottom: 10px;
+
+
+}
+
+.add-request-rectangle input {
+    width: 285px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+
+.add-request-rectangle h1 {
+    margin-bottom: 10px;
+}
+
+.send-button {
+    width: calc(100% - 86px);
+    height: 50px;
+    margin-top: 10px;
+    margin-left: 13px;
+    background-color: #c1d96c;
+    color: #4B534A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 10px solid #c1d96c;
+    margin-bottom: 10px;
+    font-size: x-large;
+    font-family: 'DM Serif Display', serif;
+    font-weight: bold;
+
+}
+
+.checkIcon,
+.xIcon {
+    cursor: pointer;
+}
+
+.friend-request-item {
+    width: 385px;
+    background-color: #def294;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+}
+
+.checkIcon {
+    margin-left: 200px;
+    /* Adjust margin between icons */
+    background-color: #c1d96c;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.xIcon {
+    margin-left: 10px;
+    /* Adjust margin between icons */
+    background-color: #f2b885;
+    padding: 10px;
+    border-radius: 20px;
+}

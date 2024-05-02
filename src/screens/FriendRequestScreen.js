@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import addBookIcon from '../../src/assets/addbook.png';
+import './ScreenStyle/FriendRequest.css';
 
 export default function FriendRequest() {
     const [userId, setUserId] = useState(null);
@@ -126,18 +127,20 @@ export default function FriendRequest() {
    
     return (
         <div className="friend-container">
-            <div className="cover-rectangle">
+        <h1>Forespøsler</h1>
+            <div className="add-request-rectangle">
                 <h1>Min bruker id: {userId}</h1>
-                <p>Legg til din venns bruker id</p>
-                <input placeholder='Bruker id' className="friendId-input" ></input>
-                <button onClick={handleSendFriendRequest}>Send forespørsel</button>
+<div className='input-rectangle'>
+                <input placeholder='Legg til din venns bruker id:' className="friendId-input" ></input>
+                </div>
+                <button className='send-button' onClick={handleSendFriendRequest}>Send forespørsel</button>
             </div>
-            <h1>Forespøsler</h1>
+            
             <div className='Request'>
                 {  
                     friendRequests.map(request =>  (
                     <div key={request.id} className="friend-request-item">
-                        <p>Navn: {request.name}</p>
+                        <h3>Navn: {request.name}</h3>
                         <AiOutlineCheck className="checkIcon"  onClick={() =>   handleAccept(request.id)} />                       
                         <AiOutlineClose className="xIcon" onClick={  () =>   handleDecline(request.id)} />
                     </div>
