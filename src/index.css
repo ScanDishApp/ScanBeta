@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #e8faf4;
+  color: #4B534A;
 }
 
 code {
@@ -15,4 +17,9 @@ code {
 @font-face {
   font-family: 'testFont';
   src: url('./assets/testFont.otf') format('opentype');
+}
+
+h1{
+  font-family: 'DM Serif Display', serif;
+  letter-spacing: 2px;
 }
