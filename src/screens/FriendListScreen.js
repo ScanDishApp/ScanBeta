@@ -4,6 +4,7 @@ import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { IoCameraOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import addBookIcon from '../../src/assets/addbook.png';
+import './ScreenStyle/FriendList.css';
 
 export default function Friends() {
     let userId = localStorage.getItem("userId")
@@ -102,18 +103,22 @@ export default function Friends() {
 
     return (
         <div className="friend-container">
-            <div onClick={handleRequest} className="cover-rectangle">
+       
+            <div onClick={handleRequest} className="add-rectangle">
                 <h1>Legg til nye venner!</h1>
+                <p>Trykk her for å se om du har norn nye forespørseler</p>
             </div>
             <h1>Mine venner</h1>
+            <div className='friends-rectangle'>
             <ul>
                 {friendsList.map((friend, index) => (
-                    <div>
-                        <h1>{friend.name}</h1>
+                    <div className='friend'>
+                        <h1  className='friend-name'>{friend.name}</h1>
                         <AiOutlineClose className="xIcon" onClick={() => handleDelete(friend.id)} />
                     </div>
                 ))}
             </ul>
+            </div>
         </div>
     );
 }

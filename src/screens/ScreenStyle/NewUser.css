@@ -10,8 +10,134 @@
   font-family: 'DM Serif Display', serif;
 }
 
+
+.rectangle {
+  width: calc(100% - 6px);
+  height: 50px;
+  background-color: #FE6465;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  outline: #222;
+  border: 3px solid #222;
+}
+
+.rectangle h2 {
+  text-align: left;
+  padding-left: 20px;
+  margin: 0;
+  font-size: 20px;
+color: #4B534A;
+}
+
+.rectangle-grid .rectangle h2 {
+  margin: 0;
+  text-align: left;
+}
+
+.rectangle-grid {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  padding-bottom: 5px;
+}
+
+
+
+.option-text {
+  position: absolute;
+  bottom: 50px;
+  left: 15px;
+  font-size: 24px;
+  color: #222;
+}
+
+
+
+.counter h2 {
+  font-size: 16px;
+}
+
+.counter span {
+  font-weight: bold;
+}
+
+.rectangle-profile {
+  width: calc(100% - 25px);
+  height: 95px;
+  background-color: #def294;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  margin-top: -15px;
+  position: relative;
+}
+
+.small-square {
+  width: 200px;
+  height: 65%;
+  background-color: #c1d96c;
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  transform: translate(-50%, -50%);
+
+  border-radius: 0 20px 20px 0;
+  overflow: hidden;
+}
+
+.pfp-square {
+  width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 50%;
+  right: -25px;
+  transform: translate(-50%, -50%);
+  
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.pfp-square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.font-face-gm {
+  font-family: "testFont";
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: testFont;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  
+}
+
+.profile-container {
+  text-align: center;
+  margin-top: 0px;
+  overflow: hidden;
+  font-family: 'DM Serif Display', serif;
+}
+
 .square-grid {
   display: grid;
+  color: #4B534A;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   margin: 10px;
@@ -21,11 +147,12 @@
 .square {
   width: calc(100% - 6px);
   padding-top: 100%;
-  background-color: #f4f0e8;
+  background-color: #def294;
   border-radius: 20px;
   position: relative;
-  border: 3px solid #222;
+  border: 3px solid #def294;
 }
+
 
 .mini-square {
   left: 15px;
@@ -41,7 +168,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid #222;
+
 }
 
 .rectangle {
@@ -60,7 +187,7 @@
   padding-left: 20px;
   margin: 0;
   font-size: 20px;
-  color: #222;
+  color: #4B534A;
 }
 
 .rectangle-grid .rectangle h2 {
@@ -83,14 +210,14 @@
   height: 80px;
   margin-top: 10px;
   margin-left: 10px;
-  background-color: #9EC85C;
-  color: #222;
+  background-color: #f2b885;
+  color: #4B534A;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
   margin-bottom: 80px;
-  border: 3px solid #222;
+  
 }
 
 .option-text {
@@ -104,7 +231,7 @@
 .counter {
   width: calc(100% - 25px);
   height: 10px;
-  background-color: lightblue;
+  background-color: #53a687;
   border-radius: 20px;
   display: flex;
   margin-top: 10px;
@@ -113,7 +240,7 @@
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
-  border: 3px solid #222;
+ color: #fff;
   margin-bottom: -5px;
   margin-top: 15px;
 }
@@ -129,7 +256,7 @@
 .rectangle-profile {
   width: calc(100% - 25px);
   height: 95px;
-  background-color: lightblue;
+  background-color: #def294;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -137,7 +264,7 @@
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
-  border: 3px solid #222;
+
   margin-top: -15px;
   position: relative;
 }
@@ -150,7 +277,7 @@
   top: 50%;
   left: 100px;
   transform: translate(-50%, -50%);
-  border: 3px solid #222;
+ 
   border-radius: 0 20px 20px 0;
   overflow: hidden;
 }
@@ -163,7 +290,7 @@
   top: 50%;
   right: -25px;
   transform: translate(-50%, -50%);
-  border: 3px solid #222;
+ 
   border-radius: 20px;
   overflow: hidden;
 }
@@ -173,4 +300,88 @@
   height: 100%;
   object-fit: cover;
   z-index: -1;
+}
+
+.square-icon{
+  background-color: #fff;
+  color: #53a687;
+}
+
+.create-user-container {
+  text-align: center;
+  margin-top: 0px;
+  overflow: hidden;
+  font-family: 'DM Serif Display', serif;
+  background-image: linear-gradient(to bottom, #53a687, #def294);
+  height: 1000px;
+  
+  
+}
+.create-user-grid{
+  margin-left: 16px;
+}
+
+.create-user-rectangle input {
+  margin-right: 20px ;
+  flex: 1; /* Takes up remaining space */
+
+}
+
+.create-user-rectangle{
+  width: calc(100% - 26px);
+ 
+  height: 50px;
+  background-color: #b1d261;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  outline: none;
+  border: none;
+}
+.create-user-rectangle h2 {
+  padding: 10px;
+  margin-right: 10px; /* Adjust as needed */
+  width: 120px; /* Adjust width of label as needed */
+}
+
+.create-button{
+  width: calc(100% - 26px);
+  height: 80px;
+  margin-top: 10px;
+  margin-left: 13px;
+  background-color: #def294;
+  color: #4B534A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  border: 10px solid  #def294;
+  margin-bottom: 10px;
+  font-size: x-large;
+  font-family: 'DM Serif Display', serif;
+  font-weight: bold;
+  
+}
+
+.pfp-square-create {
+  width: 80px;
+height: 80px;
+background-color: #ffffff;
+border-radius: 20px;
+overflow: hidden;
+margin-top: 10px;
+display: flex;
+justify-content: flex-start;
+  
+}
+
+.pfp-square-create img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+ 
+}
+.profile-img-rectangle h2 {
+  margin-right: 185px;
 }

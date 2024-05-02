@@ -1,45 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-
-
 .home-container {
   text-align: center;
   margin-top: 0px;
-  overflow: hidden;
   font-family: 'DM Serif Display', serif;
   letter-spacing: 2px;
 }
 
 .boxes-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
   margin: 10px;
   font-weight: 580;
-}
-
-.box:last-child {
-  margin-right: 0;
-}
-
-.nested-box {
-  background-color: #c0d86c;
-  font-size: 16px;
-  border-radius: 20px 20px 0 0;
-  padding: 10px;
-}
+} 
 
 .box1,
 .box2 {
-  width: calc(50% - 0px);
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  width: 50%;
   height: 140px;
   border-radius: 20px;
   box-sizing: border-box;
   background-color: #ddf193;
+  
+ 
 }
 
 .box1 {
   margin-right: 10px;
+  
 }
 
 .rectangle h2 {
@@ -66,26 +58,11 @@
 }
 
 .cover-rectangle {
-  left: 0;
-  right: 0;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #00000089;
-  padding: 30px;
-  border-radius: 20px;
-  z-index: 0;
-  margin-bottom: 10px;
-  color: white;
+  height: 450px;
+  background-image: url('../../assets/Untitled_Artwork\ 6.png');
   background-size: cover;
   background-position: center;
-}
-
-.randomText {
-  font-size: 20px;
-  font-style: italic;
-  font-weight: bold;
+  margin-bottom: 0px;
 }
 
 .add-icon {
@@ -94,13 +71,18 @@
 }
 
 .book-rectangle {
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  height: 150px;
   background-color: #ddf193;
   width: calc(100% - 20px);
   border-radius: 20px;
+  margin-left: 10px;
 }
 
 .nested-rectangle {
-  background-color: #c0d86c;
+ 
   font-size: 24px;
   font-weight: bold;
   border-radius: 20px 20px 0 0;
@@ -108,7 +90,8 @@
 }
 
 .add-icon-book {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 70px;
+  max-height: 70px;
   padding: 20px;
+ 
 }
