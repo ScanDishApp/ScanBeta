@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-
+import EmojiPicker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 
@@ -42,10 +42,14 @@ export default function NewPage() {
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
-    const [selectedFontSize, setSelectedFontSize] = useState('16px'); 
+    const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
-    const [showBulletListMessage, setShowBulletListMessage] = useState(false);
     const [pages, setPages] = useState([]);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [selectedSticker, setSelectedSticker] = useState([]);
+    const [emojis, setEmojis] = useState([]);
+    const [selectedStickerPosition, setSelectedStickerPosition] = useState({ x: 0, y: 0 });
+
 
     useEffect(() => {
         const storedPages = localStorage.getItem("contents");
@@ -125,14 +129,6 @@ export default function NewPage() {
         setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
     };
 
-    useEffect(() => {
-        if (showBulletListMessage) {
-            const timer = setTimeout(() => {
-                setShowBulletListMessage(false);
-            }, 2000);
-            return () => clearTimeout(timer);
-        }
-    }, [showBulletListMessage]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -174,6 +170,11 @@ export default function NewPage() {
             }
         }
     };
+    const handleStickerSelect = (selectedSticker) => {
+        
+        setSelectedSticker(selectedSticker);
+        setShowEmojiPicker(false); // Hide the EmojiPicker after selecting a sticker
+    };
 
     const handleMouseDown = (event, index) => {
         event.preventDefault();
@@ -203,6 +204,30 @@ export default function NewPage() {
                 y: clientY - updatedImages[index].offset.y
             };
             setImages(updatedImages);
+        }
+    };
+
+    const handleStickerMouseDown = (event) => {
+        event.preventDefault();
+        const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+        const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+        setSelectedStickerPosition({ x: clientX, y: clientY });
+    };
+
+    const handleStickerMouseMove = (event) => {
+        event.preventDefault();
+        if (selectedSticker !== null) {
+            const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+            const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+            setSelectedStickerPosition({ x: clientX, y: clientY });
+        }
+    };
+    const handleStickerMouseUp = () => {
+        if (selectedSticker !== null) {
+            const updatedImages = [...images];
+            updatedImages.push({ src: selectedSticker.src, position: selectedStickerPosition });
+            setImages(updatedImages);
+            setSelectedSticker(null); 
         }
     };
 
@@ -248,12 +273,7 @@ export default function NewPage() {
         setShowFontSizeMenu(false);
     };
 
-    const toggleBulletList = () => {
-        setIsBulletListActive(!isBulletListActive);
-        setShowBulletListMessage(true);
 
-    };
-  
     const handleUpdate = async () => {
 
         const id = localStorage.getItem("bookId")
@@ -271,10 +291,12 @@ export default function NewPage() {
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
-  
+
     return (
+
         <div className="NewPage-container">
             <h1>Design din bok</h1>
+
             <div className="icon-row">
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
@@ -284,8 +306,8 @@ export default function NewPage() {
             </div>
 
             <div className="coverPage"></div>
-
             <div className="input-container">
+                
                 {images.map((image, index) => (
                     <div
                         key={index}
@@ -349,6 +371,7 @@ export default function NewPage() {
                 />
 
             </div>
+
             <div className="funky">
                 <div className="menu-placement">
                     {showFontMenu && (
@@ -380,7 +403,10 @@ export default function NewPage() {
                     )}
                 </div>
             </div>
-            <div className="funky">
+            <div className="funky" onMouseMove={handleStickerMouseMove}
+                        onMouseUp={handleStickerMouseUp}
+                        onTouchMove={handleStickerMouseMove}
+                        onTouchEnd={handleStickerMouseUp}>
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -395,22 +421,18 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
-                {showBulletListMessage && (
-                    <div className="bullet-list-message">
-                        {isBulletListActive ? '✅ Bullet list Enabled' : '🔴 Bullet list Disabled'}
-                    </div>
+                {showEmojiPicker && (
+                    <EmojiPicker onSelect={handleStickerSelect} />
+
                 )}
-                <div className="icon-row">
+                <div className="icon-row" >
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />
-                    <AiOutlineUnorderedList className="icon" onClick={toggleBulletList} />
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-                    <AiOutlineFontSize className="icon" onClick={() => setShowFontSizeMenu(!showFontSizeMenu)} />
-                    <AiOutlineSmile className="icon" />
+                    <AiOutlineSmile className="icon" onClick={() => setShowEmojiPicker(!showEmojiPicker)}  />
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
                 </div>
             </div>
-
         </div>
     );
 }
