@@ -44,7 +44,7 @@ html, body, .NewPage-container, .note-container {
 }
 .input-container{
    
-    max-height: 70%;
+    max-height: 100%;
 }
 
 .note-title-input {
@@ -69,9 +69,10 @@ width: 90%;
     border: 1px solid #ccc;
     padding: 8px;
     resize: none;
-    height: 100px; /* Set a fixed height */
-    overflow-y: auto; /* Enable vertical scrolling */
+    min-height: 200px; /* Set a minimum height */
+    overflow: hidden; /* Hide overflowing content */
 }
+
 
 .note-textarea {
     width: 100%; 
@@ -83,7 +84,7 @@ width: 90%;
     font-family: inherit; 
     box-sizing: border-box; 
     background-color: transparent;
-    overflow-y: auto; 
+  
     outline: none; 
 }
 
