@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-
+import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 
@@ -31,6 +31,7 @@ async function updateBook(url, data) {
 export default function NewPage() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [title, setTitle] = useState('');
+    const [ingridens, setIngridens] = useState('');
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
     const [dragging, setDragging] = useState(false);
@@ -41,10 +42,12 @@ export default function NewPage() {
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
-    const [selectedFontSize, setSelectedFontSize] = useState('16px'); 
+    const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
-    const [showBulletListMessage, setShowBulletListMessage] = useState(false);
     const [pages, setPages] = useState([]);
+    const [showSticker, setShowSticker] = useState(false); // State to track sticker visibility
+
+
 
     useEffect(() => {
         const storedPages = localStorage.getItem("contents");
@@ -56,6 +59,7 @@ export default function NewPage() {
             if (parsedPages.length > 0) {
                 const initialPage = parsedPages[currentPageIndex];
                 setTitle(initialPage.title);
+                setIngridens(initialPage.ingridens);
                 setContent(initialPage.content);
                 setImages(initialPage.images);
                 setSelectedColor(initialPage.selectedColor);
@@ -70,6 +74,7 @@ export default function NewPage() {
         if (pages.length > 0) {
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
+            setIngridens(initialPage.ingridens);
             setContent(initialPage.content);
             setImages(initialPage.images);
             setSelectedColor(initialPage.selectedColor);
@@ -85,6 +90,7 @@ export default function NewPage() {
 
     const resetPageState = () => {
         setTitle('');
+        setIngridens('');
         setContent('');
         setImages([]);
         setSelectedColor('#000000');
@@ -96,6 +102,7 @@ export default function NewPage() {
     const addNewPage = () => {
         const newPage = {
             title,
+            ingridens,
             content,
             images,
             selectedColor,
@@ -120,17 +127,25 @@ export default function NewPage() {
         setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
     };
 
-    useEffect(() => {
-        if (showBulletListMessage) {
-            const timer = setTimeout(() => {
-                setShowBulletListMessage(false);
-            }, 2000);
-            return () => clearTimeout(timer);
-        }
-    }, [showBulletListMessage]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
+    };
+
+    const handleIngridensChange = (event) => {
+        let newIngridens = event.target.value;
+        // Split the text into lines
+        const lines = newIngridens.split('\n');
+        // Map through each line, adding a bullet point if it doesn't already have one
+        const bulletLines = lines.map(line => {
+            // Trim to remove whitespace and check if it starts with a bullet
+            if (line.trim() && !line.trim().startsWith('\u2022')) {
+                return `\u2022 ${line}`;
+            }
+            return line;
+        });
+        // Join the lines back into a single string
+        setIngridens(bulletLines.join('\n'));
     };
 
     const handleContentChange = (event) => {
@@ -166,6 +181,7 @@ export default function NewPage() {
         }
     };
 
+
     const handleMouseDown = (event, index) => {
         event.preventDefault();
         setDragging(true);
@@ -196,6 +212,7 @@ export default function NewPage() {
             setImages(updatedImages);
         }
     };
+
 
     const handleMouseUp = () => {
         setDragging(false);
@@ -239,12 +256,7 @@ export default function NewPage() {
         setShowFontSizeMenu(false);
     };
 
-    const toggleBulletList = () => {
-        setIsBulletListActive(!isBulletListActive);
-        setShowBulletListMessage(true);
 
-    };
-  
     const handleUpdate = async () => {
 
         const id = localStorage.getItem("bookId")
@@ -262,10 +274,12 @@ export default function NewPage() {
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
-  
+
     return (
+
         <div className="NewPage-container">
             <h1>Design din bok</h1>
+
             <div className="icon-row">
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
@@ -275,8 +289,8 @@ export default function NewPage() {
             </div>
 
             <div className="coverPage"></div>
-
             <div className="input-container">
+                
                 {images.map((image, index) => (
                     <div
                         key={index}
@@ -320,6 +334,18 @@ export default function NewPage() {
                     placeholder="Tittel"
                 />
                 <textarea
+                    className="ingridens-input"
+                    value={ingridens}
+                    onChange={handleIngridensChange}
+                    placeholder="Ingridens.."
+                    style={{
+                        fontFamily: 'inherit',
+                        border: 'none', // Removes the border
+                        outline: 'none', // Removes the outline on focus
+                        background: 'transparent' // Makes the background transparent ?
+                    }}
+                />
+                <textarea
                     className="note-textarea"
                     value={content}
                     onChange={handleContentChange}
@@ -333,6 +359,7 @@ export default function NewPage() {
                 />
 
             </div>
+
             <div className="funky">
                 <div className="menu-placement">
                     {showFontMenu && (
@@ -364,7 +391,8 @@ export default function NewPage() {
                     )}
                 </div>
             </div>
-            <div className="funky">
+            <div className="funky" 
+                      >
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -379,22 +407,22 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
-                {showBulletListMessage && (
-                    <div className="bullet-list-message">
-                        {isBulletListActive ? '✅ Bullet list Enabled' : '🔴 Bullet list Disabled'}
-                    </div>
-                )}
-                <div className="icon-row">
+
+                <div className="icon-row" >
+
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />
-                    <AiOutlineUnorderedList className="icon" onClick={toggleBulletList} />
-                    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-                    <AiOutlineFontSize className="icon" onClick={() => setShowFontSizeMenu(!showFontSizeMenu)} />
-                    <AiOutlineSmile className="icon" />
+
+
+                    <AiOutlineSmile
+                className="icon"
+                onClick={() => setShowSticker(!showSticker)} 
+            />
+            {showSticker && <Sticker />} 
+                      <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
                 </div>
             </div>
-
         </div>
     );
 }
