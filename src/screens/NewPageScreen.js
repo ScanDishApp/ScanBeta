@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import EmojiPicker from './Stickers';
+import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 
@@ -45,10 +45,7 @@ export default function NewPage() {
     const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [pages, setPages] = useState([]);
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [selectedSticker, setSelectedSticker] = useState([]);
-    const [emojis, setEmojis] = useState([]);
-    const [selectedStickerPosition, setSelectedStickerPosition] = useState({ x: 0, y: 0 });
+    const [showSticker, setShowSticker] = useState(false); 
 
 
     useEffect(() => {
@@ -136,11 +133,8 @@ export default function NewPage() {
 
     const handleIngridensChange = (event) => {
         let newIngridens = event.target.value;
-        // Split the text into lines
         const lines = newIngridens.split('\n');
-        // Map through each line, adding a bullet point if it doesn't already have one
         const bulletLines = lines.map(line => {
-            // Trim to remove whitespace and check if it starts with a bullet
             if (line.trim() && !line.trim().startsWith('\u2022')) {
                 return `\u2022 ${line}`;
             }
@@ -182,11 +176,7 @@ export default function NewPage() {
             }
         }
     };
-    const handleStickerSelect = (selectedSticker) => {
-        
-        setSelectedSticker(selectedSticker);
-        setShowEmojiPicker(false); // Hide the EmojiPicker after selecting a sticker
-    };
+
 
     const handleMouseDown = (event, index) => {
         event.preventDefault();
@@ -219,29 +209,6 @@ export default function NewPage() {
         }
     };
 
-    const handleStickerMouseDown = (event) => {
-        event.preventDefault();
-        const clientX = event.clientX || (event.touches && event.touches[0].clientX);
-        const clientY = event.clientY || (event.touches && event.touches[0].clientY);
-        setSelectedStickerPosition({ x: clientX, y: clientY });
-    };
-
-    const handleStickerMouseMove = (event) => {
-        event.preventDefault();
-        if (selectedSticker !== null) {
-            const clientX = event.clientX || (event.touches && event.touches[0].clientX);
-            const clientY = event.clientY || (event.touches && event.touches[0].clientY);
-            setSelectedStickerPosition({ x: clientX, y: clientY });
-        }
-    };
-    const handleStickerMouseUp = () => {
-        if (selectedSticker !== null) {
-            const updatedImages = [...images];
-            updatedImages.push({ src: selectedSticker.src, position: selectedStickerPosition });
-            setImages(updatedImages);
-            setSelectedSticker(null); 
-        }
-    };
 
     const handleMouseUp = () => {
         setDragging(false);
@@ -369,9 +336,9 @@ export default function NewPage() {
                     placeholder="Ingridens.."
                     style={{
                         fontFamily: 'inherit',
-                        border: 'none', // Removes the border
-                        outline: 'none', // Removes the outline on focus
-                        background: 'transparent' // Makes the background transparent ?
+                        border: 'none', 
+                        outline: 'none', 
+                        background: 'transparent' 
                     }}
                 />
                 <textarea
@@ -420,10 +387,8 @@ export default function NewPage() {
                     )}
                 </div>
             </div>
-            <div className="funky" onMouseMove={handleStickerMouseMove}
-                        onMouseUp={handleStickerMouseUp}
-                        onTouchMove={handleStickerMouseMove}
-                        onTouchEnd={handleStickerMouseUp}>
+            <div className="funky" 
+                      >
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -438,15 +403,19 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
-                {showEmojiPicker && (
-                    <EmojiPicker onSelect={handleStickerSelect} />
 
-                )}
                 <div className="icon-row" >
+
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />
-                    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-                    <AiOutlineSmile className="icon" onClick={() => setShowEmojiPicker(!showEmojiPicker)}  />
+
+
+                    <AiOutlineSmile
+                className="icon"
+                onClick={() => setShowSticker(!showSticker)} 
+            />
+            {showSticker && <Sticker />} 
+                      <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
                 </div>
             </div>
