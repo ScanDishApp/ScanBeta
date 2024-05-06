@@ -49,6 +49,8 @@ export default function NewPage() {
     const [selectedSticker, setSelectedSticker] = useState([]);
     const [emojis, setEmojis] = useState([]);
     const [selectedStickerPosition, setSelectedStickerPosition] = useState({ x: 0, y: 0 });
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isImageSelected, setIsImageSelected] = useState(false);
 
 
     useEffect(() => {
@@ -96,8 +98,8 @@ export default function NewPage() {
         setContent('');
         setImages([]);
         setSelectedColor('#000000');
-        setSelectedFont('DM Serif Display, sans-serif');
-        setSelectedFontSize('16px');
+        setSelectedFont('Arial, Helvetica, sans-serif');
+        setSelectedFontSize('20px');
         setIsBulletListActive(false);
     };
 
@@ -148,6 +150,11 @@ export default function NewPage() {
         });
         // Join the lines back into a single string
         setIngridens(bulletLines.join('\n'));
+
+        // Dynamically adjust the height of the container based on the content
+        const textarea = document.getElementById('ingridens-input');
+        textarea.style.height = ''; // Reset height to auto
+        textarea.style.height = `${textarea.scrollHeight}px`; // Set height to the scroll height
     };
 
     const handleContentChange = (event) => {
@@ -182,8 +189,15 @@ export default function NewPage() {
             }
         }
     };
+    const handleImageChangeInContainer = (event) => {
+
+        const file = event.target.files[0];
+        setSelectedFile(file);
+
+        // You can perform additional actions here, such as uploading the file to a server
+    };
     const handleStickerSelect = (selectedSticker) => {
-        
+
         setSelectedSticker(selectedSticker);
         setShowEmojiPicker(false); // Hide the EmojiPicker after selecting a sticker
     };
@@ -239,7 +253,7 @@ export default function NewPage() {
             const updatedImages = [...images];
             updatedImages.push({ src: selectedSticker.src, position: selectedStickerPosition });
             setImages(updatedImages);
-            setSelectedSticker(null); 
+            setSelectedSticker(null);
         }
     };
 
@@ -309,17 +323,18 @@ export default function NewPage() {
         <div className="NewPage-container">
             <h1>Design din bok</h1>
 
-            <div className="icon-row">
-                <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
-                <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
-                <AiOutlineSave className="icon" onClick={handleUpdate} />
-                <AiOutlineFileAdd className="icon" onClick={addNewPage} />
-                <AiOutlineInfoCircle className="icon" />
+            <div className="icon-row-top">
+                <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
+                <AiOutlineSave className="icon-top" onClick={handleUpdate} />
+                <AiOutlineFileAdd className="icon-top" onClick={addNewPage} />
+                <AiOutlineInfoCircle className="icon-top" />
+                <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
+
             </div>
 
             <div className="coverPage"></div>
             <div className="input-container">
-                
+
                 {images.map((image, index) => (
                     <div
                         key={index}
@@ -362,23 +377,36 @@ export default function NewPage() {
                     onChange={handleTitleChange}
                     placeholder="Tittel"
                 />
-                <textarea
-                    className="ingridens-input"
-                    value={ingridens}
-                    onChange={handleIngridensChange}
-                    placeholder="Ingridens.."
-                    style={{
-                        fontFamily: 'inherit',
-                        border: 'none', // Removes the border
-                        outline: 'none', // Removes the outline on focus
-                        background: 'transparent' // Makes the background transparent ?
-                    }}
-                />
+                <div className='input-area-1'>
+                    <textarea
+                        id="ingridens-input"
+                        className="ingridens-input"
+                        value={ingridens}
+                        onChange={handleIngridensChange}
+                        placeholder="Ingredienser.."
+                        style={{
+                            border: 'none', // Removes the border
+                            outline: 'none', // Removes the outline on focus
+                            background: 'transparent', // Makes the background transparent ?
+                            width: '50%'
+                        }}
+                    />
+                    <div className='image-upload-container'>
+                        {!selectedFile && (
+                        <input className="img-input" type="file" accept="image/*" onChange={handleImageChangeInContainer} /> 
+                        )}
+                        {selectedFile && (
+                            <div className="recipie-img-container">
+                                <img src={URL.createObjectURL(selectedFile)} alt="Selected" className="recipie-img" />
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <textarea
                     className="note-textarea"
                     value={content}
                     onChange={handleContentChange}
-                    placeholder="Skriv..."
+                    placeholder="Innstruksjoner..."
                     style={{
                         color: selectedColor,
                         fontFamily: selectedFont,
@@ -421,9 +449,9 @@ export default function NewPage() {
                 </div>
             </div>
             <div className="funky" onMouseMove={handleStickerMouseMove}
-                        onMouseUp={handleStickerMouseUp}
-                        onTouchMove={handleStickerMouseMove}
-                        onTouchEnd={handleStickerMouseUp}>
+                onMouseUp={handleStickerMouseUp}
+                onTouchMove={handleStickerMouseMove}
+                onTouchEnd={handleStickerMouseUp}>
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -446,7 +474,7 @@ export default function NewPage() {
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-                    <AiOutlineSmile className="icon" onClick={() => setShowEmojiPicker(!showEmojiPicker)}  />
+                    <AiOutlineSmile className="icon" onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
                 </div>
             </div>
