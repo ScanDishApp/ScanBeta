@@ -1,16 +1,4 @@
-.font-face-gm {
-    font-family: "testFont";
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'testFont'; 
-    height: 100vh;
-    overflow-y: auto;
-    overflow-y: scroll; 
-    margin-bottom: 30px;
-  }
+
   
   .myBooks-container {
     text-align: center;
@@ -19,11 +7,6 @@
         font-family: 'DM Serif Display', serif;
   }
     
-  
-
-  
-
-
   .square-button {
     position: fixed;
     bottom: 100px;
@@ -145,4 +128,38 @@
     position: absolute; 
     top: 35px; 
     left: 20px; 
+}
+.top-buttons-container{
+    display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+
+}
+
+.myBooks-container h1{
+    margin-bottom: 10px;
+}
+.my-books-button, 
+.shared-books-button, 
+.add-book-button{
+   
+    height: 40px;
+    margin-top: 10px;
+    margin-left: 13px;
+    background-color: #53a687;
+    color: #4B534A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    border: 10px solid  #53a687;
+    margin-bottom: 10px;
+    font-size: medium;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.add-book-button{
+    background-color: #f2b885; 
+    border: none;
+    width: 40px;
 }

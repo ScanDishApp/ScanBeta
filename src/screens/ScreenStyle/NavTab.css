@@ -39,7 +39,7 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: rgb(34, 34, 34);
+    color: #53a687;
     transition: color 0.3s ease; 
 }
 
@@ -63,7 +63,7 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: rgb(37, 37, 37);
+    color: #53a687;;
     transition: color 0.3s ease; 
     background-color: transparent; 
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IoAdd, IoClose, IoTrash } from 'react-icons/io5';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import './ScreenStyle/Home.css';
+import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
 
 async function fetchData(url, method, data) {
@@ -39,8 +39,8 @@ export default function MyBooks() {
     useEffect(() => {
         async function fetchBooks() {
 
-            const response = await listBook(`https://scanbeta.onrender.com/book/list?userId=${userId}`);
-            //const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
+            //const response = await listBook(`https://scanbeta.onrender.com/book/list?userId=${userId}`);
+            const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
             const responseData = await response.json();
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
@@ -54,8 +54,6 @@ export default function MyBooks() {
     }, []);
 
     const addRectangle = async () => {
-        const randomColor
-            = '#' + Math.floor(Math.random() * 16777215).toString(16);
         let contents = "";
         const book = {
             userId: userId,
@@ -86,8 +84,8 @@ export default function MyBooks() {
 
     const saveToServer = async (book) => {
         try {
-            const response = await fetchData("https://scanbeta.onrender.com/book/", "POST", book);
-            //const response = await fetchData("http://localhost:8080/book/", "POST", book);
+            //const response = await fetchData("https://scanbeta.onrender.com/book/", "POST", book);
+            const response = await fetchData("http://localhost:8080/book/", "POST", book);
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse = JSON.parse(responseData)
@@ -103,8 +101,8 @@ export default function MyBooks() {
 
     const deleteFromServer = async (id) => {
         try {
-            const response = await fetchData(`https://scanbeta.onrender.com/book/delete?id=${id}`, "DELETE");
-            // const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
+            // const response = await fetchData(`https://scanbeta.onrender.com/book/delete?id=${id}`, "DELETE");
+            const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -119,14 +117,38 @@ export default function MyBooks() {
         navigate('/shared-books');
 
     };
+    const handleLookAtBook = async (id) => {
+        async function getBook(url) {
+            return await fetchData(url, "GET");
+        }
+
+        //const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
+        const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        console.log(response);
+        const responseData = await response.json();
+
+        console.log("Response:", responseData);
+        const contentsString = responseData.contents;
+        console.log(contentsString);
+        localStorage.setItem("contents", contentsString);
+        try {
+            const contentsArray = JSON.parse(`[${contentsString}]`);
+            console.log("contentsArray:", contentsArray);
+            localStorage.setItem("contentsArray", contentsArray);
+        } catch (error) {
+            console.error("Error parsing contentsString:", error);
+        }
+        navigate('/look-my-book');
+
+    };
 
     const displayRectangleId = async (id) => {
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
 
-        const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
-        //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        //const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
+        const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
         console.log(response);
         const responseData = await response.json();
 
@@ -142,7 +164,7 @@ export default function MyBooks() {
         }
 
         localStorage.setItem("bookId", id)
-        navigate(`/NewPage`);
+        navigate('/NewPage');
 
 
     };
@@ -150,14 +172,20 @@ export default function MyBooks() {
     return (
         <div className="myBooks-container">
             <h1>Mine Bøker</h1>
-            <div>
-                <button>Alle bøker</button>
-                <button onClick={handleSharedBooks}>Delte bøker</button>
+            <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+            <div className='top-buttons-container'>
+                <button className="my-books-button" >Alle bøker</button>
+                <button className="shared-books-button" onClick={handleSharedBooks}>Delte bøker</button>
+                <div className="add-book-button" onClick={() => setShowModal(true)}>
+                <IoAdd />
             </div>
+            </div>
+
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => displayRectangleId(rectangle.id)}>
+                    <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={ () => handleLookAtBook(rectangle.id)}>
                         <span>{rectangle.title}</span>
+                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation();displayRectangleId(rectangle.id);}}/>
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}
@@ -165,9 +193,7 @@ export default function MyBooks() {
 
             <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
-            <div className="square-button" onClick={() => setShowModal(true)}>
-                <IoAdd />
-            </div>
+
 
             {showModal && (
                 <div className="modal">

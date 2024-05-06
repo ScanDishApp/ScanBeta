@@ -15,6 +15,11 @@ html, body, .NewPage-container, .note-container {
     font-family: 'DM Serif Display', serif;
 }
 
+.ingridens {
+    margin-bottom: 5px;
+    font-family: 'DM Serif Display', serif;
+}
+
 .NewPage-container {
     background-color: rgba(255, 255, 255, 0.5);
     background-image: linear-gradient(rgba(150, 150, 150, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(150, 150, 150, 0.3) 1px, transparent 1px);
@@ -37,10 +42,7 @@ html, body, .NewPage-container, .note-container {
     
     
 }
-.input-container{
-   
-    max-height: 70%;
-}
+
 
 .note-title-input {
      text-align: left;
@@ -53,6 +55,56 @@ margin-bottom: 0px;
 width: 90%;
 }
 
+.ingridens-input {
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    outline: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 90%;
+    box-sizing: border-box; 
+    border: 1px solid #ccc;
+    padding: 8px;
+    resize: none;
+
+    height: 100px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-left: 10px;
+}
+.image-upload-container {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed #cccccc;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.recipie-img-container  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .img-input{
+    
+    margin-left: 0px;
+    padding: 0px;
+    object-fit:contain;
+    
+  }
+  .recipie-img{
+    object-fit: scale-down;
+  }
+
+
+.input-area-1{
+    display: flex;
+    justify-content: center; /* Center items horizontally */      
+
+}
 
 
 .note-textarea {
@@ -62,10 +114,10 @@ width: 90%;
     padding: 20px; 
     padding-top: 0;
     font-size: 20px; 
-    font-family: inherit; 
+    font-family: Arial, Helvetica, sans-serif; 
     box-sizing: border-box; 
     background-color: transparent;
-    overflow-y: auto; 
+  
     outline: none; 
 }
 
@@ -127,6 +179,24 @@ width: 90%;
     
     color: white;
 }
+.icon-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    justify-content: space-evenly; 
+    margin-left: 3px;
+    margin-right: 3px;
+    
+    color: white;
+}
+.icon-top { 
+    font-size: 20px; 
+    background-color: #99B952 
+    ;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 2.5px;}
 
 .icon {
     font-size: 30px; 
@@ -136,8 +206,6 @@ width: 90%;
     border-radius: 10px;
     width: 100%;
     margin: 0 2.5px;
-    
-  
 }
 
 

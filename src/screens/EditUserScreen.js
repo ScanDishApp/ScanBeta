@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ScreenStyle/Profile.css';
+import './ScreenStyle/EditUser.css';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -136,20 +136,9 @@ export default function EditUser() {
 
     return (
         <div className="edit-user-container">
-            <div className="rectangle-grid">
+            <div className="rectangle-grid-edit">
                 <h1>Endre bruker</h1>
-                <label className="pfp-square" htmlFor="imageUpload">
-                    {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p>}
-                    <input
-                        type="file"
-                        id="imageUpload"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        style={{ display: 'none' }}
-                    />
-                </label>
-                <div className="rectangle">
-
+                <div className="edit-rectangle">
                     <h2>Brukernavn: </h2>
                     <input
                         className="update-username"
@@ -158,7 +147,7 @@ export default function EditUser() {
                     />
                 </div>
                 <br></br>
-                <div className="rectangle">
+                <div className="edit-rectangle">
                     <h2>Email: </h2>
                     <input
                         className="update-email"
@@ -167,14 +156,27 @@ export default function EditUser() {
                     />
                 </div>
                 <br></br>
-                <div className="rectangle">
+                <div className="edit-rectangle">
                     <h2>Passord: </h2>
                     <input className="update-password" type='password'></input>
                 </div>
+                <div className="profile-img-rectangle">
+                    <h2>Profil bilde:</h2>
+                    <label className="pfp-square-edit" htmlFor="imageUpload">
+                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p>}
+                        <input
+                            type="file"
+                            id="imageUpload"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ display: 'none' }}
+                        />
+                    </label>
+                </div>
                 <p>{errorMsg}</p>
-                <button onClick={handleUpdate} className="update-button">Endre bruker</button>
-                <button onClick={handleDelete} className="delete-button">Slett bruker</button>
             </div>
+            <button onClick={handleUpdate} className="update-button">Endre bruker</button>
+            <button onClick={handleDelete} className="delete-user-button">Slett bruker</button>
         </div>
     );
 }

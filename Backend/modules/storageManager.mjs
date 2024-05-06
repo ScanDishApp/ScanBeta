@@ -380,6 +380,71 @@ class DBManager {
 
         return request;
     }
+    async favoritePage(like) {
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            const sql = 'INSERT INTO "public"."favorites"("userId", "contents") VALUES($1::TEXT, $2::TEXT) RETURNING id;';
+            const parms = [like.userId, like.contents];
+            await client.connect();
+            const output = await client.query(sql, parms);
+
+            if (output.rows.length == 1) {
+                like = output.rows[0];
+            }
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+            return false;
+        } finally {
+            client.end();
+        }
+
+        return like;
+    }
+
+    async deleteFavorite(id) {
+
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            await client.connect();
+            const sql = 'DELETE FROM "public"."favorites" WHERE "id" = $1;'
+            const params = [id];
+            const output = await client.query(sql, params);
+            return true;
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            throw error;
+            client.end();
+        }
+    }
+
+    async getFavorite(userId) {
+
+        const client = new pg.Client(this.#credentials);
+        let like = null;
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."favorites" WHERE "userId" = $1'
+            const params = [userId]
+            const output = await client.query(sql, params);
+
+            console.log(output);
+            like = output.rows[0];
+
+        } catch (error) {
+            console.error('Error in getting user :', error.stack);
+        } finally {
+            client.end();
+        }
+
+        return like;
+    }
+
+
 
 }
 

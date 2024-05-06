@@ -1,5 +1,4 @@
-import DBManager from "./storageManager.mjs";
-
+import DBManager from "../modules/storageManager.mjs"
 class Book {
 
   constructor(id, userId, contents) {

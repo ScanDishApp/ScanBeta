@@ -1,0 +1,97 @@
+.rectangle-grid-edit {
+    margin: 10px;
+    display: flex;
+    
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    padding-bottom: 5px;
+    background-color: #def294;
+    height: 500px;
+    border-radius: 25px;
+  }
+
+  .update-button{
+    width: calc(100% - 26px);
+    height: 80px;
+    margin-top: 10px;
+    margin-left: 13px;
+    background-color: #53a687;
+    color: #4B534A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    border: 10px solid  #53a687;
+    margin-bottom: 10px;
+    font-size: x-large;
+    font-family: 'DM Serif Display', serif;
+    font-weight: bold;
+    
+  }
+  .delete-user-button {
+    width: calc(100% - 26px);
+    height: 80px;
+    margin-top: 10px;
+    margin-left: 13px;
+    background-color: #f2b885;
+    color: #4B534A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    border: 10px solid  #f2b885;
+    margin-bottom: 10px;
+    font-size: x-large;
+    font-family: 'DM Serif Display', serif;
+    font-weight: bold;
+    
+  }
+
+  .edit-rectangle{
+    width: calc(100% - 6px);
+    height: 50px;
+    background-color: #b1d261;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: none;
+  }
+
+  
+  .profile-img-rectangle{
+    display: flex;
+    align-items: center;
+  }
+  .pfp-square-edit {
+    width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+    
+  }
+  
+  .pfp-square-edit img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+   
+  }
+  .profile-img-rectangle h2 {
+    margin-right: 185px;
+}
+.edit-rectangle h2 {
+    padding: 10px;
+    margin-right: 10px; /* Adjust as needed */
+    width: 120px; /* Adjust width of label as needed */
+}
+.edit-rectangle input {
+    margin-right: 20px ;
+    flex: 1; /* Takes up remaining space */
+}
