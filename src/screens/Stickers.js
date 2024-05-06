@@ -18,7 +18,9 @@ import grape from '../assets/Fruit/Grape.png';
 
 const Sticker = () => {
   const [selectedStickers, setSelectedStickers] = useState([]);
+
   const [isMenuVisible, setIsMenuVisible] = useState(true); 
+
 
   const emojiData = [
     { id: 1, src: apple },

@@ -45,7 +45,9 @@ export default function NewPage() {
     const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [pages, setPages] = useState([]);
+
     const [showSticker, setShowSticker] = useState(false); 
+
 
 
 
@@ -134,8 +136,10 @@ export default function NewPage() {
 
     const handleIngridensChange = (event) => {
         let newIngridens = event.target.value;
+
         const lines = newIngridens.split('\n');
         const bulletLines = lines.map(line => {
+
             if (line.trim() && !line.trim().startsWith('\u2022')) {
                 return `\u2022 ${line}`;
             }
@@ -144,10 +148,12 @@ export default function NewPage() {
         // Join the lines back into a single string
         setIngridens(bulletLines.join('\n'));
 
+
         // Dynamically adjust the height of the container based on the content
         const textarea = document.getElementById('ingridens-input');
         textarea.style.height = ''; // Reset height to auto
         textarea.style.height = `${textarea.scrollHeight}px`; // Set height to the scroll height
+
     };
 
     const handleContentChange = (event) => {
@@ -183,6 +189,7 @@ export default function NewPage() {
         }
     };
 
+
     const handleImageChangeInContainer = (event) => {
 
         const file = event.target.files[0];
@@ -191,6 +198,7 @@ export default function NewPage() {
         // You can perform additional actions here, such as uploading the file to a server
     };
    
+
 
 
 
@@ -292,12 +300,14 @@ export default function NewPage() {
         <div className="NewPage-container">
             <h1>Design din bok</h1>
 
+
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
                 <AiOutlineSave className="icon-top" onClick={handleUpdate} />
                 <AiOutlineFileAdd className="icon-top" onClick={addNewPage} />
                 <AiOutlineInfoCircle className="icon-top" />
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
+
 
             </div>
 
@@ -374,6 +384,18 @@ export default function NewPage() {
                 </div>
 
                 <textarea
+                    className="ingridens-input"
+                    value={ingridens}
+                    onChange={handleIngridensChange}
+                    placeholder="Ingridens.."
+                    style={{
+                        fontFamily: 'inherit',
+                        border: 'none', // Removes the border
+                        outline: 'none', // Removes the outline on focus
+                        background: 'transparent' // Makes the background transparent ?
+                    }}
+                />
+                <textarea
                     className="note-textarea"
                     value={content}
                     onChange={handleContentChange}
@@ -442,7 +464,6 @@ export default function NewPage() {
 
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
                     <AiOutlineScan className="icon" />
-
 
 
                     <AiOutlineSmile

@@ -1,3 +1,4 @@
+
 .sticker-menu {
   display: flex;
   justify-content: center;
@@ -12,11 +13,11 @@
 
 .toggle-menu {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
   width: 55px;
   height: 30px;
-  margin: 0 auto; 
+  margin: 0 auto; /* Automatically center within parent container */
   position: fixed;
   bottom: 148px;
   left: 0px;
@@ -66,14 +67,17 @@ padding: 5px;
   position: absolute;
   border: 2px dashed #ccc;
   margin-top: 20px;
-  z-index: -1; 
+  z-index: -1; /* Ensure it appears above other elements */
   bottom: 200px;
 }
 
+/* Example media query for smaller devices */
 @media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
   .selected-stickers-container {
-  
+    /* Example: Adjust container width or overflow */
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
   }
+
 }
