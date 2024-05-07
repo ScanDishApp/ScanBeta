@@ -44,7 +44,8 @@ class User {
           id: this.id,
           name: this.name,
           email: this.email,
-          img: this.img
+          img: this.img,
+          pswHash: this.pswHash
         }
       }
     } else {
@@ -70,7 +71,8 @@ class User {
             id: this.id,
             name: this.name,
             email: this.email,
-            img: this.img
+            img: this.img,
+            pswHash: this.pswHash
           }
         }
       } else {

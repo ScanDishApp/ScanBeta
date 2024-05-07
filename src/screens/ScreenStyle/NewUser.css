@@ -127,6 +127,9 @@ body {
   /* overflow-y: scroll; */
   
 }
+.error-border {
+  border: 2px solid red;
+}
 
 .profile-container {
   text-align: center;

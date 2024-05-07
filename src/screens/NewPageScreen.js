@@ -45,7 +45,8 @@ export default function NewPage() {
     const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [pages, setPages] = useState([]);
-
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isImageSelected, setIsImageSelected] = useState(false);
     const [showSticker, setShowSticker] = useState(false); 
 
 
@@ -112,7 +113,15 @@ export default function NewPage() {
             selectedFontSize,
             isBulletListActive
         };
-        setPages(prevPages => [...prevPages, newPage]);
+        //setPages(prevPages => [...prevPages, newPage]);
+
+        // function test(prevPages){
+        //     const array = [...prevPages, newPage];
+        //     console.log(array);
+        //     return array;
+        // }
+        // console.log("setPages....");
+        // setPages(test(prevPages));
 
         const newIndex = pages.length;
         setCurrentPageIndex(newIndex);

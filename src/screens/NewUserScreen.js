@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/NewUser.css';
 import defaultImage from '../assets/xug.png';
 import logo from '../assets/Logo_Big.png'
+import sha256 from './sha256'
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -47,8 +48,8 @@ export default function NewUser() {
             return await fetchData(paramUrl, "GET");
         }
 
-        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-        //const response = await getUser("http://localhost:8080/user/get", id);
+         //const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+       const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -63,17 +64,44 @@ export default function NewUser() {
     };
 
     const handleCreate = async () => {
-        console.log("handleCreate function called");
         async function createUser(url, data) {
             return await fetchData(url, "POST", data);
         }
-        const name = document.querySelector('.create-username').value;
-        const pswHash = document.querySelector('.create-password').value;
-        const email = document.querySelector('.create-email').value;
+        
+        const nameInput = document.querySelector('.create-username');
+        const passwordInput = document.querySelector('.create-password');
+        const emailInput = document.querySelector('.create-email');
+        let pswHash = passwordInput.value;
+        pswHash = await sha256(pswHash);
+        const email = emailInput.value;
+        const name = nameInput.value;
         let img = image;
         if (!img) {
             img = defaultImage;
         }
+        if (!name.trim()) {
+            nameInput.classList.add('error-border');
+            setErrorMsg("Venligst fyll inn brukernavn!");
+            return;
+        } else {
+            nameInput.classList.remove('error-border');
+        }
+        if (!email.trim()) {
+            emailInput.classList.add('error-border');
+            setErrorMsg("Venligst fyll inn emailen!");
+            return;
+        } else {
+            emailInput.classList.remove('error-border');
+        }
+    
+        if (!pswHash.trim()) {
+            passwordInput.classList.add('error-border');
+            setErrorMsg("Venligst fyll inn passord!");
+            return;
+        } else {
+            passwordInput.classList.remove('error-border');
+        }
+       
         const user = {
             name: name,
             pswHash: pswHash,
@@ -81,19 +109,14 @@ export default function NewUser() {
             img: img
         };
         console.log(user);
-        const response = await createUser("https://scanbeta.onrender.com/user/", user);
-        // const response = await createUser("http://localhost:8080/user/", user);
-        if (response.status !== 200) {
-            setErrorMsg("Alle feltene må fylles ut!");
-            console.log("Error message:", errorMsg);
-        } else {
-            setErrorMsg(null);
-        }
+        //const response = await createUser("https://scanbeta.onrender.com/user/", user);
+         const response = await createUser("http://localhost:8080/user/", user);
+       
         console.log(response);
         const responseData = await response.json();
-        const responseDataJson = JSON.parse(responseData)
-        console.log("Response:", responseDataJson);
-        let userId = responseDataJson.id
+        //const responseDataJson = JSON.parse(responseData)
+        console.log("Response:", responseData);
+        let userId = responseData.id
         localStorage.setItem("userId", userId);
         await handleGet(userId)
         navigate('/dummy-page')
