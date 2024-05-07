@@ -5,21 +5,16 @@ import addBookIcon from '../../src/assets/addbook.png';
 import './ScreenStyle/FriendRequest.css';
 
 export default function FriendRequest() {
-    const [userId, setUserId] = useState(null);
+    const userId = localStorage.getItem("userId");
     const [friendRequests, setFriendRequests] = useState([]);
+    const [successMsg, setSuccessMsg] = useState(null);
     const navigate = useNavigate();
-    let request = localStorage.getItem("request");
-    request = JSON.parse(request);
-    useEffect(() => {
-        setFriendRequests(request);
-    }, []);
 
     useEffect(() => {
-        const fetchUserId = async () => {
-            const id = localStorage.getItem("userId");
-            setUserId(id);
+        const fetchData = async () => {
+            await handleGetFriendRequest(userId);
         };
-        fetchUserId();
+        fetchData();
     }, []);
 
     async function fetchData(url, method, data) {
@@ -40,6 +35,20 @@ export default function FriendRequest() {
         const response = await fetch(url, options);
         return response;
     }
+    const handleGetFriendRequest = async (id) => {
+        async function getRequest(url, data) {
+            const paramUrl = `${url}?userId=${data}`;
+            return await fetchData(paramUrl, "GET");
+        }
+
+        const response = await getRequest("https://scanbeta.onrender.com/friends/requests", id);
+        //const response = await getRequest("http://localhost:8080/friends/requests", id);
+
+        const responseData = await response.json();
+        setFriendRequests(responseData);
+
+
+    };
 
     const handleSendFriendRequest = async () => {
         const userId = localStorage.getItem("userId");
@@ -58,13 +67,14 @@ export default function FriendRequest() {
             //const response = await fetchData("http://localhost:8080/friends/add", "POST", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
+            setSuccessMsg("Forespørsel sendt");
         } catch (error) {
             console.error("Error:", error);
         }
     };
-    
+
     const handleAddFriend = async (id) => {
-        async function addFriend(url, data){
+        async function addFriend(url, data) {
             return await fetchData(url, "PUT", data);
         }
         const status = "friend";
@@ -76,16 +86,18 @@ export default function FriendRequest() {
 
         try {
             const response = await addFriend("https://scanbeta.onrender.com/friends/ans", request);
-           // const response = await addFriend("http://localhost:8080/friends/ans", request);
+            // const response = await addFriend("http://localhost:8080/friends/ans", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
-        } catch(error) {
+            await handleGetFriendRequest(userId);
+        } catch (error) {
             console.error("Error:", error);
         }
+
     };
-    
+
     const handleDeclineFriend = async (id) => {
-        async function declineFriend(url, data){
+        async function declineFriend(url, data) {
             return await fetchData(url, "PUT", data);
         }
         const status = "declined";
@@ -96,22 +108,23 @@ export default function FriendRequest() {
         console.log(request);
 
         try {
-           
+
             const response = await declineFriend("https://scanbeta.onrender.com/friends/ans", request);
             //const response = await declineFriend("http://localhost:8080/friends/ans", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
-        } catch(error) {
+            await handleGetFriendRequest(userId);
+        } catch (error) {
             console.error("Error:", error);
         }
+
     };
-    
-    
+
     const handleAccept = async (id) => {
         try {
             console.log("Accepted request with id:", id);
             await handleAddFriend(id);
-        } catch(error) {
+        } catch (error) {
             console.error("Error:", error);
         }
     }
@@ -120,31 +133,32 @@ export default function FriendRequest() {
         try {
             console.log("Accepted request with id:", id);
             await handleDeclineFriend(id);
-        } catch(error) {
+        } catch (error) {
             console.error("Error:", error);
         }
     }
-   
+
     return (
         <div className="friend-container">
-        <h1>Forespøsler</h1>
+            <h1>Forespøsler</h1>
             <div className="add-request-rectangle">
                 <h1>Min bruker id: {userId}</h1>
-<div className='input-rectangle'>
-                <input placeholder='Legg til din venns bruker id:' className="friendId-input" ></input>
+                <div className='input-rectangle'>
+                    <input placeholder='Legg til din venns bruker id:' className="friendId-input" ></input>
                 </div>
                 <button className='send-button' onClick={handleSendFriendRequest}>Send forespørsel</button>
+                <p>{successMsg}</p>
             </div>
-            
+
             <div className='Request'>
-                {  
-                    friendRequests.map(request =>  (
-                    <div key={request.id} className="friend-request-item">
-                        <h3>Navn: {request.name}</h3>
-                        <AiOutlineCheck className="checkIcon"  onClick={() =>   handleAccept(request.id)} />                       
-                        <AiOutlineClose className="xIcon" onClick={  () =>   handleDecline(request.id)} />
-                    </div>
-                ))}
+                {
+                    friendRequests.map(request => (
+                        <div key={request.id} className="friend-request-item">
+                            <h3>Navn: {request.name}</h3>
+                            <AiOutlineCheck className="checkIcon" onClick={() => handleAccept(request.id)} />
+                            <AiOutlineClose className="xIcon" onClick={() => handleDecline(request.id)} />
+                        </div>
+                    ))}
             </div>
         </div>
     );

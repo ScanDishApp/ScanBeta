@@ -2,44 +2,42 @@ import express from "express";
 import User from "../dom/user.mjs";
 import { HttpCodes } from "../modules/httpCodes.mjs";
 
-
 const USER_API = express.Router();
 USER_API.use(express.json());
 
+
 USER_API.get('/get', async (req, res, next) => {
-    const { id } = req.query
-    console.log(id);
     try {
+        const { id } = req.query;
         const user = new User();
         user.id = id;
         const getUserResult = await user.getUser();
-        
+
         if (getUserResult.success) {
             const userInfo = getUserResult.user;
-            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo).end();
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo);
         } else {
-            console.error("Login failed:", getUserResult.message);
+            console.error("Getting user Failed:", getUserResult.message);
             if (getUserResult.error) {
                 console.error("Detailed error:", getUserResult.error);
             }
-            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Cound not find user");
         }
     } catch (error) {
-      
         console.error("Unexpected error:", error);
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
-})
+});
 
 
 USER_API.post('/login', async (req, res, next) => {
-    const { email, pswHash } = req.body;
-
-    if (!email || !pswHash) {
-        return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields").end();
-    }
-    
     try {
+        const { email, pswHash } = req.body;
+
+        if (!email || !pswHash) {
+            return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields");
+        }
+
         const user = new User();
         user.email = email;
         user.pswHash = pswHash;
@@ -47,7 +45,7 @@ USER_API.post('/login', async (req, res, next) => {
 
         if (loginResult.success) {
             const userInfo = loginResult.user;
-            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo).end();
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(userInfo);
         } else {
             console.error("Login failed:", loginResult.message);
             if (loginResult.error) {
@@ -56,69 +54,63 @@ USER_API.post('/login', async (req, res, next) => {
             res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
         }
     } catch (error) {
-        
         console.error("Unexpected error:", error);
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 });
 
+
 USER_API.post('/', async (req, res, next) => {
+    try {
+        const { name, email, pswHash, img } = req.body;
+        console.log(name+ email+pswHash + img );
+        if (!name || !email || !pswHash) {
+            return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields");
+        }
 
-    const { name, email, pswHash, img } = req.body;
-
-    if (name != "" && email != "" && pswHash != "") {
-        let user = new User();
+        let user = new User
         user.name = name;
         user.email = email;
         user.pswHash = pswHash;
         user.img = img;
-        console.log("user" + user);
-        let exists = false;
-
-        if (!exists) {
-            user = await user.save();
-            res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(user)).end();
-        } else {
-            res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
+        user = await user.save();
+        res.status(HttpCodes.SuccesfullRespons.Ok).json(user);
+    } catch (error) {
+        console.error("Unexpected error:", error);  
+        if (error.code === '54000' && error.constraint === 'Users_email_key') {
+            return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Email already exists");
         }
-
-    } else {
-        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Mangler data felt").end();
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
-
 });
+
 
 USER_API.put('/:id', async (req, res) => {
-    const { name, email, pswHash, id, img} = req.body;
-    let user = new User(); 
-    console.log(email);
-    console.log(user.email);
-    
-    user.name = name;
-    user.email = email;
-    user.pswHash = pswHash;
-    user.id = id;
-    user.img = img;
+    try {
+        const { name, email, pswHash, img } = req.body;
+        const { id } = req.params;
 
-    let exists = false;
-
-    if (!exists) {
-
+        let user = new User({ name, email, pswHash, id, img });
         user = await user.save();
-        res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(user)).end();
-    } else {
-        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
-    }
 
+        res.status(HttpCodes.SuccesfullRespons.Ok).json(user);
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        if (error.code === '54000' && error.constraint === 'Users_email_key') {
+            return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Email already exists, cannot change to this email");
+        }
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
 });
 
-USER_API.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-    const user = new User();
-    user.id = id;
 
+USER_API.delete('/:id', async (req, res) => {
     try {
+        const { id } = req.params;
+        const user = new User();
+        user.id = id;
         await user.delete();
+
         res.status(HttpCodes.SuccesfullRespons.Ok).send("User was successfully deleted");
     } catch (error) {
         console.error("Error deleting user:", error);
@@ -126,4 +118,4 @@ USER_API.delete('/:id', async (req, res) => {
     }
 });
 
-export default USER_API
+export default USER_API;

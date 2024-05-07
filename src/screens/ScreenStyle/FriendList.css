@@ -1,11 +1,11 @@
-.friend-container{
+.friend-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
 }
 
-.add-rectangle{
+.add-rectangle {
+    position: relative;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
@@ -17,6 +17,24 @@
 
 }
 
+.waiting-request {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #f2b885;
+    width: 25px;
+    height: 35px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 40px;
+    margin-bottom: 0px;
+    z-index: 1;
+    left: calc(100% - 50px);
+}
+
 .add-rectangle h1 {
     margin-bottom: 1px;
 }
@@ -24,10 +42,12 @@
 .add-rectangle p {
     color: white;
 }
-.friends-rectangle{
+
+.friends-rectangle {
     width: calc(100% - 26px);
     margin-right: 60px;
 }
+
 .friend {
     width: 100%;
     background-color: #def294;
@@ -36,9 +56,8 @@
     align-items: center;
     justify-content: space-between;
     height: 100px;
-    padding:10px;
+    padding: 10px;
     margin-bottom: 10px;
-    
 }
 
 .xIcon {

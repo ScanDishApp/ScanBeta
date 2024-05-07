@@ -191,7 +191,7 @@ class DBManager {
         return book;
 
     }
-    
+
     async listSharedBook(userId) {
 
         const client = new pg.Client(this.#credentials);
@@ -361,9 +361,10 @@ class DBManager {
         const client = new pg.Client(this.#credentials);
 
         try {
+            await client.connect();
             const sql = 'INSERT INTO "public"."friends"("userId", "friendId", "status", "name") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING status;';
             const parms = [request.userId, request.friendId, request.status, request.name];
-            await client.connect();
+
             const output = await client.query(sql, parms);
 
             if (output.rows.length == 1) {
@@ -384,6 +385,7 @@ class DBManager {
         const client = new pg.Client(this.#credentials);
 
         try {
+
             const sql = 'INSERT INTO "public"."favorites"("userId", "contents") VALUES($1::TEXT, $2::TEXT) RETURNING id;';
             const parms = [like.userId, like.contents];
             await client.connect();

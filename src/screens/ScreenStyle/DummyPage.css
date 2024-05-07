@@ -26,7 +26,9 @@ body {
   margin: 10px;
   margin-top: 10px;
 }
-
+.error-border {
+  border: 2px solid red;
+}
 .square {
   width: calc(100% - 6px);
   padding-top: 100%;
@@ -35,7 +37,9 @@ body {
   position: relative;
   border: 3px solid #def294;
 }
-
+.p{
+  font-weight: bold;
+}
 
 .mini-square {
   left: 15px;

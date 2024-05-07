@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import sha256 from './sha256'
 import './ScreenStyle/EditUser.css';
 
 async function fetchData(url, method, data) {
@@ -27,6 +28,7 @@ export default function EditUser() {
     const [errorMsg, setErrorMsg] = useState(null);
     const [profileName, setProfileName] = useState(localStorage.getItem("profileName"));
     const [profileEmail, setProfileEmail] = useState(localStorage.getItem("profileEmail"));
+    const [profilePswHash, setProfilePswHash] = useState(localStorage.getItem("profilePswHash"));
     const [profileImage, setProfileImage] = useState(null);
 
     const handleImageChange = (e) => {
@@ -46,8 +48,8 @@ export default function EditUser() {
         }
         let id = localStorage.getItem("userId");
 
-        const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
-        // const response = await deleteUser(`http://localhost:8080/user/${id}`);
+        // const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
+        const response = await deleteUser(`http://localhost:8080/user/${id}`);
         localStorage.removeItem("profileName")
         localStorage.removeItem("profileEmail")
         localStorage.removeItem("profileImg")
@@ -61,8 +63,8 @@ export default function EditUser() {
             return await fetchData(paramUrl, "GET");
         }
 
-        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-        // const response = await getUser("http://localhost:8080/user/get", id);
+         //const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -71,30 +73,12 @@ export default function EditUser() {
         let profileEmail = responseData.email
         localStorage.setItem("profileEmail", profileEmail)
         let profileImg = responseData.img
-        console.log(profileImg);
         localStorage.setItem("profileImg", profileImg)
         setProfileImage(profileImg);
-    };
+        let profilePswHash = responseData.pswHash
+        
+        localStorage.setItem("profilePswHash", profilePswHash)
 
-    const handleCreate = async () => {
-        async function createUser(url, data) {
-            return await fetchData(url, "POST", data);
-        }
-        const name = document.querySelector('.create-username').value;
-        const pswHash = document.querySelector('.create-password').value;
-        const email = document.querySelector('.create-email').value;
-
-        const user = {
-            name: name,
-            pswHash: pswHash,
-            email: email
-        };
-        console.log(user);
-
-        const response = await createUser("https://scanbeta.onrender.com/user/", user);
-        // const response = await createUser("http://localhost:8080/user/", user);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
     };
 
     const handleUpdate = async () => {
@@ -102,10 +86,11 @@ export default function EditUser() {
             return await fetchData(url, "PUT", data);
         }
         const name = document.querySelector('.update-username').value;
-        const pswHash = document.querySelector('.update-password').value;
+        let pswHash = document.querySelector('.update-password').value;
+        pswHash = await sha256(pswHash);
         const email = document.querySelector('.update-email').value;
         let id = localStorage.getItem("userId")
-
+        
         const user = {
             name: name,
             pswHash: pswHash,
@@ -114,15 +99,11 @@ export default function EditUser() {
             id: id,
 
         };
-
-        if (pswHash == "") {
-            setErrorMsg("Husk å skrive passord!");
-            console.log("Error message:", errorMsg);
-        } else {
             setErrorMsg(null);
 
             const response = await updateUser(`https://scanbeta.onrender.com/user/${id}`, user);
             // const response = await updateUser(`http://localhost:8080/user/${id}`, user);
+         
             const responseData = await response.json();
             const responseDataJson = JSON.parse(responseData)
             console.log("Response:", responseDataJson);
@@ -131,7 +112,7 @@ export default function EditUser() {
             console.log(userId);
             await handleGet(userId)
             navigate('/dummy-page')
-        }
+        
     };
 
     return (
@@ -158,7 +139,7 @@ export default function EditUser() {
                 <br></br>
                 <div className="edit-rectangle">
                     <h2>Passord: </h2>
-                    <input className="update-password" type='password'></input>
+                    <input className="update-password"  type='password' value={profilePswHash} onChange={(e) => setProfilePswHash(e.target.value)}></input>
                 </div>
                 <div className="profile-img-rectangle">
                     <h2>Profil bilde:</h2>
@@ -175,7 +156,7 @@ export default function EditUser() {
                 </div>
                 <p>{errorMsg}</p>
             </div>
-            <button onClick={handleUpdate} className="update-button">Endre bruker</button>
+            <button onClick={handleUpdate} className="update-button">Oppdater bruker</button>
             <button onClick={handleDelete} className="delete-user-button">Slett bruker</button>
         </div>
     );
