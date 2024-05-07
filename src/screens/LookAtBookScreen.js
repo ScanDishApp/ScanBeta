@@ -77,17 +77,24 @@ export default function LookMyBooks() {
       
 
     };
-    const downloadJsonAsPDF = () => {
-        const contentString = content // Convert JSON to string with pretty formatting
-        const contentHTML = `<pre>${contentString}</pre>`;
+
+    const downloadHtmlAsPDF = () => {
+        const bookContent = document.querySelector(".book-content").innerHTML;
+        const title = document.querySelector(".bookTitle").textContent;
+    
+        const contentHTML = `
+            <h1>${title}</h1>
+            <div>${bookContent}</div>
+        `;
+    
         const opt = {
             margin: 0.5,
-            filename: 'my_books.json.pdf',
+            filename: 'my_books.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
-
+    
         html2pdf().from(contentHTML).set(opt).save();
     };
 
@@ -97,7 +104,7 @@ export default function LookMyBooks() {
             <div className="icon-row">
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
-                <AiOutlineSave className="icon"  onClick={downloadJsonAsPDF}/>
+                <AiOutlineSave className="icon"  onClick={downloadHtmlAsPDF}/>
                 <AiOutlineHeart className="icon"  onClick={handleFavorite}/>
             </div>
             <h1 className='bookTitle'></h1>
