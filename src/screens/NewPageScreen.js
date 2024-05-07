@@ -44,6 +44,8 @@ export default function NewPage() {
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
     const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isImageSelected, setIsImageSelected] = useState(false);
     const [pages, setPages] = useState([]);
 
     const [showSticker, setShowSticker] = useState(false); 
@@ -355,6 +357,9 @@ export default function NewPage() {
                     value={title}
                     onChange={handleTitleChange}
                     placeholder="Tittel"
+                    style={{
+                        fontFamily: selectedFont,
+                    }}
                 />
 
                 <div className='input-area-1'>
@@ -365,6 +370,8 @@ export default function NewPage() {
                         onChange={handleIngridensChange}
                         placeholder="Ingredienser.."
                         style={{
+                            color: selectedColor,
+                            fontFamily: selectedFont,
                             border: 'none', // Removes the border
                             outline: 'none', // Removes the outline on focus
                             background: 'transparent', // Makes the background transparent ?
@@ -382,19 +389,7 @@ export default function NewPage() {
                         )}
                     </div>
                 </div>
-
-                <textarea
-                    className="ingridens-input"
-                    value={ingridens}
-                    onChange={handleIngridensChange}
-                    placeholder="Ingridens.."
-                    style={{
-                        fontFamily: 'inherit',
-                        border: 'none', // Removes the border
-                        outline: 'none', // Removes the outline on focus
-                        background: 'transparent' // Makes the background transparent ?
-                    }}
-                />
+  
                 <textarea
                     className="note-textarea"
                     value={content}
