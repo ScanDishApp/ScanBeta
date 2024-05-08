@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
+import DragToDelete from './DragDelete';
 
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
@@ -42,13 +43,24 @@ export default function NewPage() {
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
-    const [selectedFontSize, setSelectedFontSize] = useState('16px');
+    const [selectedFontSize, setSelectedFontSize] = useState('18px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [pages, setPages] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isImageSelected, setIsImageSelected] = useState(false);
     const [showSticker, setShowSticker] = useState(false); 
+    const [lastRecognizedText, setLastRecognizedText] = useState('');
+    const [showImage, setShowImage] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
 
 
-
+    useEffect(() => {
+        const lastText = localStorage.getItem('lastRecognizedText');
+        if (lastText) {
+          setLastRecognizedText(lastText);
+        }
+      }, []);
+      
 
     useEffect(() => {
         const storedPages = localStorage.getItem("contents");
@@ -96,12 +108,8 @@ export default function NewPage() {
         setImages([]);
         setSelectedColor('#000000');
         setSelectedFont('Arial, Helvetica, sans-serif');
-        setSelectedFontSize('20px');
+        setSelectedFontSize('18px');
         setIsBulletListActive(false);
-    };
-    const addSticker = (stickerSrc) => {
-        const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
-        setImages(prevImages => [...prevImages, newSticker]);
     };
 
     const addNewPage = () => {
@@ -140,6 +148,12 @@ export default function NewPage() {
         setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
     };
 
+    const handleTextChange = (event) => {
+        setLastRecognizedText(event.target.value);
+      };
+
+
+      
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -287,6 +301,25 @@ export default function NewPage() {
         setShowFontSizeMenu(false);
     };
 
+    const handleClick = () => {
+        setShowImage(!showImage); // Toggle showImage state
+      };
+
+      const handleSave = () => {
+        localStorage.setItem('lastRecognizedText', lastRecognizedText);
+        alert('Text saved successfully!');
+      };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageFile(reader.result); // Update state with the new image
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
     const handleUpdate = async () => {
 
@@ -322,6 +355,9 @@ export default function NewPage() {
 
             </div>
 
+
+
+
             <div className="coverPage"></div>
             <div className="input-container">
 
@@ -351,6 +387,38 @@ export default function NewPage() {
                         )}
                     </div>
                 ))}
+
+    <div className='coverFoodRectangle' style={{ position: 'relative' }}>
+      {imageFile ? (
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <img src={imageFile} alt='Uploaded' className='uploadedImage' />
+          <button
+            className='changeImageButton'
+            onClick={() => document.getElementById('uploadInput').click()}
+          >
+            Endre bildet
+          </button>
+        </div>
+      ) : (
+        <div className='preCover' onClick={() => document.getElementById('uploadInput').click()}>
+          <span className='preCoverText'>Legg til forside-bildet</span>
+        </div>
+      )}
+      <input
+        type='file'
+        id='uploadInput'
+        accept='image/*'
+        onChange={handleImageUpload}
+        style={{ display: 'none' }}
+      />
+    </div>
+  
+
+
+
+
+
+
                 <input
                     id="file-input"
                     type="file"
@@ -367,17 +435,20 @@ export default function NewPage() {
                     onChange={handleTitleChange}
                     placeholder="Tittel"
                     style={{
+                        color: selectedColor,
                         fontFamily: selectedFont,
                     }}
                 />
+                <h3 className='undertitle'>Ingredienser:</h3>
 
                 <div className='input-area-1'>
+
                     <textarea
                         id="ingridens-input"
                         className="ingridens-input"
                         value={ingridens}
                         onChange={handleIngridensChange}
-                        placeholder="Ingredienser.."
+                        placeholder="List dine ingredienser..."
                         style={{
                             color: selectedColor,
                             fontFamily: selectedFont,
@@ -387,22 +458,22 @@ export default function NewPage() {
                             width: '50%'
                         }}
                     />
-                    <div className='image-upload-container'>
-                        {!selectedFile && (
-                        <input className="img-input" type="file" accept="image/*" onChange={handleImageChangeInContainer} /> 
-                        )}
-                        {selectedFile && (
-                            <div className="recipie-img-container">
-                                <img src={URL.createObjectURL(selectedFile)} alt="Selected" className="recipie-img" />
-                            </div>
-                        )}
-                    </div>
-                </div>
   
+                </div>
+
+                <h3 className='undertitle'>Fremgangsmåte:
+                <button onClick={handleSave}>Save</button>
+
+                </h3>
+
                 <textarea
+            
                     className="note-textarea"
-                    value={content}
-                    onChange={handleContentChange}
+                    
+                    value={lastRecognizedText}
+
+                    onChange={handleTextChange}
+
                     placeholder="Innstruksjoner..."
                     style={{
                         color: selectedColor,
@@ -410,6 +481,7 @@ export default function NewPage() {
                         fontSize: selectedFontSize,
                         listStyleType: isBulletListActive ? 'disc' : 'none'
                     }}
+                    
                 />
 
             </div>
@@ -463,6 +535,9 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
+                <div className="last-scan-page">
+</div>
+
 
                 <div className="icon-row" >
 
@@ -474,7 +549,7 @@ export default function NewPage() {
                 className="icon"
                 onClick={() => setShowSticker(!showSticker)} 
             />
-           {showSticker && <Sticker addSticker={addSticker} />}  
+            {showSticker && <Sticker />} 
                       <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
 
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />

@@ -25,11 +25,18 @@ html, body, .NewPage-container, .note-container {
     background-image: linear-gradient(rgba(150, 150, 150, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(150, 150, 150, 0.3) 1px, transparent 1px);
     background-size: 20px 20px, 20px 20px;
     background-position: -1px -1px, -1px -1px;
-
-
-
 }
 
+.changeImageButton {
+    position: absolute;
+    bottom:25px; 
+    right: 15px; 
+    background-color: #9bba59;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
 .NewPage-container {
     display: flex;
@@ -45,33 +52,28 @@ html, body, .NewPage-container, .note-container {
 
 
 .note-title-input {
-     text-align: left;
 background-color: transparent;
 font-family: 'DM Serif Display', serif;
 font-weight: bold;
 font-size: 30px;
-outline: none;
-margin-bottom: 0px;
-width: 90%;
+outline: transparent;
+margin: 0px;
+width: 100%;
+padding-left: 10px;
 }
 
 .ingridens-input {
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    outline: none;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    width: 90%;
+    width: 100%; 
+    border: none;
+    padding-top: 0;
+    font-size: 18px; 
+    font-family: Arial, Helvetica, sans-serif; 
     box-sizing: border-box; 
-    border: 1px solid #ccc;
-    padding: 8px;
-    resize: none;
-
-    height: 100px; /* Set a fixed height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    margin-left: 10px;
+    background-color: transparent;
+  
+    outline: none; 
 }
+
 .image-upload-container {
     width: 200px;
     height: 200px;
@@ -82,6 +84,9 @@ width: 90%;
     cursor: pointer;
     margin-right: 10px;
 }
+
+
+
 .recipie-img-container  {
     display: flex;
     justify-content: center;
@@ -100,24 +105,28 @@ width: 90%;
   }
 
 
-.input-area-1{
-    display: flex;
-    justify-content: center; /* Center items horizontally */      
+  .input-area-1{
+    justify-content: center;
+
+    margin-bottom: 0px;
+    margin-left: 10px;
+    
 
 }
+
 
 
 .note-textarea {
     width: 100%; 
     height: 100vh;
     border: none;
-    padding: 20px; 
+    padding-left: 10px;
     padding-top: 0;
-    font-size: 20px; 
+    font-size: 18px; 
     font-family: Arial, Helvetica, sans-serif; 
     box-sizing: border-box; 
     background-color: transparent;
-  
+    
     outline: none; 
 }
 
@@ -281,4 +290,64 @@ width: 90%;
 }
 
 
+.uploadedImage {
+    width: calc(100% - 20px);
+    height: 100%;
+    object-fit: cover; 
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    max-width: auto; 
+    max-height: 260px; 
+    min-width: 277px;
+  }
+  
+  .preCoverText {
+    text-align: center; 
+  }
+  .preCover{
+    right: 0%;
+    position: relative;
+    background-color: rgba(129, 128, 128, 0.349);
+    width: calc(90% - 25px);
+    padding: 20px;
+    margin: 10px;
+    height: 260px;
+    min-height: 260px;
+    min-width: 277px;
+
+    max-height: 140px;
+    border-radius: 10px;
+    border: dotted;
+    justify-content: center;
+    align-items: center;
+
+    
+  }
+
+
+  .ingridens-input::placeholder {
+    color: #999; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 18px; 
+}
+
+.undertitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    font-weight: 400;
+
+  }
+  
+
+  .undertitle button {
+    padding: 3px 8px;
+    margin-right: 15px;
+    background-color: #99b952;
+    border: none;
+    color: white;
+    border-radius: 5px;
+  }
   
