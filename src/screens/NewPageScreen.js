@@ -44,8 +44,6 @@ export default function NewPage() {
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
     const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [isImageSelected, setIsImageSelected] = useState(false);
     const [pages, setPages] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isImageSelected, setIsImageSelected] = useState(false);
@@ -102,6 +100,10 @@ export default function NewPage() {
         setSelectedFont('Arial, Helvetica, sans-serif');
         setSelectedFontSize('20px');
         setIsBulletListActive(false);
+    };
+    const addSticker = (stickerSrc) => {
+        const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
+        setImages(prevImages => [...prevImages, newSticker]);
     };
 
     const addNewPage = () => {
@@ -474,7 +476,7 @@ export default function NewPage() {
                 className="icon"
                 onClick={() => setShowSticker(!showSticker)} 
             />
-            {showSticker && <Sticker />} 
+           {showSticker && <Sticker addSticker={addSticker} />}  
                       <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
 
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
