@@ -47,8 +47,6 @@ export default function NewPage() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [isImageSelected, setIsImageSelected] = useState(false);
     const [pages, setPages] = useState([]);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [isImageSelected, setIsImageSelected] = useState(false);
     const [showSticker, setShowSticker] = useState(false); 
 
 
