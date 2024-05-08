@@ -20,11 +20,11 @@ FRIEND_API.post('/add', async (req, res, next) => {
             const status = friendRequest;
             res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
         } else {
-            console.error("Login failed:", friendRequest.message);
+            console.error("Adding friends failed:", friendRequest.message);
             if (friendRequest.error) {
                 console.error("Detailed error:", friendRequest.error);
             }
-            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid friend credentials");
         }
     } catch (error) {
 
@@ -90,11 +90,11 @@ FRIEND_API.get('/requests', async (req, res) => {
         const status = friendRequest.dbFriend;
         res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
     } else {
-        console.error("Login failed:", friendRequest.message);
+        console.error("Getting requeste failed:", friendRequest.message);
         if (friendRequest.error) {
             console.error("Detailed error:", friendRequest.error);
         }
-        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Couldnt find request ");
     }
 } catch (error) {
 
@@ -116,11 +116,11 @@ FRIEND_API.get('/get', async (req, res) => {
         const status = friendRequest.dbFriend;
         res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
     } else {
-        console.error("Login failed:", friendRequest.message);
+        console.error("Getting friends failed:", friendRequest.message);
         if (friendRequest.error) {
             console.error("Detailed error:", friendRequest.error);
         }
-        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid login credentials");
+        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Couldnt find friends");
     }
 } catch (error) {
 

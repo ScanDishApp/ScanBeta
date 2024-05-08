@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoCameraOutline } from 'react-icons/io5';
 import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-icons/ai';
 import logo from '../assets/Logo_Big.png'
+import sha256 from './sha256'
 import './ScreenStyle/DummyPage.css';
 
 async function fetchData(url, method, data) {
@@ -30,6 +31,7 @@ export default function DummyPage() {
     let profileImg = localStorage.getItem("profileImg");
 
     const [errorMsg, setErrorMsg] = useState(null);
+    const [friendsList, setFriendsList] = useState([]);
 
 
     const navigate = useNavigate();
@@ -87,21 +89,44 @@ export default function DummyPage() {
             return await fetchData(url, "POST", data);
         }
 
-        const email = document.querySelector('.log-in-email').value;
-        const pswHash = document.querySelector('.log-in-password').value;
-
+        const emailInput = document.querySelector('.log-in-email');
+        const passwordInput = document.querySelector('.log-in-password');
+        
+        const email = emailInput.value;
+        let pswHash = passwordInput.value;
+        pswHash = await sha256(pswHash);
+    
         const user = {
             pswHash: pswHash,
             email: email
         };
+    
         //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
         const response = await loginUser("http://localhost:8080/user/login", user);
-
-        if (response.status !== 200) {
-            setErrorMsg("Feil brukernavn eller passord!");
-            console.log(errorMsg);
+        
+        if (!email.trim()) {
+            emailInput.classList.add('error-border');
+            setErrorMsg("Venligst fyll inn emailen!");
+            return;
         } else {
-            setErrorMsg(null);
+            emailInput.classList.remove('error-border');
+        }
+    
+        if (!pswHash.trim()) {
+            passwordInput.classList.add('error-border');
+            setErrorMsg("Venligst fyll inn passord!");
+            return;
+        } else {
+            passwordInput.classList.remove('error-border');
+        }
+
+        if(response.status == 401 || response.status == 500 ){
+            emailInput.classList.add('error-border');
+            passwordInput.classList.add('error-border');
+            setErrorMsg("Feil brukernavn eller passord!"); 
+        }else {
+            passwordInput.classList.remove('error-border');
+            emailInput.classList.remove('error-border');
         }
 
         const responseData = await response.json();
@@ -112,6 +137,26 @@ export default function DummyPage() {
 
         handleGet(userId)
     };
+    const handleGetFriend = async (id) => {
+        async function getFriend(url, data) {
+            const paramUrl = `${url}?userId=${data}`;
+            return await fetchData(paramUrl, "GET");
+        }
+
+        const response = await getFriend("https://scanbeta.onrender.com/friends/get", id);
+        //const response = await getFriend("http://localhost:8080/friends/get", id);
+
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+        setFriendsList(responseData.length);
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            await handleGetFriend(userId);
+        };
+
+        fetchData();
+    }, []);
 
     const handleCreatePage = async () => {
         navigate('/new-user-page');
@@ -152,7 +197,7 @@ export default function DummyPage() {
                         </label>
                     </div>
                     <div className="counter">
-
+                        <p>- - //Venner: {friendsList}// - -</p>
                     </div>
                 </div>
 
@@ -195,7 +240,7 @@ export default function DummyPage() {
                     <br></br>
                     <div className="login-rectangle">
                         <h2>Passord: </h2>
-                        <input className="log-in-password" type='password'></input>
+                        <input className="log-in-password" type='password' ></input>
                     </div>
                     <p>{errorMsg}</p>
                     <button onClick={handleLogin} className="login-button">Logg inn</button>
