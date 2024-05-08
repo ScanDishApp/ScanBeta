@@ -7,24 +7,6 @@
         font-family: 'DM Serif Display', serif;
   }
     
-  .square-button {
-    position: fixed;
-    bottom: 100px;
-    right: 10px;
-    width: 50px;
-    height: 50px;
-    border-radius: 25%;
-    background: linear-gradient(135deg, #F2C449, #F2D243);
-    color: white;
-    font-size: 30px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .rectangle-card {
     position: relative;
     width: 100%;
@@ -78,31 +60,24 @@
     justify-content: center;
     border-radius: 20px;
     padding: 10px;
-
-    background: linear-gradient(135deg, #F2C449, #F2D243);
+    background-color: #53a687;;
 }
 
-.check-icon{
-    padding: 10px; 
-    font-size: 20px; 
-    color: #000000;
-    cursor: pointer;
-    background-color: rgb(255, 255, 255);
-    border-radius: 8px;
+.check-icon,
+.close{
+
+    background-color: #c1d96c;
+    color: #4B534A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35%;
+    margin-bottom: 10px;
+    border: none;
+    padding: 10px;
+
+
 }
-
-.close {
-    padding: 10px; 
-    font-size: 20px; 
-    color: #000000;
-    cursor: pointer;
-    background-color: rgb(255, 255, 255);
-    border-radius: 8px;
-}
-
-
-
-
 
 .modal-overlay {
     position: fixed;
@@ -163,3 +138,4 @@
     border: none;
     width: 40px;
 }
+

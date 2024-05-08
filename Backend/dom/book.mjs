@@ -1,10 +1,11 @@
 import DBManager from "../modules/storageManager.mjs"
 class Book {
 
-  constructor(id, userId, contents) {
+  constructor(id, userId, contents, title) {
     this.id = id;
     this.userId = userId;
     this.contents = contents;
+    this.title = title;
   }
 
   async save() {

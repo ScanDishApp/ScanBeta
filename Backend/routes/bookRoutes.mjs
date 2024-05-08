@@ -83,13 +83,13 @@ BOOK_API.get('/listShared', async (req, res, next) => {
 
 BOOK_API.post('/', async (req, res, next) => {
 
-    const { userId , contents } = req.body;
+    const { userId , contents, title } = req.body;
 
     if (userId != "") {
         let book = new Book();
         book.userId = userId;
         book.contents = contents;
-
+        book.title = title;
      try{
             book = await book.save();
             res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(book)).end();
@@ -112,10 +112,7 @@ BOOK_API.put('/:id', async (req, res) => {
     dbBook.userId = userId;
     dbBook.contents = contents;
   
-
-    let exists = false;
-
-    if (!exists) {
+    if (dbBook) {
 
         dbBook = await dbBook.save();
         res.status(HttpCodes.SuccesfullRespons.Ok).json(dbBook).end();
