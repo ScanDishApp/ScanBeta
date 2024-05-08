@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
-import DragToDelete from './DragDelete';
 
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
@@ -342,7 +341,7 @@ export default function NewPage() {
     return (
 
         <div className="NewPage-container">
-            <h1>Design din bok</h1>
+            <h1 style={{ fontFamily: selectedFont }}>Design din bok</h1>
 
 
             <div className="icon-row-top">
@@ -401,7 +400,7 @@ export default function NewPage() {
         </div>
       ) : (
         <div className='preCover' onClick={() => document.getElementById('uploadInput').click()}>
-          <span className='preCoverText'>Legg til forside-bildet</span>
+          <span className='preCoverText' style={{ fontFamily: selectedFont }}>Legg til forside-bildet</span>
         </div>
       )}
       <input
@@ -439,7 +438,7 @@ export default function NewPage() {
                         fontFamily: selectedFont,
                     }}
                 />
-                <h3 className='undertitle'>Ingredienser:</h3>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold' }}>Ingredienser:</h2>
 
                 <div className='input-area-1'>
 
@@ -460,11 +459,12 @@ export default function NewPage() {
                     />
   
                 </div>
-
-                <h3 className='undertitle'>Fremgangsmåte:
+                
                 <button onClick={handleSave}>Save</button>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold' }}>Fremgangsmåte:</h2>
+                
 
-                </h3>
+                
 
                 <textarea
             

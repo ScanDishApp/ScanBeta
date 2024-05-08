@@ -326,11 +326,6 @@ padding-left: 10px;
   }
 
 
-  .ingridens-input::placeholder {
-    color: #999; 
-    font-family: 'Arial', sans-serif; 
-    font-size: 18px; 
-}
 
 .undertitle {
     display: flex;
