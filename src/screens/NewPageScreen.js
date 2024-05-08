@@ -45,6 +45,8 @@ export default function NewPage() {
     const [selectedFontSize, setSelectedFontSize] = useState('16px');
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [pages, setPages] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isImageSelected, setIsImageSelected] = useState(false);
     const [showSticker, setShowSticker] = useState(false); 
 
 

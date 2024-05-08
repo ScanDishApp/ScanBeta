@@ -44,7 +44,7 @@ export default function MyBooks() {
             const responseData = await response.json();
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
-                title: item.id,
+                title: item.title,
                 color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
             }));
 
@@ -57,9 +57,10 @@ export default function MyBooks() {
         let contents = "";
         const book = {
             userId: userId,
-            contents: contents
+            contents: contents,
+            title: titleText 
         };
-
+        console.log(book);
         const updatedRectangles = [...rectangles, book];
         setRectangles(updatedRectangles);
         setShowModal(false);

@@ -125,9 +125,9 @@ class DBManager {
         const client = new pg.Client(this.#credentials);
 
         try {
-            const sql = 'INSERT INTO "public"."cookbooks"("userId", "contents") VALUES($1::TEXT, $2::TEXT) RETURNING id;';
-            const parms = [book.userId, book.contents];
             await client.connect();
+            const sql = 'INSERT INTO "public"."cookbooks"("userId", "contents", "title") VALUES($1::TEXT, $2::TEXT, $3::TEXT) RETURNING id;';
+            const parms = [book.userId, book.contents, book.title];
             const output = await client.query(sql, parms);
 
             if (output.rows.length == 1) {
