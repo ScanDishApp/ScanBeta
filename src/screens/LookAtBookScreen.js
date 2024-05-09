@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineHeart, AiOutlineSave } from 'react-icons/ai';
 import html2pdf from 'html2pdf.js';
+import './ScreenStyle/LookAtBook.css';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -45,10 +46,21 @@ export default function LookMyBooks() {
 
     const handlePage = () => {
         const bookContent = document.querySelector(".book-content");
-        const title = document.querySelector(".bookTitle");
         if (content.length > 0 && content[currentPageIndex]) {
-            title.innerHTML = content[currentPageIndex].title;
-            bookContent.innerHTML = content[currentPageIndex].content;
+            const page = content[currentPageIndex];
+            bookContent.innerHTML = `
+                <h1>${page.title}</h1>
+                     <div class="book-coverImg">
+                    <img src="${page.imageFile}" alt="Book Cover" class="coverImg"/>
+                </div>
+                <h2 class="undertitle" >Ingredienser:</h2>
+                <div class="book-ingridens">${page.ingridens}</div>
+                <h2 class="undertitle" >Fremgangsmåte:</h2>
+                <div class="book-desc">${page.desc}</div>
+                <div class="book-images">
+                    ${page.images.map(image => `<img src="${image.src}" alt="Book Image" style="max-width: 50px; max-height: 50px;" />`).join('')}
+                </div>
+            `;
         }
     };
 
@@ -74,13 +86,11 @@ export default function LookMyBooks() {
        const response = await createFavorite("http://localhost:8080/favorite/", like);
        
        console.log(response);
-      
-
     };
 
     const downloadHtmlAsPDF = () => {
         const bookContent = document.querySelector(".book-content").innerHTML;
-        const title = document.querySelector(".bookTitle").textContent;
+        const title = content[currentPageIndex].title;
     
         const contentHTML = `
             <h1>${title}</h1>
@@ -107,8 +117,9 @@ export default function LookMyBooks() {
                 <AiOutlineSave className="icon"  onClick={downloadHtmlAsPDF}/>
                 <AiOutlineHeart className="icon"  onClick={handleFavorite}/>
             </div>
-            <h1 className='bookTitle'></h1>
-            <div className='book-content'></div>
+
+            <div className="book-content"></div>
+           
         </div>
     );
 }
