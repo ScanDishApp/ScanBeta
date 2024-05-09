@@ -2,9 +2,10 @@ import DBManager from "../modules/storageManager.mjs";
 
 class Favorites {
 
-  constructor(userId, contents) {
+  constructor(userId, contents, id) {
     this.userId = userId;
     this.contents = contents;
+    this.id = id;
   }
 
   async save() {

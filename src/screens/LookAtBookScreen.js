@@ -49,20 +49,36 @@ export default function LookMyBooks() {
         if (content.length > 0 && content[currentPageIndex]) {
             const page = content[currentPageIndex];
             bookContent.innerHTML = `
-                <h1>${page.title}</h1>
-                     <div class="book-coverImg">
+                <h1 style="font-family: ${page.selectedFont}; color: ${page.selectedColor};">${page.title}</h1>
+                <div class="book-coverImg">
                     <img src="${page.imageFile}" alt="Book Cover" class="coverImg"/>
                 </div>
-                <h2 class="undertitle" >Ingredienser:</h2>
-                <div class="book-ingridens">${page.ingridens}</div>
-                <h2 class="undertitle" >Fremgangsmåte:</h2>
-                <div class="book-desc">${page.desc}</div>
-                <div class="book-images">
-                    ${page.images.map(image => `<img src="${image.src}" alt="Book Image" style="max-width: 50px; max-height: 50px;" />`).join('')}
+                <h2 style="font-family: ${page.selectedFont}; color: ${page.selectedColor};" class="undertitle" >Ingredienser:</h2>
+                <div style="font-family: ${page.selectedFont}; color: ${page.selectedColor};" class="book-ingridens">
+                    <ul>
+                        ${page.ingridens.split('\n').map(ingredient => `<li>${ingredient.trim()}</li>`).join('')}
+                    </ul>
                 </div>
-            `;
+                <h2 style="font-family: ${page.selectedFont}; color: ${page.selectedColor};" class="undertitle">Fremgangsmåte:</h2>
+                <div style="font-family: ${page.selectedFont}; color: ${page.selectedColor};" class="book-desc">
+                    <ul>
+                        ${page.desc.split('\n').map(desc => `<li>${desc.trim()}</li>`).join('')}
+                    </ul>
+                    <div class="book-images">
+                        ${page.images.map((image, index) => (
+                    `<img
+                                key=${index}
+                                src=${image.src}
+                                alt="Book Image"
+                                style="position: absolute; left: ${image.position.x}px; top: ${image.position.y}px; z-index: ${image.zIndex};"
+                            />`
+                )).join('')}
+                    </div>
+                `;
         }
     };
+
+
 
     const handlePreviousPage = () => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
@@ -71,32 +87,32 @@ export default function LookMyBooks() {
     const handleNextPage = () => {
         setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, content.length - 1));
     };
-    
+
     const handleFavorite = async () => {
         async function createFavorite(url, data) {
             return await fetchData(url, "POST", data);
         }
-       
+
         const like = {
             userId: userId,
             contents: content[currentPageIndex],
         };
-       console.log(like);
-       //const response = await createFavorite("https://scanbeta.onrender.com/favorite/", like);
-       const response = await createFavorite("http://localhost:8080/favorite/", like);
-       
-       console.log(response);
+        console.log(like);
+        //const response = await createFavorite("https://scanbeta.onrender.com/favorite/", like);
+        const response = await createFavorite("http://localhost:8080/favorite/", like);
+
+        console.log(response);
     };
 
     const downloadHtmlAsPDF = () => {
         const bookContent = document.querySelector(".book-content").innerHTML;
         const title = content[currentPageIndex].title;
-    
+
         const contentHTML = `
             <h1>${title}</h1>
             <div>${bookContent}</div>
         `;
-    
+
         const opt = {
             margin: 0.5,
             filename: 'my_books.pdf',
@@ -104,22 +120,24 @@ export default function LookMyBooks() {
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
-    
+
         html2pdf().from(contentHTML).set(opt).save();
     };
 
     return (
         <div className="myBooks-container">
 
-            <div className="icon-row">
+            <div className="icon-row" style={{ marginTop: '10px'}}>
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
-                <AiOutlineSave className="icon"  onClick={downloadHtmlAsPDF}/>
-                <AiOutlineHeart className="icon"  onClick={handleFavorite}/>
+                <AiOutlineSave className="icon" onClick={downloadHtmlAsPDF} />
+                <AiOutlineHeart className="icon" onClick={handleFavorite} />
             </div>
 
-            <div className="book-content"></div>
-           
+            <div className="book-content" >
+
+            </div>
+
         </div>
     );
 }

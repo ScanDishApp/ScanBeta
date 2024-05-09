@@ -406,14 +406,14 @@ class DBManager {
         return like;
     }
 
-    async deleteFavorite(id) {
-
+    async deleteFavorite(like) {
+       
         const client = new pg.Client(this.#credentials);
 
         try {
             await client.connect();
             const sql = 'DELETE FROM "public"."favorites" WHERE "id" = $1;'
-            const params = [id];
+            const params = [like.id];
             const output = await client.query(sql, params);
             return true;
         } catch (error) {
@@ -435,7 +435,7 @@ class DBManager {
             const output = await client.query(sql, params);
 
             console.log(output);
-            like = output.rows[0];
+            like = output.rows;
 
         } catch (error) {
             console.error('Error in getting user :', error.stack);

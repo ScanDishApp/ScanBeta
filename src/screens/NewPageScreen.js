@@ -190,18 +190,25 @@ export default function NewPage() {
 
     const handleContentChange = (event) => {
         let newContent = event.target.value;
-        if (isBulletListActive) {
-            const lines = newContent.split('\n');
-            const newLines = lines.map((line, index) => {
-
-                if (line.trim() !== '' && !line.startsWith('\u2022')) {
-                    return `\u2022 ${line}`;
-                }
-                return line;
-            });
-            newContent = newLines.join('\n');
-        }
-        setContent(newContent);
+        
+        // Split the content into lines
+        const lines = newContent.split('\n');
+        
+        // Remove bullet points from each line
+        const newLines = lines.map((line) => {
+            // Check if the line starts with a bullet point character
+            if (line.trim() !== '' && line.startsWith('\u2022')) {
+                // Remove the bullet point character
+                return line.slice(2);
+            }
+            return line;
+        });
+        
+        // Join the lines back together
+        newContent = newLines.join('\n');
+        
+        // Set the updated content
+        setDesc(newContent);
     };
 
     const handleImageChange = (event) => {
@@ -462,26 +469,26 @@ export default function NewPage() {
                 </div>
 
 
-                <h3 className='undertitle'>Fremgangsmåte:
+                <h3 className='undertitle'>Fremgangsmåte:</h3>
                     <button onClick={handleSave}>Save</button>
 
-                <textarea
+                    <textarea
 
-                    className="note-textarea"
+                        className="note-textarea"
 
-                    value={lastRecognizedText}
+                        value={lastRecognizedText}
 
-                    onChange={handleTextChange}
+                        onChange={handleTextChange}
 
-                    placeholder="Innstruksjoner..."
-                    style={{
-                        color: selectedColor,
-                        fontFamily: selectedFont,
-                        fontSize: selectedFontSize,
-                        listStyleType: isBulletListActive ? 'disc' : 'none'
-                    }}
+                        placeholder="Innstruksjoner..."
+                        style={{
+                            color: selectedColor,
+                            fontFamily: selectedFont,
+                            fontSize: selectedFontSize,
 
-                />
+                        }}
+
+                    />
 
             </div>
 

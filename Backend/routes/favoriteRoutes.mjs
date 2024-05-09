@@ -50,11 +50,10 @@ FAVORITE_API.post('/', async (req, res, next) => {
 });
 
 FAVORITE_API.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-    const like = new Favorites();
-    like.id = id;
-
     try {
+        const { id } = req.params;
+        const like = new Favorites();
+        like.id = id;
         await like.delete();
         res.status(HttpCodes.SuccesfullRespons.Ok).send("User was successfully deleted");
     } catch (error) {

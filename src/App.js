@@ -56,7 +56,7 @@ export default function App() {
           <Route path="/shared-books" element={<Layout><SharedBooks   /></Layout>} /> 
           <Route path="/PaperEnhancer" element={<Layout><PaperEnhancer /></Layout>} />
           <Route path="/look-my-book" element={<LookMyBooks />} />
-          <Route path="/favorites-screen" element={<Layout><Favorites /></Layout>} />
+          <Route path="/favorites-screen" element={<Favorites />} />
         </Routes>
       </Router>
     </div>
