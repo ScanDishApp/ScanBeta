@@ -349,7 +349,7 @@ export default function NewPage() {
     return (
 
         <div className="NewPage-container">
-            <h1>Design din bok</h1>
+            <h1 style={{ fontFamily: selectedFont }}>Design din bok</h1>
 
 
             <div className="icon-row-top">
@@ -392,6 +392,7 @@ export default function NewPage() {
                     </div>
                 ))}
 
+
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
                         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -417,6 +418,7 @@ export default function NewPage() {
                     />
                 </div>
 
+
                 <input
                     id="file-input"
                     type="file"
@@ -437,7 +439,7 @@ export default function NewPage() {
                         fontFamily: selectedFont,
                     }}
                 />
-                <h3 className='undertitle'>Ingredienser:</h3>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold' }}>Ingredienser:</h2>
 
                 <div className='input-area-1'>
 
@@ -459,10 +461,9 @@ export default function NewPage() {
 
                 </div>
 
+
                 <h3 className='undertitle'>Fremgangsmåte:
                     <button onClick={handleSave}>Save</button>
-
-                </h3>
 
                 <textarea
 
