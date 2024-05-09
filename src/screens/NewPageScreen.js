@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
-import DragToDelete from './DragDelete';
+
 
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
@@ -32,6 +32,8 @@ async function updateBook(url, data) {
 export default function NewPage() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [title, setTitle] = useState('');
+    const [coverImg, setCoverImg] = useState(null);
+    const [desc, setDesc] = useState('');
     const [ingridens, setIngridens] = useState('');
     const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
@@ -48,7 +50,7 @@ export default function NewPage() {
     const [pages, setPages] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isImageSelected, setIsImageSelected] = useState(false);
-    const [showSticker, setShowSticker] = useState(false); 
+    const [showSticker, setShowSticker] = useState(false);
     const [lastRecognizedText, setLastRecognizedText] = useState('');
     const [showImage, setShowImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
@@ -57,10 +59,10 @@ export default function NewPage() {
     useEffect(() => {
         const lastText = localStorage.getItem('lastRecognizedText');
         if (lastText) {
-          setLastRecognizedText(lastText);
+            setLastRecognizedText(lastText);
         }
-      }, []);
-      
+    }, []);
+
 
     useEffect(() => {
         const storedPages = localStorage.getItem("contents");
@@ -72,13 +74,13 @@ export default function NewPage() {
             if (parsedPages.length > 0) {
                 const initialPage = parsedPages[currentPageIndex];
                 setTitle(initialPage.title);
+                setImageFile(initialPage.imageFile)
                 setIngridens(initialPage.ingridens);
-                setContent(initialPage.content);
+                setDesc(initialPage.desc)
                 setImages(initialPage.images);
                 setSelectedColor(initialPage.selectedColor);
                 setSelectedFont(initialPage.selectedFont);
                 setSelectedFontSize(initialPage.selectedFontSize);
-                setIsBulletListActive(initialPage.isBulletListActive);
             }
         }
     }, []);
@@ -87,8 +89,9 @@ export default function NewPage() {
         if (pages.length > 0) {
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
+            setImageFile(initialPage.imageFile)
             setIngridens(initialPage.ingridens);
-            setContent(initialPage.content);
+            setDesc(initialPage.desc)
             setImages(initialPage.images);
             setSelectedColor(initialPage.selectedColor);
             setSelectedFont(initialPage.selectedFont);
@@ -104,26 +107,30 @@ export default function NewPage() {
     const resetPageState = () => {
         setTitle('');
         setIngridens('');
-        setContent('');
+        setImageFile(null)
+        setDesc('')
         setImages([]);
         setSelectedColor('#000000');
         setSelectedFont('Arial, Helvetica, sans-serif');
         setSelectedFontSize('18px');
-        setIsBulletListActive(false);
     };
-
+    const addSticker = (stickerSrc) => {
+        const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
+        setImages(prevImages => [...prevImages, newSticker]);
+    };
     const addNewPage = () => {
         const newPage = {
             title,
             ingridens,
-            content,
+            imageFile,
+            desc,
             images,
             selectedColor,
             selectedFont,
             selectedFontSize,
             isBulletListActive
         };
-        //setPages(prevPages => [...prevPages, newPage]);
+        setPages(prevPages => [...prevPages, newPage]);
 
         // function test(prevPages){
         //     const array = [...prevPages, newPage];
@@ -150,10 +157,10 @@ export default function NewPage() {
 
     const handleTextChange = (event) => {
         setLastRecognizedText(event.target.value);
-      };
+    };
 
 
-      
+
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -222,7 +229,7 @@ export default function NewPage() {
 
         // You can perform additional actions here, such as uploading the file to a server
     };
-   
+
 
 
 
@@ -303,23 +310,23 @@ export default function NewPage() {
 
     const handleClick = () => {
         setShowImage(!showImage); // Toggle showImage state
-      };
+    };
 
-      const handleSave = () => {
+    const handleSave = () => {
         localStorage.setItem('lastRecognizedText', lastRecognizedText);
         alert('Text saved successfully!');
-      };
+    };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImageFile(reader.result); // Update state with the new image
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImageFile(reader.result); // Update state with the new image
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleUpdate = async () => {
 
@@ -355,9 +362,6 @@ export default function NewPage() {
 
             </div>
 
-
-
-
             <div className="coverPage"></div>
             <div className="input-container">
 
@@ -388,36 +392,30 @@ export default function NewPage() {
                     </div>
                 ))}
 
-    <div className='coverFoodRectangle' style={{ position: 'relative' }}>
-      {imageFile ? (
-        <div style={{ position: 'relative', display: 'inline-block' }}>
-          <img src={imageFile} alt='Uploaded' className='uploadedImage' />
-          <button
-            className='changeImageButton'
-            onClick={() => document.getElementById('uploadInput').click()}
-          >
-            Endre bildet
-          </button>
-        </div>
-      ) : (
-        <div className='preCover' onClick={() => document.getElementById('uploadInput').click()}>
-          <span className='preCoverText'>Legg til forside-bildet</span>
-        </div>
-      )}
-      <input
-        type='file'
-        id='uploadInput'
-        accept='image/*'
-        onChange={handleImageUpload}
-        style={{ display: 'none' }}
-      />
-    </div>
-  
-
-
-
-
-
+                <div className='coverFoodRectangle' style={{ position: 'relative' }}>
+                    {imageFile ? (
+                        <div style={{ position: 'relative', display: 'inline-block' }}>
+                            <img src={imageFile} alt='Uploaded' className='uploadedImage' />
+                            <button
+                                className='changeImageButton'
+                                onClick={() => document.getElementById('uploadInput').click()}
+                            >
+                                Endre bildet
+                            </button>
+                        </div>
+                    ) : (
+                        <div className='preCover' onClick={() => document.getElementById('uploadInput').click()}>
+                            <span className='preCoverText'>Legg til forside-bildet</span>
+                        </div>
+                    )}
+                    <input
+                        type='file'
+                        id='uploadInput'
+                        accept='image/*'
+                        onChange={handleImageUpload}
+                        style={{ display: 'none' }}
+                    />
+                </div>
 
                 <input
                     id="file-input"
@@ -455,21 +453,21 @@ export default function NewPage() {
                             border: 'none', // Removes the border
                             outline: 'none', // Removes the outline on focus
                             background: 'transparent', // Makes the background transparent ?
-                            width: '50%'
+
                         }}
                     />
-  
+
                 </div>
 
                 <h3 className='undertitle'>Fremgangsmåte:
-                <button onClick={handleSave}>Save</button>
+                    <button onClick={handleSave}>Save</button>
 
                 </h3>
 
                 <textarea
-            
+
                     className="note-textarea"
-                    
+
                     value={lastRecognizedText}
 
                     onChange={handleTextChange}
@@ -481,7 +479,7 @@ export default function NewPage() {
                         fontSize: selectedFontSize,
                         listStyleType: isBulletListActive ? 'disc' : 'none'
                     }}
-                    
+
                 />
 
             </div>
@@ -518,8 +516,8 @@ export default function NewPage() {
                 </div>
             </div>
 
-            <div className="funky" 
-                      >
+            <div className="funky"
+            >
 
                 <div className="menu-placement">
                     {showColorMenu && (
@@ -536,7 +534,7 @@ export default function NewPage() {
                     )}
                 </div>
                 <div className="last-scan-page">
-</div>
+                </div>
 
 
                 <div className="icon-row" >
@@ -546,11 +544,12 @@ export default function NewPage() {
 
 
                     <AiOutlineSmile
-                className="icon"
-                onClick={() => setShowSticker(!showSticker)} 
-            />
-            {showSticker && <Sticker />} 
-                      <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
+                        className="icon"
+                        onClick={() => setShowSticker(!showSticker)}
+                    />
+                    {showSticker && <Sticker addSticker={addSticker} />}
+
+                    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
 
                     <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
                 </div>
