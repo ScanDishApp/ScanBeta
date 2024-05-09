@@ -1,19 +1,57 @@
-.coverImg{
+.coverImg {
     width: calc(100% - 20px);
     height: 100%;
-    object-fit:fill; 
+    object-fit: fill;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    max-width: auto; 
-    max-height: 260px; 
+    max-width: auto;
+    max-height: 260px;
     min-width: 277px;
 }
 
-.undertitle{
+.undertitle {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-left: 10px;
     font-weight: bold;
+}
+
+.book-images img {
+    padding: 5px;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 10px;
+}
+
+.book-ingridens ul {
+    list-style-type: none;
+    margin-top: 0px;
+    text-align:left;
+    padding: 0px;
+}
+
+.book-ingridens {
+    display: flex;
+    margin-left: 15px;
+    margin-bottom: 0px;
+}
+
+.book-desc {
+    display: flex;
+    margin-left: 15px;
+    margin-bottom: 0px;
+}
+
+
+.book-desc ul {
+    list-style-type: none;
+    margin-top: 0px;
+    text-align:left;
+    padding: 0px;
+}
+
+h1{
+    margin-top: 10px;
 }
