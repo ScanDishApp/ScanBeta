@@ -66,32 +66,25 @@ export default function NewPage() {
 
     useEffect(() => {
         const storedPages = localStorage.getItem("contents");
-
         if (storedPages) {
             const parsedPages = JSON.parse(storedPages);
-            setPages(parsedPages);
-
-            if (parsedPages.length > 0) {
-                const initialPage = parsedPages[currentPageIndex];
-                setTitle(initialPage.title);
-                setImageFile(initialPage.imageFile)
-                setIngridens(initialPage.ingridens);
-                setDesc(initialPage.desc)
-                setImages(initialPage.images);
-                setSelectedColor(initialPage.selectedColor);
-                setSelectedFont(initialPage.selectedFont);
-                setSelectedFontSize(initialPage.selectedFontSize);
-            }
+            setPages(parsedPages);   
+            
         }
     }, []);
 
     useEffect(() => {
-        if (pages.length > 0) {
+        // Check if pages array is empty
+        if (pages.length === 0) {
+            // Set initial state when pages array is empty
+            resetPageState(); // Assuming you want to reset the state when no pages are available
+        } else {
+            // Set initial state based on the first page when pages array is not empty
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
-            setImageFile(initialPage.imageFile)
+            setImageFile(initialPage.imageFile);
             setIngridens(initialPage.ingridens);
-            setDesc(initialPage.desc)
+            setDesc(initialPage.desc);
             setImages(initialPage.images);
             setSelectedColor(initialPage.selectedColor);
             setSelectedFont(initialPage.selectedFont);
@@ -99,11 +92,7 @@ export default function NewPage() {
             setIsBulletListActive(initialPage.isBulletListActive);
         }
     }, [pages, currentPageIndex]);
-
-    useEffect(() => {
-        resetPageState();
-    }, [pages]);
-
+   
     const resetPageState = () => {
         setTitle('');
         setIngridens('');
@@ -159,16 +148,12 @@ export default function NewPage() {
         setLastRecognizedText(event.target.value);
     };
 
-
-
-
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
 
     const handleIngridensChange = (event) => {
         let newIngridens = event.target.value;
-
         const lines = newIngridens.split('\n');
         const bulletLines = lines.map(line => {
 
@@ -177,37 +162,23 @@ export default function NewPage() {
             }
             return line;
         });
-        // Join the lines back into a single string
         setIngridens(bulletLines.join('\n'));
-
-
-        // Dynamically adjust the height of the container based on the content
         const textarea = document.getElementById('ingridens-input');
-        textarea.style.height = ''; // Reset height to auto
-        textarea.style.height = `${textarea.scrollHeight}px`; // Set height to the scroll height
+        textarea.style.height = ''; 
+        textarea.style.height = `${textarea.scrollHeight}px`; 
 
     };
 
     const handleContentChange = (event) => {
         let newContent = event.target.value;
-        
-        // Split the content into lines
         const lines = newContent.split('\n');
-        
-        // Remove bullet points from each line
         const newLines = lines.map((line) => {
-            // Check if the line starts with a bullet point character
             if (line.trim() !== '' && line.startsWith('\u2022')) {
-                // Remove the bullet point character
                 return line.slice(2);
             }
             return line;
         });
-        
-        // Join the lines back together
         newContent = newLines.join('\n');
-        
-        // Set the updated content
         setDesc(newContent);
     };
 
@@ -230,19 +201,11 @@ export default function NewPage() {
 
 
     const handleImageChangeInContainer = (event) => {
-
         const file = event.target.files[0];
         setSelectedFile(file);
-
-        // You can perform additional actions here, such as uploading the file to a server
     };
 
-
-
-
-
-    const handleMouseDown = (event, index) => {
-        event.preventDefault();
+    const handleMouseDown = (event, index) => { 
         setDragging(true);
         const clientX = event.clientX || (event.touches && event.touches[0].clientX);
         const clientY = event.clientY || (event.touches && event.touches[0].clientY);
@@ -258,7 +221,7 @@ export default function NewPage() {
     };
 
     const handleMouseMove = (event, index) => {
-        event.preventDefault();
+     
         if (dragging) {
             const clientX = event.clientX || (event.touches && event.touches[0].clientX);
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
@@ -346,8 +309,8 @@ export default function NewPage() {
         };
         console.log(JSON.stringify(pages) + "dette er pages");
 
-        const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
-        // const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        // const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
+        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
         console.log(response);
         const responseData = await response.json();
         console.log("Response:", responseData);
