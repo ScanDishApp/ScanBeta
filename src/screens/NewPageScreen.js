@@ -413,7 +413,7 @@ export default function NewPage() {
                         </div>
                     ) : (
                         <div className='preCover' onClick={() => document.getElementById('uploadInput').click()}>
-                            <span className='preCoverText'>Legg til forside-bildet</span>
+                            <span className='preCoverText' style={{ fontFamily: selectedFont, fontWeight: 'bold' }}>Legg til forside-bildet</span>
                         </div>
                     )}
                     <input
@@ -469,7 +469,7 @@ export default function NewPage() {
                 </div>
 
 
-                <h3 className='undertitle'>Fremgangsmåte:</h3>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold' }} >Fremgangsmåte:</h2>
                     <button onClick={handleSave}>Save</button>
 
                     <textarea
