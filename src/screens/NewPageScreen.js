@@ -362,7 +362,6 @@ export default function NewPage() {
                     </div>
                 ))}
 
-
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
                         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -409,7 +408,7 @@ export default function NewPage() {
                         fontFamily: selectedFont,
                     }}
                 />
-                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold' }}>Ingredienser:</h2>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}>Ingredienser:</h2>
 
                 <div className='input-area-1'>
 
@@ -432,7 +431,7 @@ export default function NewPage() {
                 </div>
 
 
-                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold' }} >Fremgangsmåte:</h2>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
                     <button onClick={handleSave}>Save</button>
 
                     <textarea
