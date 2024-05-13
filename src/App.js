@@ -17,13 +17,15 @@ import NewPage from './screens/NewPageScreen';
 import SharedBooks from './screens/ShareBookScreen';
 import Friends from './screens/FriendListScreen';
 import FriendRequest from './screens/FriendRequestScreen';
-import PaperEnhancer from './screens/ScanConvert';
 import TemperatureConverter from './screens/TemperatureScreen';
 import StickerMenu from './screens/Stickers';
 import Calculator from './screens/CalculatorScreen';
 import EditUser from './screens/EditUserScreen';
 import LookMyBooks from './screens/LookAtBookScreen';
 import Favorites from './screens/FavouriteScreen';
+import Ingredients from './screens/Ingredients';
+import Instructions from './screens/Instructions';
+import ScanMod from './screens/ScanMod';
 const Layout = ({ children }) => (
   <div>
     <Header />
@@ -54,9 +56,13 @@ export default function App() {
           <Route path="/Friends" element={<Layout><Friends   /></Layout>} /> 
           <Route path="/friend-request-screen" element={<Layout><FriendRequest   /></Layout>} /> 
           <Route path="/shared-books" element={<Layout><SharedBooks   /></Layout>} /> 
-          <Route path="/PaperEnhancer" element={<Layout><PaperEnhancer /></Layout>} />
           <Route path="/look-my-book" element={<LookMyBooks />} />
           <Route path="/favorites-screen" element={<Favorites />} />
+          <Route path="/Instructions" element={<NewPage />} />
+          <Route path="/Ingredients" element={<NewPage />} />
+          <Route path="/ScanMod" element={<ScanMod />} />
+
+
         </Routes>
       </Router>
     </div>

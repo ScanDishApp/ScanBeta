@@ -1,0 +1,14 @@
+.note-input {
+    width: 100%;
+    min-height: 250PX;
+height: 100%
+;    resize: none;
+    overflow: hidden; 
+    box-sizing: border-box; 
+    padding: 10px; 
+    font-size: 16px; 
+    background-color: transparent; 
+    border: none; 
+    outline: none; 
+  }
+  
