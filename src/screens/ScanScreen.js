@@ -1,4 +1,3 @@
-// src/Scan.js
 import React, { useState, useRef, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
 import { AiOutlineCamera, AiOutlineFileImage, AiOutlineCopy } from 'react-icons/ai';
@@ -143,7 +142,14 @@ const Scan = () => {
           <div className="last-scan-container">
             <h2>Last Scan / Edit:</h2>
             <p>{lastRecognizedText}</p>
-            <Link to="/newpage">Add to page</Link>
+            <Link
+              to={{
+                pathname: "/Ingredients",
+                state: { lastRecognizedText }
+              }}
+            >
+              Add to page
+            </Link>
           </div>
         )}
         {videoRef.current && (

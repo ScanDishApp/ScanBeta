@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
-
+import Ingredients from './Ingredients';
+import Instructions from './Instructions';
 
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
@@ -54,6 +55,8 @@ export default function NewPage() {
     const [lastRecognizedText, setLastRecognizedText] = useState('');
     const [showImage, setShowImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
+    const [previousText, setPreviousText] = useState('');
+    const [showScanOptions, setShowScanOptions] = useState(false);
 
 
     useEffect(() => {
@@ -62,6 +65,17 @@ export default function NewPage() {
             setLastRecognizedText(lastText);
         }
     }, []);
+
+    useEffect(() => {
+        const storedText = localStorage.getItem('previousRecognizedText');
+        if (storedText) {
+          setPreviousText(storedText);
+        }
+      }, []);
+
+ 
+    
+
 
 
     useEffect(() => {
@@ -148,6 +162,10 @@ export default function NewPage() {
         setLastRecognizedText(event.target.value);
     };
 
+    const handleChangeIngridients = (event) => {
+        setLastRecognizedText(event.target.value);
+    };
+
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
@@ -168,6 +186,8 @@ export default function NewPage() {
         textarea.style.height = `${textarea.scrollHeight}px`; 
 
     };
+
+
 
     const handleContentChange = (event) => {
         let newContent = event.target.value;
@@ -298,6 +318,10 @@ export default function NewPage() {
         }
     };
 
+    const toggleScanOptions = () => {
+        setShowScanOptions(!showScanOptions);
+    };
+
     const handleUpdate = async () => {
 
         const id = localStorage.getItem("bookId")
@@ -331,6 +355,7 @@ export default function NewPage() {
 
 
             </div>
+            
 
             <div className="coverPage"></div>
             <div className="input-container">
@@ -408,51 +433,22 @@ export default function NewPage() {
                         fontFamily: selectedFont,
                     }}
                 />
-                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}>Ingredienser:</h2>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
+                <Ingredients
+        selectedColor={selectedColor}
+        style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+    />
 
-                <div className='input-area-1'>
-
-                    <textarea
-                        id="ingridens-input"
-                        className="ingridens-input"
-                        value={ingridens}
-                        onChange={handleIngridensChange}
-                        placeholder="List dine ingredienser..."
-                        style={{
-                            color: selectedColor,
-                            fontFamily: selectedFont,
-                            border: 'none', // Removes the border
-                            outline: 'none', // Removes the outline on focus
-                            background: 'transparent', // Makes the background transparent ?
-
-                        }}
-                    />
-
-                </div>
-
-
-                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
-                    <button onClick={handleSave}>Save</button>
-
-                    <textarea
-
-                        className="note-textarea"
-
-                        value={lastRecognizedText}
-
-                        onChange={handleTextChange}
-
-                        placeholder="Innstruksjoner..."
-                        style={{
-                            color: selectedColor,
-                            fontFamily: selectedFont,
-                            fontSize: selectedFontSize,
-
-                        }}
-
-                    />
+<h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
+                <Instructions
+        selectedColor={selectedColor}
+        style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+    />
+      
 
             </div>
+
+
 
             <div className="funky">
                 <div className="menu-placement">
@@ -507,10 +503,23 @@ export default function NewPage() {
                 </div>
 
 
+
+
+                {showScanOptions && (
+    <div className='ScanOptions'>
+<Link to='/scan' className='option'>
+        Ingredienser
+      </Link>        <AiOutlineScan style={{ fontSize: '30px', color: '#fff' }} />
+        <Link to='/scanmod' className='option'>
+        Fremgangsmåte      </Link>   
+    </div>
+)}
+
+
                 <div className="icon-row" >
 
                     <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
-                    <AiOutlineScan className="icon" />
+                    <AiOutlineScan className="icon" onClick={toggleScanOptions} />
 
 
                     <AiOutlineSmile
@@ -525,5 +534,7 @@ export default function NewPage() {
                 </div>
             </div>
         </div>
+        
     );
 }
+
