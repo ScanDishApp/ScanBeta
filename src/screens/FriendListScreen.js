@@ -44,7 +44,7 @@ export default function Friends() {
         return response;
     }
 
-
+    
     const handleGetFriend = async (id) => {
         async function getFriend(url, data) {
             const paramUrl = `${url}?userId=${data}`;
@@ -111,10 +111,12 @@ export default function Friends() {
         setFriendRequests(waitingRequest);
     };
 
-
+    
+if(friendRequests > 0){
     return (
+        
         <div className="friend-container">
-            <p className='waiting-request'>{friendRequests}</p>
+               <p className='waiting-request'>{friendRequests}</p>
             <div onClick={handleRequest} className="add-rectangle">
                 <h1>Legg til nye venner!</h1>
                 <p>Trykk her for å se om du har noen nye forespørseler</p>
@@ -132,4 +134,27 @@ export default function Friends() {
             </div>
         </div>
     );
+}else{
+
+    return (
+        
+        <div className="friend-container">
+            <div onClick={handleRequest} className="add-rectangle">
+                <h1>Legg til nye venner!</h1>
+                <p>Trykk her for å se om du har noen nye forespørseler</p>
+            </div>
+            <h1>Mine venner</h1>
+            <div className='friends-rectangle'>
+                <ul>
+                    {friendsList.map((friend, index) => (
+                        <div className='friend'>
+                            <h1 className='friend-name'>{friend.name}</h1>
+                            <AiOutlineClose className="xIcon" onClick={() => handleDelete(friend.id)} />
+                        </div>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+}
 }

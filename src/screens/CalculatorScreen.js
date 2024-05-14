@@ -15,7 +15,7 @@ export default function Calculator() {
             ounces: 0.035274,
             pounds: 0.00220462,
             kilograms: 0.001,
-            kopper: 0.00422675,
+            cup: 0.00422675,
             teskjeer: 0.2,
             spiseskjeer: 0.067628,
             milligram: 1000,
@@ -25,7 +25,7 @@ export default function Calculator() {
             gram: 28.3495,
             pounds: 0.0625,
             kilograms: 0.0283495,
-            kopper: 0.119826,
+            cup: 0.119826,
             teskjeer: 6,
             spiseskjeer: 1,
             milligram: 28349.5,
@@ -35,7 +35,7 @@ export default function Calculator() {
             gram: 453.592,
             ounces: 16,
             kilograms: 0.453592,
-            kopper: 4.22675,
+            cup: 4.22675,
             teskjeer: 48,
             spiseskjeer: 3.38141,
             milligram: 453592,
@@ -45,13 +45,13 @@ export default function Calculator() {
             gram: 1000,
             ounces: 35.274,
             pounds: 2.20462,
-            kopper: 4.22675,
+            cup: 4.22675,
             teskjeer: 202.884,
             spiseskjeer: 14.7868,
             milligram: 1000000,
             desiliter: 10,
         },
-        kopper: {
+        cup: {
             gram: 236.588,
             ounces: 8.32674,
             pounds: 0.236588,
@@ -65,7 +65,7 @@ export default function Calculator() {
             gram: 5,
             ounces: 0.166667,
             pounds: 0.0104167,
-            kopper: 0.0208333,
+            cup: 0.0208333,
             kilograms: 0.005,
             spiseskjeer: 0.333333,
             milligram: 5000,
@@ -75,7 +75,7 @@ export default function Calculator() {
             gram: 0.001,
             ounces: 0.000035274,
             pounds: 0.00000220462,
-            kopper: 0.00000422675,
+            cup: 0.00000422675,
             teskjeer: 0.0002,
             kilograms: 0.000001,
             spiseskjeer: 0.000067628,
@@ -85,7 +85,7 @@ export default function Calculator() {
             gram: 14.7868,
             ounces: 0.5,
             pounds: 0.0625,
-            kopper: 0.0625,
+            cup: 0.0625,
             teskjeer: 3,
             milligram: 14786.8,
             kilograms: 0.0147868,
@@ -95,7 +95,7 @@ export default function Calculator() {
             gram: 100,
             ounces: 3.38141,
             pounds: 0.220462,
-            kopper: 1.05669,
+            cup: 1.05669,
             teskjeer: 20,
             milligram: 100000,
             spiseskjeer: 6.66667,
@@ -123,7 +123,7 @@ export default function Calculator() {
             const convertedValue = (inputValueFloat * conversionFactor).toFixed(2);
             setResult(`${convertedValue} ${toUnit}`); 
         } else {
-            setResult('Invalid input');
+            setResult('Ugyldig verdi');
         }
     };
 
