@@ -31,31 +31,12 @@ class Page {
 
 
   async getPages() {
-    let dbPage = await DBManager.getPage(this.id);
+    let dbPage = await DBManager.getPages(this.bookId);
     if (dbPage) {
-      this.id = dbPage.id;
-      this.bookId = dbPage.bookId;
-      this.ingridens = dbPage.ingridens;
-      this.title = dbPage.title;
-      this.imageFile = dbPage.imageFile;
-      this.desc = dbPage.desc;
-      this.images = dbPage.images;
-      this.selectedColor = dbPage.selectedColor;
-      this.selectedFont = dbPage.selectedFont;
-
       return {
         success: true,
-        dbPage: {
-          id: this.id,
-          bookId: this.bookId,
-          ingridens: this.ingridens,
-          title: this.title, 
-          imageFile: this.imageFile,
-          desc: this.desc,
-          images: this.images,
-          selectedColor: this.selectedColor,
-          selectedFont: this.selectedFont
-        }
+        dbPage: dbPage
+       
       };
     } else {
       return {
