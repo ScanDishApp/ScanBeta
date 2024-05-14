@@ -91,19 +91,19 @@ export default function DummyPage() {
 
         const emailInput = document.querySelector('.log-in-email');
         const passwordInput = document.querySelector('.log-in-password');
-        
+
         const email = emailInput.value;
         let pswHash = passwordInput.value;
         pswHash = await sha256(pswHash);
-    
+
         const user = {
             pswHash: pswHash,
             email: email
         };
-    
+
         const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
         //const response = await loginUser("http://localhost:8080/user/login", user);
-        
+
         if (!email.trim()) {
             emailInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn emailen!");
@@ -111,7 +111,7 @@ export default function DummyPage() {
         } else {
             emailInput.classList.remove('error-border');
         }
-    
+
         if (!pswHash.trim()) {
             passwordInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn passord!");
@@ -120,11 +120,11 @@ export default function DummyPage() {
             passwordInput.classList.remove('error-border');
         }
 
-        if(response.status == 401 || response.status == 500 ){
+        if (response.status == 401 || response.status == 500) {
             emailInput.classList.add('error-border');
             passwordInput.classList.add('error-border');
-            setErrorMsg("Feil brukernavn eller passord!"); 
-        }else {
+            setErrorMsg("Feil brukernavn eller passord!");
+        } else {
             passwordInput.classList.remove('error-border');
             emailInput.classList.remove('error-border');
         }
@@ -212,13 +212,13 @@ export default function DummyPage() {
                         <div className="mini-square"><AiFillSetting className="square-icon" /></div>
                         <div className="option-text">Innstillinger</div>
                     </div>
-                    <div className="square">
+                    <div onClick={handleFriendPage} className="square">
                         <div className="mini-square"><AiOutlineTeam className="square-icon" /></div>
-                        <div className="option-text" onClick={handleFriendPage}>Venner</div>
+                        <div className="option-text">Venner</div>
                     </div>
-                    <div className="square">
+                    <div onClick={handleSharedBooks} className="square">
                         <div className="mini-square"><AiOutlineBook className="square-icon" /></div>
-                        <div className="option-text" onClick={handleSharedBooks}>Delte bøker</div>
+                        <div className="option-text">Delte bøker</div>
                     </div>
                 </div>
 
@@ -231,7 +231,7 @@ export default function DummyPage() {
         return (
             <div className="login-container">
                 <div className="rectangle-grid">
-                <img src={logo} alt="Logo"style={{  maxHeight: '200px' }}/> 
+                    <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
                     <h1>Logg inn</h1>
                     <div className="login-rectangle">
                         <h2>E-post: </h2>
