@@ -16,19 +16,25 @@ const fontOptions = {
 };
 
 const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
-async function updateBook(url, data) {
-    const header = {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        },
-        body: JSON.stringify(data)
+async function fetchData(url, method, data) {
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
     };
 
-    const response = await fetch(url, header);
+    const options = {
+        method,
+        headers,
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
     return response;
 }
+
 
 export default function NewPage() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -57,6 +63,8 @@ export default function NewPage() {
     const [imageFile, setImageFile] = useState(null);
     const [previousText, setPreviousText] = useState('');
     const [showScanOptions, setShowScanOptions] = useState(false);
+    const [pageId, setPageId] = useState(localStorage.getItem("pageId"));
+
 
 
     useEffect(() => {
@@ -69,29 +77,34 @@ export default function NewPage() {
     useEffect(() => {
         const storedText = localStorage.getItem('previousRecognizedText');
         if (storedText) {
-          setPreviousText(storedText);
-        }
-      }, []);
-
- 
-    
-
-
-
-    useEffect(() => {
-        const storedPages = localStorage.getItem("contents");
-        if (storedPages) {
-            const parsedPages = JSON.parse(storedPages);
-            setPages(parsedPages);   
-            
+            setPreviousText(storedText);
         }
     }, []);
 
     useEffect(() => {
-        // Check if pages array is empty
+        const storedPages = localStorage.getItem("contents");
+        if (storedPages) {
+            setPages(storedPages);
+
+        }
+    }, []);
+    useEffect(() => {
+        const storedPageId = localStorage.getItem("pageId");
+        if (storedPageId) {
+            setPageId(storedPageId);
+        }
+    }, []);
+
+    useEffect(() => {
         if (pages.length === 0) {
-            // Set initial state when pages array is empty
-            resetPageState(); // Assuming you want to reset the state when no pages are available
+            setTitle(pages.title);
+            setImageFile(pages.imageFile);
+            setIngridens(pages.ingridens);
+            setDesc(pages.desc);
+            setImages(pages.images);
+            setSelectedColor(pages.selectedColor);
+            setSelectedFont(pages.selectedFont);
+
         } else {
             // Set initial state based on the first page when pages array is not empty
             const initialPage = pages[currentPageIndex];
@@ -106,48 +119,58 @@ export default function NewPage() {
             setIsBulletListActive(initialPage.isBulletListActive);
         }
     }, [pages, currentPageIndex]);
-   
-    const resetPageState = () => {
-        setTitle('');
-        setIngridens('');
-        setImageFile(null)
-        setDesc('')
-        setImages([]);
-        setSelectedColor('#000000');
-        setSelectedFont('Arial, Helvetica, sans-serif');
-        setSelectedFontSize('18px');
+
+    const saveCurrentPage = async () => {
+        console.log(pageId);
+        async function updatePage(url, data) {
+            return await fetchData(url, "PUT", data);
+
+        }
+        const page = {
+            bookId: localStorage.getItem("bookId"),
+            title: title,
+            ingridens: ingridens,
+            imageFile: imageFile,
+            desc: desc,
+            images: images,
+            selectedColor: selectedColor,
+            selectedFont: selectedFont
+        };
+        console.log(page);
+        console.log(pageId);
+        const response = await updatePage(`http://localhost:8080/page/${pageId}`, page);
+        console.log(pageId);
+        const responseData = await response.json();
+        console.log(responseData);
+        await addNewPage()
+        
+    };
+
+    const addNewPage = async () => {
+        console.log(pageId + "inside new page");
+        const newPage = {
+            bookId: localStorage.getItem("bookId"),
+            title: '',
+            ingridens: '',
+            imageFile: null,
+            desc: '',
+            images: [],
+            selectedColor: '#000000',
+            selectedFont: 'DM Serif Display, serif'
+
+        };
+        const responsePage = await fetchData("http://localhost:8080/page/", "POST", newPage);
+        const responsePageData = await responsePage.json();
+        const responsePageDataParse = JSON.parse(responsePageData)
+        console.log(responsePageDataParse);
+        localStorage.setItem("pageId", responsePageDataParse.id)
+        setPageId(responsePageDataParse.id)
+        console.log(pageId + "inside new page");
+
     };
     const addSticker = (stickerSrc) => {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
         setImages(prevImages => [...prevImages, newSticker]);
-    };
-    const addNewPage = () => {
-        const newPage = {
-            title,
-            ingridens,
-            imageFile,
-            desc,
-            images,
-            selectedColor,
-            selectedFont,
-            selectedFontSize,
-            isBulletListActive
-        };
-        setPages(prevPages => [...prevPages, newPage]);
-
-        // function test(prevPages){
-        //     const array = [...prevPages, newPage];
-        //     console.log(array);
-        //     return array;
-        // }
-        // console.log("setPages....");
-        // setPages(test(prevPages));
-
-        const newIndex = pages.length;
-        setCurrentPageIndex(newIndex);
-        resetPageState();
-        console.log(newPage);
-        console.log(pages);
     };
 
     const handlePreviousPage = () => {
@@ -182,8 +205,8 @@ export default function NewPage() {
         });
         setIngridens(bulletLines.join('\n'));
         const textarea = document.getElementById('ingridens-input');
-        textarea.style.height = ''; 
-        textarea.style.height = `${textarea.scrollHeight}px`; 
+        textarea.style.height = '';
+        textarea.style.height = `${textarea.scrollHeight}px`;
 
     };
 
@@ -225,7 +248,7 @@ export default function NewPage() {
         setSelectedFile(file);
     };
 
-    const handleMouseDown = (event, index) => { 
+    const handleMouseDown = (event, index) => {
         setDragging(true);
         const clientX = event.clientX || (event.touches && event.touches[0].clientX);
         const clientY = event.clientY || (event.touches && event.touches[0].clientY);
@@ -241,7 +264,7 @@ export default function NewPage() {
     };
 
     const handleMouseMove = (event, index) => {
-     
+
         if (dragging) {
             const clientX = event.clientX || (event.touches && event.touches[0].clientX);
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
@@ -334,10 +357,10 @@ export default function NewPage() {
         console.log(JSON.stringify(pages) + "dette er pages");
 
         // const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
-        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
-        console.log(response);
-        const responseData = await response.json();
-        console.log("Response:", responseData);
+        //const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        // console.log(response);
+        // const responseData = await response.json();
+        // console.log("Response:", responseData);
     };
 
     return (
@@ -349,17 +372,17 @@ export default function NewPage() {
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
                 <AiOutlineSave className="icon-top" onClick={handleUpdate} />
-                <AiOutlineFileAdd className="icon-top" onClick={addNewPage} />
+                <AiOutlineFileAdd className="icon-top" onClick={saveCurrentPage} />
                 <AiOutlineInfoCircle className="icon-top" />
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
 
 
             </div>
-            
+
 
             <div className="coverPage"></div>
             <div className="input-container">
-
+                {/* 
                 {images.map((image, index) => (
                     <div
                         key={index}
@@ -385,7 +408,7 @@ export default function NewPage() {
                             </div>
                         )}
                     </div>
-                ))}
+                ))} */}
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
@@ -435,16 +458,16 @@ export default function NewPage() {
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
                 <Ingredients
-        selectedColor={selectedColor}
-        style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
-    />
+                    selectedColor={selectedColor}
+                    style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+                />
 
-<h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
+                <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
                 <Instructions
-        selectedColor={selectedColor}
-        style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
-    />
-      
+                    selectedColor={selectedColor}
+                    style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+                />
+
 
             </div>
 
@@ -506,14 +529,14 @@ export default function NewPage() {
 
 
                 {showScanOptions && (
-    <div className='ScanOptions'>
-<Link to='/scan' className='option'>
-        Ingredienser
-      </Link>        <AiOutlineScan style={{ fontSize: '30px', color: '#fff' }} />
-        <Link to='/scanmod' className='option'>
-        Fremgangsmåte      </Link>   
-    </div>
-)}
+                    <div className='ScanOptions'>
+                        <Link to='/scan' className='option'>
+                            Ingredienser
+                        </Link>        <AiOutlineScan style={{ fontSize: '30px', color: '#fff' }} />
+                        <Link to='/scanmod' className='option'>
+                            Fremgangsmåte      </Link>
+                    </div>
+                )}
 
 
                 <div className="icon-row" >
@@ -534,7 +557,7 @@ export default function NewPage() {
                 </div>
             </div>
         </div>
-        
+
     );
 }
 

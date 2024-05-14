@@ -5,6 +5,7 @@ import USER_API from './backend/routes/userRoutes.mjs';
 import FAVORITE_API from "./backend/routes/favoriteRoutes.mjs"
 import BOOK_API from './backend/routes/bookRoutes.mjs';
 import FRIEND_API from './backend/routes/friendRoutes.mjs';
+import PAGE_API from './backend/routes/pageRoutes.mjs';
 import errorHandler from './backend/modules/errorHandler.mjs';
 import cors from 'cors';
 
@@ -19,7 +20,9 @@ server.use(express.static('build'));
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
 server.use("/friends", FRIEND_API);
-server.use("/favorite", FAVORITE_API);
+server.use("/favorite", FAVORITE_API); 
+server.use("/page", PAGE_API);
+
 
 server.get("/", (req, res, next) => {
    res.status(200).send(JSON.stringify({ msg: "Hello there" })).end();
