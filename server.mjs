@@ -15,7 +15,7 @@ server.use(cors());
 const port = (process.env.PORT || 8080);
 server.set('port', port);
 
-server.use(express.static('public'));
+server.use(express.static('build'));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
@@ -23,7 +23,9 @@ server.use("/friends", FRIEND_API);
 server.use("/favorite", FAVORITE_API); 
 server.use("/page", PAGE_API);
 
-
+server.get("/", (req, res, next) => {
+    res.status(200).send(JSON.stringify({ msg: "Hello there" })).end();
+ });
 
 server.use(errorHandler);
 
