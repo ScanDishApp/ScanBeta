@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import addBookIcon from '../../src/assets/addbook.png';
 import './ScreenStyle/FriendRequest.css';
 
 export default function FriendRequest() {

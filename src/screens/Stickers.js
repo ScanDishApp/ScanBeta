@@ -30,7 +30,7 @@ const Sticker = ({ addSticker }) => {
 
     if (!stickerExists) {
         
-        addSticker(src); // Add sticker to the page
+        addSticker(src);
     }
 };
 

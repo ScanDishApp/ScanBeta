@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
-import { IoCameraOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import addBookIcon from '../../src/assets/addbook.png';
+import { AiOutlineClose } from 'react-icons/ai';
+
 import './ScreenStyle/FriendList.css';
 
 export default function Friends() {

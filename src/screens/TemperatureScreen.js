@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Temp.css';
-import { AiOutlineFire, AiOutlineHeart} from 'react-icons/ai';
+import { AiOutlineFire} from 'react-icons/ai';
 
 
 export default function TemperatureConverter() {
