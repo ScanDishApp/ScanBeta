@@ -10,7 +10,7 @@ import Instructions from './Instructions';
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
 const fontOptions = {
-    Default: 'DM Serif Display, sans-serif',
+    Sans_Serif: 'DM Serif Display, sans-serif',
     Monospace: 'Courier New, monospace',
     Serif: 'Times New Roman, serif'
 };
@@ -343,7 +343,7 @@ export default function NewPage() {
     return (
 
         <div className="NewPage-container">
-            <h1 style={{ fontFamily: selectedFont }}>Design din bok</h1>
+            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
 
 
             <div className="icon-row-top">
