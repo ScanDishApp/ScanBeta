@@ -48,8 +48,8 @@ export default function EditUser() {
         }
         let id = localStorage.getItem("userId");
 
-        // const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
-        const response = await deleteUser(`http://localhost:8080/user/${id}`);
+        const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
+        //const response = await deleteUser(`http://localhost:8080/user/${id}`);
         localStorage.removeItem("profileName")
         localStorage.removeItem("profileEmail")
         localStorage.removeItem("profileImg")

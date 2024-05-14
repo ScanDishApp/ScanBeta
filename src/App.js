@@ -26,6 +26,7 @@ import Favorites from './screens/FavouriteScreen';
 import Ingredients from './screens/Ingredients';
 import Instructions from './screens/Instructions';
 import ScanMod from './screens/ScanMod';
+import ChooseScan from './screens/ChooseScan';
 const Layout = ({ children }) => (
   <div>
     <Header />
@@ -61,6 +62,8 @@ export default function App() {
           <Route path="/Instructions" element={<NewPage />} />
           <Route path="/Ingredients" element={<NewPage />} />
           <Route path="/ScanMod" element={<ScanMod />} />
+          <Route path="/ChooseScan" element={<Layout><ChooseScan /></Layout>} />
+
 
 
         </Routes>
