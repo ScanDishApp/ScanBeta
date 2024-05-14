@@ -23,9 +23,7 @@ server.use("/friends", FRIEND_API);
 server.use("/favorite", FAVORITE_API); 
 server.use("/page", PAGE_API);
 
-server.get("/", (req, res, next) => {
-    res.status(200).send(JSON.stringify({ msg: "Hello there" })).end();
- });
+
 
 server.use(errorHandler);
 
