@@ -8,6 +8,13 @@
     width: calc(100% - 0px);
 }
 
+.calc-icon {
+    color: rgb(0, 0, 0); 
+    vertical-align:bottom   ; 
+    font-size: 20px;
+    font-weight: bold;
+      }
+
 .converter-container h2 {
     margin-bottom: 20px;
     font-size: 1.8rem;

@@ -109,14 +109,14 @@ const Scan = () => {
 
   return (
     <div className="scan-container">
-      <h1>Scan</h1>
+      <h1>Scan: Ingredienser</h1>
       <div className="rectangle-grid">
         <div className="icon-container">
           <span className="icon-text" onClick={openDefaultCameraApp}>
-            <AiOutlineCamera /> Open Camera
+            <AiOutlineCamera /> Åpne Kamera
           </span>
           <span className="icon-text" onClick={() => fileInputRef.current.click()}>
-            <AiOutlineFileImage /> Choose Image
+            <AiOutlineFileImage /> Velg bildet 
           </span>
         </div>
         <input
@@ -129,26 +129,23 @@ const Scan = () => {
         <div className="image-container">
           {selectedImage && <img src={selectedImage} alt="Selected" />}
         </div>
-        {recognizedText && (
-          <div className="recognized-text">
-            <h2>Recognized Text:</h2>
-            <p>{recognizedText}</p>
-            <button className="copy-button" onClick={copyToClipboard}>
-              <AiOutlineCopy /> Copy to Clipboard
-            </button>
-          </div>
-        )}
         {lastRecognizedText && (
+      
           <div className="last-scan-container">
-            <h2>Last Scan / Edit:</h2>
+                    <div className='textRec'>Gjenkjent tekst </div>        
+
             <p>{lastRecognizedText}</p>
+            
             <Link
               to={{
                 pathname: "/Ingredients",
                 state: { lastRecognizedText }
+                
               }}
+              className="linkButton"
             >
-              Add to page
+              
+              Legg til Ingredienser
             </Link>
           </div>
         )}
