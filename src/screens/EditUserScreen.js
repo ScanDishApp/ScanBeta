@@ -63,8 +63,8 @@ export default function EditUser() {
             return await fetchData(paramUrl, "GET");
         }
 
-         //const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-        const response = await getUser("http://localhost:8080/user/get", id);
+         const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
