@@ -58,7 +58,7 @@ export default function MyBooks() {
         const book = {
             userId: userId,
             contents: contents,
-            title: titleText 
+            title: titleText
         };
         console.log(book);
         const updatedRectangles = [...rectangles, book];
@@ -92,6 +92,21 @@ export default function MyBooks() {
                 const responseParse = JSON.parse(responseData)
                 localStorage.setItem("bookId", responseParse.id)
                 displayRectangleId(responseParse.id)
+                const page = {
+                    bookId: responseParse.id,
+                    title: '',
+                    ingridens: '',
+                    imageFile: null,
+                    desc: '',
+                    images: [],
+                    selectedColor: '#000000',
+                    selectedFont: 'DM Serif Display, serif'
+
+                };
+                const responsePage = await fetchData("http://localhost:8080/page/", "POST", page);
+                    const responsePageData = await responsePage.json();
+                    const responsePageDataParse = JSON.parse(responsePageData)
+                    localStorage.setItem("pageId", responsePageDataParse.id)
             } else {
                 console.log("Error saving book to server.");
             }
@@ -144,29 +159,27 @@ export default function MyBooks() {
     };
 
     const displayRectangleId = async (id) => {
+  
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
-
-        const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
-        //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
-        console.log(response);
-        const responseData = await response.json();
-
-        console.log("Response:", responseData);
-        const contentsString = responseData.contents;
-        console.log(contentsString);
-        localStorage.setItem("contents", contentsString);
-        try {
-            const contentsArray = JSON.parse(`[${contentsString}]`);
-            console.log("contentsArray:", contentsArray);
-        } catch (error) {
-            console.error("Error parsing contentsString:", error);
+        async function getPage(url) {
+            return await fetchData(url, "GET");
         }
 
-        localStorage.setItem("bookId", id)
-        navigate('/NewPage');
 
+         const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
+        //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        if (response.ok) {
+            const pageId = localStorage.getItem("pageId")
+            const responsePage = await getPage(`http://localhost:8080/page/get?id=${pageId}`);
+           // const responseData = await response.json();
+            const responsePageData = await responsePage.json();
+            console.log(responsePageData);
+            localStorage.setItem("contents", responsePageData);
+            localStorage.setItem("bookId", id)
+            navigate('/NewPage');
+        }
 
     };
 
@@ -178,15 +191,15 @@ export default function MyBooks() {
                 <button className="my-books-button" >Alle bøker</button>
                 <button className="shared-books-button" onClick={handleSharedBooks}>Delte bøker</button>
                 <div className="add-book-button" onClick={() => setShowModal(true)}>
-                <IoAdd />
-            </div>
+                    <IoAdd />
+                </div>
             </div>
 
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={ () => handleLookAtBook(rectangle.id)}>
+                    <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={() => handleLookAtBook(rectangle.id)}>
                         <span>{rectangle.title}</span>
-                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation();displayRectangleId(rectangle.id);}}/>
+                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}
