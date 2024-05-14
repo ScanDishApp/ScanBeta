@@ -5,6 +5,7 @@ import BOOK_API from './backend/routes/bookRoutes.mjs'
 import FRIEND_API from './backend/routes/friendRoutes.mjs';
 import FAVORITE_API from './backend/routes/favoriteRoutes.mjs';
 import PAGE_API from './backend/routes/pageRoutes.mjs';
+import USER_API from './backend/routes/userRoutes.mjs'
 import errorHandler from './backend/modules/errorHandler.mjs';
 import cors from 'cors';
 
