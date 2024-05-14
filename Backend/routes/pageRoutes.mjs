@@ -8,10 +8,10 @@ PAGE_API.use(express.json());
 
 
 PAGE_API.get('/get', async (req, res, next) => {
-    const { id }  = req.query;
+    const { bookId }  = req.query;
      try {
         const page = new Page();
-        page.id = id;
+        page.bookId = bookId;
   
         const pageResult = await page.getPages();
 

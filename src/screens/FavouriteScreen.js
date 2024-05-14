@@ -107,7 +107,7 @@ export default function Favorites() {
 
         let id = content[currentPageIndex].id
         id = JSON.parse(id)
-    console.log(id);
+        console.log(id);
         const response = await deleteFavorite(`https://scanbeta.onrender.com/favorite/${id}`);
         //const response = await deleteFavorite(`http://localhost:8080/favorite/${id}`);
 

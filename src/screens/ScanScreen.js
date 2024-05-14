@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
-import { AiOutlineCamera, AiOutlineFileImage, AiOutlineCopy } from 'react-icons/ai';
+import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import './ScreenStyle/Scan.css';
 

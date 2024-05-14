@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import temperatureImage from '../../src/assets/temperature.png';
-import coverImage from '../../src/assets/grams.png';
 import addBookIcon from '../../src/assets/addbook.png';
 import calkIcon from '../../src/assets/calk.png';
 
