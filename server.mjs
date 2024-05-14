@@ -15,7 +15,7 @@ server.use(cors());
 const port = (process.env.PORT || 8080);
 server.set('port', port);
 
-server.use(express.static('src'));
+server.use(express.static('public'));
 
 server.use("/user", USER_API);
 server.use("/book", BOOK_API);
