@@ -32,8 +32,8 @@
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
 
-    "start:client": "set PORT=3000 && react-scripts start",
-    "start:server": "set PORT=8080 && node server.mjs",
+    "start:client": "PORT=3000 && react-scripts start",
+    "start:server": "PORT=8080 && node server.mjs",
 
     "build": "react-scripts build",
     "test": "react-scripts test",
