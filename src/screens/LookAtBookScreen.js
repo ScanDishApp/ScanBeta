@@ -98,8 +98,8 @@ export default function LookMyBooks() {
             contents: content[currentPageIndex],
         };
         console.log(like);
-        //const response = await createFavorite("https://scanbeta.onrender.com/favorite/", like);
-        const response = await createFavorite("http://localhost:8080/favorite/", like);
+        const response = await createFavorite("https://scanbeta.onrender.com/favorite/", like);
+        //const response = await createFavorite("http://localhost:8080/favorite/", like);
 
         console.log(response);
     };

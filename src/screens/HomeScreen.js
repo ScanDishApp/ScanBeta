@@ -34,7 +34,7 @@ const Home = () => {
                 <Link to="/add-book" style={linkStyle}>
                     <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
                 </Link>
-                <Link to="/add-book" style={linkStyle}>
+                <Link to="/newpage" style={linkStyle}>
                     <div className="nested-rectangle">
                         LEGG TIL NY BOK
                     </div>

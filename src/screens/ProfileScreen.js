@@ -37,8 +37,8 @@ export default function Profile() {
             pswHash: pswHash,
             email: email
         };
-        //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
-        const response = await loginUser("http://localhost:8080/user/login", user);
+        const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
+        //const response = await loginUser("http://localhost:8080/user/login", user);
 
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -59,8 +59,8 @@ export default function Profile() {
             return await fetchData(url, "DELETE");
         }
         let id = localStorage.getItem("userId");
-        //const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
-        const response = await deleteUser(`http://localhost:8080/user/${id}`);
+        const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
+       // const response = await deleteUser(`http://localhost:8080/user/${id}`);
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
@@ -71,8 +71,8 @@ export default function Profile() {
             return await fetchData(paramUrl, "GET");
         }
         let id = localStorage.getItem("userId");
-        //const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-        const response = await getUser("http://localhost:8080/user/get", id);
+        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
     };
@@ -96,8 +96,8 @@ export default function Profile() {
             email: email,
             id: id
         };
-        //const response = await updateUser(`https://scanbeta.onrender.com/user/${id}`, user);
-        const response = await updateUser(`http://localhost:8080/user/${id}`, user);
+        const response = await updateUser(`https://scanbeta.onrender.com/user/${id}`, user);
+        //const response = await updateUser(`http://localhost:8080/user/${id}`, user);
         const responseData = await response.json();
         console.log("Response:", responseData);
     };

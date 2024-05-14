@@ -5,12 +5,14 @@
   margin-top: 0px;
   font-family: 'DM Serif Display', serif;
   letter-spacing: 2px;
+  overflow-x: hidden; 
+
 }
 
 .boxes-container {
   display: flex;
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
+  justify-content: center; 
+  align-items: center; 
   margin: 10px;
   font-weight: 580;
 } 
@@ -18,8 +20,8 @@
 .box1,
 .box2 {
   display: flex;
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
+  justify-content: center; 
+  align-items: center;
   width: 50%;
   height: 140px;
   border-radius: 20px;
@@ -72,8 +74,8 @@
 
 .book-rectangle {
   display: flex;
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
+  justify-content: center; 
+  align-items: center; 
   height: 150px;
   background-color: #ddf193;
   width: calc(100% - 20px);
@@ -95,3 +97,5 @@
   padding: 20px;
  
 }
+
+

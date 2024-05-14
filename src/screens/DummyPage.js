@@ -101,8 +101,8 @@ export default function DummyPage() {
             email: email
         };
     
-        //const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
-        const response = await loginUser("http://localhost:8080/user/login", user);
+        const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
+        //const response = await loginUser("http://localhost:8080/user/login", user);
         
         if (!email.trim()) {
             emailInput.classList.add('error-border');

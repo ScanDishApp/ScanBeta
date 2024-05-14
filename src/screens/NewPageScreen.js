@@ -10,7 +10,7 @@ import Instructions from './Instructions';
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
 const fontOptions = {
-    Default: 'DM Serif Display, sans-serif',
+    Sans_Serif: 'DM Serif Display, sans-serif',
     Monospace: 'Courier New, monospace',
     Serif: 'Times New Roman, serif'
 };
@@ -63,7 +63,11 @@ export default function NewPage() {
     const [imageFile, setImageFile] = useState(null);
     const [previousText, setPreviousText] = useState('');
     const [showScanOptions, setShowScanOptions] = useState(false);
+
     const [pageId, setPageId] = useState(localStorage.getItem("pageId"));
+
+
+    const [showStickerMenu, setShowStickerMenu] = useState(false);
 
 
 
@@ -168,6 +172,16 @@ export default function NewPage() {
         console.log(pageId + "inside new page");
 
     };
+
+    const toggleStickerMenu = () => {
+        setShowStickerMenu(!showStickerMenu);
+        // Hide other menus when opening stickers menu
+        setShowFontMenu(false);
+        setShowFontSizeMenu(false);
+        setShowColorMenu(false);
+    };
+
+
     const addSticker = (stickerSrc) => {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
         setImages(prevImages => [...prevImages, newSticker]);
@@ -322,7 +336,7 @@ export default function NewPage() {
     };
 
     const handleClick = () => {
-        setShowImage(!showImage); // Toggle showImage state
+        setShowImage(!showImage);
     };
 
     const handleSave = () => {
@@ -345,6 +359,19 @@ export default function NewPage() {
         setShowScanOptions(!showScanOptions);
     };
 
+    const toggleColorMenu = () => {
+        setShowColorMenu(!showColorMenu);
+        setShowFontMenu(false); // Hide font menu when color menu is toggled
+        setShowFontSizeMenu(false); // Hide font size menu when color menu is toggled
+    };
+
+    const toggleFontMenu = () => {
+        setShowFontMenu(!showFontMenu);
+        setShowFontSizeMenu(false); // Hide font size menu when font menu is toggled
+        setShowColorMenu(false); // Hide color menu when font menu is toggled
+    };
+    
+
     const handleUpdate = async () => {
 
         const id = localStorage.getItem("bookId")
@@ -356,17 +383,19 @@ export default function NewPage() {
         };
         console.log(JSON.stringify(pages) + "dette er pages");
 
+
         // const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
         //const response = await updateBook(`http://localhost:8080/book/${id}`, book);
         // console.log(response);
         // const responseData = await response.json();
         // console.log("Response:", responseData);
+
     };
 
     return (
 
         <div className="NewPage-container">
-            <h1 style={{ fontFamily: selectedFont }}>Design din bok</h1>
+            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
 
 
             <div className="icon-row-top">
@@ -541,20 +570,22 @@ export default function NewPage() {
 
                 <div className="icon-row" >
 
-                    <AiOutlineFileText className="icon" onClick={() => setShowFontMenu(!showFontMenu)} />
+                <AiOutlineFileText className="icon" onClick={toggleFontMenu} />
                     <AiOutlineScan className="icon" onClick={toggleScanOptions} />
 
 
                     <AiOutlineSmile
                         className="icon"
-                        onClick={() => setShowSticker(!showSticker)}
+                        onClick={() => setShowSticker(!showSticker)
+                            
+                        }
                     />
                     {showSticker && <Sticker addSticker={addSticker} />}
 
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
 
-                    <AiOutlineBgColors className="icon" onClick={() => setShowColorMenu(!showColorMenu)} />
-                </div>
+                    <AiOutlineBgColors className="icon" onClick={toggleColorMenu} />
+                    </div>
             </div>
         </div>
 
