@@ -16,9 +16,8 @@ const port = (process.env.PORT || 8080);
 server.set('port', port);
 
 server.use(express.static('build'));
-
-server.use("/user", USER_API);
 server.use("/book", BOOK_API);
+server.use("/user", USER_API);
 server.use("/friends", FRIEND_API);
 server.use("/favorite", FAVORITE_API); 
 server.use("/page", PAGE_API);
