@@ -10,9 +10,9 @@ import Instructions from './Instructions';
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080', '#808080'];
 
 const fontOptions = {
-    Sans_Serif: 'DM Serif Display, sans-serif',
+    Serif: 'DM Serif Display, sans-serif',
     Monospace: 'Courier New, monospace',
-    Serif: 'Times New Roman, serif'
+    Helvetica: 'Helvetica, Sans-Serif'
 };
 
 const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
