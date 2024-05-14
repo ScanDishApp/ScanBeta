@@ -38,16 +38,13 @@ export default function MyBooks() {
 
     useEffect(() => {
         async function fetchBooks() {
-
-            const response = await listBook(`https://scanbeta.onrender.com/book/list?userId=${userId}`);
-           // const response = await listBook(`http://localhost:8080/book/list?userId=${userId}`);
+            const response = await listBook(`/book/list?userId=${userId}`);
             const responseData = await response.json();
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
                 title: item.title,
                 color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
             }));
-
             setRectangles(rectanglesFromData);
         }
         fetchBooks();
@@ -66,7 +63,6 @@ export default function MyBooks() {
         setShowModal(false);
         setTitleText("");
         saveRectangles(updatedRectangles);
-
         await saveToServer(book);
         console.log("Book added successfully to the server:", book);
     };
@@ -85,8 +81,7 @@ export default function MyBooks() {
 
     const saveToServer = async (book) => {
         try {
-            const response = await fetchData("https://scanbeta.onrender.com/book/", "POST", book);
-            //const response = await fetchData("http://localhost:8080/book/", "POST", book);
+            const response = await fetchData("/book/", "POST", book);
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse = JSON.parse(responseData)
@@ -103,10 +98,10 @@ export default function MyBooks() {
                     selectedFont: 'DM Serif Display, serif'
 
                 };
-                const responsePage = await fetchData("http://localhost:8080/page/", "POST", page);
-                    const responsePageData = await responsePage.json();
-                    const responsePageDataParse = JSON.parse(responsePageData)
-                    localStorage.setItem("pageId", responsePageDataParse.id)
+                const responsePage = await fetchData("/page/", "POST", page);
+                const responsePageData = await responsePage.json();
+                const responsePageDataParse = JSON.parse(responsePageData)
+                localStorage.setItem("pageId", responsePageDataParse.id)
             } else {
                 console.log("Error saving book to server.");
             }
@@ -117,7 +112,7 @@ export default function MyBooks() {
 
     const deleteFromServer = async (id) => {
         try {
-             const response = await fetchData(`https://scanbeta.onrender.com/book/delete?id=${id}`, "DELETE");
+            const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
             //const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
             return response;
         } catch (error) {
@@ -138,17 +133,14 @@ export default function MyBooks() {
             return await fetchData(url, "GET");
         }
 
-        const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
-        //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        const response = await getBook(`/page/get?bookId=${id}`);
         console.log(response);
         const responseData = await response.json();
 
         console.log("Response:", responseData);
-        const contentsString = responseData.contents;
-        console.log(contentsString);
-        localStorage.setItem("contents", contentsString);
+        localStorage.setItem("contents", responseData);
         try {
-            const contentsArray = JSON.parse(`[${contentsString}]`);
+            const contentsArray = JSON.parse(responseData);
             console.log("contentsArray:", contentsArray);
             localStorage.setItem("contentsArray", contentsArray);
         } catch (error) {
@@ -159,24 +151,16 @@ export default function MyBooks() {
     };
 
     const displayRectangleId = async (id) => {
-  
-        async function getBook(url) {
+        async function getPages(url) {
             return await fetchData(url, "GET");
         }
-        async function getPage(url) {
-            return await fetchData(url, "GET");
-        }
-
-
-         const response = await getBook(`https://scanbeta.onrender.com/get?id=${id}`);
-        //const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        const response = await getPages(`/page/get?bookId=${id}`);
+        console.log(response);
         if (response.ok) {
-            const pageId = localStorage.getItem("pageId")
-            const responsePage = await getPage(`http://localhost:8080/page/get?id=${pageId}`);
-           // const responseData = await response.json();
-            const responsePageData = await responsePage.json();
-            console.log(responsePageData);
-            localStorage.setItem("contents", responsePageData);
+            const responseData = await response.json();
+            const responseDataParse = JSON.stringify(responseData)
+            console.log(responseData);
+            localStorage.setItem("contents", responseDataParse);
             localStorage.setItem("bookId", id)
             navigate('/NewPage');
         }

@@ -86,12 +86,13 @@ export default function NewPage() {
     }, []);
 
     useEffect(() => {
-        const storedPages = localStorage.getItem("contents");
+        let storedPages = localStorage.getItem("contents");
         if (storedPages) {
-            setPages(storedPages);
-
+            storedPages = JSON.parse(storedPages)
+            setPages(storedPages[0]);
         }
     }, []);
+
     useEffect(() => {
         const storedPageId = localStorage.getItem("pageId");
         if (storedPageId) {
@@ -100,7 +101,9 @@ export default function NewPage() {
     }, []);
 
     useEffect(() => {
+        console.log(pages);
         if (pages.length === 0) {
+            setPageId(localStorage.getItem("pageId"))
             setTitle(pages.title);
             setImageFile(pages.imageFile);
             setIngridens(pages.ingridens);
@@ -110,7 +113,6 @@ export default function NewPage() {
             setSelectedFont(pages.selectedFont);
 
         } else {
-            // Set initial state based on the first page when pages array is not empty
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
             setImageFile(initialPage.imageFile);
@@ -142,7 +144,7 @@ export default function NewPage() {
         };
         console.log(page);
         console.log(pageId);
-        const response = await updatePage(`http://localhost:8080/page/${pageId}`, page);
+        const response = await updatePage(`/page/${pageId}`, page);
         console.log(pageId);
         const responseData = await response.json();
         console.log(responseData);
@@ -163,14 +165,26 @@ export default function NewPage() {
             selectedFont: 'DM Serif Display, serif'
 
         };
-        const responsePage = await fetchData("http://localhost:8080/page/", "POST", newPage);
+        const responsePage = await fetchData("/page/", "POST", newPage);
         const responsePageData = await responsePage.json();
         const responsePageDataParse = JSON.parse(responsePageData)
         console.log(responsePageDataParse);
         localStorage.setItem("pageId", responsePageDataParse.id)
         setPageId(responsePageDataParse.id)
         console.log(pageId + "inside new page");
+        resetPageState()
 
+
+    };
+    const resetPageState = () => {
+        setTitle('');
+        setIngridens('');
+        setImageFile(null)
+        setDesc('')
+        setImages([]);
+        setSelectedColor('#000000');
+        setSelectedFont('DM Serif Display, sans-serif');
+        setSelectedFontSize('18px');
     };
 
     const toggleStickerMenu = () => {

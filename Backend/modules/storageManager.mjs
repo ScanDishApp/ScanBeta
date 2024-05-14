@@ -6,9 +6,8 @@ class DBManager {
     #credentials = {};
 
     constructor(connectionString) {
-        connectionString = process.env.DB_CONNECTIONSTRING_PROD
         this.#credentials = {
-            connectionString: connectionString,
+            connectionString: process.env.DB_CONNECTIONSTRING_PROD,
             ssl: (process.env.DB_SSL === "true") ? true : false
         };
 
@@ -471,19 +470,19 @@ class DBManager {
 
     }
 
-    async getPage(id) {
+    async getPages(bookId) {
 
         const client = new pg.Client(this.#credentials);
-        let page = null;
+        let page = [];
 
         try {
             await client.connect();
-            const sql = 'SELECT * FROM "public"."pages" WHERE "id" = $1';
-            const params = [id];
+            const sql = 'SELECT * FROM "public"."pages" WHERE "bookId" = $1';
+            const params = [bookId];
             const output = await client.query(sql, params);
 
             console.log(output);
-            page = output.rows[0];
+            page.push(output.rows);
 
         } catch (error) {
             console.error('Error logging in:', error.stack);
@@ -535,11 +534,7 @@ class DBManager {
             console.log('Disconnected from the database');
 
         }
-
     }
-
-
-
 }
 
 export default new DBManager(process.env.DB_CONNECTIONSTRING_PROD);

@@ -12,7 +12,7 @@ import cors from 'cors';
 const server = express();
 server.use(cors());
 
-const port = process.env.PORT || 8080;
+const port = (process.env.PORT || 8080);
 server.set('port', port);
 
 server.use(express.static('build'));
@@ -24,12 +24,10 @@ server.use("/favorite", FAVORITE_API);
 server.use("/page", PAGE_API);
 
 
-server.get("/", (req, res, next) => {
-   res.status(200).send(JSON.stringify({ msg: "Hello there" })).end();
-});
 
 server.use(errorHandler);
 
 server.listen(server.get('port'), function () {
     console.log('Server running on port', server.get('port'));
 });
+
