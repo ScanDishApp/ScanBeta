@@ -37,7 +37,7 @@ export default function TemperatureConverter() {
             const convertedValue = conversionFunction(inputValueFloat).toFixed(2);
             setResult(`${convertedValue} ${toUnit}`);
         } else {
-            setResult('Invalid input');
+            setResult('Ugyldig verdi');
         }
     };
 
