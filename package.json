@@ -2,7 +2,7 @@
   "name": "scands",
   "version": "0.1.0",
   "private": true,
-
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -31,10 +31,8 @@
   },
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
-
-    "start:client": "PORT=3000 && react-scripts start",
-    "start:server": "PORT=8080 && node server.mjs",
-
+    "start:client": "PORT=3000 react-scripts start",
+    "start:server": "PORT=8080 node server.mjs",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
