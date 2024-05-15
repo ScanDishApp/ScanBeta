@@ -420,7 +420,7 @@ export default function NewPage() {
 
             <div className="coverPage"></div>
             <div className="input-container">
-
+      {/*
                 {images.map((image, index) => (
                     <div
                         key={index}
@@ -449,7 +449,7 @@ export default function NewPage() {
                 ))}
 
 
-                {/* 
+           
                 {images.map((image, index) => (
                     <div
                         key={index}
