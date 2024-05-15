@@ -6,9 +6,8 @@ class DBManager {
     #credentials = {};
 
     constructor(connectionString) {
-        connectionString = process.env.DB_CONNECTIONSTRING_PROD
         this.#credentials = {
-            connectionString: connectionString,
+            connectionString: process.env.DB_CONNECTIONSTRING_PROD,
             ssl: (process.env.DB_SSL === "true") ? true : false
         };
 
@@ -446,8 +445,96 @@ class DBManager {
         return like;
     }
 
+    async createPage(page) {
 
+        const client = new pg.Client(this.#credentials);
 
+        try {
+            await client.connect();
+            const sql = 'INSERT INTO "public"."pages"("bookId", "ingridens", "title", "imageFile", "desc", "images", "selectedColor", "selectedFont") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT, $5::TEXT, $6::TEXT, $7::TEXT, $8::TEXT) RETURNING id;';
+            const parms = [page.bookId, page.ingridens, page.title, page.imageFile, page.desc, page.images, page.selectedColor, page.selectedFont];
+            const output = await client.query(sql, parms);
+
+            if (output.rows.length == 1) {
+                page.id = output.rows[0].id;
+            }
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+            return false;
+        } finally {
+            client.end();
+        }
+        return page;
+
+    }
+
+    async getPages(bookId) {
+
+        const client = new pg.Client(this.#credentials);
+        let page = [];
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."pages" WHERE "bookId" = $1';
+            const params = [bookId];
+            const output = await client.query(sql, params);
+
+            console.log(output);
+            page.push(output.rows);
+
+        } catch (error) {
+            console.error('Error logging in:', error.stack);
+        } finally {
+            client.end();
+        }
+        return page;
+    }
+
+    async updatePage(page) {
+        const client = new pg.Client(this.#credentials);
+
+        try {
+            await client.connect();
+            const sql = 'UPDATE "public"."pages" set "ingridens" = $1, "title" = $2, "imageFile" = $3, "desc" = $4, "images" = $5, "selectedColor" = $6, "selectedFont" = $7 WHERE "id" = $8;'
+            console.log(page);
+            const params = [page.ingridens, page.title, page.imageFile, page.desc, page.images, page.selectedColor, page.selectedFont, page.id ];
+            const output = await client.query(sql, params);
+
+        } catch (error) {
+            console.error('Error in update shoppinglist:', error.stack);
+        } finally {
+            client.end();
+        }
+
+        return page;
+
+    }
+
+    async deletePage(id) {
+
+        const client = new pg.Client(this.#credentials);
+        try {
+
+            await client.connect();
+
+            console.log('Connected to the database');
+            const sql = 'DELETE FROM "public"."pages" WHERE "id" = $1;'
+            const params = [id];
+            const output = await client.query(sql, params);
+            console.log('Query executed successfully');
+            return true;
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            throw error;
+            return false;
+        } finally {
+            client.end();
+            console.log('Disconnected from the database');
+
+        }
+    }
 }
 
 export default new DBManager(process.env.DB_CONNECTIONSTRING_PROD);

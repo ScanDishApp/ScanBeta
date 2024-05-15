@@ -28,9 +28,10 @@ export default function LookMyBooks() {
     const userId = localStorage.getItem("userId")
 
     useEffect(() => {
-        const storedContent = localStorage.getItem("contents");
-        if (storedContent) {
-            setContent(JSON.parse(storedContent));
+        let storedPages = localStorage.getItem("contentsArray");
+        if (storedPages) {
+           storedPages = JSON.parse(storedPages)
+           setContent(storedPages[0]);
         }
     }, []);
 
