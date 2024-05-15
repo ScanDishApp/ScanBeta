@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import temperatureImage from '../../src/assets/temperature.png';
 import addBookIcon from '../../src/assets/addbook.png';
 import calkIcon from '../../src/assets/calk.png';
+import {IoClose} from 'react-icons/io5';
+import {  FaCheck } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const linkStyle = {
     textDecoration: 'none',
@@ -11,8 +14,83 @@ const linkStyle = {
     display: 'inline-block',
     lineHeight: 'inherit',
 };
+async function fetchData(url, method, data) {
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    };
+
+    const options = {
+        method,
+        headers,
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
+    return response;
+}
 
 const Home = () => {
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId")
+    const [showModal, setShowModal] = useState(false);
+    const [titleText, setTitleText] = useState("");
+
+    const addNewBook = async () => {
+        const openBook = async (id) => {
+            async function getPages(url) {
+                return await fetchData(url, "GET");
+            }
+            const response = await getPages(`/page/get?bookId=${id}`);
+            console.log(response);
+            if (response.ok) {
+                const responseData = await response.json();
+                const responseDataParse = JSON.stringify(responseData)
+                console.log(responseData);
+                localStorage.setItem("contents", responseDataParse);
+                localStorage.setItem("bookId", id)
+                navigate('/NewPage');
+            }
+    
+        };
+        if (userId) {
+            let contents = "";
+            const book = {
+                userId: userId,
+                contents: contents,
+                title: titleText
+            };
+            const response = await fetchData("/book/", "POST", book);
+            if (response.ok) {
+                const responseData = await response.json();
+                const responseParse = JSON.parse(responseData)
+                localStorage.setItem("bookId", responseParse.id)
+                const page = {
+                    bookId: responseParse.id,
+                    title: '',
+                    ingridens: '',
+                    imageFile: null,
+                    desc: '',
+                    images: [],
+                    selectedColor: '#000000',
+                    selectedFont: 'DM Serif Display, serif'
+
+                };
+                const responsePage = await fetchData("/page/", "POST", page);
+                const responsePageData = await responsePage.json();
+                const responsePageDataParse = JSON.parse(responsePageData)
+                localStorage.setItem("pageId", responsePageDataParse.id)
+                await openBook(responsePageDataParse.id)
+            } else {
+                console.log("Error saving book to server.");
+            }
+        }
+
+       
+    };
     return (
         <div className="home-container">
             <div className="cover-rectangle">
@@ -33,12 +111,30 @@ const Home = () => {
                 <Link to="/add-book" style={linkStyle}>
                     <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
                 </Link>
-                <Link to="/newpage" style={linkStyle}>
-                    <div className="nested-rectangle">
-                        LEGG TIL NY BOK
+
+                <div className="nested-rectangle"  onClick={() => setShowModal(true)}>
+                    LEGG TIL NY BOK
+                </div>
+
+            </div><div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
+
+
+
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <IoClose className="close" onClick={() => setShowModal(false)} />
+                        <input
+                            type="text"
+                            placeholder="Legg til en tittel..."
+                            value={titleText}
+                            onChange={(e) => setTitleText(e.target.value)}
+                            className="input-text"
+                        />
+                        <FaCheck className="check-icon" onClick={addNewBook} />
                     </div>
-                </Link>
-            </div>
+                </div>
+            )}
 
         </div>
     );

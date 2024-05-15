@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Temp.css';
-import { AiOutlineFire} from 'react-icons/ai';
+import { AiOutlineCalculator} from 'react-icons/ai';
 
 
 export default function TemperatureConverter() {
@@ -46,7 +46,7 @@ export default function TemperatureConverter() {
             <div className="rectangle-grid">
                 <div className="rectangle">
        <h2>
-        <AiOutlineFire className="calc-icon" /> Temperatur kalkulator.
+        <AiOutlineCalculator className="calc-icon" /> Temperatur kalkulator.
       </h2>               
        </div>
                 <div className="converter-container">

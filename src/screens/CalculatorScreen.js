@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Calculator.css';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineCalculator } from 'react-icons/ai';
 
 
 
@@ -134,7 +134,7 @@ export default function Calculator() {
             <div className="rectangle-grid">
                 <div className="rectangle">
                     <h2>
-        <AiOutlineHeart className="calc-icon" /> Mengde og vekt kalkulator.
+        <AiOutlineCalculator className="calc-icon" /> Mengde og vekt kalkulator.
       </h2>
                 </div>
                 <div className="converter-container">
