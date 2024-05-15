@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AiOutlineSmile, AiOutlineRight } from 'react-icons/ai';
+import { AiOutlineRight, AiOutlineDelete } from 'react-icons/ai';
 import Draggable from 'react-draggable';
 import './ScreenStyle/Sticker.css';
 
@@ -13,7 +13,8 @@ import grape from '../assets/Fruit/Grape.png';
 
 const Sticker = ({ addSticker }) => {
   const [selectedStickers, setSelectedStickers] = useState([]);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
+  const [editModeId, setEditModeId] = useState(null);
 
   const emojiData = [
     { id: 1, src: apple },
@@ -29,16 +30,26 @@ const Sticker = ({ addSticker }) => {
     const stickerExists = selectedStickers.find((sticker) => sticker.src === src);
 
     if (!stickerExists) {
-        
-        addSticker(src);
+      const newSticker = { id: selectedStickers.length + 1, src, position: { x: 0, y: 0 } };
+      setSelectedStickers([...selectedStickers, newSticker]);
     }
-};
+  };
 
   const handleDrag = (e, index) => {
     const { x, y } = e;
     const updatedStickers = [...selectedStickers];
     updatedStickers[index].position = { x, y };
     setSelectedStickers(updatedStickers);
+  };
+
+  const handleDelete = (id) => {
+    const updatedStickers = selectedStickers.filter((sticker) => sticker.id !== id);
+    setSelectedStickers(updatedStickers);
+    setEditModeId(null); // Exit edit mode after deleting
+  };
+
+  const toggleEditMode = (id) => {
+    setEditModeId(editModeId === id ? null : id); // Toggle edit mode for the clicked sticker
   };
 
   const toggleMenu = () => {
@@ -60,6 +71,7 @@ const Sticker = ({ addSticker }) => {
               alt={`Sticker ${sticker.id}`}
               className={`sticker-item`}
               onClick={() => handleStickerClick(sticker.src)}
+              onTouchStart={() => handleStickerClick(sticker.src)}
             />
           ))}
         </div>
@@ -72,8 +84,25 @@ const Sticker = ({ addSticker }) => {
             onStop={(e, data) => handleDrag(data, index)}
             defaultPosition={sticker.position}
           >
-            <div className="selected-sticker">
+            <div
+              className="selected-sticker"
+              onClick={() => toggleEditMode(sticker.id)}
+              onTouchStart={() => toggleEditMode(sticker.id)}
+            >
               <img src={sticker.src} alt="Selected Sticker" />
+              {editModeId === sticker.id && (
+                <AiOutlineDelete
+                  className="delete-icon-edit"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevents triggering `toggleEditMode` on sticker
+                    handleDelete(sticker.id);
+                  }}
+                  onTouchStart={(e) => {
+                    e.stopPropagation(); // Prevents triggering `toggleEditMode` on sticker
+                    handleDelete(sticker.id);
+                  }}
+                />
+              )}
             </div>
           </Draggable>
         ))}
