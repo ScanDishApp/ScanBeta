@@ -40,13 +40,13 @@ const Ingredients = ({ selectedColor, selectedFont }) => {
   }, [note]); 
 
   return (
-    <div className="note-taker-container">
+    <div className="note-taker-container" style={{ height: '100px' }}>
       <textarea
         ref={textareaRef}
         className="note-input"
         value={note}
         onChange={handleNoteChange}
-        placeholder="Write your note here..."
+        placeholder="Skriv din tekst her ..."
         style={{ fontFamily: selectedFont, color: selectedColor }} 
       />
     </div>
