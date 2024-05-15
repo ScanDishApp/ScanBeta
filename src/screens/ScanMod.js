@@ -113,10 +113,10 @@ const ScanMod = () => {
       <div className="rectangle-grid">
         <div className="icon-container">
           <span className="icon-text" onClick={openDefaultCameraApp}>
-            <AiOutlineCamera /> Open Camera
+          <AiOutlineCamera /> Åpne Kamera
           </span>
           <span className="icon-text" onClick={() => fileInputRef.current.click()}>
-            <AiOutlineFileImage /> Choose Image
+          <AiOutlineFileImage /> Velg bildet 
           </span>
         </div>
         <input
@@ -130,19 +130,22 @@ const ScanMod = () => {
           {selectedImage && <img src={selectedImage} alt="Selected" />}
         </div>
         {recognizedText && (
+          
           <div className="recognized-text">
-            <h2>Recognized Text:</h2>
+                    <div className='textRec'>Gjenkjent tekst </div>        
+
             <p>{recognizedText}</p>
-            <button className="copy-button" onClick={copyToClipboard}>
-              <AiOutlineCopy /> Copy to Clipboard
-            </button>
-          </div>
-        )}
-        {previousText && (
-          <div className="last-scan-container">
-            <h2>Last Scan / Edit:</h2>
-            <p>{previousText}</p>
-            <Link to="/Instructions">Add to page</Link>
+            <Link
+              to={{
+                pathname: "/Instructions",
+                state: { recognizedText }
+                
+              }}
+              className="linkButton"
+            >
+              
+              Legg til Fremgangsmåte
+            </Link>
           </div>
         )}
         {videoRef.current && (
