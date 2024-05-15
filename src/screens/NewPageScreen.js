@@ -71,7 +71,7 @@ export default function NewPage() {
 
 
     const [showStickerMenu, setShowStickerMenu] = useState(false);
-    const [showScanOptions, setShowScanOptions] = useState(false);
+
 
     const toggleMenu = (menuType) => {
         setShowFontMenu(menuType === 'font' ? !showFontMenu : false);
@@ -161,7 +161,7 @@ export default function NewPage() {
         const responseData = await response.json();
         console.log(responseData);
         await addNewPage()
-        
+
     };
 
     const addNewPage = async () => {
@@ -340,7 +340,7 @@ export default function NewPage() {
         updatedImages.splice(index, 2); // Remove the image at the specified index
         setImages(updatedImages); // Update the state with the new array of images
     };
-    
+
 
     const handleFontSizeChange = (fontSize) => {
         setSelectedFontSize(fontSize);
@@ -374,7 +374,9 @@ export default function NewPage() {
 
 
     const handleUpdate = async () => {
-
+        async function updateBook(url, data) {
+            return await fetchData(url, "PUT", data);
+        }
         const id = localStorage.getItem("bookId")
         const userId = localStorage.getItem("userId");
         const book = {
@@ -398,7 +400,7 @@ export default function NewPage() {
         // console.log("Response:", responseData);
 
 
-
+    }
     return (
 
         <div className="NewPage-container">
@@ -419,32 +421,32 @@ export default function NewPage() {
             <div className="coverPage"></div>
             <div className="input-container">
 
-            {images.map((image, index) => (
-    <div
-        key={index}
-        className="image-preview"
-        style={{
-            left: image.position.x,
-            top: image.position.y,
-            zIndex: image.zIndex || 1
-        }}
-        onMouseDown={(event) => handleMouseDown(event, index)}
-        onTouchStart={(event) => handleMouseDown(event, index)}
-        onMouseMove={(event) => handleMouseMove(event, index)}
-        onTouchMove={(event) => handleMouseMove(event, index)}
-        onMouseUp={handleMouseUp}
-        onTouchEnd={handleMouseUp}
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-    >
-        <img src={image.src} alt={`Uploaded ${index}`} />
-        {deleteImageIndex === index && (
-            <div className="delete-overlay">
-                <button onClick={() => handleDeleteImage(index)}>Delete</button>
-            </div>
-        )}
-    </div>
-))}
+                {images.map((image, index) => (
+                    <div
+                        key={index}
+                        className="image-preview"
+                        style={{
+                            left: image.position.x,
+                            top: image.position.y,
+                            zIndex: image.zIndex || 1
+                        }}
+                        onMouseDown={(event) => handleMouseDown(event, index)}
+                        onTouchStart={(event) => handleMouseDown(event, index)}
+                        onMouseMove={(event) => handleMouseMove(event, index)}
+                        onTouchMove={(event) => handleMouseMove(event, index)}
+                        onMouseUp={handleMouseUp}
+                        onTouchEnd={handleMouseUp}
+                        onDrop={handleDrop}
+                        onDragOver={(e) => e.preventDefault()}
+                    >
+                        <img src={image.src} alt={`Uploaded ${index}`} />
+                        {deleteImageIndex === index && (
+                            <div className="delete-overlay">
+                                <button onClick={() => handleDeleteImage(index)}>Delete</button>
+                            </div>
+                        )}
+                    </div>
+                ))}
 
 
                 {/* 
@@ -611,11 +613,11 @@ export default function NewPage() {
 
                 <div className="icon-row-menu" >
 
-                <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
-                <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
-                <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
+                    <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
+                    <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
+                    <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
 
-                
+
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
                 </div>
@@ -623,5 +625,5 @@ export default function NewPage() {
         </div>
 
     );
-}
 
+}
