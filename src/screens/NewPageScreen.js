@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineInfoCircle } from 'react-icons/ai';
+import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import './ScreenStyle/Home.css';
@@ -41,8 +41,7 @@ export default function NewPage() {
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [selectedColor, setSelectedColor] = useState('#000000');
-    const [showColorMenu, setShowColorMenu] = useState(false);
-    const [showFontMenu, setShowFontMenu] = useState(false);
+
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
@@ -56,9 +55,22 @@ export default function NewPage() {
     const [showImage, setShowImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [previousText, setPreviousText] = useState('');
-    const [showScanOptions, setShowScanOptions] = useState(false);
-    const [showStickerMenu, setShowStickerMenu] = useState(false);
 
+    const [showFontMenu, setShowFontMenu] = useState(false);
+    const [showColorMenu, setShowColorMenu] = useState(false);
+    const [showStickerMenu, setShowStickerMenu] = useState(false);
+    const [showScanOptions, setShowScanOptions] = useState(false);
+
+    const toggleMenu = (menuType) => {
+        setShowFontMenu(menuType === 'font' ? !showFontMenu : false);
+        setShowColorMenu(menuType === 'color' ? !showColorMenu : false);
+        setShowStickerMenu(menuType === 'sticker' ? !showStickerMenu : false);
+        setShowScanOptions(menuType === 'scan' ? !showScanOptions : false);
+    };
+
+
+
+    
 
     useEffect(() => {
         const lastText = localStorage.getItem('lastRecognizedText');
@@ -118,16 +130,6 @@ export default function NewPage() {
         setSelectedFont('Arial, Helvetica, sans-serif');
         setSelectedFontSize('18px');
     };
-
-    const toggleStickerMenu = () => {
-        setShowStickerMenu(!showStickerMenu);
-        // Hide other menus when opening stickers menu
-        setShowFontMenu(false);
-        setShowFontSizeMenu(false);
-        setShowColorMenu(false);
-    };
-
-
     const addSticker = (stickerSrc) => {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
         setImages(prevImages => [...prevImages, newSticker]);
@@ -271,16 +273,6 @@ export default function NewPage() {
         setDragging(false);
     };
 
-    const handleRemoveImage = (index) => {
-        const updatedImages = [...images];
-        updatedImages.splice(index, 1);
-        setImages(updatedImages);
-    };
-
-    const handleDeleteConfirm = (index) => {
-        setDeleteImageIndex(null);
-        handleRemoveImage(index);
-    };
 
     const handleDrop = (event) => {
         event.preventDefault();
@@ -302,6 +294,13 @@ export default function NewPage() {
         setSelectedColor(color);
         setShowColorMenu(false);
     };
+
+    const handleDeleteImage = (index) => {
+        const updatedImages = [...images];
+        updatedImages.splice(index, 2); // Remove the image at the specified index
+        setImages(updatedImages); // Update the state with the new array of images
+    };
+    
 
     const handleFontSizeChange = (fontSize) => {
         setSelectedFontSize(fontSize);
@@ -333,18 +332,6 @@ export default function NewPage() {
         setShowScanOptions(!showScanOptions);
     };
 
-    const toggleColorMenu = () => {
-        setShowColorMenu(!showColorMenu);
-        setShowFontMenu(false); // Hide font menu when color menu is toggled
-        setShowFontSizeMenu(false); // Hide font size menu when color menu is toggled
-    };
-
-    const toggleFontMenu = () => {
-        setShowFontMenu(!showFontMenu);
-        setShowFontSizeMenu(false); // Hide font size menu when font menu is toggled
-        setShowColorMenu(false); // Hide color menu when font menu is toggled
-    };
-    
 
     const handleUpdate = async () => {
 
@@ -357,8 +344,8 @@ export default function NewPage() {
         };
         console.log(JSON.stringify(pages) + "dette er pages");
 
-        const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
-        //const response = await updateBook(`http://localhost:8080/book/${id}`, book);
+        // const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
+        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
         console.log(response);
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -384,32 +371,33 @@ export default function NewPage() {
             <div className="coverPage"></div>
             <div className="input-container">
 
-                {images.map((image, index) => (
-                    <div
-                        key={index}
-                        className="image-preview"
-                        style={{
-                            left: image.position.x,
-                            top: image.position.y,
-                            zIndex: image.zIndex || 1
-                        }}
-                        onMouseDown={(event) => handleMouseDown(event, index)}
-                        onTouchStart={(event) => handleMouseDown(event, index)}
-                        onMouseMove={(event) => handleMouseMove(event, index)}
-                        onTouchMove={(event) => handleMouseMove(event, index)}
-                        onMouseUp={handleMouseUp}
-                        onTouchEnd={handleMouseUp}
-                        onDrop={handleDrop}
-                        onDragOver={(e) => e.preventDefault()}
-                    >
-                        <img src={image.src} alt={`Uploaded ${index}`} />
-                        {deleteImageIndex === index && (
-                            <div className="delete-overlay">
-                                <button onClick={() => handleDeleteConfirm(index)}>Delete</button>
-                            </div>
-                        )}
-                    </div>
-                ))}
+            {images.map((image, index) => (
+    <div
+        key={index}
+        className="image-preview"
+        style={{
+            left: image.position.x,
+            top: image.position.y,
+            zIndex: image.zIndex || 1
+        }}
+        onMouseDown={(event) => handleMouseDown(event, index)}
+        onTouchStart={(event) => handleMouseDown(event, index)}
+        onMouseMove={(event) => handleMouseMove(event, index)}
+        onTouchMove={(event) => handleMouseMove(event, index)}
+        onMouseUp={handleMouseUp}
+        onTouchEnd={handleMouseUp}
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+    >
+        <img src={image.src} alt={`Uploaded ${index}`} />
+        {deleteImageIndex === index && (
+            <div className="delete-overlay">
+                <button onClick={() => handleDeleteImage(index)}>Delete</button>
+            </div>
+        )}
+    </div>
+))}
+
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
@@ -526,7 +514,12 @@ export default function NewPage() {
                 <div className="last-scan-page">
                 </div>
 
-
+                {showStickerMenu && (
+                    <div className="sticker-menu">
+                        {/* Render the Sticker component */}
+                        <Sticker addSticker={addSticker} />
+                    </div>
+                )}
 
 
                 {showScanOptions && (
@@ -540,24 +533,16 @@ export default function NewPage() {
 )}
 
 
-                <div className="icon-row" >
+                <div className="icon-row-menu" >
 
-                <AiOutlineFileText className="icon" onClick={toggleFontMenu} />
-                    <AiOutlineScan className="icon" onClick={toggleScanOptions} />
+                <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
+                <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
+                <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
 
-
-                    <AiOutlineSmile
-                        className="icon"
-                        onClick={() => setShowSticker(!showSticker)
-                            
-                        }
-                    />
-                    {showSticker && <Sticker addSticker={addSticker} />}
-
+                
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-
-                    <AiOutlineBgColors className="icon" onClick={toggleColorMenu} />
-                    </div>
+                    <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
+                </div>
             </div>
         </div>
         

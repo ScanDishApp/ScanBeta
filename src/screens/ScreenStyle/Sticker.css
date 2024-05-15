@@ -8,7 +8,7 @@
   bottom: 130px;
   position: fixed;
   left: 58px;
-
+z-index: -1;
 }
 
 .toggle-menu {
@@ -60,12 +60,11 @@ padding: 5px;
   width: 50px;
   height: 50px;
   margin-top: 0;
-
+  border-radius: 5px;
 }
 .selected-sticker {
   position: fixed;
   position: absolute;
-  border: 2px dashed #ccc;
   margin-top: 20px;
   z-index: -1; /* Ensure it appears above other elements */
   bottom: 200px;
@@ -80,4 +79,17 @@ padding: 5px;
     overflow-x: auto; /* Enable horizontal scrolling if needed */
   }
 
+}
+
+
+.delete-icon-edit {
+  padding: 5px;
+  position: absolute;
+  bottom: 5px;
+  left: 55px;
+  border-radius: 50px;
+  font-size: 10px; /* Adjust icon size as needed */
+  background-color: #ff4d4f;
+  color: #fff; /* Red color for delete icon */
+ border-radius: 5px;
 }
