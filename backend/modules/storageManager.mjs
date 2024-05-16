@@ -14,9 +14,9 @@ class DBManager {
     }
 
     async updateUser(user) {
-
+       
         const client = new pg.Client(this.#credentials);
-
+      
         try {
             await client.connect();
             const sql = 'UPDATE "public"."Users" set "name" = $1, "email" = $2, "pswHash" = $3, "img" = $4 where "id" = $5;'
@@ -52,7 +52,6 @@ class DBManager {
     async createUser(user) {
 
         const client = new pg.Client(this.#credentials);
-
         try {
             const sql = 'INSERT INTO "public"."Users"("name", "email", "pswHash", "img") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING id;';
             const parms = [user.name, user.email, user.pswHash, user.img];

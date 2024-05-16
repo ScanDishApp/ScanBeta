@@ -87,10 +87,13 @@ USER_API.post('/', async (req, res, next) => {
 
 USER_API.put('/:id', async (req, res) => {
     try {
-        const { name, email, pswHash, img } = req.body;
-        const { id } = req.params;
-
-        let user = new User({ name, email, pswHash, id, img });
+        const { name, email, pswHash, img, id } = req.body;
+        let user = new User();
+        user.name = name;
+        user.email = email;
+        user.pswHash = pswHash;
+        user.id = id;
+        user.img = img
         user = await user.save();
 
         res.status(HttpCodes.SuccesfullRespons.Ok).json(user);

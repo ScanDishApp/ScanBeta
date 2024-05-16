@@ -24,24 +24,24 @@ async function fetchData(url, method, data) {
 
 export default function EditUser() {
     const navigate = useNavigate(); // Hook for navigation
-    const [image, setImage] = useState(localStorage.getItem("profileImg"));
+
     const [errorMsg, setErrorMsg] = useState(null);
     const [profileName, setProfileName] = useState(localStorage.getItem("profileName"));
     const [profileEmail, setProfileEmail] = useState(localStorage.getItem("profileEmail"));
     const [profilePswHash, setProfilePswHash] = useState(localStorage.getItem("profilePswHash"));
-    const [profileImage, setProfileImage] = useState(null);
+    const [profileImage, setProfileImage] = useState(localStorage.getItem("profileImg"));
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
 
         reader.onload = (e) => {
-            setImage(e.target.result);
+            setProfileImage(e.target.result);
         };
 
         reader.readAsDataURL(file);
     };
-
+console.log(profileImage);
     const handleDelete = async () => {
         async function deleteUser(url) {
             return await fetchData(url, "DELETE");
@@ -58,13 +58,14 @@ export default function EditUser() {
     };
 
     const handleGet = async (id) => {
+        
         async function getUser(url, data) {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
 
-         const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-        //const response = await getUser("http://localhost:8080/user/get", id);
+        //const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -76,49 +77,93 @@ export default function EditUser() {
         localStorage.setItem("profileImg", profileImg)
         setProfileImage(profileImg);
         let profilePswHash = responseData.pswHash
-        
+        setProfilePswHash(profilePswHash)
         localStorage.setItem("profilePswHash", profilePswHash)
 
     };
 
-    const handleUpdate = async () => {
+    const handleUpdateUserInfo = async () => {
         async function updateUser(url, data) {
             return await fetchData(url, "PUT", data);
         }
         const name = document.querySelector('.update-username').value;
-        let pswHash = document.querySelector('.update-password').value;
-        pswHash = await sha256(pswHash);
         const email = document.querySelector('.update-email').value;
         let id = localStorage.getItem("userId")
-        
+        let img = profileImage;
+        let pswHash = profilePswHash;
+        console.log(profileImage);
+        console.log(profilePswHash);
         const user = {
-            name: name,
-            pswHash: pswHash,
-            email: email,
-            img: image,
-            id: id,
-
+            name,
+            pswHash,
+            email,
+            img,
+            id,
         };
+
+        console.log(user + "this is user");
+        setErrorMsg(null);
+
+        const response = await updateUser(`/user/${id}`, user);
+
+        const responseData = await response.json();
+        console.log("Response:", responseData);
+        let userId = responseData.id
+        localStorage.setItem("userId", userId);
+        console.log(userId);
+        await handleGet(userId)
+        navigate('/dummy-page')
+
+    };
+    const handleUpdatePassword = async () => {
+        async function updateUser(url, data) {
+            return await fetchData(url, "PUT", data);
+        }
+
+        let currentPswHash = document.querySelector('.update-current-password').value;
+        currentPswHash = await sha256(currentPswHash);
+        let pswHash = document.querySelector('.update-new-password').value;
+        pswHash = await sha256(pswHash);
+        if (currentPswHash === profilePswHash) {
+
+
+            let id = localStorage.getItem("userId")
+            const user = {
+                name: profileName,
+                pswHash: pswHash,
+                email: profileEmail,
+                img: profileImage,
+                id: id,
+
+            };
+            console.log(user);
             setErrorMsg(null);
 
-            const response = await updateUser(`https://scanbeta.onrender.com/user/${id}`, user);
+            const response = await updateUser(`/user/${id}`, user);
             // const response = await updateUser(`http://localhost:8080/user/${id}`, user);
          
             const responseData = await response.json();
-            const responseDataJson = JSON.parse(responseData)
-            console.log("Response:", responseDataJson);
-            let userId = responseDataJson.id
+            console.log("Response:", responseData);
+            let userId = responseData.id
             localStorage.setItem("userId", userId);
             console.log(userId);
             await handleGet(userId)
             navigate('/dummy-page')
-        
+        } else if (currentPswHash === pswHash) { 
+            setErrorMsg("Passord kan ikke være like"); 
+        } else {
+            setErrorMsg("Ikke riktig passord!");
+            console.log(currentPswHash);
+            console.log(pswHash);
+            console.log(profilePswHash);
+        }
+
     };
 
     return (
         <div className="edit-user-container">
             <div className="rectangle-grid-edit">
-                <h1>Endre bruker</h1>
+                <h1>Endre bruker data</h1>
                 <div className="edit-rectangle">
                     <h2>Brukernavn: </h2>
                     <input
@@ -137,14 +182,11 @@ export default function EditUser() {
                     />
                 </div>
                 <br></br>
-                <div className="edit-rectangle">
-                    <h2>Passord: </h2>
-                    <input className="update-password"  type='password' value={profilePswHash} onChange={(e) => setProfilePswHash(e.target.value)}></input>
-                </div>
+
                 <div className="profile-img-rectangle">
                     <h2>Profil bilde:</h2>
                     <label className="pfp-square-edit" htmlFor="imageUpload">
-                        {image ? <img src={image} alt="Profile" /> : <p>Legg til bidet</p>}
+                        {profileImage ? <img src={profileImage} alt="Profile" /> : <p>Legg til bidet</p>}
                         <input
                             type="file"
                             id="imageUpload"
@@ -154,10 +196,21 @@ export default function EditUser() {
                         />
                     </label>
                 </div>
+                <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)}  className="update-button">Oppdater bruker</button>
+                <h1>Endre passord</h1>
+                <div className="edit-rectangle-psw">
+                    <h2>Nåværende passord: </h2>
+                    <input className="update-current-password" type='password'></input>
+                </div>
+                <div className="edit-rectangle-psw">
+                    <h2>Nytt passord: </h2>
+                    <input className="update-new-password" ></input>
+                </div>
+                <button onClick={handleUpdatePassword} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
                 <p>{errorMsg}</p>
             </div>
-            <button onClick={handleUpdate} className="update-button">Oppdater bruker</button>
-            <button onClick={handleDelete} className="delete-user-button">Slett bruker</button>
+
+            <button onClick={handleDelete} className="delete-user-button" type='password'>Slett bruker</button>
         </div>
     );
 }
