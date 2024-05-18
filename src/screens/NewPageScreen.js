@@ -102,16 +102,16 @@ export default function NewPage() {
             setPages(storedPages);
         }
     }, []);
-    
+
     useEffect(() => {
         const storedPageId = localStorage.getItem("pageId");
         if (storedPageId) {
             setPageId(storedPageId);
         }
     }, []);
-    
+
     useEffect(() => {
-        if (pages.length > 0){
+        if (pages.length > 0) {
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
             setImageFile(initialPage.imageFile);
@@ -119,15 +119,15 @@ export default function NewPage() {
             setDesc(initialPage.desc);
             const parsedImages = JSON.parse(initialPage.images)
             setImages(parsedImages);
-            
+
             setSelectedColor(initialPage.selectedColor);
             setSelectedFont(initialPage.selectedFont);
             setSelectedFontSize(initialPage.selectedFontSize);
-            setIsBulletListActive(initialPage.isBulletListActive);  
+            setIsBulletListActive(initialPage.isBulletListActive);
         }
-    
+
     }, [pages, currentPageIndex]);
-    
+
     const saveCurrentPage = async () => {
         console.log(pageId);
         async function updatePage(url, data) {
@@ -141,7 +141,7 @@ export default function NewPage() {
             ingridens: ingridens,
             imageFile: imageFile,
             desc: desc,
-            images: JSON.parse(images),
+            images: JSON.stringify(images),
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
@@ -375,7 +375,7 @@ export default function NewPage() {
             return await fetchData(url, "PUT", data);
 
         }
-        
+
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
@@ -393,7 +393,7 @@ export default function NewPage() {
         console.log(pageId);
         const responseData = await response.json();
         console.log(responseData);
-       
+
     }
 
     return (
@@ -415,15 +415,16 @@ export default function NewPage() {
 
             <div className="coverPage"></div>
             <div className="input-container">
-         
+
                 {images.map((image, index) => (
                     <div
                         key={index}
                         className="image-preview"
                         style={{
-                            left: image.position.x,
-                            top: image.position.y,
-                            zIndex: image.zIndex || 1
+                            position: 'absolute', 
+                            top: image.position.y, // Adjust according to your needs
+                            left: image.position.x, // Adjust according to your needs
+                   
                         }}
                         onMouseDown={(event) => handleMouseDown(event, index)}
                         onTouchStart={(event) => handleMouseDown(event, index)}
@@ -442,6 +443,7 @@ export default function NewPage() {
                         )}
                     </div>
                 ))}
+
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
@@ -475,7 +477,8 @@ export default function NewPage() {
                     accept="image/*"
                     onChange={handleImageChange}
                     className="image-upload"
-                    style={{ display: 'none' }}
+                    style={{ display: 'none'
+                     }}
                     multiple
                 />
                 <input
