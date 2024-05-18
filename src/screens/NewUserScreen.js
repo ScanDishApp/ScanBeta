@@ -48,7 +48,7 @@ export default function NewUser() {
             return await fetchData(paramUrl, "GET");
         }
 
-         const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+         const response = await getUser("/user/get", id);
        //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -109,7 +109,7 @@ export default function NewUser() {
             img: img
         };
         console.log(user);
-        const response = await createUser("https://scanbeta.onrender.com/user/", user);
+        const response = await createUser("/user/", user);
         // const response = await createUser("http://localhost:8080/user/", user);
        
         console.log(response);
