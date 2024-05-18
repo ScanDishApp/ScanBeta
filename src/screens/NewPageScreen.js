@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link} from 'react-router-dom';
 import Sticker from './Stickers';
@@ -62,7 +62,8 @@ export default function NewPage() {
     const [showImage, setShowImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [previousText, setPreviousText] = useState('');
-
+    const textareaRef = useRef(null);
+    const textareaRefIns = useRef(null);
     const [showFontMenu, setShowFontMenu] = useState(false);
     const [showColorMenu, setShowColorMenu] = useState(false);
 
@@ -185,7 +186,17 @@ export default function NewPage() {
         resetPageState();
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
+
+        if (textareaRef.current) {
+            textareaRef.current.resetTextArea(); 
+          }
+          if (textareaRefIns.current) {
+            textareaRefIns.current.resetTextArea(); 
+          }
+          resetPageState();
+
     };
+ 
     const resetPageState = () => {
 
         let noteInput = document.querySelector('.textarea')
@@ -257,18 +268,7 @@ export default function NewPage() {
 
 
 
-    const handleContentChange = (event) => {
-        let newContent = event.target.value;
-        const lines = newContent.split('\n');
-        const newLines = lines.map((line) => {
-            if (line.trim() !== '' && line.startsWith('\u2022')) {
-                return line.slice(2);
-            }
-            return line;
-        });
-        newContent = newLines.join('\n');
-        setDesc(newContent);
-    };
+  
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {
@@ -518,13 +518,14 @@ export default function NewPage() {
                     }}
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
-                <Ingredients
+                <Ingredients   ref={textareaRef} 
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+                  
                 />
 
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
-                <Instructions
+                <Instructions ref={textareaRefIns} 
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />
