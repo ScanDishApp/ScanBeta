@@ -63,8 +63,7 @@ export default function SharedBooks() {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-        // const response = await getFriend("http://localhost:8080/friends/get", id);
-        const response = await getFriend("https://scanbeta.onrender.com/friends/get", id);
+        const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         setFriendsList(responseData); // Assuming responseData is an array of friend objects
@@ -103,8 +102,7 @@ export default function SharedBooks() {
 
     const saveToServer = async (book) => {
         try {
-            const response = await fetchData("https://scanbeta.onrender.com/book/", "POST", book);
-            //const response = await fetchData("http://localhost:8080/book/", "POST", book);
+            const response = await fetchData("/book/", "POST", book);
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse = JSON.parse(responseData)
@@ -120,8 +118,7 @@ export default function SharedBooks() {
 
     const deleteFromServer = async (id) => {
         try {
-            const response = await fetchData(`https://scanbeta.onrender.com/book/delete?id=${id}`, "DELETE");
-            //const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
+            const response = await fetchData(`/delete?id=${id}`, "DELETE");
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -136,8 +133,7 @@ export default function SharedBooks() {
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
-        const response = await getBook(`https://scanbeta.onrender.com/book/get?id=${id}`);
-        // const response = await getBook(`http://localhost:8080/book/get?id=${id}`);
+        const response = await getBook(`/book/get?id=${id}`);
         console.log(response);
         const responseData = await response.json();
 

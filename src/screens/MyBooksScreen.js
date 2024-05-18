@@ -68,8 +68,10 @@ export default function MyBooks() {
     };
 
     const deleteRectangle = async (id) => {
-        const response = await deleteFromServer(id);
+        const response = await deleteBookFromServer(id);
         if (response.ok) {
+            const response = await deletePageFromServer(id);
+            console.log(response);
             const updatedRectangles = rectangles.filter(rectangle => rectangle.id !== id);
             setRectangles(updatedRectangles);
             saveRectangles(updatedRectangles);
@@ -93,7 +95,7 @@ export default function MyBooks() {
                     ingridens: '',
                     imageFile: null,
                     desc: '',
-                    images: [],
+                    images: JSON.stringify([]),
                     selectedColor: '#000000',
                     selectedFont: 'DM Serif Display, serif'
 
@@ -110,11 +112,20 @@ export default function MyBooks() {
         }
     };
 
-    const deleteFromServer = async (id) => {
+    const deleteBookFromServer = async (id) => {
         try {
             const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
-            //const response = await fetchData(`http://localhost:8080/book/delete?id=${id}`, "DELETE");
-            return response;
+            return response 
+
+        } catch (error) {
+            console.error("Error deleting book from server:", error);
+        }
+    };
+    const deletePageFromServer = async (id) => {
+        try {
+            const response = await fetchData(`/page/delete?bookId=${id}`, "DELETE");
+            return response 
+
         } catch (error) {
             console.error("Error deleting book from server:", error);
         }

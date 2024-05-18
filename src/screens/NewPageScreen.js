@@ -80,9 +80,6 @@ export default function NewPage() {
         setShowScanOptions(menuType === 'scan' ? !showScanOptions : false);
     };
 
-
-
-
     useEffect(() => {
         const lastText = localStorage.getItem('lastRecognizedText');
         if (lastText) {
@@ -100,44 +97,37 @@ export default function NewPage() {
     useEffect(() => {
         let storedPages = localStorage.getItem("contents");
         if (storedPages) {
-            storedPages = JSON.parse(storedPages)
-            setPages(storedPages[0]);
+            storedPages = JSON.parse(storedPages);
+            storedPages = storedPages[0]
+            setPages(storedPages);
         }
     }, []);
-
+    
     useEffect(() => {
         const storedPageId = localStorage.getItem("pageId");
         if (storedPageId) {
             setPageId(storedPageId);
         }
     }, []);
-
+    
     useEffect(() => {
-        console.log(pages);
-        if (pages.length === 0) {
-            setPageId(localStorage.getItem("pageId"))
-            setTitle(pages.title);
-            setImageFile(pages.imageFile);
-            setIngridens(pages.ingridens);
-            setDesc(pages.desc);
-            setImages(pages.images);
-            setSelectedColor(pages.selectedColor);
-            setSelectedFont(pages.selectedFont);
-
-        } else {
+        if (pages.length > 0){
             const initialPage = pages[currentPageIndex];
             setTitle(initialPage.title);
             setImageFile(initialPage.imageFile);
             setIngridens(initialPage.ingridens);
             setDesc(initialPage.desc);
-            setImages(initialPage.images);
+            const parsedImages = JSON.parse(initialPage.images)
+            setImages(parsedImages);
+            
             setSelectedColor(initialPage.selectedColor);
             setSelectedFont(initialPage.selectedFont);
             setSelectedFontSize(initialPage.selectedFontSize);
-            setIsBulletListActive(initialPage.isBulletListActive);
+            setIsBulletListActive(initialPage.isBulletListActive);  
         }
+    
     }, [pages, currentPageIndex]);
-
+    
     const saveCurrentPage = async () => {
         console.log(pageId);
         async function updatePage(url, data) {
@@ -145,19 +135,19 @@ export default function NewPage() {
 
         }
         const page = {
+            id: pageId,
             bookId: localStorage.getItem("bookId"),
             title: title,
             ingridens: ingridens,
             imageFile: imageFile,
             desc: desc,
-            images: images,
+            images: JSON.parse(images),
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
+
         console.log(page);
-        console.log(pageId);
         const response = await updatePage(`/page/${pageId}`, page);
-        console.log(pageId);
         const responseData = await response.json();
         console.log(responseData);
         await addNewPage()
@@ -172,7 +162,7 @@ export default function NewPage() {
             ingridens: '',
             imageFile: null,
             desc: '',
-            images: [],
+            images: '[]',
             selectedColor: '#000000',
             selectedFont: 'DM Serif Display, serif'
 
@@ -203,12 +193,18 @@ export default function NewPage() {
         setImages(prevImages => [...prevImages, newSticker]);
     };
 
-    const handlePreviousPage = () => {
-        setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
+    const handlePreviousPage = async () => {
+        if (currentPageIndex > 0) {
+            await saveCurrentPage(); // Save the current page before flipping
+            setCurrentPageIndex(prevIndex => prevIndex - 1);
+        }
     };
 
-    const handleNextPage = () => {
-        setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
+    const handleNextPage = async () => {
+        if (currentPageIndex < pages.length - 1) {
+            await saveCurrentPage(); // Save the current page before flipping
+            setCurrentPageIndex(prevIndex => prevIndex + 1);
+        }
     };
 
     const handleTextChange = (event) => {
@@ -254,7 +250,6 @@ export default function NewPage() {
         newContent = newLines.join('\n');
         setDesc(newContent);
     };
-
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {
@@ -264,7 +259,7 @@ export default function NewPage() {
                 reader.onload = () => {
                     imageArray.push({ src: reader.result, position: { x: 0, y: 0 } });
                     if (imageArray.length === files.length) {
-                        setImages([...images, ...imageArray]);
+                        setImages(prevImages => [...prevImages, ...imageArray]);
                     }
                 };
                 reader.readAsDataURL(files[i]);
@@ -336,9 +331,11 @@ export default function NewPage() {
     };
 
     const handleDeleteImage = (index) => {
-        const updatedImages = [...images];
-        updatedImages.splice(index, 2); // Remove the image at the specified index
-        setImages(updatedImages); // Update the state with the new array of images
+        if (Array.isArray(images)) {
+            const updatedImages = [...images];
+            updatedImages.splice(index, 1); // Remove the image at the specified index
+            setImages(updatedImages); // Update the state with the new array of images
+        }
     };
 
 
@@ -374,33 +371,31 @@ export default function NewPage() {
 
 
     const handleUpdate = async () => {
-        async function updateBook(url, data) {
+        async function updatePage(url, data) {
             return await fetchData(url, "PUT", data);
+
         }
-        const id = localStorage.getItem("bookId")
-        const userId = localStorage.getItem("userId");
-        const book = {
-            id: id,
-            userId: userId,
-            contents: JSON.stringify(pages)
+        
+        const page = {
+            id: pageId,
+            bookId: localStorage.getItem("bookId"),
+            title: title,
+            ingridens: ingridens,
+            imageFile: imageFile,
+            desc: desc,
+            images: JSON.stringify(images),
+            selectedColor: selectedColor,
+            selectedFont: selectedFont
         };
-        console.log(JSON.stringify(pages) + "dette er pages");
-
-        // const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
-        const response = await updateBook(`http://localhost:8080/book/${id}`, book);
-        console.log(response);
+        console.log(page);
+        console.log(pageId);
+        const response = await updatePage(`/page/${pageId}`, page);
+        console.log(pageId);
         const responseData = await response.json();
-        console.log("Response:", responseData);
-
-
-        // const response = await updateBook(`https://scanbeta.onrender.com/book/${id}`, book);
-        //const response = await updateBook(`http://localhost:8080/book/${id}`, book);
-        // console.log(response);
-        // const responseData = await response.json();
-        // console.log("Response:", responseData);
-
-
+        console.log(responseData);
+       
     }
+
     return (
 
         <div className="NewPage-container">
@@ -420,7 +415,7 @@ export default function NewPage() {
 
             <div className="coverPage"></div>
             <div className="input-container">
-      {/*
+         
                 {images.map((image, index) => (
                     <div
                         key={index}
@@ -447,35 +442,6 @@ export default function NewPage() {
                         )}
                     </div>
                 ))}
-
-
-           
-                {images.map((image, index) => (
-                    <div
-                        key={index}
-                        className="image-preview"
-                        style={{
-                            left: image.position.x,
-                            top: image.position.y,
-                            zIndex: image.zIndex || 1
-                        }}
-                        onMouseDown={(event) => handleMouseDown(event, index)}
-                        onTouchStart={(event) => handleMouseDown(event, index)}
-                        onMouseMove={(event) => handleMouseMove(event, index)}
-                        onTouchMove={(event) => handleMouseMove(event, index)}
-                        onMouseUp={handleMouseUp}
-                        onTouchEnd={handleMouseUp}
-                        onDrop={handleDrop}
-                        onDragOver={(e) => e.preventDefault()}
-                    >
-                        <img src={image.src} alt={`Uploaded ${index}`} />
-                        {deleteImageIndex === index && (
-                            <div className="delete-overlay">
-                                <button onClick={() => handleDeleteConfirm(index)}>Delete</button>
-                            </div>
-                        )}
-                    </div>
-                ))} */}
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (

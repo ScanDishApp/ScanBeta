@@ -60,11 +60,9 @@ PAGE_API.post('/', async (req, res, next) => {
 });
 
 PAGE_API.put('/:id', async (req, res) => {
-    const {title, ingridens, imageFile, desc, images, selectedColor,selectedFont} = req.body;
-    const {id } = req.params
+    const {title, ingridens, imageFile, desc, images, selectedColor, selectedFont, id} = req.body;
   
     let dbPage = new Page(); 
-   
     dbPage.id = id
     dbPage.title = title;
     dbPage.ingridens = ingridens;
@@ -85,9 +83,9 @@ PAGE_API.put('/:id', async (req, res) => {
 });
 
 PAGE_API.delete('/delete', async (req, res) => {
-    const { id } = req.query;
+    const { bookId } = req.query;
     const page = new Page();
-    page.id = id;
+    page.bookId = bookId;
     console.log("delete page")
 
     try {
