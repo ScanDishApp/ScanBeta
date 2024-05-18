@@ -35,6 +35,7 @@ export default function MyBooks() {
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
     const userId = localStorage.getItem("userId");
+    const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
         async function fetchBooks() {
@@ -51,12 +52,21 @@ export default function MyBooks() {
     }, []);
 
     const addRectangle = async () => {
+        
+
+        if (!titleText.trim()) {
+            document.querySelector('.input-text').classList.add('error-border');
+            setErrorMsg("Venligst fyll inn tittel!");
+            return;
+        }
+
         let contents = "";
         const book = {
             userId: userId,
             contents: contents,
             title: titleText
         };
+
         console.log(book);
         const updatedRectangles = [...rectangles, book];
         setRectangles(updatedRectangles);
@@ -215,6 +225,7 @@ export default function MyBooks() {
                             onChange={(e) => setTitleText(e.target.value)}
                             className="input-text"
                         />
+                        <p>{errorMsg}</p>
                         <FaCheck className="check-icon" onClick={addRectangle} />
                     </div>
                 </div>
