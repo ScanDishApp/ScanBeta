@@ -523,7 +523,7 @@ class DBManager {
 
     }
 
-    async deletePage(id) {
+    async deletePage(bookId) {
 
         const client = new pg.Client(this.#credentials);
         try {
@@ -531,8 +531,8 @@ class DBManager {
             await client.connect();
 
             console.log('Connected to the database');
-            const sql = 'DELETE FROM "public"."pages" WHERE "id" = $1;'
-            const params = [id];
+            const sql = 'DELETE FROM "public"."pages" WHERE "bookId" = $1;'
+            const params = [bookId];
             const output = await client.query(sql, params);
             console.log('Query executed successfully');
             return true;

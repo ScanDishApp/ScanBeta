@@ -23,8 +23,8 @@ class Page {
 
   async delete() {
 
-    if (this.id != null) {
-      return await DBManager.deletePage(this.id);
+    if (this.bookId != null) {
+      return await DBManager.deletePage(this.bookId);
     }
 
   }
