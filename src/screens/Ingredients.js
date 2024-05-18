@@ -49,6 +49,8 @@ const Ingredients = forwardRef(({ selectedColor, selectedFont }, ref) => {
   }, [note]);
 
   return (
+    <div className="note-taker-container" style={{ height: '100px' }}>
+      <textarea 
     <div className="note-taker-container">
       <textarea
         ref={textareaRef}
