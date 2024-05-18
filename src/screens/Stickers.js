@@ -32,6 +32,7 @@ const Sticker = ({ addSticker }) => {
     if (!stickerExists) {
       const newSticker = { id: selectedStickers.length + 1, src, position: { x: 0, y: 0 } };
       setSelectedStickers([...selectedStickers, newSticker]);
+      addSticker(src); // Add sticker to the page
     }
   };
 

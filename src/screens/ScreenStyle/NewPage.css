@@ -135,10 +135,6 @@ padding-left: 10px;
 
 
 
-.image-preview {
-  position: absolute;
-  cursor: pointer;
-}
 
 .image-preview img {
   max-width: 100px; 
@@ -375,3 +371,4 @@ margin-left: 20px;
 margin-right: 20px;
 
 }
+
