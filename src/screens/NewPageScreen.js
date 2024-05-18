@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
@@ -61,7 +61,8 @@ export default function NewPage() {
     const [showImage, setShowImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [previousText, setPreviousText] = useState('');
-
+    const textareaRef = useRef(null);
+    const textareaRefIns = useRef(null);
     const [showFontMenu, setShowFontMenu] = useState(false);
     const [showColorMenu, setShowColorMenu] = useState(false);
 
@@ -134,11 +135,15 @@ export default function NewPage() {
             return await fetchData(url, "PUT", data);
 
         }
+
+        let noteInput = document.querySelector('.note-input').value 
+          
+        
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
             title: title,
-            ingridens: ingridens,
+            ingridens: noteInput,
             imageFile: imageFile,
             desc: desc,
             images: JSON.stringify(images),
@@ -174,19 +179,24 @@ export default function NewPage() {
         localStorage.setItem("pageId", responsePageDataParse.id)
         setPageId(responsePageDataParse.id)
         console.log(pageId + "inside new page");
-        resetPageState()
-
-
+        if (textareaRef.current) {
+            textareaRef.current.resetTextArea(); 
+          }
+          if (textareaRefIns.current) {
+            textareaRefIns.current.resetTextArea(); 
+          }
+          resetPageState();
     };
+ 
     const resetPageState = () => {
         setTitle('');
-        setIngridens('');
         setImageFile(null)
         setDesc('')
         setImages([]);
         setSelectedColor('#000000');
         setSelectedFont('DM Serif Display, sans-serif');
         setSelectedFontSize('18px');
+
     };
     const addSticker = (stickerSrc) => {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
@@ -195,15 +205,19 @@ export default function NewPage() {
 
     const handlePreviousPage = async () => {
         if (currentPageIndex > 0) {
-            await saveCurrentPage(); // Save the current page before flipping
+            await handleUpdate(); // Save the current page before flipping
             setCurrentPageIndex(prevIndex => prevIndex - 1);
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText")
         }
     };
 
     const handleNextPage = async () => {
         if (currentPageIndex < pages.length - 1) {
-            await saveCurrentPage(); // Save the current page before flipping
+            await handleUpdate(); // Save the current page before flipping
             setCurrentPageIndex(prevIndex => prevIndex + 1);
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText")
         }
     };
 
@@ -238,18 +252,7 @@ export default function NewPage() {
 
 
 
-    const handleContentChange = (event) => {
-        let newContent = event.target.value;
-        const lines = newContent.split('\n');
-        const newLines = lines.map((line) => {
-            if (line.trim() !== '' && line.startsWith('\u2022')) {
-                return line.slice(2);
-            }
-            return line;
-        });
-        newContent = newLines.join('\n');
-        setDesc(newContent);
-    };
+  
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {
@@ -393,6 +396,8 @@ export default function NewPage() {
         console.log(pageId);
         const responseData = await response.json();
         console.log(responseData);
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
 
     }
 
@@ -493,13 +498,14 @@ export default function NewPage() {
                     }}
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
-                <Ingredients
+                <Ingredients   ref={textareaRef} 
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+                  
                 />
 
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
-                <Instructions
+                <Instructions ref={textareaRefIns} 
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />

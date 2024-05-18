@@ -135,6 +135,7 @@ const ScanMod = () => {
                     <div className='textRec'>Gjenkjent tekst </div>        
 
             <p>{recognizedText}</p>
+            
             <Link
               to={{
                 pathname: "/Instructions",

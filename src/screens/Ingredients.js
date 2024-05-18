@@ -1,56 +1,65 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import './ScreenStyle/NoteTaker.css';
 
-const Ingredients = ({ selectedColor, selectedFont }) => {
+const Ingredients = forwardRef(({ selectedColor, selectedFont }, ref) => {
   const [note, setNote] = useState('');
-  const [lastRecognizedText, setLastRecognizedText] = useState('');
+  const [lastRecognizedText, setPreviousText] = useState('');
   const textareaRef = useRef(null);
 
   const handleNoteChange = (event) => {
-    const inputValue = event.target.value;
-    const formattedValue = formatText(inputValue); 
-    setNote(formattedValue);
-    adjustTextareaHeight(); 
+    let newIngridens = event.target.value;
+    const lines = newIngridens.split('\n');
+    const bulletLines = lines.map(line => {
+      if (line.trim() && !line.trim().startsWith('\u2022')) {
+        return `\u2022 ${line}`;
+      }
+      return line;
+    });
+    setNote(bulletLines.join('\n'));
+    adjustTextareaHeight();
   };
 
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'; 
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; 
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   };
 
-  const formatText = (text) => {
-    
-    const formattedText = text.replace(/^- (.*)/gm, '• $1');
-    return formattedText;
+  const resetTextArea = () => {
+    setNote('');
+    adjustTextareaHeight();
+    localStorage.removeItem("lastRecognizedText")
   };
+
+  useImperativeHandle(ref, () => ({
+    resetTextArea,
+  }));
 
   useEffect(() => {
     const lastText = localStorage.getItem('lastRecognizedText');
     if (lastText) {
-      setLastRecognizedText(lastText);
-      setNote(lastText); 
-      adjustTextareaHeight(); 
+      setNote(lastText);
+      adjustTextareaHeight();
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('lastRecognizedText', note);
-  }, [note]); 
+  }, [note]);
 
   return (
-    <div className="note-taker-container" style={{ height: '100px' }}>
+    <div className="note-taker-container">
       <textarea
         ref={textareaRef}
         className="note-input"
         value={note}
         onChange={handleNoteChange}
         placeholder="Skriv din tekst her ..."
-        style={{ fontFamily: selectedFont, color: selectedColor }} 
+        style={{ fontFamily: selectedFont, color: selectedColor }}
       />
     </div>
   );
-};
+});
 
 export default Ingredients;

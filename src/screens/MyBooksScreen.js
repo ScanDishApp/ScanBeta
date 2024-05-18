@@ -64,6 +64,8 @@ export default function MyBooks() {
         setTitleText("");
         saveRectangles(updatedRectangles);
         await saveToServer(book);
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
         console.log("Book added successfully to the server:", book);
     };
 
