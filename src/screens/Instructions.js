@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import './ScreenStyle/NoteTaker.css'; 
 
-const Instructions = ({ selectedColor, selectedFont }) => {
+const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
   const [note, setNote] = useState('');
   const [lastRecognizedText, setPreviousText] = useState('');
-  const textareaRef = useRef(null);
+  const textareaRefIns = useRef(null);
 
   const handleNoteChange = (event) => {
     const inputValue = event.target.value;
@@ -13,12 +13,23 @@ const Instructions = ({ selectedColor, selectedFont }) => {
     adjustTextareaHeight(); 
   };
 
+
   const adjustTextareaHeight = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'; 
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; 
+    if (textareaRefIns.current) {
+      textareaRefIns.current.style.height = 'auto'; 
+      textareaRefIns.current.style.height = `${textareaRefIns.current.scrollHeight}px`; 
     }
   };
+  
+  const resetTextArea = () => {
+    setNote('');
+    adjustTextareaHeight();
+    localStorage.removeItem("previousRecognizedText")
+  };
+
+  useImperativeHandle(ref, () => ({
+    resetTextArea,
+  }));
 
   const formatText = (text) => {
     
@@ -40,9 +51,9 @@ const Instructions = ({ selectedColor, selectedFont }) => {
   }, [note]);
 
   return (
-    <div className="note-taker-container" style={{ height: '100px' }}>
+    <div className="note-taker-container">
       <textarea
-        ref={textareaRef}
+        ref={textareaRefIns}
         className="note-input"
         value={note}
         onChange={handleNoteChange}
@@ -51,6 +62,6 @@ const Instructions = ({ selectedColor, selectedFont }) => {
       />
     </div>
   );
-};
+});
 
 export default Instructions;
