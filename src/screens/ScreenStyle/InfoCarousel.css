@@ -1,0 +1,122 @@
+
+
+
+  .info-carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    
+  }
+  
+  .info-carousel img {
+    max-width: calc(100% - 20px);
+    max-height: 80vh;
+    margin: 10px 5px; /* Reduce margin to close the gap */
+    border-radius: 20px;
+    z-index: 0; 
+    border: dotted;
+  }
+  
+  .info-header {
+    width: 90%;
+    color: rgb(255, 255, 255);
+    z-index: 20;
+    background-color: #9bba59;
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 0px; 
+    margin-top: 0px;
+  }
+
+  .info-icon {
+    font-size: 2rem; /* Adjust the icon size */
+    vertical-align: middle; 
+
+  }
+  
+
+
+  .info-carousel button {
+    margin: 0 10px;
+    z-index: 2; 
+
+  }
+  
+
+  
+  .info-carousel button {
+    z-index: 20; 
+    padding: 5px 10px;
+    background-color: #9bba59;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+ 
+  .info-carousel {
+    position: relative;
+  }
+  
+  .button-container {
+    width: 100%;
+    background-color: #9bba59;
+    position: fixed;
+    bottom: 0px; /* Adjust this value to change the distance from the bottom */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    z-index: 20px;
+    border-radius: 20px 20px 0 0px;
+  }
+  
+  
+  .info-carousel button {
+    margin: 0 10px;
+    padding: 5px 10px;
+    background-color: #9bba59;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  .navigation-buttons {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 10px;
+    z-index: 2;
+    
+  }
+  .button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 98%;
+    margin: 10px auto;
+  }
+  
+  .nav-button {
+    font-family: 'DM Serif Display', serif;
+
+    width: calc(100% - 25px); /* Adjust to 50% to fit within the wrapper and have space between */
+    background: #f2b785;
+    color: #222;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+
+  }

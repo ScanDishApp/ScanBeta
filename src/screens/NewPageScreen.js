@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Sticker from './Stickers';
+import { useHistory } from 'react-router-dom';
+
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
-
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#008080', '#808080'];
 
 const fontOptions = {
@@ -134,11 +135,15 @@ export default function NewPage() {
             return await fetchData(url, "PUT", data);
 
         }
+
+        let noteInput = document.querySelector('.note-input').value 
+          
+        
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
             title: title,
-            ingridens: ingridens,
+            ingridens: noteInput,
             imageFile: imageFile,
             desc: desc,
             images: JSON.stringify(images),
@@ -153,6 +158,9 @@ export default function NewPage() {
         await addNewPage()
 
     };
+
+
+    
 
     const addNewPage = async () => {
         console.log(pageId + "inside new page");
@@ -174,19 +182,24 @@ export default function NewPage() {
         localStorage.setItem("pageId", responsePageDataParse.id)
         setPageId(responsePageDataParse.id)
         console.log(pageId + "inside new page");
-        resetPageState()
-
-
+        resetPageState();
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
     };
     const resetPageState = () => {
+
+        let noteInput = document.querySelector('.textarea')
+        if(noteInput){
+        noteInput.innerHTML = "";
+        }
         setTitle('');
-        setIngridens('');
         setImageFile(null)
         setDesc('')
         setImages([]);
         setSelectedColor('#000000');
         setSelectedFont('DM Serif Display, sans-serif');
         setSelectedFontSize('18px');
+
     };
     const addSticker = (stickerSrc) => {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
@@ -195,17 +208,23 @@ export default function NewPage() {
 
     const handlePreviousPage = async () => {
         if (currentPageIndex > 0) {
-            await saveCurrentPage(); // Save the current page before flipping
+            await handleUpdate(); // Save the current page before flipping
             setCurrentPageIndex(prevIndex => prevIndex - 1);
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText")
         }
     };
 
     const handleNextPage = async () => {
         if (currentPageIndex < pages.length - 1) {
-            await saveCurrentPage(); // Save the current page before flipping
+            await handleUpdate(); // Save the current page before flipping
             setCurrentPageIndex(prevIndex => prevIndex + 1);
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText")
         }
     };
+
+
 
     const handleTextChange = (event) => {
         setLastRecognizedText(event.target.value);
@@ -365,6 +384,11 @@ export default function NewPage() {
         }
     };
 
+    const handleInfoClick = () => {
+        window.location.assign('/InfoCarousel');
+    };
+
+
     const toggleScanOptions = () => {
         setShowScanOptions(!showScanOptions);
     };
@@ -393,6 +417,8 @@ export default function NewPage() {
         console.log(pageId);
         const responseData = await response.json();
         console.log(responseData);
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
 
     }
 
@@ -406,10 +432,9 @@ export default function NewPage() {
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
                 <AiOutlineSave className="icon-top" onClick={handleUpdate} />
                 <AiOutlineFileAdd className="icon-top" onClick={saveCurrentPage} />
-                <AiOutlineInfoCircle className="icon-top" />
+                <AiOutlineInfoCircle className="icon-top" onClick={handleInfoClick} />
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
-
-
+     
             </div>
 
 
@@ -585,6 +610,7 @@ export default function NewPage() {
                     <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
                     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
                     <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
+                    <AiOutlineInfoCircle className="icon-top" onClick={handleClick} />
 
 
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />

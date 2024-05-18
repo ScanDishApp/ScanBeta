@@ -41,7 +41,7 @@ const Ingredients = ({ selectedColor, selectedFont }) => {
 
   return (
     <div className="note-taker-container" style={{ height: '100px' }}>
-      <textarea
+      <textarea 
         ref={textareaRef}
         className="note-input"
         value={note}

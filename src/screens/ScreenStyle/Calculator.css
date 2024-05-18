@@ -15,8 +15,8 @@
 
 
 .calc-icon {
-color: rgb(0, 0, 0); 
-vertical-align: middle; 
+    font-size: 2rem; /* Adjust the icon size */
+    vertical-align: middle; 
   }
   
 
