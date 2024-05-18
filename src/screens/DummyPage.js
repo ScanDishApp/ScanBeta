@@ -70,7 +70,7 @@ export default function DummyPage() {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-        const response = await getUser("https://scanbeta.onrender.com/user/get", id);
+        const response = await getUser("/user/get", id);
         //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
@@ -82,6 +82,9 @@ export default function DummyPage() {
         console.log(profileImg);
         localStorage.setItem("profileImg", profileImg)
         setProfileImage(profileImg);
+        localStorage.setItem("profileName", profileName)
+        let profilePswHash = responseData.pswHash
+        localStorage.setItem("profilePswHash", profilePswHash)
     };
 
     const handleLogin = async () => {
@@ -101,7 +104,7 @@ export default function DummyPage() {
             email: email
         };
 
-        const response = await loginUser("https://scanbeta.onrender.com/user/login", user);
+        const response = await loginUser("/user/login", user);
         //const response = await loginUser("http://localhost:8080/user/login", user);
 
         if (!email.trim()) {
@@ -143,7 +146,7 @@ export default function DummyPage() {
             return await fetchData(paramUrl, "GET");
         }
 
-        const response = await getFriend("https://scanbeta.onrender.com/friends/get", id);
+        const response = await getFriend("/friends/get", id);
         //const response = await getFriend("http://localhost:8080/friends/get", id);
 
         const responseData = await response.json();

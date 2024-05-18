@@ -11,12 +11,12 @@ class User {
   }
 
   async save() {
-
-    console.log(this.id);
-    if (this.id == null) {
-      return await DBManager.createUser(this);
-    } else {
+    if (this.id != null) {
+      console.log("hello");
       return await DBManager.updateUser(this);
+    } else {
+      return await DBManager.createUser(this);
+      
     }
   }
 

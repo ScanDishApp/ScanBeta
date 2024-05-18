@@ -52,7 +52,6 @@ class DBManager {
     async createUser(user) {
 
         const client = new pg.Client(this.#credentials);
-
         try {
             const sql = 'INSERT INTO "public"."Users"("name", "email", "pswHash", "img") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING id;';
             const parms = [user.name, user.email, user.pswHash, user.img];
@@ -357,29 +356,41 @@ class DBManager {
     }
 
     async sendRequest(request) {
+      
         const client = new pg.Client(this.#credentials);
-
+    
         try {
             await client.connect();
-            const sql = 'INSERT INTO "public"."friends"("userId", "friendId", "status", "name") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING status;';
-            const parms = [request.userId, request.friendId, request.status, request.name];
-
-            const output = await client.query(sql, parms);
-
-            if (output.rows.length == 1) {
-                request.status = output.rows[0].status;
+    
+            const sql1 = 'SELECT COUNT("friends"."id") AS count FROM "public"."friends" WHERE ("friends"."userId" = $1) AND ("friends"."friendId" = $2);';
+            const parms1 = [request.userId, request.friendId];
+            const output1 = await client.query(sql1, parms1);
+            console.log(output1);
+    
+            // Check if the count is less than 1
+            if (output1.rows[0].count < 1) {
+                const sql = 'INSERT INTO "public"."friends"("userId", "friendId", "status", "name") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING status;';
+                const parms = [request.userId, request.friendId, request.status, request.name];
+    
+                const output = await client.query(sql, parms);
+    
+                if (output.rows.length == 1) {
+                    request.status = output.rows[0].status;
+                }
+            }else{
+                console.error("Already sent a request or already friends:", error);
             }
-
+    
         } catch (error) {
             console.error(error);
             throw error;
-            return false;
         } finally {
-            client.end();
+            await client.end();
         }
-
+    
         return request;
     }
+    
     async favoritePage(like) {
         const client = new pg.Client(this.#credentials);
 
@@ -406,7 +417,7 @@ class DBManager {
     }
 
     async deleteFavorite(like) {
-       
+
         const client = new pg.Client(this.#credentials);
 
         try {
@@ -499,7 +510,7 @@ class DBManager {
             await client.connect();
             const sql = 'UPDATE "public"."pages" set "ingridens" = $1, "title" = $2, "imageFile" = $3, "desc" = $4, "images" = $5, "selectedColor" = $6, "selectedFont" = $7 WHERE "id" = $8;'
             console.log(page);
-            const params = [page.ingridens, page.title, page.imageFile, page.desc, page.images, page.selectedColor, page.selectedFont, page.id ];
+            const params = [page.ingridens, page.title, page.imageFile, page.desc, page.images, page.selectedColor, page.selectedFont, page.id];
             const output = await client.query(sql, params);
 
         } catch (error) {

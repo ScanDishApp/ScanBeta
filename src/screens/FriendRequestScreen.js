@@ -40,8 +40,7 @@ export default function FriendRequest() {
             return await fetchData(paramUrl, "GET");
         }
 
-        const response = await getRequest("https://scanbeta.onrender.com/friends/requests", id);
-        //const response = await getRequest("http://localhost:8080/friends/requests", id);
+        const response = await getRequest("/friends/requests", id);
 
         const responseData = await response.json();
         setFriendRequests(responseData);
@@ -62,8 +61,7 @@ export default function FriendRequest() {
         };
 
         try {
-            const response = await fetchData("https://scanbeta.onrender.com/friends/add", "POST", request);
-            //const response = await fetchData("http://localhost:8080/friends/add", "POST", request);
+            const response = await fetchData("/friends/add", "POST", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
             setSuccessMsg("Forespørsel sendt");
@@ -84,8 +82,7 @@ export default function FriendRequest() {
         console.log(request);
 
         try {
-            const response = await addFriend("https://scanbeta.onrender.com/friends/ans", request);
-            // const response = await addFriend("http://localhost:8080/friends/ans", request);
+            const response = await addFriend("/friends/ans", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
             await handleGetFriendRequest(userId);
@@ -108,8 +105,7 @@ export default function FriendRequest() {
 
         try {
 
-            const response = await declineFriend("https://scanbeta.onrender.com/friends/ans", request);
-            //const response = await declineFriend("http://localhost:8080/friends/ans", request);
+            const response = await declineFriend("/friends/ans", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
             await handleGetFriendRequest(userId);
