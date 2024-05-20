@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import { useHistory } from 'react-router-dom';
 
@@ -171,7 +171,7 @@ export default function NewPage() {
     };
 
 
-    
+
 
     const addNewPage = async () => {
         console.log(pageId + "inside new page");
@@ -199,12 +199,12 @@ export default function NewPage() {
 
         if (textareaRef.current) {
 
-            textareaRef.current.resetTextArea(); 
-          }
-          if (textareaRefIns.current) {
-            textareaRefIns.current.resetTextArea(); 
-          }
-          resetPageState();
+            textareaRef.current.resetTextArea();
+        }
+        if (textareaRefIns.current) {
+            textareaRefIns.current.resetTextArea();
+        }
+        resetPageState();
 
 
     };
@@ -214,8 +214,8 @@ export default function NewPage() {
     const resetPageState = () => {
 
         let noteInput = document.querySelector('.textarea')
-        if(noteInput){
-        noteInput.innerHTML = "";
+        if (noteInput) {
+            noteInput.innerHTML = "";
         }
         setTitle('');
         setImageFile(null)
@@ -230,7 +230,7 @@ export default function NewPage() {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
         setImages(prevImages => [...prevImages, newSticker]);
     };
-  
+
     const handlePreviousPage = async () => {
         if (currentPageIndex > 0) {
             await handleUpdate(); // Save the current page before flipping
@@ -246,7 +246,7 @@ export default function NewPage() {
             localStorage.removeItem("previousRecognizedText");
         }
     };
-    
+
     const handleNextPage = async () => {
         if (currentPageIndex < pages.length - 1) {
             await handleUpdate(); // Save the current page before flipping
@@ -263,7 +263,7 @@ export default function NewPage() {
         }
     };
 
-    
+
     const loadPageData = (pageIndex) => {
         const page = pages[pageIndex];
         setTitle(page.title);
@@ -277,7 +277,7 @@ export default function NewPage() {
         setSelectedFontSize(page.selectedFontSize);
         setIsBulletListActive(page.isBulletListActive);
     };
-    
+
 
     const handleTextChange = (event) => {
         setLastRecognizedText(event.target.value);
@@ -354,7 +354,6 @@ export default function NewPage() {
         if (dragging) {
             const clientX = event.clientX || (event.touches && event.touches[0].clientX);
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
-
             const updatedImages = [...images];
             updatedImages[index].position = {
                 x: clientX - updatedImages[index].offset.x,
@@ -463,7 +462,7 @@ export default function NewPage() {
         localStorage.removeItem("previousRecognizedText")
 
     }
-  
+
 
     return (
 
@@ -477,42 +476,42 @@ export default function NewPage() {
                 <AiOutlineFileAdd className="icon-top" onClick={saveCurrentPage} />
                 <AiOutlineInfoCircle className="icon-top" onClick={handleInfoClick} />
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
-     
+
             </div>
 
 
             <div className="coverPage"></div>
             <div className="input-container">
-            {images.map((image, index) => (
-                <div
-                    key={index}
-                    className="image-preview"
-                    style={{
-                        position: 'absolute',
-                        top: image.position.y, // Adjust according to your needs
-                        left: image.position.x, // Adjust according to your needs
-                    }}
-                    onMouseDown={(event) => handleMouseDown(event, index)}
-                    onTouchStart={(event) => handleMouseDown(event, index)}
-                    onMouseMove={(event) => handleMouseMove(event, index)}
-                    onTouchMove={(event) => handleMouseMove(event, index)}
-                    onMouseUp={handleMouseUp}
-                    onTouchEnd={handleMouseUp}
-                    onDrop={handleDrop}
-                    onDragOver={(e) => e.preventDefault()}
-                >
-                    <div className="selected-image" onClick={() => toggleDeletemode(index)}>
-                        <img src={image.src} alt={`Uploaded ${index}`} />
-                    </div>
-                    {deleteImageIndex === index && (
-                        <AiOutlineDelete 
-                        className="delete-icon-edit"
-                        onClick={() => handleDeleteImage(index)}
-                        />  
-                    )}
-                </div>
-            ))}
+                    {images.map((image, index) => (
+                        <div
+                            key={index}
+                            className="image-preview"
+                            style={{
+                                position: 'absolute',
+                                top: image.position.y, // Adjust according to your needs
+                                left: image.position.x, // Adjust according to your needs
 
+                            }}
+                            onMouseDown={(event) => handleMouseDown(event, index)}
+                            onTouchStart={(event) => handleMouseDown(event, index)}
+                            onMouseMove={(event) => handleMouseMove(event, index)}
+                            onTouchMove={(event) => handleMouseMove(event, index)}
+                            onMouseUp={handleMouseUp}
+                            onTouchEnd={handleMouseUp}
+                            onDrop={handleDrop}
+                            onDragOver={(e) => e.preventDefault()}
+                        >
+                            <div className="selected-image" onClick={() => toggleDeletemode(index)}>
+                                <img src={image.src} alt={`Uploaded ${index}`} />
+                            </div>
+                            {deleteImageIndex === index && (
+                                <AiOutlineDelete
+                                    className="delete-icon-edit"
+                                    onClick={() => handleDeleteImage(index)}
+                                />
+                            )}
+                        </div>
+                    ))}
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
