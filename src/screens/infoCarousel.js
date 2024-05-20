@@ -4,6 +4,7 @@ import image1 from '../assets/Info/broken.jpg';
 import image2 from '../assets/Info/purple.jpg';
 import image3 from '../assets/Info/step.png';
 
+
 import './ScreenStyle/InfoCarousel.css'; 
 import { AiFillInfoCircle, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'; 
 
