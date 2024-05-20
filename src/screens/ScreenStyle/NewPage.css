@@ -10,11 +10,14 @@ html, body, .NewPage-container, .note-container {
 
   
 }
-
+h1{
+  margin-bottom: 5px;
+}
 
 .title {
   margin-bottom: 20px;
   font-family: 'DM Serif Display', serif;
+
 }
 
 .ingridens {
@@ -29,7 +32,6 @@ html, body, .NewPage-container, .note-container {
   background-position: -1px -1px, -1px -1px;
 
 }
-
 .changeImageButton {
   position: absolute;
   bottom:25px; 
@@ -331,6 +333,8 @@ padding-left: 10px;
   align-items: center;
   margin-left: 10px;
   font-weight: 400;
+  margin-bottom: 3px;
+  margin-top: 3px;
 
 }
 

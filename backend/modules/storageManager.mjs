@@ -197,15 +197,15 @@ class DBManager {
 
         try {
             await client.connect();
-            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1';
-            const params = [`%${userId},%`];
+            const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1 OR "userId" LIKE $2';
+            const params = [`%${userId},%`, `%,${userId}%`];
             const output = await client.query(sql, params);
-
+    
             for (let i = 0; i < output.rows.length; i++) {
                 book.push(output.rows[i])
                 console.log(book);
-
             }
+           
         } catch (error) {
             console.error('Error logging in:', error.stack);
         } finally {
@@ -377,8 +377,6 @@ class DBManager {
                 if (output.rows.length == 1) {
                     request.status = output.rows[0].status;
                 }
-            }else{
-                console.error("Already sent a request or already friends:", error);
             }
     
         } catch (error) {

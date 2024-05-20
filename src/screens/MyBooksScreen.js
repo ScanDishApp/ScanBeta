@@ -174,20 +174,8 @@ export default function MyBooks() {
     };
 
     const displayRectangleId = async (id) => {
-        async function getPages(url) {
-            return await fetchData(url, "GET");
-        }
-        const response = await getPages(`/page/get?bookId=${id}`);
-        console.log(response);
-        if (response.ok) {
-            const responseData = await response.json();
-            const responseDataParse = JSON.stringify(responseData)
-            console.log(responseData);
-            localStorage.setItem("contents", responseDataParse);
             localStorage.setItem("bookId", id)
             navigate('/NewPage');
-        }
-
     };
 
     return (
