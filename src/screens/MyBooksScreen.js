@@ -52,7 +52,7 @@ export default function MyBooks() {
     }, []);
 
     const addRectangle = async () => {
-        
+
 
         if (!titleText.trim()) {
             document.querySelector('.input-text').classList.add('error-border');
@@ -127,7 +127,7 @@ export default function MyBooks() {
     const deleteBookFromServer = async (id) => {
         try {
             const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
-            return response 
+            return response
 
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -136,7 +136,7 @@ export default function MyBooks() {
     const deletePageFromServer = async (id) => {
         try {
             const response = await fetchData(`/page/delete?bookId=${id}`, "DELETE");
-            return response 
+            return response
 
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -152,30 +152,24 @@ export default function MyBooks() {
 
     };
     const handleLookAtBook = async (id) => {
-        async function getBook(url) {
+        async function getPages(url) {
             return await fetchData(url, "GET");
         }
-
-        const response = await getBook(`/page/get?bookId=${id}`);
+        const response = await getPages(`/page/get?bookId=${id}`);
         console.log(response);
-        const responseData = await response.json();
-
-        console.log("Response:", responseData);
-        localStorage.setItem("contents", responseData);
-        try {
-            const contentsArray = JSON.parse(responseData);
-            console.log("contentsArray:", contentsArray);
-            localStorage.setItem("contentsArray", contentsArray);
-        } catch (error) {
-            console.error("Error parsing contentsString:", error);
+        if (response.ok) {
+            const responseData = await response.json();
+            const responseDataParse = JSON.stringify(responseData)
+            console.log(responseData);
+            localStorage.setItem("contents", responseDataParse);
+            localStorage.setItem("bookId", id)
+            navigate('/look-my-book');
         }
-        navigate('/look-my-book');
-
     };
 
     const displayRectangleId = async (id) => {
-            localStorage.setItem("bookId", id)
-            navigate('/NewPage');
+        localStorage.setItem("bookId", id)
+        navigate('/NewPage');
     };
 
     return (
