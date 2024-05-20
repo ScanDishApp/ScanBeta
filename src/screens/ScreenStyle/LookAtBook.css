@@ -55,3 +55,13 @@
 h1{
     margin-top: 10px;
 }
+
+.icon-row {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    justify-content: space-evenly; 
+    margin-left: 3px;
+    margin-right: 3px;
+    color: white;
+  }
