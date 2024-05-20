@@ -134,14 +134,22 @@ padding-left: 10px;
 }
 
 
+.input-container{
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+}
 
+.image-preview {
+  position: absolute; /* Ensure images are positioned absolutely */
+  z-index: 1;
+}
 
 
 
 .image-preview img {
   max-width: 100px; 
   max-height: 100px; 
-
 }
 
 .delete-icon-edit{
