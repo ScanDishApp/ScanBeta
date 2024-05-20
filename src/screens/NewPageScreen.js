@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link} from 'react-router-dom';
 import Sticker from './Stickers';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
@@ -308,6 +308,12 @@ export default function NewPage() {
 
     };
 
+    const navigate = useNavigate();
+    const handleInfoClick = () => {
+        navigate('/InfoCarousel');
+    };
+
+
 
 
 
@@ -426,9 +432,7 @@ export default function NewPage() {
         }
     };
 
-    const handleInfoClick = () => {
-        window.location.assign('/InfoCarousel');
-    };
+
 
 
     const toggleDeletemode = (index) => {
