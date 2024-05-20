@@ -316,6 +316,7 @@ export default function NewPage() {
 
 
 
+
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {

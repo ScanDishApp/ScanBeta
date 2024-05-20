@@ -54,7 +54,7 @@ const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
     <div className="note-taker-container">
       <textarea
         ref={textareaRefIns}
-        className="note-input"
+        className="note-input-ins"
         value={note}
         onChange={handleNoteChange}
         placeholder="Skriv din tekst her ..."
