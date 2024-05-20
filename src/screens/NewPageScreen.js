@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Sticker from './Stickers';
+import { useHistory } from 'react-router-dom';
+
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
-
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#008080', '#808080'];
 
 const fontOptions = {
@@ -169,6 +170,9 @@ export default function NewPage() {
 
     };
 
+
+    
+
     const addNewPage = async () => {
         console.log(pageId + "inside new page");
         const newPage = {
@@ -189,18 +193,30 @@ export default function NewPage() {
         localStorage.setItem("pageId", responsePageDataParse.id)
         setPageId(responsePageDataParse.id)
         console.log(pageId + "inside new page");
-        if (textareaRef.current) {
-            textareaRef.current.resetTextArea();
-        }
-        if (textareaRefIns.current) {
-            textareaRefIns.current.resetTextArea();
-        }
         resetPageState();
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
+
+        if (textareaRef.current) {
+
+            textareaRef.current.resetTextArea(); 
+          }
+          if (textareaRefIns.current) {
+            textareaRefIns.current.resetTextArea(); 
+          }
+          resetPageState();
+
+
     };
 
 
 
     const resetPageState = () => {
+
+        let noteInput = document.querySelector('.textarea')
+        if(noteInput){
+        noteInput.innerHTML = "";
+        }
         setTitle('');
         setImageFile(null)
         setDesc('')
@@ -246,6 +262,7 @@ export default function NewPage() {
             localStorage.removeItem("previousRecognizedText");
         }
     };
+
     
     const loadPageData = (pageIndex) => {
         const page = pages[pageIndex];
@@ -261,6 +278,7 @@ export default function NewPage() {
         setIsBulletListActive(page.isBulletListActive);
     };
     
+
     const handleTextChange = (event) => {
         setLastRecognizedText(event.target.value);
     };
@@ -408,6 +426,11 @@ export default function NewPage() {
         }
     };
 
+    const handleInfoClick = () => {
+        window.location.assign('/InfoCarousel');
+    };
+
+
     const toggleScanOptions = () => {
         setShowScanOptions(!showScanOptions);
     };
@@ -451,10 +474,9 @@ export default function NewPage() {
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
                 <AiOutlineSave className="icon-top" onClick={handleUpdate} />
                 <AiOutlineFileAdd className="icon-top" onClick={saveCurrentPage} />
-                <AiOutlineInfoCircle className="icon-top" />
+                <AiOutlineInfoCircle className="icon-top" onClick={handleInfoClick} />
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
-
-
+     
             </div>
 
 
@@ -632,6 +654,7 @@ export default function NewPage() {
                     <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
                     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
                     <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
+                    <AiOutlineInfoCircle className="icon-top" onClick={handleClick} />
 
 
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />

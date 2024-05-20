@@ -27,10 +27,12 @@ import Ingredients from './screens/Ingredients';
 import Instructions from './screens/Instructions';
 import ScanMod from './screens/ScanMod';
 import ChooseScan from './screens/ChooseScan';
-const Layout = ({ children }) => (
+import InfoCarousel from './screens/infoCarousel'
+
+const Layout = ({ children, showNav, showHeader }) => (
   <div>
-    <Header />
-   
+    {showHeader && <Header />}
+    {showNav && <NavTab />}
     {children}
   </div>
 );
@@ -39,30 +41,30 @@ export default function App() {
   return (
     <div>
       <Router>
-      <NavTab />
         <Routes>
-        <Route path="/" element={<Layout><Home /></Layout>} />
-          <Route path="/Scan" element={<Layout><Scan /></Layout>} />
-          <Route path="/Book" element={<Layout><Book /></Layout>} />
-          <Route path="/Profile" element={<Layout><Profile /></Layout>} />
-          <Route path="/dummy-page" element={<DummyPage />}/> 
-          <Route path="/new-user-page" element={<NewUser />} /> 
-          <Route path="/edit-user-page" element={<Layout><EditUser /></Layout>} /> 
-          <Route path="/bookDesign" element={<BookDesign />} />
-          <Route path="/Calculator" element={<Layout><Calculator /></Layout>} /> 
-          <Route path="/TemperatureConverter" element={<Layout><TemperatureConverter /></Layout>} /> 
-          <Route path="/MyBooks" element={<Layout><MyBooks /></Layout>} /> 
-          <Route path="/NewPage" element={<NewPage />} /> 
-          <Route path="/StickerMenu" element={<Layout><StickerMenu   /></Layout>} /> 
-          <Route path="/Friends" element={<Layout><Friends   /></Layout>} /> 
-          <Route path="/friend-request-screen" element={<Layout><FriendRequest   /></Layout>} /> 
-          <Route path="/shared-books" element={<Layout><SharedBooks   /></Layout>} /> 
-          <Route path="/look-my-book" element={<LookMyBooks />} />
-          <Route path="/favorites-screen" element={<Favorites />} />
-          <Route path="/Instructions" element={<NewPage />} />
-          <Route path="/Ingredients" element={<NewPage />} />
-          <Route path="/ScanMod" element={<ScanMod />} />
-          <Route path="/ChooseScan" element={<Layout><ChooseScan /></Layout>} />
+        <Route path="/" element={<Layout showNav={true}><Home /></Layout>} />
+<Route path="/Scan" element={<Layout showNav={true}><Scan /></Layout>} />
+<Route path="/Book" element={<Layout showNav={true}><Book /></Layout>} />
+<Route path="/Profile" element={<Layout showNav={true}><Profile /></Layout>} />
+<Route path="/dummy-page" element={<Layout showNav={true}><DummyPage /></Layout>} /> 
+<Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} /> 
+<Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} /> 
+<Route path="/bookDesign" element={<Layout showNav={true}><BookDesign /></Layout>} />
+<Route path="/Calculator" element={<Layout showNav={true}><Calculator /></Layout>} /> 
+<Route path="/TemperatureConverter" element={<Layout showNav={true}><TemperatureConverter /></Layout>} /> 
+<Route path="/MyBooks" element={<Layout showNav={true}><MyBooks /></Layout>} /> 
+<Route path="/NewPage" element={<Layout showNav={true}><NewPage /></Layout>} /> 
+<Route path="/StickerMenu" element={<Layout showNav={true}><StickerMenu /></Layout>} /> 
+<Route path="/Friends" element={<Layout showNav={true}><Friends /></Layout>} /> 
+<Route path="/friend-request-screen" element={<Layout showNav={true}><FriendRequest /></Layout>} /> 
+<Route path="/shared-books" element={<Layout showNav={true}><SharedBooks /></Layout>} /> 
+<Route path="/look-my-book" element={<Layout showNav={true}><LookMyBooks /></Layout>} />
+<Route path="/favorites-screen" element={<Layout showNav={true}><Favorites /></Layout>} />
+<Route path="/Instructions" element={<Layout showNav={true}><NewPage /></Layout>} />
+<Route path="/Ingredients" element={<Layout showNav={true}><NewPage /></Layout>} />
+<Route path="/ScanMod" element={<Layout showNav={true}><ScanMod /></Layout>} />
+<Route path="/ChooseScan" element={<Layout showNav={true}><ChooseScan /></Layout>} />
+<Route path="/InfoCarousel" element={<Layout showNav={false} showHeader={false}><InfoCarousel /></Layout>} />
 
 
 
