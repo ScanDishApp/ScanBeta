@@ -30,7 +30,6 @@ async function listBook(url) {
 
 export default function MyBooks() {
     const navigate = useNavigate();
-    const [id, setId] = useState([]);
     const [rectangles, setRectangles] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");

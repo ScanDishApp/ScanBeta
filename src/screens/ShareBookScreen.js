@@ -30,7 +30,6 @@ async function listBook(url) {
 
 export default function SharedBooks() {
     const navigate = useNavigate();
-    const [id, setId] = useState([]);
     const [rectangles, setRectangles] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
@@ -42,7 +41,6 @@ export default function SharedBooks() {
         async function fetchBooks() {
 
             const response = await listBook(`/book/listShared?userId=${userId}`);
-            console.log(response);
             const responseData = await response.json();
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
@@ -52,11 +50,11 @@ export default function SharedBooks() {
             setRectangles(rectanglesFromData);
         }
         fetchBooks();
-    }, []);
+    },);
 
     useEffect(() => {
         handleGetFriend(userId);
-    }, []);
+    }, );
 
     const handleGetFriend = async (id) => {
         async function getFriend(url, data) {
@@ -65,8 +63,7 @@ export default function SharedBooks() {
         }
         const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
-        console.log("Response:", responseData);
-        setFriendsList(responseData); // Assuming responseData is an array of friend objects
+        setFriendsList(responseData); 
     };
 
     const addRectangle = async (id) => {

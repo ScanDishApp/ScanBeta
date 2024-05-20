@@ -13,7 +13,6 @@ const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
     adjustTextareaHeight(); 
   };
 
-
   const adjustTextareaHeight = () => {
     if (textareaRefIns.current) {
       textareaRefIns.current.style.height = 'auto'; 

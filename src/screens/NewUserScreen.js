@@ -25,12 +25,10 @@ async function fetchData(url, method, data) {
 }
 
 export default function NewUser() {
-    let userId = localStorage.getItem("userId");
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -49,7 +47,6 @@ export default function NewUser() {
         }
 
          const response = await getUser("/user/get", id);
-       //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -101,7 +98,7 @@ export default function NewUser() {
         } else {
             passwordInput.classList.remove('error-border');
         }
-       
+    
         const user = {
             name: name,
             pswHash: pswHash,
@@ -110,11 +107,8 @@ export default function NewUser() {
         };
         console.log(user);
         const response = await createUser("/user/", user);
-        // const response = await createUser("http://localhost:8080/user/", user);
-       
         console.log(response);
         const responseData = await response.json();
-        //const responseDataJson = JSON.parse(responseData)
         console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId);

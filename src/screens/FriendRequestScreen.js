@@ -3,6 +3,25 @@ import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/FriendRequest.css';
 
+async function fetchData(url, method, data) {
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    };
+
+    const options = {
+        method,
+        headers,
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
+    return response;
+}
+
 export default function FriendRequest() {
     const userId = localStorage.getItem("userId");
     const [friendRequests, setFriendRequests] = useState([]);
@@ -16,36 +35,14 @@ export default function FriendRequest() {
         fetchData();
     }, []);
 
-    async function fetchData(url, method, data) {
-        const headers = {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        };
-
-        const options = {
-            method,
-            headers,
-        };
-
-        if (data) {
-            options.body = JSON.stringify(data);
-        }
-
-        const response = await fetch(url, options);
-        return response;
-    }
     const handleGetFriendRequest = async (id) => {
         async function getRequest(url, data) {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-
         const response = await getRequest("/friends/requests", id);
-
         const responseData = await response.json();
         setFriendRequests(responseData);
-
-
     };
 
     const handleSendFriendRequest = async () => {
@@ -89,7 +86,6 @@ export default function FriendRequest() {
         } catch (error) {
             console.error("Error:", error);
         }
-
     };
 
     const handleDeclineFriend = async (id) => {

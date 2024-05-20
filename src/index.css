@@ -24,6 +24,18 @@ h1{
   letter-spacing: 2px;
 
 }
+input {
+  width: 200px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
 
 
 

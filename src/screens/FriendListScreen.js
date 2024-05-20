@@ -1,8 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
-
 import './ScreenStyle/FriendList.css';
+
+async function fetchData(url, method, data) {
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    };
+
+    const options = {
+        method,
+        headers,
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
+    return response;
+}
 
 export default function Friends() {
     let userId = localStorage.getItem("userId")
@@ -25,40 +43,17 @@ export default function Friends() {
         fetchData();
     }, []);
 
-    async function fetchData(url, method, data) {
-        const headers = {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        };
-
-        const options = {
-            method,
-            headers,
-        };
-
-        if (data) {
-            options.body = JSON.stringify(data);
-        }
-
-        const response = await fetch(url, options);
-        return response;
-    }
-
-    
     const handleGetFriend = async (id) => {
         async function getFriend(url, data) {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
 
-        const response = await getFriend("https://scanbeta.onrender.com/friends/get", id);
-        //const response = await getFriend("http://localhost:8080/friends/get", id);
-
+        const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         setFriendsList(responseData);
     };
-
 
     const handleDeleteFriend = async (id) => {
         async function declineFriend(url, data) {
@@ -72,8 +67,7 @@ export default function Friends() {
         console.log(request);
 
         try {
-            const response = await declineFriend("https://scanbeta.onrender.com/friends/remove", request);
-            //const response = await declineFriend("http://localhost:8080/friends/remove", request);
+            const response = await declineFriend("/friends/remove", request);
             const responseData = await response.json();
             console.log("Response:", responseData);
         } catch (error) {
@@ -97,64 +91,59 @@ export default function Friends() {
         navigate('/friend-request-screen');
 
     };
+
     const handleGetFriendRequest = async (id) => {
         async function getRequest(url, data) {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
 
-        const response = await getRequest("https://scanbeta.onrender.com/friends/requests", id);
-        //const response = await getRequest("http://localhost:8080/friends/requests", id);
-
+        const response = await getRequest("/friends/requests", id);
         const responseData = await response.json();
         let waitingRequest = responseData.length
         setFriendRequests(waitingRequest);
     };
 
-    
-if(friendRequests > 0){
-    return (
-        
-        <div className="friend-container">
-               <p className='waiting-request'>{friendRequests}</p>
-            <div onClick={handleRequest} className="add-rectangle">
-                <h1>Legg til nye venner!</h1>
-                <p>Trykk her for å se om du har noen nye forespørseler</p>
+    if (friendRequests > 0) {
+        return (
+            <div className="friend-container">
+                <p className='waiting-request'>{friendRequests}</p>
+                <div onClick={handleRequest} className="add-rectangle">
+                    <h1>Legg til nye venner!</h1>
+                    <p>Trykk her for å se om du har noen nye forespørseler</p>
+                </div>
+                <h1>Mine venner</h1>
+                <div className='friends-rectangle'>
+                    <ul>
+                        {friendsList.map((friend, index) => (
+                            <div className='friend'>
+                                <h1 className='friend-name'>{friend.name}</h1>
+                                <AiOutlineClose className="xIcon" onClick={() => handleDelete(friend.id)} />
+                            </div>
+                        ))}
+                    </ul>
+                </div>
             </div>
-            <h1>Mine venner</h1>
-            <div className='friends-rectangle'>
-                <ul>
-                    {friendsList.map((friend, index) => (
-                        <div className='friend'>
-                            <h1 className='friend-name'>{friend.name}</h1>
-                            <AiOutlineClose className="xIcon" onClick={() => handleDelete(friend.id)} />
-                        </div>
-                    ))}
-                </ul>
+        );
+    } else {
+        return (
+            <div className="friend-container">
+                <div onClick={handleRequest} className="add-rectangle">
+                    <h1>Legg til nye venner!</h1>
+                    <p>Trykk her for å se om du har noen nye forespørseler</p>
+                </div>
+                <h1>Mine venner</h1>
+                <div className='friends-rectangle'>
+                    <ul>
+                        {friendsList.map((friend, index) => (
+                            <div className='friend'>
+                                <h1 className='friend-name'>{friend.name}</h1>
+                                <AiOutlineClose className="xIcon" onClick={() => handleDelete(friend.id)} />
+                            </div>
+                        ))}
+                    </ul>
+                </div>
             </div>
-        </div>
-    );
-}else{
-
-    return (
-        
-        <div className="friend-container">
-            <div onClick={handleRequest} className="add-rectangle">
-                <h1>Legg til nye venner!</h1>
-                <p>Trykk her for å se om du har noen nye forespørseler</p>
-            </div>
-            <h1>Mine venner</h1>
-            <div className='friends-rectangle'>
-                <ul>
-                    {friendsList.map((friend, index) => (
-                        <div className='friend'>
-                            <h1 className='friend-name'>{friend.name}</h1>
-                            <AiOutlineClose className="xIcon" onClick={() => handleDelete(friend.id)} />
-                        </div>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
-}
+        );
+    }
 }

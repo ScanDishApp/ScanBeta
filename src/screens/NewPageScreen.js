@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
-import { useHistory } from 'react-router-dom';
-
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
+
 const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#008080', '#808080'];
 
 const fontOptions = {
@@ -17,6 +16,7 @@ const fontOptions = {
 };
 
 const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
+
 async function fetchData(url, method, data) {
     const headers = {
         "Content-Type": "application/json",
@@ -35,15 +35,14 @@ async function fetchData(url, method, data) {
     const response = await fetch(url, options);
     return response;
 }
+
 async function getPages(url) {
     return await fetchData(url, "GET");
 }
 
-
 export default function NewPage() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [title, setTitle] = useState('');
-    const [coverImg, setCoverImg] = useState(null);
     const [desc, setDesc] = useState('');
     const [ingridens, setIngridens] = useState('');
     const [content, setContent] = useState('');
@@ -51,7 +50,6 @@ export default function NewPage() {
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [selectedColor, setSelectedColor] = useState('#000000');
-
     const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
     const [selectedFont, setSelectedFont] = useState('DM Serif Display, sans-serif');
     const [deleteImageIndex, setDeleteImageIndex] = useState(null);
@@ -59,7 +57,6 @@ export default function NewPage() {
     const [isBulletListActive, setIsBulletListActive] = useState(false);
     const [pages, setPages] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [isImageSelected, setIsImageSelected] = useState(false);
     const [showSticker, setShowSticker] = useState(false);
     const [lastRecognizedText, setLastRecognizedText] = useState('');
     const [showImage, setShowImage] = useState(false);
@@ -69,14 +66,9 @@ export default function NewPage() {
     const textareaRefIns = useRef(null);
     const [showFontMenu, setShowFontMenu] = useState(false);
     const [showColorMenu, setShowColorMenu] = useState(false);
-
     const [showScanOptions, setShowScanOptions] = useState(false);
-
     const [pageId, setPageId] = useState(localStorage.getItem("pageId"));
-
-
     const [showStickerMenu, setShowStickerMenu] = useState(false);
-
 
     const toggleMenu = (menuType) => {
         setShowFontMenu(menuType === 'font' ? !showFontMenu : false);
@@ -105,6 +97,7 @@ export default function NewPage() {
             setPageId(storedPageId);
         }
     }, []);
+
     useEffect(() => {
         handleGetPages()
     }, []);
@@ -143,13 +136,10 @@ export default function NewPage() {
         console.log(pageId);
         async function updatePage(url, data) {
             return await fetchData(url, "PUT", data);
-
         }
-
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
-
-
+        console.log(noteInput);
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
@@ -161,17 +151,12 @@ export default function NewPage() {
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
-
         console.log(page);
         const response = await updatePage(`/page/${pageId}`, page);
         const responseData = await response.json();
         console.log(responseData);
         await addNewPage()
-
     };
-
-
-
 
     const addNewPage = async () => {
         console.log(pageId + "inside new page");
@@ -184,7 +169,6 @@ export default function NewPage() {
             images: '[]',
             selectedColor: '#000000',
             selectedFont: 'DM Serif Display, serif'
-
         };
         const responsePage = await fetchData("/page/", "POST", newPage);
         const responsePageData = await responsePage.json();
@@ -205,11 +189,7 @@ export default function NewPage() {
             textareaRefIns.current.resetTextArea();
         }
         resetPageState();
-
-
     };
-
-
 
     const resetPageState = () => {
 
@@ -233,12 +213,12 @@ export default function NewPage() {
 
     const handlePreviousPage = async () => {
         if (currentPageIndex > 0) {
-            await handleUpdate(); // Save the current page before flipping
+            await handleUpdate(); 
             setCurrentPageIndex(prevIndex => {
                 const newIndex = prevIndex - 1;
                 const newPageId = pages[newIndex].id;
                 setPageId(newPageId);
-                loadPageData(newIndex); // Load the new page's data
+                loadPageData(newIndex);
                 return newIndex;
             });
             handleGetPages();
@@ -249,12 +229,12 @@ export default function NewPage() {
 
     const handleNextPage = async () => {
         if (currentPageIndex < pages.length - 1) {
-            await handleUpdate(); // Save the current page before flipping
+            await handleUpdate(); 
             setCurrentPageIndex(prevIndex => {
                 const newIndex = prevIndex + 1;
                 const newPageId = pages[newIndex].id;
                 setPageId(newPageId);
-                loadPageData(newIndex); // Load the new page's data
+                loadPageData(newIndex);
                 return newIndex;
             });
             handleGetPages();
@@ -262,7 +242,6 @@ export default function NewPage() {
             localStorage.removeItem("previousRecognizedText");
         }
     };
-
 
     const loadPageData = (pageIndex) => {
         const page = pages[pageIndex];
@@ -278,38 +257,9 @@ export default function NewPage() {
         setIsBulletListActive(page.isBulletListActive);
     };
 
-
-    const handleTextChange = (event) => {
-        setLastRecognizedText(event.target.value);
-    };
-
-    const handleChangeIngridients = (event) => {
-        setLastRecognizedText(event.target.value);
-    };
-
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
-
-    const handleIngridensChange = (event) => {
-        let newIngridens = event.target.value;
-        const lines = newIngridens.split('\n');
-        const bulletLines = lines.map(line => {
-
-            if (line.trim() && !line.trim().startsWith('\u2022')) {
-                return `\u2022 ${line}`;
-            }
-            return line;
-        });
-        setIngridens(bulletLines.join('\n'));
-        const textarea = document.getElementById('ingridens-input');
-        textarea.style.height = '';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-
-    };
-
-
-
 
     const handleImageChange = (event) => {
         const files = event.target.files;
@@ -327,7 +277,6 @@ export default function NewPage() {
             }
         }
     };
-
 
     const handleImageChangeInContainer = (event) => {
         const file = event.target.files[0];
@@ -363,11 +312,9 @@ export default function NewPage() {
         }
     };
 
-
     const handleMouseUp = () => {
         setDragging(false);
     };
-
 
     const handleDrop = (event) => {
         event.preventDefault();
@@ -393,11 +340,10 @@ export default function NewPage() {
     const handleDeleteImage = (index) => {
         if (Array.isArray(images)) {
             const updatedImages = [...images];
-            updatedImages.splice(index, 1); // Remove the image at the specified index
-            setImages(updatedImages); // Update the state with the new array of images
+            updatedImages.splice(index, 1); 
+            setImages(updatedImages); 
         }
     };
-
 
     const handleFontSizeChange = (fontSize) => {
         setSelectedFontSize(fontSize);
@@ -405,21 +351,12 @@ export default function NewPage() {
         setShowFontSizeMenu(false);
     };
 
-    const handleClick = () => {
-        setShowImage(!showImage);
-    };
-
-    const handleSave = () => {
-        localStorage.setItem('lastRecognizedText', lastRecognizedText);
-        alert('Text saved successfully!');
-    };
-
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                setImageFile(reader.result); // Update state with the new image
+                setImageFile(reader.result); 
             };
             reader.readAsDataURL(file);
         }
@@ -429,16 +366,13 @@ export default function NewPage() {
         window.location.assign('/InfoCarousel');
     };
 
-
     const toggleDeletemode = (index) => {
-        setDeleteImageIndex(deleteImageIndex === index ? null : index); // Toggle edit mode for the clicked sticker
+        setDeleteImageIndex(deleteImageIndex === index ? null : index); 
     };
-
 
     const handleUpdate = async () => {
         async function updatePage(url, data) {
             return await fetchData(url, "PUT", data);
-
         }
 
         const page = {
@@ -460,10 +394,7 @@ export default function NewPage() {
         console.log(responseData);
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
-
     }
-
-
     return (
 
         <div className="NewPage-container">
@@ -478,40 +409,38 @@ export default function NewPage() {
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
 
             </div>
-
-
             <div className="coverPage"></div>
             <div className="input-container">
-                    {images.map((image, index) => (
-                        <div
-                            key={index}
-                            className="image-preview"
-                            style={{
-                                position: 'absolute',
-                                top: image.position.y, // Adjust according to your needs
-                                left: image.position.x, // Adjust according to your needs
+                {images.map((image, index) => (
+                    <div
+                        key={index}
+                        className="image-preview"
+                        style={{
+                            position: 'absolute',
+                            top: image.position.y,
+                            left: image.position.x, 
 
-                            }}
-                            onMouseDown={(event) => handleMouseDown(event, index)}
-                            onTouchStart={(event) => handleMouseDown(event, index)}
-                            onMouseMove={(event) => handleMouseMove(event, index)}
-                            onTouchMove={(event) => handleMouseMove(event, index)}
-                            onMouseUp={handleMouseUp}
-                            onTouchEnd={handleMouseUp}
-                            onDrop={handleDrop}
-                            onDragOver={(e) => e.preventDefault()}
-                        >
-                            <div className="selected-image" onClick={() => toggleDeletemode(index)}>
-                                <img src={image.src} alt={`Uploaded ${index}`} />
-                            </div>
-                            {deleteImageIndex === index && (
-                                <AiOutlineDelete
-                                    className="delete-icon-edit"
-                                    onClick={() => handleDeleteImage(index)}
-                                />
-                            )}
+                        }}
+                        onMouseDown={(event) => handleMouseDown(event, index)}
+                        onTouchStart={(event) => handleMouseDown(event, index)}
+                        onMouseMove={(event) => handleMouseMove(event, index)}
+                        onTouchMove={(event) => handleMouseMove(event, index)}
+                        onMouseUp={handleMouseUp}
+                        onTouchEnd={handleMouseUp}
+                        onDrop={handleDrop}
+                        onDragOver={(e) => e.preventDefault()}
+                    >
+                        <div className="selected-image" onClick={() => toggleDeletemode(index)}>
+                            <img src={image.src} alt={`Uploaded ${index}`} />
                         </div>
-                    ))}
+                        {deleteImageIndex === index && (
+                            <AiOutlineDelete
+                                className="delete-icon-edit"
+                                onClick={() => handleDeleteImage(index)}
+                            />
+                        )}
+                    </div>
+                ))}
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
                     {imageFile ? (
@@ -537,8 +466,6 @@ export default function NewPage() {
                         style={{ display: 'none' }}
                     />
                 </div>
-
-
                 <input
                     id="file-input"
                     type="file"
@@ -573,12 +500,7 @@ export default function NewPage() {
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />
-
-
             </div>
-
-
-
             <div className="funky">
                 <div className="menu-placement">
                     {showFontMenu && (
@@ -610,10 +532,8 @@ export default function NewPage() {
                     )}
                 </div>
             </div>
-
             <div className="funky"
             >
-
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -621,7 +541,7 @@ export default function NewPage() {
                                 <button
                                     key={index}
                                     className="color-button"
-                                    style={{ backgroundColor: color }}
+                                    style={{ backgroundColor: color, border: 'none' }}
                                     onClick={() => handleColorChange(color)}
                                 />
                             ))}
@@ -638,7 +558,6 @@ export default function NewPage() {
                     </div>
                 )}
 
-
                 {showScanOptions && (
                     <div className='ScanOptions'>
                         <Link to='/scan' className='option'>
@@ -648,7 +567,6 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
-
 
                 <div className="icon-row-menu" >
 
@@ -660,7 +578,5 @@ export default function NewPage() {
                 </div>
             </div>
         </div>
-
     );
-
 }
