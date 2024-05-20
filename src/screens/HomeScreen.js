@@ -69,8 +69,10 @@ const Home = () => {
             contents: contents,
             title: titleText
         };
+        
         const response = await fetchData("/book/", "POST", book);
         if (response.ok) {
+
             const responseData = await response.json();
             const responseParse = JSON.parse(responseData)
             localStorage.setItem("bookId", responseParse.id)
@@ -85,10 +87,12 @@ const Home = () => {
                 selectedFont: 'DM Serif Display, serif'
 
             };
+
             const responsePage = await fetchData("/page/", "POST", page);
             const responsePageData = await responsePage.json();
-            const responsePageDataParse = JSON.parse(responsePageData)
-            localStorage.setItem("pageId", responsePageDataParse.id)
+            const responsePageDataParse = JSON.parse(responsePageData);
+            localStorage.setItem("pageId", responsePageDataParse.id);
+
             if (!userId) {
                 const offlineBook = {
                     bookId: responseParse.id,
@@ -99,18 +103,13 @@ const Home = () => {
                 const updatedOfflineBooks = [...offlineBooks, offlineBook];
                 setOfflineBooks(updatedOfflineBooks);
                 localStorage.setItem("offlineBooks", JSON.stringify(updatedOfflineBooks));
-
                 await openBook(responsePageDataParse.id)
-            }else{
+            } else {
                 await openBook(responsePageDataParse.id)
             }
-
         } else {
             console.log("Error saving book to server.");
         }
-
-
-
     };
     return (
         <div className="home-container">
@@ -129,17 +128,12 @@ const Home = () => {
                 </div>
             </div>
             <div className="book-rectangle" >
-
                 <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
-
-
                 <div className="nested-rectangle" onClick={() => setShowModal(true)}>
                     LEGG TIL NY BOK
                 </div>
 
             </div><div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
-
-
 
             {showModal && (
                 <div className="modal">
@@ -156,7 +150,6 @@ const Home = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

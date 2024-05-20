@@ -29,18 +29,12 @@ export default function DummyPage() {
     let userId = localStorage.getItem("userId");
     let profileName = localStorage.getItem("profileName");
     let profileImg = localStorage.getItem("profileImg");
-
     const [errorMsg, setErrorMsg] = useState(null);
     const [friendsList, setFriendsList] = useState([]);
-
-
     const navigate = useNavigate();
-    const contentCount = 20;
-    const followersCount = 1000;
-    const followingCount = 500;
-
     const [image, setImage] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
+    
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -71,7 +65,6 @@ export default function DummyPage() {
             return await fetchData(paramUrl, "GET");
         }
         const response = await getUser("/user/get", id);
-        //const response = await getUser("http://localhost:8080/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         let profileName = responseData.name
@@ -105,7 +98,6 @@ export default function DummyPage() {
         };
 
         const response = await loginUser("/user/login", user);
-        //const response = await loginUser("http://localhost:8080/user/login", user);
 
         if (!email.trim()) {
             emailInput.classList.add('error-border');
@@ -140,6 +132,7 @@ export default function DummyPage() {
 
         handleGet(userId)
     };
+
     const handleGetFriend = async (id) => {
         async function getFriend(url, data) {
             const paramUrl = `${url}?userId=${data}`;
@@ -147,12 +140,11 @@ export default function DummyPage() {
         }
 
         const response = await getFriend("/friends/get", id);
-        //const response = await getFriend("http://localhost:8080/friends/get", id);
-
         const responseData = await response.json();
         console.log("Response:", responseData);
         setFriendsList(responseData.length);
     };
+
     useEffect(() => {
         const fetchData = async () => {
             await handleGetFriend(userId);

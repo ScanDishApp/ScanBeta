@@ -95,8 +95,6 @@ export default function Favorites() {
         }
     };
 
-
-
     const handlePreviousPage = () => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
     };

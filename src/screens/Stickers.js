@@ -40,11 +40,11 @@ const Sticker = ({ addSticker }) => {
   const handleDelete = (id) => {
     const updatedStickers = selectedStickers.filter((sticker) => sticker.id !== id);
     setSelectedStickers(updatedStickers);
-    setEditModeId(null); // Exit edit mode after deleting
+    setEditModeId(null); 
   };
 
   const toggleEditMode = (id) => {
-    setEditModeId(editModeId === id ? null : id); // Toggle edit mode for the clicked sticker
+    setEditModeId(editModeId === id ? null : id);  
   };
 
   const toggleMenu = () => {
@@ -88,11 +88,11 @@ const Sticker = ({ addSticker }) => {
                 <AiOutlineDelete
                   className="delete-icon-edit"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevents triggering `toggleEditMode` on sticker
+                    e.stopPropagation();
                     handleDelete(sticker.id);
                   }}
                   onTouchStart={(e) => {
-                    e.stopPropagation(); // Prevents triggering `toggleEditMode` on sticker
+                    e.stopPropagation(); 
                     handleDelete(sticker.id);
                   }}
                 />

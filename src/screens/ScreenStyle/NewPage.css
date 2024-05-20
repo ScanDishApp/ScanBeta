@@ -135,9 +135,10 @@ padding-left: 10px;
 
 
 .input-container{
-  overflow-y: auto;
+  overflow-y: au;
   position: relative;
-  z-index: 1;
+  z-index: 0;
+ 
 }
 
 .image-preview {
