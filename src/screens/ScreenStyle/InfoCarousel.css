@@ -8,13 +8,12 @@
     justify-content: center;
     position: relative;
 
-    
   }
   
   .info-carousel img {
     max-width: calc(100% - 20px);
     max-height: 80vh;
-    margin: 10px 5px; /* Reduce margin to close the gap */
+    margin: 10px 5px; 
     border-radius: 20px;
     z-index: 0; 
     border: dotted;
@@ -32,7 +31,7 @@
   }
 
   .info-icon {
-    font-size: 2rem; /* Adjust the icon size */
+    font-size: 2rem; 
     vertical-align: middle; 
 
   }
@@ -67,8 +66,7 @@
     width: 100%;
     background-color: #9bba59;
     position: fixed;
-    bottom: 0px; /* Adjust this value to change the distance from the bottom */
-    left: 0;
+    bottom: 0px; 
     right: 0;
     display: flex;
     justify-content: center;
@@ -109,7 +107,7 @@
   .nav-button {
     font-family: 'DM Serif Display', serif;
 
-    width: calc(100% - 25px); /* Adjust to 50% to fit within the wrapper and have space between */
+    width: calc(100% - 25px); 
     background: #f2b785;
     color: #222;
     border-radius: 10px;
