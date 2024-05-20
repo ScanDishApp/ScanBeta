@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
+import { useHistory } from 'react-router-dom';
+
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
@@ -261,6 +263,26 @@ export default function NewPage() {
         setTitle(event.target.value);
     };
 
+    const handleIngridensChange = (event) => {
+        let newIngridens = event.target.value;
+        const lines = newIngridens.split('\n');
+        const bulletLines = lines.map(line => {
+
+            if (line.trim() && !line.trim().startsWith('\u2022')) {
+                return `\u2022 ${line}`;
+            }
+            return line;
+        });
+        setIngridens(bulletLines.join('\n'));
+        const textarea = document.getElementById('ingridens-input');
+        textarea.style.height = '';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+
+    };
+
+
+
+
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {
@@ -365,6 +387,7 @@ export default function NewPage() {
     const handleInfoClick = () => {
         window.location.assign('/InfoCarousel');
     };
+
 
     const toggleDeletemode = (index) => {
         setDeleteImageIndex(deleteImageIndex === index ? null : index); 
