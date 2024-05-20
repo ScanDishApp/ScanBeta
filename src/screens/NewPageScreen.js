@@ -431,8 +431,8 @@ export default function NewPage() {
     };
 
 
-    const toggleScanOptions = () => {
-        setShowScanOptions(!showScanOptions);
+    const toggleDeletemode = (index) => {
+        setDeleteImageIndex(deleteImageIndex === index ? null : index); // Toggle edit mode for the clicked sticker
     };
 
 
@@ -463,6 +463,7 @@ export default function NewPage() {
         localStorage.removeItem("previousRecognizedText")
 
     }
+  
 
     return (
 
@@ -482,34 +483,35 @@ export default function NewPage() {
 
             <div className="coverPage"></div>
             <div className="input-container">
-
-                {images.map((image, index) => (
-                    <div
-                        key={index}
-                        className="image-preview"
-                        style={{
-                            position: 'absolute',
-                            top: image.position.y, // Adjust according to your needs
-                            left: image.position.x, // Adjust according to your needs
-
-                        }}
-                        onMouseDown={(event) => handleMouseDown(event, index)}
-                        onTouchStart={(event) => handleMouseDown(event, index)}
-                        onMouseMove={(event) => handleMouseMove(event, index)}
-                        onTouchMove={(event) => handleMouseMove(event, index)}
-                        onMouseUp={handleMouseUp}
-                        onTouchEnd={handleMouseUp}
-                        onDrop={handleDrop}
-                        onDragOver={(e) => e.preventDefault()}
-                    >
+            {images.map((image, index) => (
+                <div
+                    key={index}
+                    className="image-preview"
+                    style={{
+                        position: 'absolute',
+                        top: image.position.y, // Adjust according to your needs
+                        left: image.position.x, // Adjust according to your needs
+                    }}
+                    onMouseDown={(event) => handleMouseDown(event, index)}
+                    onTouchStart={(event) => handleMouseDown(event, index)}
+                    onMouseMove={(event) => handleMouseMove(event, index)}
+                    onTouchMove={(event) => handleMouseMove(event, index)}
+                    onMouseUp={handleMouseUp}
+                    onTouchEnd={handleMouseUp}
+                    onDrop={handleDrop}
+                    onDragOver={(e) => e.preventDefault()}
+                >
+                    <div className="selected-image" onClick={() => toggleDeletemode(index)}>
                         <img src={image.src} alt={`Uploaded ${index}`} />
-                        {deleteImageIndex === index && (
-                            <div className="delete-overlay">
-                                <button onClick={() => handleDeleteImage(index)}>Delete</button>
-                            </div>
-                        )}
                     </div>
-                ))}
+                    {deleteImageIndex === index && (
+                        <AiOutlineDelete 
+                        className="delete-icon-edit"
+                        onClick={() => handleDeleteImage(index)}
+                        />  
+                    )}
+                </div>
+            ))}
 
 
                 <div className='coverFoodRectangle' style={{ position: 'relative' }}>
@@ -654,9 +656,6 @@ export default function NewPage() {
                     <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
                     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
                     <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
-                    <AiOutlineInfoCircle className="icon-top" onClick={handleClick} />
-
-
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
                 </div>
