@@ -41,12 +41,12 @@ export default function SharedBooks() {
     useEffect(() => {
         async function fetchBooks() {
 
-            //const response = await listBook(`http://localhost:8080/book/listShared?userId=${userId}`);
-            const response = await listBook(`https://scanbeta.onrender.com/book/listShared?userId=${userId}`);
+            const response = await listBook(`/book/listShared?userId=${userId}`);
+            console.log(response);
             const responseData = await response.json();
             const rectanglesFromData = responseData.map((item, index) => ({
                 id: item.id,
-                title: item.id,
+                title: item.title,
                 color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
             }));
             setRectangles(rectanglesFromData);
@@ -75,7 +75,8 @@ export default function SharedBooks() {
         const userIdWithFriends = `${userId},${selectedFriends.map(friend => friend.userId).join(',')}`;
         const book = {
             userId: userIdWithFriends,
-            contents: contents
+            contents: contents,
+            title: titleText
         };
 
         const updatedRectangles = [...rectangles, book];
@@ -85,12 +86,16 @@ export default function SharedBooks() {
         saveRectangles(updatedRectangles);
 
         await saveToServer(book);
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
         console.log("Book added successfully to the server:", book);
     };
 
     const deleteRectangle = async (id) => {
-        const response = await deleteFromServer(id);
+        const response = await deleteBookFromServer(id);
         if (response.ok) {
+            const response = await deletePageFromServer(id);
+            console.log(response);
             const updatedRectangles = rectangles.filter(rectangle => rectangle.id !== id);
             setRectangles(updatedRectangles);
             saveRectangles(updatedRectangles);
@@ -108,6 +113,21 @@ export default function SharedBooks() {
                 const responseParse = JSON.parse(responseData)
                 localStorage.setItem("bookId", responseParse.id)
                 displayRectangleId(responseParse.id)
+                const page = {
+                    bookId: responseParse.id,
+                    title: '',
+                    ingridens: '',
+                    imageFile: null,
+                    desc: '',
+                    images: JSON.stringify([]),
+                    selectedColor: '#000000',
+                    selectedFont: 'DM Serif Display, serif'
+
+                };
+                const responsePage = await fetchData("/page/", "POST", page);
+                const responsePageData = await responsePage.json();
+                const responsePageDataParse = JSON.parse(responsePageData)
+                localStorage.setItem("pageId", responsePageDataParse.id)
             } else {
                 console.log("Error saving book to server.");
             }
@@ -116,10 +136,20 @@ export default function SharedBooks() {
         }
     };
 
-    const deleteFromServer = async (id) => {
+    const deleteBookFromServer = async (id) => {
         try {
-            const response = await fetchData(`/delete?id=${id}`, "DELETE");
-            return response;
+            const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
+            return response 
+
+        } catch (error) {
+            console.error("Error deleting book from server:", error);
+        }
+    };
+    const deletePageFromServer = async (id) => {
+        try {
+            const response = await fetchData(`/page/delete?bookId=${id}`, "DELETE");
+            return response 
+
         } catch (error) {
             console.error("Error deleting book from server:", error);
         }
@@ -129,27 +159,46 @@ export default function SharedBooks() {
         localStorage.setItem('rectangles', JSON.stringify(rectangles));
     };
 
-    const displayRectangleId = async (id) => {
+
+
+
+    const handleLookAtBook = async (id) => {
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
-        const response = await getBook(`/book/get?id=${id}`);
+
+        const response = await getBook(`/page/get?bookId=${id}`);
         console.log(response);
         const responseData = await response.json();
 
         console.log("Response:", responseData);
-        const contentsString = responseData.contents;
-        console.log(contentsString);
-        localStorage.setItem("contents", contentsString);
+        localStorage.setItem("contents", responseData);
         try {
-            const contentsArray = JSON.parse(`[${contentsString}]`);
+            const contentsArray = JSON.parse(responseData);
             console.log("contentsArray:", contentsArray);
+            localStorage.setItem("contentsArray", contentsArray);
         } catch (error) {
             console.error("Error parsing contentsString:", error);
         }
+        navigate('/look-my-book');
 
-        localStorage.setItem("bookId", id)
-        navigate(`/NewPage`);
+    };
+    
+    const displayRectangleId = async (id) => {
+        async function getPages(url) {
+            return await fetchData(url, "GET");
+        }
+        const response = await getPages(`/page/get?bookId=${id}`);
+        console.log(response);
+        if (response.ok) {
+            const responseData = await response.json();
+            const responseDataParse = JSON.stringify(responseData)
+            console.log(responseData);
+            localStorage.setItem("contents", responseDataParse);
+            localStorage.setItem("bookId", id)
+            navigate('/NewPage');
+        }
+
     };
 
     const handleFriendSelection = (e) => {
@@ -178,9 +227,9 @@ export default function SharedBooks() {
             </div>
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div className="rectangle-card" style={{backgroundColor: '#def294' }} onClick={() => displayRectangleId(rectangle.id)}>
+                     <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={() => handleLookAtBook(rectangle.id)}>
                         <span>{rectangle.title}</span>
-                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation();displayRectangleId(rectangle.id);}}/>
+                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}

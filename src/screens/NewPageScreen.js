@@ -34,6 +34,9 @@ async function fetchData(url, method, data) {
     const response = await fetch(url, options);
     return response;
 }
+async function getPages(url) {
+    return await fetchData(url, "GET");
+}
 
 
 export default function NewPage() {
@@ -96,19 +99,13 @@ export default function NewPage() {
     }, []);
 
     useEffect(() => {
-        let storedPages = localStorage.getItem("contents");
-        if (storedPages) {
-            storedPages = JSON.parse(storedPages);
-            storedPages = storedPages[0]
-            setPages(storedPages);
-        }
-    }, []);
-
-    useEffect(() => {
         const storedPageId = localStorage.getItem("pageId");
         if (storedPageId) {
             setPageId(storedPageId);
         }
+    }, []);
+    useEffect(() => {
+        handleGetPages()
     }, []);
 
     useEffect(() => {
@@ -120,7 +117,6 @@ export default function NewPage() {
             setDesc(initialPage.desc);
             const parsedImages = JSON.parse(initialPage.images)
             setImages(parsedImages);
-
             setSelectedColor(initialPage.selectedColor);
             setSelectedFont(initialPage.selectedFont);
             setSelectedFontSize(initialPage.selectedFontSize);
@@ -129,6 +125,19 @@ export default function NewPage() {
 
     }, [pages, currentPageIndex]);
 
+    const handleGetPages = async () => {
+        let id = localStorage.getItem("bookId")
+        const response = await getPages(`/page/get?bookId=${id}`);
+        console.log(response);
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+            let storedPages = responseData;
+            setPages(storedPages[0]);
+            console.log(pages);
+        }
+    }
+
     const saveCurrentPage = async () => {
         console.log(pageId);
         async function updatePage(url, data) {
@@ -136,16 +145,17 @@ export default function NewPage() {
 
         }
 
-        let noteInput = document.querySelector('.note-input').value 
-          
-        
+        let noteInput = document.querySelector('.note-input').value
+        let noteInputIns = document.querySelector('.note-input-ins').value
+
+
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
             title: title,
             ingridens: noteInput,
             imageFile: imageFile,
-            desc: desc,
+            desc: noteInputIns,
             images: JSON.stringify(images),
             selectedColor: selectedColor,
             selectedFont: selectedFont
@@ -180,14 +190,16 @@ export default function NewPage() {
         setPageId(responsePageDataParse.id)
         console.log(pageId + "inside new page");
         if (textareaRef.current) {
-            textareaRef.current.resetTextArea(); 
-          }
-          if (textareaRefIns.current) {
-            textareaRefIns.current.resetTextArea(); 
-          }
-          resetPageState();
+            textareaRef.current.resetTextArea();
+        }
+        if (textareaRefIns.current) {
+            textareaRefIns.current.resetTextArea();
+        }
+        resetPageState();
     };
- 
+
+
+
     const resetPageState = () => {
         setTitle('');
         setImageFile(null)
@@ -202,25 +214,53 @@ export default function NewPage() {
         const newSticker = { src: stickerSrc, position: { x: 0, y: 0 } };
         setImages(prevImages => [...prevImages, newSticker]);
     };
-
+  
     const handlePreviousPage = async () => {
         if (currentPageIndex > 0) {
             await handleUpdate(); // Save the current page before flipping
-            setCurrentPageIndex(prevIndex => prevIndex - 1);
-            localStorage.removeItem("lastRecognizedText")
-            localStorage.removeItem("previousRecognizedText")
+            setCurrentPageIndex(prevIndex => {
+                const newIndex = prevIndex - 1;
+                const newPageId = pages[newIndex].id;
+                setPageId(newPageId);
+                loadPageData(newIndex); // Load the new page's data
+                return newIndex;
+            });
+            handleGetPages();
+            localStorage.removeItem("lastRecognizedText");
+            localStorage.removeItem("previousRecognizedText");
         }
     };
-
+    
     const handleNextPage = async () => {
         if (currentPageIndex < pages.length - 1) {
             await handleUpdate(); // Save the current page before flipping
-            setCurrentPageIndex(prevIndex => prevIndex + 1);
-            localStorage.removeItem("lastRecognizedText")
-            localStorage.removeItem("previousRecognizedText")
+            setCurrentPageIndex(prevIndex => {
+                const newIndex = prevIndex + 1;
+                const newPageId = pages[newIndex].id;
+                setPageId(newPageId);
+                loadPageData(newIndex); // Load the new page's data
+                return newIndex;
+            });
+            handleGetPages();
+            localStorage.removeItem("lastRecognizedText");
+            localStorage.removeItem("previousRecognizedText");
         }
     };
-
+    
+    const loadPageData = (pageIndex) => {
+        const page = pages[pageIndex];
+        setTitle(page.title);
+        setImageFile(page.imageFile);
+        setIngridens(page.ingridens);
+        setDesc(page.desc);
+        const parsedImages = JSON.parse(page.images);
+        setImages(parsedImages);
+        setSelectedColor(page.selectedColor);
+        setSelectedFont(page.selectedFont);
+        setSelectedFontSize(page.selectedFontSize);
+        setIsBulletListActive(page.isBulletListActive);
+    };
+    
     const handleTextChange = (event) => {
         setLastRecognizedText(event.target.value);
     };
@@ -252,7 +292,7 @@ export default function NewPage() {
 
 
 
-  
+
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {
@@ -426,10 +466,10 @@ export default function NewPage() {
                         key={index}
                         className="image-preview"
                         style={{
-                            position: 'absolute', 
+                            position: 'absolute',
                             top: image.position.y, // Adjust according to your needs
                             left: image.position.x, // Adjust according to your needs
-                   
+
                         }}
                         onMouseDown={(event) => handleMouseDown(event, index)}
                         onTouchStart={(event) => handleMouseDown(event, index)}
@@ -482,8 +522,9 @@ export default function NewPage() {
                     accept="image/*"
                     onChange={handleImageChange}
                     className="image-upload"
-                    style={{ display: 'none'
-                     }}
+                    style={{
+                        display: 'none'
+                    }}
                     multiple
                 />
                 <input
@@ -498,14 +539,14 @@ export default function NewPage() {
                     }}
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
-                <Ingredients   ref={textareaRef} 
+                <Ingredients ref={textareaRef}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
-                  
+
                 />
 
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
-                <Instructions ref={textareaRefIns} 
+                <Instructions ref={textareaRefIns}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />
