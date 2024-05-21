@@ -8,6 +8,7 @@ const Scan = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [recognizedText, setRecognizedText] = useState('');
   const [lastRecognizedText, setLastRecognizedText] = useState('');
+  const [crop, setCrop] = useState({ x: 0, y: 0, width: 0, height: 0 });
 
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -42,7 +43,7 @@ const Scan = () => {
   const preprocessImage = async (image) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const MAX_DIMENSION = 800;
+    const MAX_DIMENSION = 1200;
     let width = image.width;
     let height = image.height;
 
@@ -107,6 +108,46 @@ const Scan = () => {
     setSelectedImage(imageDataUrl);
   };
 
+  const handleCropImage = () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const { x, y, width, height } = crop;
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(selectedImage, x, y, width, height, 0, 0, width, height);
+    const croppedImageUrl = canvas.toDataURL('image/png');
+    setSelectedImage(croppedImageUrl);
+    setCrop({ x: 0, y: 0, width: 0, height: 0 }); // Reset crop
+  };
+
+  const handleMouseUp = () => {
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleMouseMove = (event) => {
+    const newWidth = event.pageX - crop.x;
+    const newHeight = event.pageY - crop.y;
+    setCrop((prevCrop) => ({
+      ...prevCrop,
+      width: newWidth > 0 ? newWidth : 0,
+      height: newHeight > 0 ? newHeight : 0,
+    }));
+  };
+
+  const handleMouseDown = (event) => {
+    const { pageX, pageY } = event;
+    setCrop((prevCrop) => ({
+      ...prevCrop,
+      x: pageX,
+      y: pageY,
+      width: 0,
+      height: 0,
+    }));
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+
   return (
     <div className="scan-container">
       <h1>Scan: Ingredienser</h1>
@@ -126,25 +167,38 @@ const Scan = () => {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
-        <div className="image-container">
-          {selectedImage && <img src={selectedImage} alt="Selected" />}
+        <div className="image-container" onMouseDown={handleMouseDown}>
+          {selectedImage && (
+            <>
+              <img src={selectedImage} alt="Selected" />
+              {crop.width > 0 && crop.height > 0 && (
+                <div
+                  className="crop-overlay"
+                  style={{
+                    left: crop.x,
+                    top: crop.y,
+                    width: crop.width,
+                    height: crop.height,
+                  }}
+                />
+              )}
+            </>
+          )}
         </div>
+        <button className="crop-button" onClick={handleCropImage}>
+          Crop Image
+        </button>
         {lastRecognizedText && (
-      
           <div className="last-scan-container">
-                    <div className='textRec'>Gjenkjent tekst </div>        
-
+            <div className='textRec'>Gjenkjent tekst </div>        
             <p>{lastRecognizedText}</p>
-            
             <Link
               to={{
                 pathname: "/Ingredients",
                 state: { lastRecognizedText }
-                
               }}
               className="linkButton"
             >
-              
               Legg til Ingredienser
             </Link>
           </div>
