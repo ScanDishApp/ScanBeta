@@ -78,10 +78,11 @@ class Book {
       this.id = dbBook.id;
       this.userId = dbBook.userId;
       this.contents = dbBook.contents;
-
+      console.log(dbBook);
       return {
         success: true,
         dbBook: dbBook
+       
       };
     } else {
       return {

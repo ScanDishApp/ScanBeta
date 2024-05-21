@@ -23,8 +23,7 @@ async function fetchData(url, method, data) {
 }
 
 export default function EditUser() {
-    const navigate = useNavigate(); // Hook for navigation
-
+    const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState(null);
     const [profileName, setProfileName] = useState(localStorage.getItem("profileName"));
     const [profileEmail, setProfileEmail] = useState(localStorage.getItem("profileEmail"));
@@ -41,15 +40,14 @@ export default function EditUser() {
 
         reader.readAsDataURL(file);
     };
-console.log(profileImage);
+    console.log(profileImage);
     const handleDelete = async () => {
         async function deleteUser(url) {
             return await fetchData(url, "DELETE");
         }
         let id = localStorage.getItem("userId");
 
-        const response = await deleteUser(`https://scanbeta.onrender.com/user/${id}`);
-        //const response = await deleteUser(`http://localhost:8080/user/${id}`);
+        const response = await deleteUser(`/user/${id}`);
         localStorage.removeItem("profileName")
         localStorage.removeItem("profileEmail")
         localStorage.removeItem("profileImg")
@@ -58,14 +56,13 @@ console.log(profileImage);
     };
 
     const handleGet = async (id) => {
-        
+
         async function getUser(url, data) {
             const paramUrl = `${url}?id=${data}`;
             return await fetchData(paramUrl, "GET");
         }
 
-        //const response = await getUser("https://scanbeta.onrender.com/user/get", id);
-        const response = await getUser("http://localhost:8080/user/get", id);
+        const response = await getUser("/user/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
 
@@ -115,6 +112,7 @@ console.log(profileImage);
         navigate('/dummy-page')
 
     };
+
     const handleUpdatePassword = async () => {
         async function updateUser(url, data) {
             return await fetchData(url, "PUT", data);
@@ -140,8 +138,7 @@ console.log(profileImage);
             setErrorMsg(null);
 
             const response = await updateUser(`/user/${id}`, user);
-            // const response = await updateUser(`http://localhost:8080/user/${id}`, user);
-         
+
             const responseData = await response.json();
             console.log("Response:", responseData);
             let userId = responseData.id
@@ -149,15 +146,14 @@ console.log(profileImage);
             console.log(userId);
             await handleGet(userId)
             navigate('/dummy-page')
-        } else if (currentPswHash === pswHash) { 
-            setErrorMsg("Passord kan ikke være like"); 
+        } else if (currentPswHash === pswHash) {
+            setErrorMsg("Passord kan ikke være like");
         } else {
             setErrorMsg("Ikke riktig passord!");
             console.log(currentPswHash);
             console.log(pswHash);
             console.log(profilePswHash);
         }
-
     };
 
     return (
@@ -207,6 +203,8 @@ console.log(profileImage);
 
             <div className='edit-psw'>
             <h1>Endre passord</h1>
+                <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
+                <h1>Endre passord</h1>
                 <div className="edit-rectangle-psw">
                     <h2>Nåværende passord: </h2>
                     <input className="update-current-password" type='password'></input>

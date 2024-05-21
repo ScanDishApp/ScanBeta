@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Calculator.css';
 import { AiOutlineCalculator } from 'react-icons/ai';
-
-
-
 export default function Calculator() {
     const [inputValue, setInputValue] = useState('');
     const [fromUnit, setFromUnit] = useState('gram');

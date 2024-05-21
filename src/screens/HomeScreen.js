@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import temperatureImage from '../../src/assets/temperature.png';
 import addBookIcon from '../../src/assets/addbook.png';
 import calkIcon from '../../src/assets/calk.png';
-import {IoClose} from 'react-icons/io5';
-import {  FaCheck } from 'react-icons/fa';
+import { IoClose } from 'react-icons/io5';
+import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -40,6 +40,12 @@ const Home = () => {
     const userId = localStorage.getItem("userId")
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
+    const getOfflineBooks = () => {
+        const books = localStorage.getItem("offlineBooks");
+        return books ? JSON.parse(books) : [];
+    };
+
+    const [offlineBooks, setOfflineBooks] = useState(getOfflineBooks);
 
     const addNewBook = async () => {
         const openBook = async (id) => {
@@ -56,42 +62,56 @@ const Home = () => {
                 localStorage.setItem("bookId", id)
                 navigate('/NewPage');
             }
-    
+
         };
-        if (userId) {
-            let contents = "";
-            const book = {
-                userId: userId,
-                contents: contents,
-                title: titleText
+
+        let contents = "";
+        const book = {
+            userId: userId,
+            contents: contents,
+            title: titleText
+        };
+        
+        const response = await fetchData("/book/", "POST", book);
+        if (response.ok) {
+
+            const responseData = await response.json();
+            const responseParse = JSON.parse(responseData)
+            localStorage.setItem("bookId", responseParse.id)
+            const page = {
+                bookId: responseParse.id,
+                title: '',
+                ingridens: '',
+                imageFile: null,
+                desc: '',
+                images: [],
+                selectedColor: '#000000',
+                selectedFont: 'DM Serif Display, serif'
+
             };
-            const response = await fetchData("/book/", "POST", book);
-            if (response.ok) {
-                const responseData = await response.json();
-                const responseParse = JSON.parse(responseData)
-                localStorage.setItem("bookId", responseParse.id)
-                const page = {
+
+            const responsePage = await fetchData("/page/", "POST", page);
+            const responsePageData = await responsePage.json();
+            const responsePageDataParse = JSON.parse(responsePageData);
+            localStorage.setItem("pageId", responsePageDataParse.id);
+
+            if (!userId) {
+                const offlineBook = {
                     bookId: responseParse.id,
-                    title: '',
-                    ingridens: '',
-                    imageFile: null,
-                    desc: '',
-                    images: [],
-                    selectedColor: '#000000',
-                    selectedFont: 'DM Serif Display, serif'
+                    title: responseParse.title,
+                    pageId: responsePageDataParse.id
 
                 };
-                const responsePage = await fetchData("/page/", "POST", page);
-                const responsePageData = await responsePage.json();
-                const responsePageDataParse = JSON.parse(responsePageData)
-                localStorage.setItem("pageId", responsePageDataParse.id)
+                const updatedOfflineBooks = [...offlineBooks, offlineBook];
+                setOfflineBooks(updatedOfflineBooks);
+                localStorage.setItem("offlineBooks", JSON.stringify(updatedOfflineBooks));
                 await openBook(responsePageDataParse.id)
             } else {
-                console.log("Error saving book to server.");
+                await openBook(responsePageDataParse.id)
             }
+        } else {
+            console.log("Error saving book to server.");
         }
-
-       
     };
     return (
 
@@ -119,16 +139,15 @@ const Home = () => {
                 </div>
             </div>
             <div className="book-rectangle" >
-                <Link to="/add-book" style={linkStyle}>
-                    <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
-                </Link>
-
-                <div className="nested-rectangle"  onClick={() => setShowModal(true)}>
+                <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
+                <div className="nested-rectangle" onClick={() => setShowModal(true)}>
                     LEGG TIL NY BOK
                 </div>
             </div><div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
+
         
+
 
 
             {showModal && (
@@ -150,5 +169,7 @@ const Home = () => {
 </motion.div>
     );
 };
+
+
 
 export default Home;

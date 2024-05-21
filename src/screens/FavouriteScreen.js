@@ -33,12 +33,16 @@ export default function Favorites() {
                 return await fetchData(url, "GET");
             }
 
-            const response = await fetchData(`http://localhost:8080/favorite/get?userId=${userId}`);
+            const response = await fetchData(`/favorite/get?userId=${userId}`);
             console.log(response);
+            if(response.ok){
             const responseData = await response.json();
-            const dbFavorite = responseData.dbFavorite
-            console.log(dbFavorite);
+            let dbFavorite = responseData.dbFavorite
+ 
+
+         console.log(dbFavorite);
           setContent(dbFavorite);
+        }
 
         };
         handleGetFavorite();
@@ -60,6 +64,7 @@ export default function Favorites() {
             let page = content[currentPageIndex].contents;
             page = JSON.parse(page)
             console.log(page);
+            const images = JSON.parse(page.images);
             bookContent.innerHTML = `
                 <h1 style="font-family: ${page.selectedFont}; color: ${page.selectedColor};">${page.title}</h1>
                 <div class="book-coverImg">
@@ -77,7 +82,7 @@ export default function Favorites() {
                         ${page.desc.split('\n').map(desc => `<li>${desc.trim()}</li>`).join('')}
                     </ul>
                     <div class="book-images">
-                        ${page.images.map((image, index) => (
+                        ${images.map((image, index) => (
                     `<img
                                 key=${index}
                                 src=${image.src}
@@ -89,8 +94,6 @@ export default function Favorites() {
                 `;
         }
     };
-
-
 
     const handlePreviousPage = () => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
@@ -108,10 +111,10 @@ export default function Favorites() {
         let id = content[currentPageIndex].id
         id = JSON.parse(id)
         console.log(id);
-        const response = await deleteFavorite(`https://scanbeta.onrender.com/favorite/${id}`);
-        //const response = await deleteFavorite(`http://localhost:8080/favorite/${id}`);
+        const response = await deleteFavorite(`/favorite/${id}`);
 
         console.log(response);
+        handlePage();
     };
    
     return (

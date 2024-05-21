@@ -20,21 +20,23 @@ async function fetchData(url, method, data) {
 
     const response = await fetch(url, options);
     return response;
-}
+};
 
 export default function LookMyBooks() {
     const [content, setContent] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
+    const [images, setImages] = useState([]);
     const userId = localStorage.getItem("userId")
 
     useEffect(() => {
-        let storedPages = localStorage.getItem("contentsArray");
+        let storedPages = localStorage.getItem("contents");
         if (storedPages) {
-           storedPages = JSON.parse(storedPages)
-           setContent(storedPages[0]);
+            storedPages = JSON.parse(storedPages)
+            setContent(storedPages[0]);
+
         }
     }, []);
-
+    console.log(content);
 
     useEffect(() => {
         handlePage();
@@ -49,6 +51,7 @@ export default function LookMyBooks() {
         const bookContent = document.querySelector(".book-content");
         if (content.length > 0 && content[currentPageIndex]) {
             const page = content[currentPageIndex];
+            const images = JSON.parse(page.images)
             bookContent.innerHTML = `
                 <h1 style="font-family: ${page.selectedFont}; color: ${page.selectedColor};">${page.title}</h1>
                 <div class="book-coverImg">
@@ -66,20 +69,18 @@ export default function LookMyBooks() {
                         ${page.desc.split('\n').map(desc => `<li>${desc.trim()}</li>`).join('')}
                     </ul>
                     <div class="book-images">
-                        ${page.images.map((image, index) => (
-                    `<img
+                        ${images.map((image, index) => (
+                `<img
                                 key=${index}
                                 src=${image.src}
                                 alt="Book Image"
                                 style="position: absolute; left: ${image.position.x}px; top: ${image.position.y}px; z-index: ${image.zIndex};"
                             />`
-                )).join('')}
+            )).join('')}
                     </div>
                 `;
         }
     };
-
-
 
     const handlePreviousPage = () => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
@@ -99,18 +100,14 @@ export default function LookMyBooks() {
             contents: content[currentPageIndex],
         };
         console.log(like);
-        const response = await createFavorite("https://scanbeta.onrender.com/favorite/", like);
-        //const response = await createFavorite("http://localhost:8080/favorite/", like);
-
+        const response = await createFavorite("/favorite/", like);
         console.log(response);
     };
 
     const downloadHtmlAsPDF = () => {
         const bookContent = document.querySelector(".book-content").innerHTML;
-        const title = content[currentPageIndex].title;
 
         const contentHTML = `
-            <h1>${title}</h1>
             <div>${bookContent}</div>
         `;
 
@@ -127,18 +124,14 @@ export default function LookMyBooks() {
 
     return (
         <div className="myBooks-container">
-
-            <div className="icon-row" style={{ marginTop: '10px'}}>
+            <div className="icon-row" style={{ marginTop: '10px' }}>
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
-                <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
                 <AiOutlineSave className="icon" onClick={downloadHtmlAsPDF} />
                 <AiOutlineHeart className="icon" onClick={handleFavorite} />
+                <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
             </div>
-
             <div className="book-content" >
-
             </div>
-
         </div>
     );
 }

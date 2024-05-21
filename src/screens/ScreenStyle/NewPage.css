@@ -10,11 +10,14 @@ html, body, .NewPage-container, .note-container {
 
   
 }
-
+h1{
+  margin-bottom: 5px;
+}
 
 .title {
   margin-bottom: 20px;
   font-family: 'DM Serif Display', serif;
+
 }
 
 .ingridens {
@@ -29,7 +32,6 @@ html, body, .NewPage-container, .note-container {
   background-position: -1px -1px, -1px -1px;
 
 }
-
 .changeImageButton {
   position: absolute;
   bottom:25px; 
@@ -132,7 +134,17 @@ padding-left: 10px;
 }
 
 
+.input-container{
+  overflow-y: au;
+  position: relative;
+  z-index: 0;
+ 
+}
 
+.image-preview {
+  position: absolute; /* Ensure images are positioned absolutely */
+  z-index: 1;
+}
 
 
 
@@ -141,6 +153,19 @@ padding-left: 10px;
   max-height: 100px; 
 }
 
+.delete-icon-edit{
+  padding: 5px;
+  position: absolute;
+  top: -10px;
+  left: 65px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  font-size: 10px; /* Adjust icon size as needed */
+  background-color: #ff4d4f;
+  color: #fff; /* Red color for delete icon */
+ border-radius: 5px;
+}
 
 
 
@@ -331,6 +356,8 @@ padding-left: 10px;
   align-items: center;
   margin-left: 10px;
   font-weight: 400;
+  margin-bottom: 3px;
+  margin-top: 3px;
 
 }
 

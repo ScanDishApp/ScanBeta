@@ -13,7 +13,6 @@ const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
     adjustTextareaHeight(); 
   };
 
-
   const adjustTextareaHeight = () => {
     if (textareaRefIns.current) {
       textareaRefIns.current.style.height = 'auto'; 
@@ -54,7 +53,7 @@ const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
     <div className="note-taker-container">
       <textarea
         ref={textareaRefIns}
-        className="note-input"
+        className="note-input-ins"
         value={note}
         onChange={handleNoteChange}
         placeholder="Skriv din tekst her ..."
