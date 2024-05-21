@@ -134,7 +134,7 @@ export default function Calculator() {
             <div className="rectangle-grid">
                 <div className="rectangle">
                     <h2>
-        <AiOutlineCalculator className="calc-icon" /> Mengde og vekt kalkulator.
+  Mengde og vekt kalkulator.
       </h2>
                 </div>
                 <div className="converter-container">

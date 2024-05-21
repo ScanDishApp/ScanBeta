@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link} from 'react-router-dom';
 import Sticker from './Stickers';
+import { motion } from 'framer-motion';
+
 import { useNavigate } from 'react-router-dom';
 
 import './ScreenStyle/Home.css';
@@ -470,8 +472,14 @@ export default function NewPage() {
 
     return (
 
-        <div className="NewPage-container">
-            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
+        <motion.div className="NewPage-container"
+        initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }} 
+        animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }} 
+        exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }} 
+        transition={{ duration: 0.7, ease: 'easeInOut' }} 
+
+
+        >            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
 
 
             <div className="icon-row-top">
@@ -663,7 +671,7 @@ export default function NewPage() {
                     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
                 </div>
             </div>
-        </div>
+        </motion.div>
 
     );
 

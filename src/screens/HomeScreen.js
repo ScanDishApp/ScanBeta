@@ -6,6 +6,8 @@ import calkIcon from '../../src/assets/calk.png';
 import {IoClose} from 'react-icons/io5';
 import {  FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 
 const linkStyle = {
     textDecoration: 'none',
@@ -92,9 +94,18 @@ const Home = () => {
        
     };
     return (
-        <div className="home-container">
+
+                   <motion.div className="home-container"
+                   initial={{ opacity: 0 }}
+                   animate={{ opacity: 1 }}
+                   exit={{ opacity: 0 }}
+                   transition={{ duration: 0.7, ease: 'easeInOut' }}
+
+
+        > 
             <div className="cover-rectangle">
             </div>
+
             <div className="boxes-container">
                 <div className="box1">
                     <Link to="/Calculator" style={linkStyle}>
@@ -115,9 +126,9 @@ const Home = () => {
                 <div className="nested-rectangle"  onClick={() => setShowModal(true)}>
                     LEGG TIL NY BOK
                 </div>
-
             </div><div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
+        
 
 
             {showModal && (
@@ -136,7 +147,7 @@ const Home = () => {
                 </div>
             )}
 
-        </div>
+</motion.div>
     );
 };
 

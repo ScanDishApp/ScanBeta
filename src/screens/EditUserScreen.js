@@ -162,7 +162,11 @@ console.log(profileImage);
 
     return (
         <div className="edit-user-container">
+    <div className="editUser-header">
+                <h2> Endre opplysninger </h2>
+            </div>
             <div className="rectangle-grid-edit">
+        
                 <h1>Endre bruker data</h1>
                 <div className="edit-rectangle">
                     <h2>Brukernavn: </h2>
@@ -197,7 +201,12 @@ console.log(profileImage);
                     </label>
                 </div>
                 <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)}  className="update-button">Oppdater bruker</button>
-                <h1>Endre passord</h1>
+
+            </div>
+            <hr className='break-line'/>
+
+            <div className='edit-psw'>
+            <h1>Endre passord</h1>
                 <div className="edit-rectangle-psw">
                     <h2>Nåværende passord: </h2>
                     <input className="update-current-password" type='password'></input>
@@ -209,7 +218,7 @@ console.log(profileImage);
                 <button onClick={handleUpdatePassword} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
                 <p>{errorMsg}</p>
             </div>
-
+            <hr className='break-line'/>
             <button onClick={handleDelete} className="delete-user-button" type='password'>Slett bruker</button>
         </div>
     );

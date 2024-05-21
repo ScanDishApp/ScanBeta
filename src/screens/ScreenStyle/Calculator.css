@@ -21,7 +21,7 @@
   
 
 .converter-container {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 30px;
     background-color: #b1d261;
     border-radius: 20px;
@@ -88,7 +88,8 @@
 
 .result-container {
     margin-top: 20px;
-    height: 110px;
+    height: auto;
+    min-height: 110px;
     padding: 30px;
     background-color: #b1d261;
     border-radius: 20px;

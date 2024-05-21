@@ -9,6 +9,7 @@ body {
   height: 100vh;
   overflow: hidden;
   overflow-y: scroll;
+  color: #4b534a;
 }
 
 .profile-container {
@@ -59,14 +60,15 @@ body {
 }
 
 .rectangle {
-  width: calc(100% - 6px);
+  width: calc(100% - 20px);
   height: 50px;
   background-color: #FE6465;
   border-radius: 20px;
   display: flex;
   align-items: center;
-  outline: #222;
+  outline: #4b534a;
   border: 3px solid #222;
+  margin-top: 20px;
 }
 
 .rectangle h2 {
@@ -77,23 +79,11 @@ body {
   color: #4B534A;
 }
 
-.rectangle-grid .rectangle h2 {
-  margin: 0;
-  text-align: left;
-}
 
-.rectangle-grid {
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 20px;
-  padding-bottom: 5px;
-}
 
-.big-rectangle {
-  width: calc(100% - 26px);
+
+.logOut-rectangle {
+  width: calc(100% - 20px);
   height: 80px;
   margin-top: 10px;
   margin-left: 10px;
@@ -112,10 +102,10 @@ body {
   bottom: 50px;
   left: 15px;
   font-size: 24px;
-  color: #222;
+  color: #4b534a;
 }
 
-.counter {
+.bar-counter {
   width: calc(100% - 25px);
   height: 10px;
   background-color: #53a687;
@@ -129,7 +119,7 @@ body {
   margin-right: 20px;
  color: #fff;
   margin-bottom: -5px;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .counter h2 {
@@ -201,19 +191,28 @@ body {
   font-family: 'DM Serif Display', serif;
   background-image: linear-gradient(to bottom, #53a687, #def294);
   height: 1000px;
+  margin-bottom: 0px;
   
 }
-
 .login-rectangle input {
-  margin-right: 20px ;
-  flex: 1; /* Takes up remaining space */
+  width: 100%;
+  flex: 1; 
+  background-color: #f0ffcd;
+  border-radius: 10px 4px 4px 10px;
+  outline: none;
 }
 
+.login-rectangle input:focus {
+  outline: none; /* Remove outline when input is focused */
+}
+
+
+
 .login-rectangle{
-  width: calc(100% - 6px);
-  height: 50px;
+  width: 100%;
+  height: 65px;
   background-color: #b1d261;
-  border-radius: 20px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   outline: none;
@@ -225,21 +224,29 @@ body {
   width: 120px; /* Adjust width of label as needed */
 }
 
-.login-button, .create-button{
-  width: calc(100% - 26px);
-  height: 80px;
-  margin-top: 10px;
-  margin-left: 13px;
-  background-color: #def294;
-  color: #4B534A;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 25px;
-  border: 10px solid  #def294;
-  margin-bottom: 10px;
-  font-size: x-large;
-  font-family: 'DM Serif Display', serif;
-  font-weight: bold;
+.login-button, .createUser-button{
+width: 100%;
+margin: 10px;
+margin-right: 10px;
+background-color: #def294;
+border-radius: 20px;
+padding: 20px;
+border: none;
+color:#4B534A;
+font-size: x-large;
+font-weight: bold;
+font-family: 'DM Serif Display', serif;
+
+;
   
+}
+
+
+
+.break-dots {
+  border-top: 4px dotted; 
+  width: calc(50%);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  outline: none;
 }
