@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import LoadingModal from './LoadingModual';
 import './ScreenStyle/FriendRequest.css';
 
 async function fetchData(url, method, data) {
@@ -26,6 +27,7 @@ export default function FriendRequest() {
     const userId = localStorage.getItem("userId");
     const [friendRequests, setFriendRequests] = useState([]);
     const [successMsg, setSuccessMsg] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,9 +42,13 @@ export default function FriendRequest() {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
+        setIsLoading(true);
+
         const response = await getRequest("/friends/requests", id);
         const responseData = await response.json();
         setFriendRequests(responseData);
+        setIsLoading(false);
+
     };
 
     const handleSendFriendRequest = async () => {
@@ -131,6 +137,7 @@ export default function FriendRequest() {
 
     return (
         <div className="friend-container">
+            <LoadingModal isLoading={isLoading} />
             <h1>Forespøsler</h1>
             <div className="add-request-rectangle">
                 <h1>Min bruker id: {userId}</h1>
