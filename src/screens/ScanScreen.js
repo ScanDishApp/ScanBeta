@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
+import Cropper from 'react-easy-crop';
 import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import './ScreenStyle/Scan.css';
@@ -8,12 +9,13 @@ const Scan = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [recognizedText, setRecognizedText] = useState('');
   const [lastRecognizedText, setLastRecognizedText] = useState('');
-  const [crop, setCrop] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [isCropping, setIsCropping] = useState(false);
 
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
-  const imageRef = useRef(null);
 
   useEffect(() => {
     const lastText = localStorage.getItem('lastRecognizedText');
@@ -33,8 +35,8 @@ const Scan = () => {
     reader.onload = async (e) => {
       const img = new Image();
       img.onload = async () => {
-        const preprocessedImage = await preprocessImage(img);
-        setSelectedImage(preprocessedImage);
+        setSelectedImage(e.target.result);
+        setIsCropping(true);
       };
 
       img.src = e.target.result;
@@ -42,32 +44,35 @@ const Scan = () => {
     reader.readAsDataURL(image);
   };
 
-  const preprocessImage = async (image) => {
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const cropImage = async () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const MAX_DIMENSION = 1200;
-    let width = image.width;
-    let height = image.height;
+    const image = new Image();
+    image.src = selectedImage;
 
-    if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
-      if (width > height) {
-        height *= MAX_DIMENSION / width;
-        width = MAX_DIMENSION;
-      } else {
-        width *= MAX_DIMENSION / height;
-        height = MAX_DIMENSION;
-      }
-    }
+    image.onload = () => {
+      canvas.width = croppedAreaPixels.width;
+      canvas.height = croppedAreaPixels.height;
+      ctx.drawImage(
+        image,
+        croppedAreaPixels.x,
+        croppedAreaPixels.y,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height,
+        0,
+        0,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height
+      );
 
-    canvas.width = width;
-    canvas.height = height;
-    ctx.drawImage(image, 0, 0, width, height);
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 0, 0, width, height);
-
-    const imageDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-    return imageDataUrl;
+      const croppedImageUrl = canvas.toDataURL('image/jpeg', 0.7);
+      setSelectedImage(croppedImageUrl);
+      setIsCropping(false);
+    };
   };
 
   const recognizeText = async () => {
@@ -108,48 +113,7 @@ const Scan = () => {
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
     const imageDataUrl = canvas.toDataURL('image/png');
     setSelectedImage(imageDataUrl);
-  };
-
-  const handleCropImage = () => {
-    if (!selectedImage || crop.width === 0 || crop.height === 0) return;
-
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = crop.width;
-      canvas.height = crop.height;
-      ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, crop.width, crop.height);
-      const croppedImageUrl = canvas.toDataURL('image/png');
-      setSelectedImage(croppedImageUrl);
-      setCrop({ x: 0, y: 0, width: 0, height: 0 }); // Reset crop
-    };
-    img.src = selectedImage;
-  };
-
-  const handleMouseDown = (event) => {
-    setIsDragging(true);
-    const { offsetX, offsetY } = event.nativeEvent;
-    setCrop({
-      x: offsetX,
-      y: offsetY,
-      width: 0,
-      height: 0,
-    });
-  };
-
-  const handleMouseMove = (event) => {
-    if (!isDragging) return;
-    const { offsetX, offsetY } = event.nativeEvent;
-    setCrop((prevCrop) => ({
-      ...prevCrop,
-      width: offsetX - prevCrop.x,
-      height: offsetY - prevCrop.y,
-    }));
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
+    setIsCropping(true);
   };
 
   return (
@@ -161,7 +125,7 @@ const Scan = () => {
             <AiOutlineCamera /> Åpne Kamera
           </span>
           <span className="icon-text" onClick={() => fileInputRef.current.click()}>
-            <AiOutlineFileImage /> Velg bildet
+            <AiOutlineFileImage /> Velg bildet 
           </span>
         </div>
         <input
@@ -171,35 +135,22 @@ const Scan = () => {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
-        <div
-          className="image-container"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          ref={imageRef}
-        >
-          {selectedImage && (
-            <>
-              <img src={selectedImage} alt="Selected" />
-              {isDragging && crop.width > 0 && crop.height > 0 && (
-                <div
-                  className="crop-overlay"
-                  style={{
-                    left: crop.x,
-                    top: crop.y,
-                    width: crop.width,
-                    height: crop.height,
-                  }}
-                />
-              )}
-            </>
-          )}
+        <div className="image-container">
+          {selectedImage && !isCropping && <img src={selectedImage} alt="Selected" />}
         </div>
-        {selectedImage && (
-          <button className="crop-button" onClick={handleCropImage}>
-            Crop Image
-          </button>
+        {isCropping && (
+          <div className="crop-container">
+            <Cropper
+              image={selectedImage}
+              crop={crop}
+              zoom={zoom}
+              aspect={4 / 3}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+            <button className="crop-button" onClick={cropImage}>Finish Crop</button>
+          </div>
         )}
         {lastRecognizedText && (
           <div className="last-scan-container">

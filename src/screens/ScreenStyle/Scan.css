@@ -80,9 +80,27 @@
   
 }
 
-.crop-overlay {
+
+
+.crop-container {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Adjust the height as needed */
+}
+
+.crop-button {
   position: absolute;
-  border: 2px dashed #000;
-  background: rgba(255, 255, 255, 0.5);
-  pointer-events: none;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.crop-button:hover {
+  background-color: #0056b3;
 }
