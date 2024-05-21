@@ -80,3 +80,9 @@
   
 }
 
+.crop-overlay {
+  position: absolute;
+  border: 2px dashed #000;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}

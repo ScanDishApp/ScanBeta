@@ -9,9 +9,11 @@ const Scan = () => {
   const [recognizedText, setRecognizedText] = useState('');
   const [lastRecognizedText, setLastRecognizedText] = useState('');
   const [crop, setCrop] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const [isDragging, setIsDragging] = useState(false);
 
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     const lastText = localStorage.getItem('lastRecognizedText');
@@ -109,43 +111,45 @@ const Scan = () => {
   };
 
   const handleCropImage = () => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const { x, y, width, height } = crop;
-    canvas.width = width;
-    canvas.height = height;
-    ctx.drawImage(selectedImage, x, y, width, height, 0, 0, width, height);
-    const croppedImageUrl = canvas.toDataURL('image/png');
-    setSelectedImage(croppedImageUrl);
-    setCrop({ x: 0, y: 0, width: 0, height: 0 }); // Reset crop
-  };
+    if (!selectedImage || crop.width === 0 || crop.height === 0) return;
 
-  const handleMouseUp = () => {
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleMouseMove = (event) => {
-    const newWidth = event.pageX - crop.x;
-    const newHeight = event.pageY - crop.y;
-    setCrop((prevCrop) => ({
-      ...prevCrop,
-      width: newWidth > 0 ? newWidth : 0,
-      height: newHeight > 0 ? newHeight : 0,
-    }));
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+      ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, crop.width, crop.height);
+      const croppedImageUrl = canvas.toDataURL('image/png');
+      setSelectedImage(croppedImageUrl);
+      setCrop({ x: 0, y: 0, width: 0, height: 0 }); // Reset crop
+    };
+    img.src = selectedImage;
   };
 
   const handleMouseDown = (event) => {
-    const { pageX, pageY } = event;
-    setCrop((prevCrop) => ({
-      ...prevCrop,
-      x: pageX,
-      y: pageY,
+    setIsDragging(true);
+    const { offsetX, offsetY } = event.nativeEvent;
+    setCrop({
+      x: offsetX,
+      y: offsetY,
       width: 0,
       height: 0,
+    });
+  };
+
+  const handleMouseMove = (event) => {
+    if (!isDragging) return;
+    const { offsetX, offsetY } = event.nativeEvent;
+    setCrop((prevCrop) => ({
+      ...prevCrop,
+      width: offsetX - prevCrop.x,
+      height: offsetY - prevCrop.y,
     }));
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
   return (
@@ -157,7 +161,7 @@ const Scan = () => {
             <AiOutlineCamera /> Åpne Kamera
           </span>
           <span className="icon-text" onClick={() => fileInputRef.current.click()}>
-            <AiOutlineFileImage /> Velg bildet 
+            <AiOutlineFileImage /> Velg bildet
           </span>
         </div>
         <input
@@ -167,11 +171,18 @@ const Scan = () => {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
-        <div className="image-container" onMouseDown={handleMouseDown}>
+        <div
+          className="image-container"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          ref={imageRef}
+        >
           {selectedImage && (
             <>
               <img src={selectedImage} alt="Selected" />
-              {crop.width > 0 && crop.height > 0 && (
+              {isDragging && crop.width > 0 && crop.height > 0 && (
                 <div
                   className="crop-overlay"
                   style={{
@@ -185,12 +196,14 @@ const Scan = () => {
             </>
           )}
         </div>
-        <button className="crop-button" onClick={handleCropImage}>
-          Crop Image
-        </button>
+        {selectedImage && (
+          <button className="crop-button" onClick={handleCropImage}>
+            Crop Image
+          </button>
+        )}
         {lastRecognizedText && (
           <div className="last-scan-container">
-            <div className='textRec'>Gjenkjent tekst </div>        
+            <div className="textRec">Gjenkjent tekst </div>
             <p>{lastRecognizedText}</p>
             <Link
               to={{
