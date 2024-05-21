@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/NewUser.css';
 import defaultImage from '../assets/xug.png';
+import LoadingModal from './LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from './sha256'
 
@@ -28,6 +29,7 @@ export default function NewUser() {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -106,6 +108,7 @@ export default function NewUser() {
             img: img
         };
         console.log(user);
+        setIsLoading(true);
         const response = await createUser("/user/", user);
         console.log(response);
         const responseData = await response.json();
@@ -114,12 +117,13 @@ export default function NewUser() {
         localStorage.setItem("userId", userId);
         await handleGet(userId)
         navigate('/dummy-page')
+        setIsLoading(false);
     };
 
     return (
         <div className="create-user-container">
+         <LoadingModal isLoading={isLoading} />
                 <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
-
             <div className="create-user-grid">
                 <h1>Lag en ny bruker</h1>
                 <div className="create-user-rectangle">

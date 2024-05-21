@@ -69,7 +69,7 @@ export default function NewPage() {
     const [showFontMenu, setShowFontMenu] = useState(false);
     const [showColorMenu, setShowColorMenu] = useState(false);
     const [showScanOptions, setShowScanOptions] = useState(false);
-    const [pageId, setPageId] = useState(localStorage.getItem("pageId"));
+    const [pageId, setPageId] = useState(null);
     const [showStickerMenu, setShowStickerMenu] = useState(false);
 
     const toggleMenu = (menuType) => {
@@ -100,27 +100,16 @@ export default function NewPage() {
         }
     }, []);
 
-    useEffect(() => {
-        handleGetPages()
-    }, []);
+   useEffect(() => {
+    handleGetPages();
+}, []);
 
-    useEffect(() => {
-        if (pages.length > 0) {
-            const initialPage = pages[currentPageIndex];
-            setTitle(initialPage.title);
-            setImageFile(initialPage.imageFile);
-            setIngridens(initialPage.ingridens);
-            setDesc(initialPage.desc);
-            const parsedImages = JSON.parse(initialPage.images)
-            setImages(parsedImages);
-            setSelectedColor(initialPage.selectedColor);
-            setSelectedFont(initialPage.selectedFont);
-            setSelectedFontSize(initialPage.selectedFontSize);
-            setIsBulletListActive(initialPage.isBulletListActive);
-        }
-
-    }, [pages, currentPageIndex]);
-
+useEffect(() => {
+    if (pages.length > 0) {
+        loadPageData(currentPageIndex);
+    }
+}, [pages, currentPageIndex]);
+    
     const handleGetPages = async () => {
         let id = localStorage.getItem("bookId")
         const response = await getPages(`/page/get?bookId=${id}`);
@@ -131,6 +120,7 @@ export default function NewPage() {
             let storedPages = responseData;
             setPages(storedPages[0]);
             console.log(pages);
+            setPageId(storedPages[0][0].id)
         }
     }
 
@@ -215,6 +205,7 @@ export default function NewPage() {
 
     const handlePreviousPage = async () => {
         if (currentPageIndex > 0) {
+            console.log(pageId);
             await handleUpdate(); 
             setCurrentPageIndex(prevIndex => {
                 const newIndex = prevIndex - 1;
@@ -223,14 +214,16 @@ export default function NewPage() {
                 loadPageData(newIndex);
                 return newIndex;
             });
-            handleGetPages();
             localStorage.removeItem("lastRecognizedText");
             localStorage.removeItem("previousRecognizedText");
+            await handleGetPages();
         }
     };
 
     const handleNextPage = async () => {
         if (currentPageIndex < pages.length - 1) {
+            console.log(pageId);
+
             await handleUpdate(); 
             setCurrentPageIndex(prevIndex => {
                 const newIndex = prevIndex + 1;
@@ -239,9 +232,10 @@ export default function NewPage() {
                 loadPageData(newIndex);
                 return newIndex;
             });
-            handleGetPages();
+
             localStorage.removeItem("lastRecognizedText");
             localStorage.removeItem("previousRecognizedText");
+            await handleGetPages();
         }
     };
 
@@ -397,14 +391,15 @@ export default function NewPage() {
         async function updatePage(url, data) {
             return await fetchData(url, "PUT", data);
         }
-
+        let noteInput = document.querySelector('.note-input').value
+        let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
             title: title,
-            ingridens: ingridens,
+            ingridens: noteInput,
             imageFile: imageFile,
-            desc: desc,
+            desc: noteInputIns,
             images: JSON.stringify(images),
             selectedColor: selectedColor,
             selectedFont: selectedFont
@@ -417,6 +412,7 @@ export default function NewPage() {
         console.log(responseData);
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
+       
     }
     return (
 
@@ -513,6 +509,7 @@ export default function NewPage() {
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
                 <Ingredients ref={textareaRef}
+                 value={ingridens}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
 
@@ -520,6 +517,7 @@ export default function NewPage() {
 
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
                 <Instructions ref={textareaRefIns}
+                   
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />

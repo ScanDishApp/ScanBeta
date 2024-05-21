@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import sha256 from './sha256'
+import LoadingModal from './LoadingModual';
 import './ScreenStyle/EditUser.css';
 
 async function fetchData(url, method, data) {
@@ -29,6 +30,7 @@ export default function EditUser() {
     const [profileEmail, setProfileEmail] = useState(localStorage.getItem("profileEmail"));
     const [profilePswHash, setProfilePswHash] = useState(localStorage.getItem("profilePswHash"));
     const [profileImage, setProfileImage] = useState(localStorage.getItem("profileImg"));
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -100,7 +102,7 @@ export default function EditUser() {
 
         console.log(user + "this is user");
         setErrorMsg(null);
-
+        setIsLoading(true);
         const response = await updateUser(`/user/${id}`, user);
 
         const responseData = await response.json();
@@ -110,6 +112,7 @@ export default function EditUser() {
         console.log(userId);
         await handleGet(userId)
         navigate('/dummy-page')
+        setIsLoading(false);
 
     };
 
@@ -132,13 +135,11 @@ export default function EditUser() {
                 email: profileEmail,
                 img: profileImage,
                 id: id,
-
             };
             console.log(user);
             setErrorMsg(null);
-
+            setIsLoading(true);
             const response = await updateUser(`/user/${id}`, user);
-
             const responseData = await response.json();
             console.log("Response:", responseData);
             let userId = responseData.id
@@ -146,6 +147,8 @@ export default function EditUser() {
             console.log(userId);
             await handleGet(userId)
             navigate('/dummy-page')
+            setIsLoading(false);
+
         } else if (currentPswHash === pswHash) {
             setErrorMsg("Passord kan ikke være like");
         } else {
@@ -158,6 +161,7 @@ export default function EditUser() {
 
     return (
         <div className="edit-user-container">
+            <LoadingModal isLoading={isLoading} />
             <div className="rectangle-grid-edit">
                 <h1>Endre bruker data</h1>
                 <div className="edit-rectangle">

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { IoAdd, IoClose, IoTrash } from 'react-icons/io5';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
+import LoadingModal from './LoadingModual';
 import { useNavigate } from 'react-router-dom';
+
+
 import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
 
@@ -35,26 +38,32 @@ export default function SharedBooks() {
     const [titleText, setTitleText] = useState("");
     const [friendsList, setFriendsList] = useState([]);
     const [selectedFriends, setselectedFriends] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     let userId = localStorage.getItem("userId");
 
     useEffect(() => {
         async function fetchBooks() {
-
-            const response = await listBook(`/book/listShared?userId=${userId}`);
-            const responseData = await response.json();
-            const rectanglesFromData = responseData.map((item, index) => ({
-                id: item.id,
-                title: item.title,
-                color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
-            }));
-            setRectangles(rectanglesFromData);
+            setIsLoading(true);
+            if (userId) {
+                const response = await listBook(`/book/listShared?userId=${userId}`);
+                const responseData = await response.json();
+                setIsLoading(false);
+                const rectanglesFromData = responseData.map((item, index) => ({
+                    id: item.id,
+                    title: item.title,
+                    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+                }));
+                setRectangles(rectanglesFromData);
+            }
         }
+
         fetchBooks();
-    },);
+
+    }, [userId]);
 
     useEffect(() => {
         handleGetFriend(userId);
-    }, );
+    },);
 
     const handleGetFriend = async (id) => {
         async function getFriend(url, data) {
@@ -63,11 +72,11 @@ export default function SharedBooks() {
         }
         const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
-        setFriendsList(responseData); 
+        setFriendsList(responseData);
     };
 
     const addRectangle = async (id) => {
-       
+
         let contents = "";
         const userIdWithFriends = `${userId},${selectedFriends.map(friend => friend.userId).join(',')}`;
         const book = {
@@ -136,7 +145,7 @@ export default function SharedBooks() {
     const deleteBookFromServer = async (id) => {
         try {
             const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
-            return response 
+            return response
 
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -145,7 +154,7 @@ export default function SharedBooks() {
     const deletePageFromServer = async (id) => {
         try {
             const response = await fetchData(`/page/delete?bookId=${id}`, "DELETE");
-            return response 
+            return response
 
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -180,7 +189,7 @@ export default function SharedBooks() {
         navigate('/look-my-book');
 
     };
-    
+
     const displayRectangleId = async (id) => {
         async function getPages(url) {
             return await fetchData(url, "GET");
@@ -212,19 +221,20 @@ export default function SharedBooks() {
 
     return (
         <div className="myBooks-container">
+            <LoadingModal isLoading={isLoading} />
             <h1>Delte Bøker</h1>
             <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
             <div className='top-buttons-container'>
                 <button className="my-books-button" onClick={handleMyBooks}>Alle bøker</button>
                 <button className="shared-books-button" >Delte bøker</button>
                 <div className="add-book-button" onClick={() => setShowModal(true)}>
-                <IoAdd />
-            </div>
+                    <IoAdd />
+                </div>
 
             </div>
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                     <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={() => handleLookAtBook(rectangle.id)}>
+                    <div className="rectangle-card" style={{ backgroundColor: '#def294' }} onClick={() => handleLookAtBook(rectangle.id)}>
                         <span>{rectangle.title}</span>
                         <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
@@ -234,7 +244,7 @@ export default function SharedBooks() {
 
             <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
-           
+
             {showModal && (
                 <div className="modal">
                     <div className="modal-content">
