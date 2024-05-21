@@ -2,7 +2,7 @@
   "name": "scands",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +14,7 @@
     "dotenv": "^16.4.5",
     "draft-js": "^0.11.7",
     "express": "^4.19.2",
+    "framer-motion": "^11.2.4",
     "html2pdf.js": "^0.10.1",
     "pg": "^8.11.5",
     "postgres-array": "^3.0.2",

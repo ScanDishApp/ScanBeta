@@ -194,7 +194,7 @@ export default function DummyPage() {
 
                         </label>
                     </div>
-                    <div className="counter">
+                    <div className="bar-counter">
                         <p>- - //Venner: {friendsList}// - -</p>
                     </div>
                 </div>
@@ -220,7 +220,7 @@ export default function DummyPage() {
                     </div>
                 </div>
 
-                <div onClick={handleLogOut} className="big-rectangle">
+                <div onClick={handleLogOut} className="logOut-rectangle">
                     <h2 >Logg Ut</h2>
                 </div>
             </div>
@@ -234,16 +234,19 @@ export default function DummyPage() {
                     <h1>Logg inn</h1>
                     <div className="login-rectangle">
                         <h2>E-post: </h2>
-                        <input className="log-in-email"></input>
+                        <input className="log-in-email" placeholder='E-postadrese'></input>
                     </div>
+                    
                     <br></br>
                     <div className="login-rectangle">
                         <h2>Passord: </h2>
-                        <input className="log-in-password" type='password' ></input>
+                        <input className="log-in-password" type='password' placeholder='Passord' ></input>
                     </div>
+                    
                     <p>{errorMsg}</p>
-                    <button onClick={handleLogin} className="login-button">Logg inn</button>
-                    <button onClick={handleCreatePage} className="create-button">Lag bruker</button>
+
+                    <button onClick={handleLogin} className="login-button" data-placeholder="Logg inn">Logg inn</button>
+                    <button onClick={handleCreatePage} className="createUser-button">Lag bruker</button>
                 </div>
             </div>
         );
