@@ -158,7 +158,11 @@ export default function EditUser() {
 
     return (
         <div className="edit-user-container">
+    <div className="editUser-header">
+                <h2> Endre opplysninger </h2>
+            </div>
             <div className="rectangle-grid-edit">
+        
                 <h1>Endre bruker data</h1>
                 <div className="edit-rectangle">
                     <h2>Brukernavn: </h2>
@@ -192,6 +196,13 @@ export default function EditUser() {
                         />
                     </label>
                 </div>
+                <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)}  className="update-button">Oppdater bruker</button>
+
+            </div>
+            <hr className='break-line'/>
+
+            <div className='edit-psw'>
+            <h1>Endre passord</h1>
                 <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
                 <h1>Endre passord</h1>
                 <div className="edit-rectangle-psw">
@@ -205,7 +216,7 @@ export default function EditUser() {
                 <button onClick={handleUpdatePassword} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
                 <p>{errorMsg}</p>
             </div>
-
+            <hr className='break-line'/>
             <button onClick={handleDelete} className="delete-user-button" type='password'>Slett bruker</button>
         </div>
     );

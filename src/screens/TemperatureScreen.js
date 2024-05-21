@@ -45,7 +45,7 @@ export default function TemperatureConverter() {
             <div className="rectangle-grid">
                 <div className="rectangle">
        <h2>
-        <AiOutlineCalculator className="calc-icon" /> Temperatur kalkulator.
+ Temperatur kalkulator.
       </h2>               
        </div>
                 <div className="converter-container">

@@ -24,7 +24,7 @@
     position: absolute; 
     top: 15px;
     right: 50px; 
-    color: #222;
+    color: #4b534a;
     cursor: pointer;
     transition: color 0.3s;
     font-size: 20px;
@@ -38,7 +38,7 @@
     position: absolute; 
     top: 15px;
     right: 15px;
-    color: #222;
+    color: #4b534a;
     cursor: pointer;
     transition: color 0.3s;
     font-size: 20px;
@@ -60,22 +60,16 @@
     justify-content: center;
     border-radius: 20px;
     padding: 10px;
-    background-color: #53a687;;
+    background-color: #53a687;
 }
 
 .check-icon,
 .close{
-
+    
     background-color: #c1d96c;
     color: #4B534A;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 35%;
-    margin-bottom: 10px;
-    border: none;
     padding: 10px;
-
+    border-radius: 10px;
 
 }
 
