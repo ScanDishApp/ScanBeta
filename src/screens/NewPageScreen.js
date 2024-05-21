@@ -2,13 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
-<<<<<<< HEAD
 import { motion } from 'framer-motion';
 
 import { useNavigate } from 'react-router-dom';
-=======
+
 import { useHistory } from 'react-router-dom';
->>>>>>> 79fd0ae50520f4ae8c9bb087ab5ce9a9ae875151
 
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
@@ -611,12 +609,11 @@ export default function NewPage() {
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
                 </div>
-            </div>
-<<<<<<< HEAD
+                </div>
         </motion.div>
 
-=======
-        </div>
->>>>>>> 79fd0ae50520f4ae8c9bb087ab5ce9a9ae875151
     );
+
+
+
 }
