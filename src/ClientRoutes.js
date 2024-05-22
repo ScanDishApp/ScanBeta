@@ -40,6 +40,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
           <Route path="/Scan" element={<Layout showNav={true} showHeader={true}><Scan /></Layout>} />
+          <Route path="/Home" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
+
           <Route path="/dummy-page" element={<Layout showNav={true}><DummyPage /></Layout>} />
           <Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} />
           <Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} />

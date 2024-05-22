@@ -3,6 +3,8 @@ import Tesseract from 'tesseract.js';
 import { AiOutlineCamera, AiOutlineFileImage, AiOutlineCopy } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import './ScreenStyle/Scan.css';
+import divider from '../assets/divider.png'
+
 
 const ScanMod = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -109,7 +111,9 @@ const ScanMod = () => {
 
   return (
     <div className="scan-container">
-      <h1>Scan: Fremgangsmåte</h1>
+      <h1>Skann: Fremgangsmåte</h1>
+      <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+
       <div className="rectangle-grid">
         <div className="icon-container">
           <span className="icon-text" onClick={openDefaultCameraApp}>
