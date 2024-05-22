@@ -110,7 +110,7 @@ export default function Friends() {
                 <p className='waiting-request'>{friendRequests}</p>
                 <div onClick={handleRequest} className="add-rectangle">
                     <h1>Legg til nye venner!</h1>
-                    <p>Trykk her for å se om du har noen nye forespørseler</p>
+                    <span className='friend-req'>hello</span>
                 </div>
                 <h1>Mine venner</h1>
                 <div className='friends-rectangle'>
@@ -129,9 +129,12 @@ export default function Friends() {
         return (
             <div className="friend-container">
                 <div onClick={handleRequest} className="add-rectangle">
+                    
                     <h1>Legg til nye venner!</h1>
-                    <p>Trykk her for å se om du har noen nye forespørseler</p>
+                    <span className='hest'>Trykk her for å se om du har noen nye forespørseler</span>
+
                 </div>
+
                 <h1>Mine venner</h1>
                 <div className='friends-rectangle'>
                     <ul>

@@ -70,7 +70,6 @@ export default function App() {
 
 
         </Routes>
-        <AnimatedRoutes />
 
       </Router>
     </div>

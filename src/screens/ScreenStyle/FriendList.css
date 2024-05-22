@@ -13,9 +13,24 @@
     width: calc(100% - 26px);
     background-color: #53a687;
     border-radius: 25px;
-    height: 120px;
+height: auto;
 
 }
+
+.hest {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center;    /* Vertical centering */
+    text-align: center;     /* Ensures text alignment within the flex container */
+    height: auto;           /* Ensures the flex container takes the full height of its parent */
+    width: 100%;            /* Ensures the flex container takes the full width of its parent */
+    background-color: #def294;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    margin-top: 15px;    border-radius: 0px 0px 20px 20px;
+}
+
 
 .waiting-request {
     position: absolute;
@@ -35,17 +50,14 @@
     left: calc(100% - 50px);
 }
 
-.add-rectangle h1 {
-    margin-bottom: 1px;
-}
 
-.add-rectangle p {
-    color: white;
-}
+
 
 .friends-rectangle {
     width: calc(100% - 26px);
     margin-right: 60px;
+    align-items: center; 
+    justify-content: center;
 }
 
 .friend {
@@ -58,6 +70,8 @@
     height: 100px;
     padding: 10px;
     margin-bottom: 10px;
+    align-items: center; 
+    justify-content: center;
 }
 
 .xIcon {
