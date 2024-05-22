@@ -1,7 +1,6 @@
 import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AnimatedRoutes from './screens/AnitmatedRoutes';
 import Header from './screens/Header';
 import Home from './screens/HomeScreen';
 import Scan from './screens/ScanScreen';

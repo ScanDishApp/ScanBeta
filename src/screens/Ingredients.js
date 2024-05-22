@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } f
 import './ScreenStyle/NoteTaker.css';
 
 const Ingredients = forwardRef(({ value, selectedColor, selectedFont }, ref) => {
-  const [note, setNote] = useState(value || ''); // Initialize with value prop or empty string
+  const [note, setNote] = useState(value || ''); 
   const textareaRef = useRef(null);
 
   const handleNoteChange = (event) => {
@@ -44,7 +44,6 @@ const Ingredients = forwardRef(({ value, selectedColor, selectedFont }, ref) => 
       setNote(value);
       adjustTextareaHeight();
     }
-
   }, [value]);
 
 

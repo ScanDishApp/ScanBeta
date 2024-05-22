@@ -29,10 +29,7 @@ const Instructions = forwardRef(({ value, selectedColor, selectedFont }, ref) =>
     resetTextArea,
   }));
 
-  useEffect(() => {
-    setNote(value); 
-    adjustTextareaHeight();
-  }, [value]);
+ 
 
   const formatText = (text) => {
     
@@ -49,7 +46,7 @@ const Instructions = forwardRef(({ value, selectedColor, selectedFont }, ref) =>
       setNote(value);
       adjustTextareaHeight();
     }
-  }, []); 
+  }, [value]); 
 
 
   return (
