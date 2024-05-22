@@ -203,8 +203,6 @@ export default function EditUser() {
 
             <div className='edit-psw'>
             <h1>Endre passord</h1>
-                <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
-                <h1>Endre passord</h1>
                 <div className="edit-rectangle-psw">
                     <h2>Nåværende passord: </h2>
                     <input className="update-current-password" type='password'></input>

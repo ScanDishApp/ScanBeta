@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingModal from './LoadingModual';
 import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
+import { AiFillEye, AiOutlineEye } from 'react-icons/ai';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -218,9 +219,9 @@ export default function MyBooks() {
 
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => handleLookAtBook(rectangle.id)}>
+                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }}  >
                         <span>{rectangle.title}</span>
-                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }} />
+                        <AiFillEye className="look-icon"onClick={() => handleLookAtBook(rectangle.id)} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}
