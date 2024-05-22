@@ -105,6 +105,7 @@ export default function DummyPage() {
         if (!email.trim()) {
             emailInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn emailen!");
+            setIsLoading(false);
             return;
         } else {
             emailInput.classList.remove('error-border');
@@ -113,6 +114,7 @@ export default function DummyPage() {
         if (!pswHash.trim()) {
             passwordInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn passord!");
+            setIsLoading(false);
             return;
         } else {
             passwordInput.classList.remove('error-border');
@@ -122,11 +124,13 @@ export default function DummyPage() {
             emailInput.classList.add('error-border');
             passwordInput.classList.add('error-border');
             setErrorMsg("Feil brukernavn eller passord!");
+            setIsLoading(false);
         } else {
             passwordInput.classList.remove('error-border');
             emailInput.classList.remove('error-border');
+           
         }
-
+  
         const responseData = await response.json();
         console.log("Response:", responseData);
         let userId = responseData.id
