@@ -104,16 +104,16 @@ export default function NewPage() {
         }
     }, []);
 
-   useEffect(() => {
-    handleGetPages();
-}, []);
+    useEffect(() => {
+        handleGetPages();
+    }, []);
 
-useEffect(() => {
-    if (pages.length > 0) {
-        loadPageData(currentPageIndex);
-    }
-}, [pages, currentPageIndex]);
-    
+    useEffect(() => {
+        if (pages.length > 0) {
+            loadPageData(currentPageIndex);
+        }
+    }, [pages, currentPageIndex]);
+
     const handleGetPages = async () => {
         let id = localStorage.getItem("bookId")
         const response = await getPages(`/page/get?bookId=${id}`);
@@ -122,11 +122,15 @@ useEffect(() => {
             const responseData = await response.json();
             console.log(responseData);
             let storedPages = responseData;
+            //setPageId(storedPages[0][0].id)
             setPages(storedPages[0]);
             console.log(pages);
-            setPageId(storedPages[0][0].id)
+            
+   
         }
     }
+    
+  
 
     const saveCurrentPage = async () => {
         console.log(pageId);
@@ -207,42 +211,26 @@ useEffect(() => {
         setImages(prevImages => [...prevImages, newSticker]);
     };
 
-    const handlePreviousPage = async () => {
-        if (currentPageIndex > 0) {
-            console.log(pageId);
-            await handleUpdate(); 
-            setCurrentPageIndex(prevIndex => {
-                const newIndex = prevIndex - 1;
-                const newPageId = pages[newIndex].id;
-                setPageId(newPageId);
-                loadPageData(newIndex);
-                return newIndex;
-            });
-            localStorage.removeItem("lastRecognizedText");
-            localStorage.removeItem("previousRecognizedText");
-            await handleGetPages();
-        }
+     const handlePreviousPage = async() => {
+        setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
+        // await handleGetPages();
+        // console.log(pages[currentPageIndex].id);
+        // setPageId(pages[currentPageIndex].id);
+        // await handleUpdate();
+        localStorage.removeItem("lastRecognizedText");
+        localStorage.removeItem("previousRecognizedText");
+    };
+    
+    const handleNextPage = async() => {
+        setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
+        // await handleGetPages();
+        // setPageId(pages[currentPageIndex].id);
+        // await handleUpdate();
+        localStorage.removeItem("lastRecognizedText");
+        localStorage.removeItem("previousRecognizedText");
     };
 
-    const handleNextPage = async () => {
-        if (currentPageIndex < pages.length - 1) {
-            console.log(pageId);
-
-            await handleUpdate(); 
-            setCurrentPageIndex(prevIndex => {
-                const newIndex = prevIndex + 1;
-                const newPageId = pages[newIndex].id;
-                setPageId(newPageId);
-                loadPageData(newIndex);
-                return newIndex;
-            });
-
-            localStorage.removeItem("lastRecognizedText");
-            localStorage.removeItem("previousRecognizedText");
-            await handleGetPages();
-        }
-    };
-
+   
     const loadPageData = (pageIndex) => {
         const page = pages[pageIndex];
         setTitle(page.title);
@@ -257,29 +245,10 @@ useEffect(() => {
         setIsBulletListActive(page.isBulletListActive);
     };
 
-    const handleTitleChange = (event) => {
+    const handleTitleChange = async(event) => {
         setTitle(event.target.value);
+        await handleUpdate();
     };
-
-    const handleIngridensChange = (event) => {
-        let newIngridens = event.target.value;
-        const lines = newIngridens.split('\n');
-        const bulletLines = lines.map(line => {
-
-            if (line.trim() && !line.trim().startsWith('\u2022')) {
-                return `\u2022 ${line}`;
-            }
-            return line;
-        });
-        setIngridens(bulletLines.join('\n'));
-        const textarea = document.getElementById('ingridens-input');
-        textarea.style.height = '';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-
-    };
-
-
-
 
     const handleImageChange = (event) => {
         const files = event.target.files;
@@ -360,8 +329,8 @@ useEffect(() => {
     const handleDeleteImage = (index) => {
         if (Array.isArray(images)) {
             const updatedImages = [...images];
-            updatedImages.splice(index, 1); 
-            setImages(updatedImages); 
+            updatedImages.splice(index, 1);
+            setImages(updatedImages);
         }
     };
 
@@ -376,7 +345,7 @@ useEffect(() => {
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                setImageFile(reader.result); 
+                setImageFile(reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -386,9 +355,8 @@ useEffect(() => {
         window.location.assign('/InfoCarousel');
     };
 
-
     const toggleDeletemode = (index) => {
-        setDeleteImageIndex(deleteImageIndex === index ? null : index); 
+        setDeleteImageIndex(deleteImageIndex === index ? null : index);
     };
 
     const handleUpdate = async () => {
@@ -416,20 +384,16 @@ useEffect(() => {
         console.log(responseData);
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
-       
+
     }
     return (
-
         <motion.div className="NewPage-container"
-        initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }} 
-        animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }} 
-        exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }} 
-        transition={{ duration: 0.7, ease: 'easeInOut' }} 
-
-
-        >            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
-
-
+            initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }}
+            animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }}
+            exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }}
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
+        >
+            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
                 <AiOutlineSave className="icon-top" onClick={handleUpdate} />
@@ -447,7 +411,7 @@ useEffect(() => {
                         style={{
                             position: 'absolute',
                             top: image.position.y,
-                            left: image.position.x, 
+                            left: image.position.x,
 
                         }}
                         onMouseDown={(event) => handleMouseDown(event, index)}
@@ -519,15 +483,16 @@ useEffect(() => {
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
                 <Ingredients ref={textareaRef}
-                 value={ingridens}
+                    value={ingridens}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+                    
 
                 />
 
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
                 <Instructions ref={textareaRefIns}
-                   
+                    value={desc}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />
@@ -607,7 +572,7 @@ useEffect(() => {
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
                 </div>
-                </div>
+            </div>
         </motion.div>
 
     );

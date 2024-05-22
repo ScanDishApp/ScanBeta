@@ -70,7 +70,7 @@ export default function MyBooks() {
                 }));
                 setRectangles(rectanglesFromData);
             }
-            setIsLoading(false); 
+            setIsLoading(false);
         }
         fetchBooks();
 
@@ -200,6 +200,8 @@ export default function MyBooks() {
 
     const displayRectangleId = async (id) => {
         localStorage.setItem("bookId", id);
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
         navigate('/NewPage');
         setIsLoading(false);
     };
@@ -221,7 +223,7 @@ export default function MyBooks() {
                 {rectangles.map(rectangle => (
                     <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }}  >
                         <span>{rectangle.title}</span>
-                        <AiFillEye className="look-icon"onClick={() => handleLookAtBook(rectangle.id)} />
+                        <AiFillEye className="look-icon" onClick={(e) => { e.stopPropagation(); handleLookAtBook(rectangle.id); }} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}
