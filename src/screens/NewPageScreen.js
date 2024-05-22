@@ -73,7 +73,7 @@ export default function NewPage() {
     const [showFontMenu, setShowFontMenu] = useState(false);
     const [showColorMenu, setShowColorMenu] = useState(false);
     const [showScanOptions, setShowScanOptions] = useState(false);
-    const [pageId, setPageId] = useState(localStorage.getItem("pageId"));
+    const [pageId, setPageId] = useState(null);
     const [showStickerMenu, setShowStickerMenu] = useState(false);
 
     const toggleMenu = (menuType) => {
@@ -105,24 +105,13 @@ export default function NewPage() {
     }, []);
 
     useEffect(() => {
-        handleGetPages()
+        handleGetPages();
     }, []);
 
     useEffect(() => {
         if (pages.length > 0) {
-            const initialPage = pages[currentPageIndex];
-            setTitle(initialPage.title);
-            setImageFile(initialPage.imageFile);
-            setIngridens(initialPage.ingridens);
-            setDesc(initialPage.desc);
-            const parsedImages = JSON.parse(initialPage.images)
-            setImages(parsedImages);
-            setSelectedColor(initialPage.selectedColor);
-            setSelectedFont(initialPage.selectedFont);
-            setSelectedFontSize(initialPage.selectedFontSize);
-            setIsBulletListActive(initialPage.isBulletListActive);
+            loadPageData(currentPageIndex);
         }
-
     }, [pages, currentPageIndex]);
 
     const handleGetPages = async () => {
@@ -133,10 +122,15 @@ export default function NewPage() {
             const responseData = await response.json();
             console.log(responseData);
             let storedPages = responseData;
+            //setPageId(storedPages[0][0].id)
             setPages(storedPages[0]);
             console.log(pages);
+            
+   
         }
     }
+    
+  
 
     const saveCurrentPage = async () => {
         console.log(pageId);
@@ -217,38 +211,26 @@ export default function NewPage() {
         setImages(prevImages => [...prevImages, newSticker]);
     };
 
-    const handlePreviousPage = async () => {
-        if (currentPageIndex > 0) {
-            await handleUpdate(); 
-            setCurrentPageIndex(prevIndex => {
-                const newIndex = prevIndex - 1;
-                const newPageId = pages[newIndex].id;
-                setPageId(newPageId);
-                loadPageData(newIndex);
-                return newIndex;
-            });
-            handleGetPages();
-            localStorage.removeItem("lastRecognizedText");
-            localStorage.removeItem("previousRecognizedText");
-        }
+     const handlePreviousPage = async() => {
+        setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
+        // await handleGetPages();
+        // console.log(pages[currentPageIndex].id);
+        // setPageId(pages[currentPageIndex].id);
+        // await handleUpdate();
+        localStorage.removeItem("lastRecognizedText");
+        localStorage.removeItem("previousRecognizedText");
+    };
+    
+    const handleNextPage = async() => {
+        setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
+        // await handleGetPages();
+        // setPageId(pages[currentPageIndex].id);
+        // await handleUpdate();
+        localStorage.removeItem("lastRecognizedText");
+        localStorage.removeItem("previousRecognizedText");
     };
 
-    const handleNextPage = async () => {
-        if (currentPageIndex < pages.length - 1) {
-            await handleUpdate(); 
-            setCurrentPageIndex(prevIndex => {
-                const newIndex = prevIndex + 1;
-                const newPageId = pages[newIndex].id;
-                setPageId(newPageId);
-                loadPageData(newIndex);
-                return newIndex;
-            });
-            handleGetPages();
-            localStorage.removeItem("lastRecognizedText");
-            localStorage.removeItem("previousRecognizedText");
-        }
-    };
-
+   
     const loadPageData = (pageIndex) => {
         const page = pages[pageIndex];
         setTitle(page.title);
@@ -263,29 +245,10 @@ export default function NewPage() {
         setIsBulletListActive(page.isBulletListActive);
     };
 
-    const handleTitleChange = (event) => {
+    const handleTitleChange = async(event) => {
         setTitle(event.target.value);
+        await handleUpdate();
     };
-
-    const handleIngridensChange = (event) => {
-        let newIngridens = event.target.value;
-        const lines = newIngridens.split('\n');
-        const bulletLines = lines.map(line => {
-
-            if (line.trim() && !line.trim().startsWith('\u2022')) {
-                return `\u2022 ${line}`;
-            }
-            return line;
-        });
-        setIngridens(bulletLines.join('\n'));
-        const textarea = document.getElementById('ingridens-input');
-        textarea.style.height = '';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-
-    };
-
-
-
 
     const handleImageChange = (event) => {
         const files = event.target.files;
@@ -366,8 +329,8 @@ export default function NewPage() {
     const handleDeleteImage = (index) => {
         if (Array.isArray(images)) {
             const updatedImages = [...images];
-            updatedImages.splice(index, 1); 
-            setImages(updatedImages); 
+            updatedImages.splice(index, 1);
+            setImages(updatedImages);
         }
     };
 
@@ -382,7 +345,7 @@ export default function NewPage() {
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                setImageFile(reader.result); 
+                setImageFile(reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -392,23 +355,23 @@ export default function NewPage() {
         window.location.assign('/InfoCarousel');
     };
 
-
     const toggleDeletemode = (index) => {
-        setDeleteImageIndex(deleteImageIndex === index ? null : index); 
+        setDeleteImageIndex(deleteImageIndex === index ? null : index);
     };
 
     const handleUpdate = async () => {
         async function updatePage(url, data) {
             return await fetchData(url, "PUT", data);
         }
-
+        let noteInput = document.querySelector('.note-input').value
+        let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
             title: title,
-            ingridens: ingridens,
+            ingridens: noteInput,
             imageFile: imageFile,
-            desc: desc,
+            desc: noteInputIns,
             images: JSON.stringify(images),
             selectedColor: selectedColor,
             selectedFont: selectedFont
@@ -421,19 +384,16 @@ export default function NewPage() {
         console.log(responseData);
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
+
     }
     return (
-
         <motion.div className="NewPage-container"
-        initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }} 
-        animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }} 
-        exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }} 
-        transition={{ duration: 0.7, ease: 'easeInOut' }} 
-
-
-        >            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
-
-
+            initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }}
+            animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }}
+            exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }}
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
+        >
+            <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
                 <AiOutlineSave className="icon-top" onClick={handleUpdate} />
@@ -451,7 +411,7 @@ export default function NewPage() {
                         style={{
                             position: 'absolute',
                             top: image.position.y,
-                            left: image.position.x, 
+                            left: image.position.x,
 
                         }}
                         onMouseDown={(event) => handleMouseDown(event, index)}
@@ -523,13 +483,16 @@ export default function NewPage() {
                 />
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Ingredienser:</h2>
                 <Ingredients ref={textareaRef}
+                    value={ingridens}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
+                    
 
                 />
 
                 <h2 className='undertitle' style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }} >Fremgangsmåte:</h2>
                 <Instructions ref={textareaRefIns}
+                    value={desc}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />
@@ -609,7 +572,7 @@ export default function NewPage() {
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
                     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
                 </div>
-                </div>
+            </div>
         </motion.div>
 
     );

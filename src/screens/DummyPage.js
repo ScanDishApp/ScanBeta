@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoCameraOutline } from 'react-icons/io5';
 import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-icons/ai';
+import LoadingModal from './LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from './sha256'
 import './ScreenStyle/DummyPage.css';
@@ -34,7 +35,9 @@ export default function DummyPage() {
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-    
+    const [isLoading, setIsLoading] = useState(false);
+
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -96,12 +99,13 @@ export default function DummyPage() {
             pswHash: pswHash,
             email: email
         };
-
+        setIsLoading(true);
         const response = await loginUser("/user/login", user);
 
         if (!email.trim()) {
             emailInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn emailen!");
+            setIsLoading(false);
             return;
         } else {
             emailInput.classList.remove('error-border');
@@ -110,6 +114,7 @@ export default function DummyPage() {
         if (!pswHash.trim()) {
             passwordInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn passord!");
+            setIsLoading(false);
             return;
         } else {
             passwordInput.classList.remove('error-border');
@@ -119,17 +124,19 @@ export default function DummyPage() {
             emailInput.classList.add('error-border');
             passwordInput.classList.add('error-border');
             setErrorMsg("Feil brukernavn eller passord!");
+            setIsLoading(false);
         } else {
             passwordInput.classList.remove('error-border');
             emailInput.classList.remove('error-border');
+           
         }
-
+  
         const responseData = await response.json();
         console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId)
         navigate('/dummy-page');
-
+        setIsLoading(false);
         handleGet(userId)
     };
 
@@ -225,6 +232,7 @@ export default function DummyPage() {
     } else {
         return (
             <div className="login-container">
+            <LoadingModal isLoading={isLoading} />
                 <div className="rectangle-grid">
                     <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
                     <h1>Logg inn</h1>

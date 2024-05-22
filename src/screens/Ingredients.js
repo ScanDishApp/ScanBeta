@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import './ScreenStyle/NoteTaker.css';
 
-const Ingredients = forwardRef(({ selectedColor, selectedFont }, ref) => {
-  const [note, setNote] = useState('');
-  const [lastRecognizedText, setPreviousText] = useState('');
+const Ingredients = forwardRef(({ value, selectedColor, selectedFont }, ref) => {
+  const [note, setNote] = useState(value || ''); 
   const textareaRef = useRef(null);
 
   const handleNoteChange = (event) => {
-    let newIngridens = event.target.value;
+    const newIngridens = event.target.value;
     const lines = newIngridens.split('\n');
     const bulletLines = lines.map(line => {
       if (line.trim() && !line.trim().startsWith('\u2022')) {
@@ -41,12 +40,13 @@ const Ingredients = forwardRef(({ selectedColor, selectedFont }, ref) => {
     if (lastText) {
       setNote(lastText);
       adjustTextareaHeight();
+    } else {
+      setNote(value);
+      adjustTextareaHeight();
     }
-  }, []);
+  }, [value]);
 
-  useEffect(() => {
-    localStorage.setItem('lastRecognizedText', note);
-  }, [note]);
+
 
   return (
     <div className="note-taker-container">

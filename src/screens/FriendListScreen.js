@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
+import LoadingModal from './LoadingModual';
 import './ScreenStyle/FriendList.css';
 
 async function fetchData(url, method, data) {
@@ -27,6 +28,7 @@ export default function Friends() {
     const navigate = useNavigate();
     const [friendsList, setFriendsList] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,11 +50,13 @@ export default function Friends() {
             const paramUrl = `${url}?userId=${data}`;
             return await fetchData(paramUrl, "GET");
         }
-
+        setIsLoading(true);
         const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
         console.log("Response:", responseData);
         setFriendsList(responseData);
+        setIsLoading(false);
+
     };
 
     const handleDeleteFriend = async (id) => {
@@ -128,6 +132,7 @@ export default function Friends() {
     } else {
         return (
             <div className="friend-container">
+            <LoadingModal isLoading={isLoading} />
                 <div onClick={handleRequest} className="add-rectangle">
                     
                     <h1>Legg til nye venner!</h1>

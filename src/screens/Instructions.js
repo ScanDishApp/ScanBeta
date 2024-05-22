@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import './ScreenStyle/NoteTaker.css'; 
 
-const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
-  const [note, setNote] = useState('');
-  const [lastRecognizedText, setPreviousText] = useState('');
+const Instructions = forwardRef(({ value, selectedColor, selectedFont }, ref) => {
+  const [note, setNote] = useState(value || '');
   const textareaRefIns = useRef(null);
 
   const handleNoteChange = (event) => {
-    const inputValue = event.target.value;
+    let inputValue = event.target.value;
     const formattedValue = formatText(inputValue);
     setNote(formattedValue);
     adjustTextareaHeight(); 
@@ -30,6 +29,8 @@ const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
     resetTextArea,
   }));
 
+ 
+
   const formatText = (text) => {
     
     const formattedText = text.replace(/^- (.*)/gm, '• $1'); 
@@ -39,15 +40,14 @@ const Instructions = forwardRef(({ selectedColor, selectedFont }, ref) => {
   useEffect(() => {
     const lastText = localStorage.getItem('previousRecognizedText');
     if (lastText) {
-        setPreviousText(lastText);
       setNote(lastText);
       adjustTextareaHeight(); 
+    }else {
+      setNote(value);
+      adjustTextareaHeight();
     }
-  }, []); 
+  }, [value]); 
 
-  useEffect(() => {
-    localStorage.setItem('previousRecognizedText', note);
-  }, [note]);
 
   return (
     <div className="note-taker-container">

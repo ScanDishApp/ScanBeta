@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { IoAdd, IoClose, IoTrash } from 'react-icons/io5';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import LoadingModal from './LoadingModual';
 import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
+import { AiFillEye, AiOutlineEye } from 'react-icons/ai';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -30,6 +32,7 @@ async function listBook(url) {
 
 export default function MyBooks() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [rectangles, setRectangles] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
@@ -44,28 +47,33 @@ export default function MyBooks() {
     const [offlineBooks, setOfflineBooks] = useState(getOfflineBooks);
 
     useEffect(() => {
+
         async function fetchBooks() {
-            if(userId){
-            const response = await listBook(`/book/list?userId=${userId}`);
-            const responseData = await response.json();
-            const rectanglesFromData = responseData.map((item, index) => ({
-                id: item.id,
-                title: item.title,
-            
-            }));
-            setRectangles(rectanglesFromData);
-        }else{
-            let books = localStorage.getItem("offlineBooks");
-            books = JSON.parse(books);
-            const rectanglesFromData = books.map((item, index) => ({
-                id: item.bookId,
-                title: item.title,
-        
-            }));
-            setRectangles(rectanglesFromData);
-        }
+            setIsLoading(true);
+            if (userId) {
+
+                const response = await listBook(`/book/list?userId=${userId}`);
+                const responseData = await response.json();
+                const rectanglesFromData = responseData.map((item, index) => ({
+                    id: item.id,
+                    title: item.title,
+
+                }));
+                setRectangles(rectanglesFromData);
+            } else {
+                let books = localStorage.getItem("offlineBooks");
+                books = JSON.parse(books);
+                const rectanglesFromData = books.map((item, index) => ({
+                    id: item.bookId,
+                    title: item.title,
+
+                }));
+                setRectangles(rectanglesFromData);
+            }
+            setIsLoading(false);
         }
         fetchBooks();
+
     }, [userId]);
 
     const addRectangle = async () => {
@@ -107,7 +115,9 @@ export default function MyBooks() {
     };
 
     const saveToServer = async (book) => {
+
         try {
+            setIsLoading(true);
             const response = await fetchData("/book/", "POST", book);
             if (response.ok) {
                 const responseData = await response.json();
@@ -171,6 +181,7 @@ export default function MyBooks() {
     };
 
     const handleSharedBooks = async () => {
+        setIsLoading(true);
         navigate('/shared-books');
     };
 
@@ -189,11 +200,15 @@ export default function MyBooks() {
 
     const displayRectangleId = async (id) => {
         localStorage.setItem("bookId", id);
+        localStorage.removeItem("lastRecognizedText")
+        localStorage.removeItem("previousRecognizedText")
         navigate('/NewPage');
+        setIsLoading(false);
     };
 
     return (
         <div className="myBooks-container">
+            <LoadingModal isLoading={isLoading} />
             <h1>Mine Bøker</h1>
             <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
             <div className='top-buttons-container'>
@@ -206,9 +221,9 @@ export default function MyBooks() {
 
             <div className="rectangle-grid">
                 {rectangles.map(rectangle => (
-                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={() => handleLookAtBook(rectangle.id)}>
+                    <div key={rectangle.id} className="rectangle-card" style={{ backgroundColor: rectangle.color }} onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }}  >
                         <span>{rectangle.title}</span>
-                        <FaPencilAlt className="edit-icon" onClick={(e) => { e.stopPropagation(); displayRectangleId(rectangle.id); }} />
+                        <AiFillEye className="look-icon" onClick={(e) => { e.stopPropagation(); handleLookAtBook(rectangle.id); }} />
                         <IoTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteRectangle(rectangle.id); }} />
                     </div>
                 ))}
