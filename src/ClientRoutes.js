@@ -21,7 +21,7 @@ import LookMyBooks from './screens/LookAtBookScreen';
 import Favorites from './screens/FavouriteScreen';
 import Ingredients from './screens/Ingredients';
 import Instructions from './screens/Instructions';
-import ScanMod from './screens/ScanMod';
+import ScanInstruction from './screens/ScanInstruction';
 import ChooseScan from './screens/ChooseScan';
 import InfoCarousel from './screens/infoCarousel'
 
@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/favorites-screen" element={<Layout showNav={true}><Favorites /></Layout>} />
           <Route path="/Instructions" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/Ingredients" element={<Layout showNav={true}><NewPage /></Layout>} />
-          <Route path="/ScanMod" element={<Layout showNav={true}><ScanMod /></Layout>} />
+          <Route path="/ScanInstruction" element={<Layout showNav={true}><ScanInstruction /></Layout>} />
           <Route path="/ChooseScan" element={<Layout showNav={true}><ChooseScan /></Layout>} />
           <Route path="/InfoCarousel" element={<Layout showNav={false} ><InfoCarousel /></Layout>} />
         </Routes>

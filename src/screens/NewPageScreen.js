@@ -559,14 +559,14 @@ export default function NewPage() {
                         <Link to='/scan' className='option'>
                             Ingredienser
                         </Link>        <AiOutlineScan style={{ fontSize: '30px', color: '#fff' }} />
-                        <Link to='/scanmod' className='option'>
+                        <Link to='/ScanInstruction' className='option'>
                             Fremgangsmåte      </Link>
                     </div>
                 )}
 
                 <div className="icon-row-menu" >
 
-                    <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
+                    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
                     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
                     <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
