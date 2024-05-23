@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from './cropImage'; 
 import divider from '../assets/divider.png'
+import EXIF from 'exif-js';
 
 import './ScreenStyle/Scan.css';
 import { motion } from 'framer-motion';
