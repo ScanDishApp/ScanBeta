@@ -1,8 +1,7 @@
-# Scandish App - Bachelor prosjekt 2024 - UIA
+![Logo_Big](https://github.com/ScanDishApp/ScanBeta/assets/159899413/ef849244-2d40-43da-9490-6fcbbdfb54ab)
 
-Dette prosjektet ble utviklet ved bruk av React.
+# Scandish App - Bachelor prosjekt 2024 - UIA 
 
-## Om
 Scandish er et bachelor prosjekt utført av: Stine Marie Kvist, Danny Nguyen Le og Kabi Mohamed - ved Universitetet i Agder.
 
 I forbindelse med bachelorprosjektet er det valgt å utvikle en moderne og brukervennlig oppskriftsapp ved bruk av React. Målet med prosjektet er å lage en helhetlig løsning som forenkler og forbedrer opplevelsen av å finne, organisere og dele oppskrifter.
@@ -21,10 +20,10 @@ Prosjektet gir oss muligheten til å anvende  ferdigheter innen webutvikling, mo
 ### Laste ned nødvendige pakker
 ### `npm install`
 
-## Legge til 'proxy'
-under package.json legg til `"proxy": "http://localhost:8080"` 
-
-## Starte appen
+### Legge til 'proxy'
+under package.json legg til:
+`"proxy": "http://localhost:8080"` 
+### Starte appen
 ### `npm start`
 
 Kjører appen:
