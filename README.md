@@ -1,7 +1,7 @@
 ![Logo_Big](https://github.com/ScanDishApp/ScanBeta/assets/159899413/ef849244-2d40-43da-9490-6fcbbdfb54ab)
 
 # Scandish App - Bachelor prosjekt 2024 - UIA 
-Last ned her: https://scanbeta.onrender.com/
+📱 Last ned her: https://scanbeta.onrender.com/
 
 #
 
