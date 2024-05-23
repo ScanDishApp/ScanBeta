@@ -54,25 +54,40 @@ export default function MyBooks() {
 
                 const response = await listBook(`/book/list?userId=${userId}`);
                 const responseData = await response.json();
-                const rectanglesFromData = responseData.map((item, index) => ({
-                    id: item.id,
-                    title: item.title,
-
-                }));
-                setRectangles(rectanglesFromData);
+                if(responseData){
+                    const rectanglesFromData = responseData.map((item, index) => ({
+                        id: item.id,
+                        title: item.title,
+    
+                    }));
+                    setRectangles(rectanglesFromData);
+                }else{
+                   
+                    const  rectangleGrid = document.querySelector(".rectangle-grid");
+                    rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
+                }
+               
             } else {
                 let books = localStorage.getItem("offlineBooks");
                 if(books){
                 books = JSON.parse(books);
-                const rectanglesFromData = books.map((item, index) => ({
-                    id: item.bookId,
-                    title: item.title,
 
-                }));
-                setRectangles(rectanglesFromData);
+                if(books){
+                    const rectanglesFromData = books.map((item, index) => ({
+                        id: item.bookId,
+                        title: item.title,
+    
+                    }));
+                    setRectangles(rectanglesFromData);
+                }else{
+                   
+                    const  rectangleGrid = document.querySelector(".rectangle-grid");
+                    rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
+                }
+                
+            }
+            setIsLoading(false);
 
-            }}
-            setIsLoading(false); 
         }
         fetchBooks();
        

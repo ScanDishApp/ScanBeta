@@ -26,7 +26,7 @@ export default function Favorites() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const userId = localStorage.getItem("userId")
     const [isLoading, setIsLoading] = useState(false);
-
+    
     let favorites = localStorage.getItem("offlineLike");
     favorites = JSON.parse(favorites)
 
@@ -47,17 +47,22 @@ export default function Favorites() {
                     console.log(dbFavorite);
                     setContent(dbFavorite);
                 }
-              
+
             } else {
-                for (let like of favorites) {
-                    
-                    const response = await fetchData(`/favorite/getOffline?id=${like.id}`);
-                    console.log(response);
-                    if (response.ok) {
-                        const responseData = await response.json();
-                        let dbFavorite = responseData.dbFavorite
-                        setContent(dbFavorite);
+                if (favorites) {
+                    for (let like of favorites) {
+
+                        const response = await fetchData(`/favorite/getOffline?id=${like.id}`);
+                        console.log(response);
+                        if (response.ok) {
+                            const responseData = await response.json();
+                            let dbFavorite = responseData.dbFavorite
+                            setContent(dbFavorite);
+                        }
                     }
+                }else{
+                    const bookContent = document.querySelector(".book-content");
+                    bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
                 }
 
             } setIsLoading(false);
@@ -111,6 +116,9 @@ export default function Favorites() {
             )).join('')}
                     </div>
                 `;
+        }else{
+            const bookContent = document.querySelector(".book-content");
+            bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
         }
     };
 
