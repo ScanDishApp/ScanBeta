@@ -195,3 +195,8 @@ line-height: 1;
   border-radius: 10px 2px 2px 10px;
 }
 
+.error-border {
+  border: 2px solid red;
+}
+
+

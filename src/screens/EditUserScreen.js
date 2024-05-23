@@ -88,6 +88,7 @@ export default function EditUser() {
         }
         const name = document.querySelector('.update-username').value;
         const email = document.querySelector('.update-email').value;
+        const emailImp = document.querySelector('.update-email');
         let id = localStorage.getItem("userId")
         let img = profileImage;
         let pswHash = profilePswHash;
@@ -105,7 +106,13 @@ export default function EditUser() {
         setErrorMsg(null);
         setIsLoading(true);
         const response = await updateUser(`/user/${id}`, user);
-
+        if (!response.ok) {
+            
+            setErrorMsg("Emailen er i bruk");
+            emailImp.classList.add('error-border');
+           
+            setIsLoading(false);
+        } 
         const responseData = await response.json();
         console.log("Response:", responseData);
         let userId = responseData.id
@@ -121,7 +128,8 @@ export default function EditUser() {
         async function updateUser(url, data) {
             return await fetchData(url, "PUT", data);
         }
-
+        let currentPswHashInp = document.querySelector('.update-current-password');
+        let pswHashInp = document.querySelector('.update-new-password');
         let currentPswHash = document.querySelector('.update-current-password').value;
         currentPswHash = await sha256(currentPswHash);
         let pswHash = document.querySelector('.update-new-password').value;
@@ -149,15 +157,24 @@ export default function EditUser() {
             await handleGet(userId)
             navigate('/dummy-page')
             setIsLoading(false);
-
+           
         } else if (currentPswHash === pswHash) {
+            
             setErrorMsg("Passord kan ikke være like");
-        } else {
+            currentPswHashInp.classList.add('error-border');
+            pswHashInp.classList.add('error-border');
+           
+            setIsLoading(false);
+        }  else {
             setErrorMsg("Ikke riktig passord!");
+            currentPswHashInp.classList.add('error-border');
+          
+            setIsLoading(false);
             console.log(currentPswHash);
             console.log(pswHash);
             console.log(profilePswHash);
         }
+        
     };
 
     return (
@@ -197,6 +214,7 @@ export default function EditUser() {
                         />
                     </label>
                 </div>
+                <p>{errorMsg}</p>
                 <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)}  className="update-button">Oppdater bruker</button>
 
             </div>
@@ -215,7 +233,7 @@ export default function EditUser() {
                 </div>
                 <div className="edit-rectangle-psw">
                     <h2>Nytt passord: </h2>
-                    <input className="update-new-password" ></input>
+                    <input className="update-new-password" type='password'></input>
                 </div>
                 <button onClick={handleUpdatePassword} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
                 <p>{errorMsg}</p>
@@ -226,7 +244,7 @@ export default function EditUser() {
 
             </div>
 
-            <button onClick={handleDelete} className="delete-user-button" type='password'>Slett bruker</button>
+            <button onClick={handleDelete} className="delete-user-button">Slett bruker</button>
         </div>
     );
 }
