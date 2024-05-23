@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback,  } from 'react';
 import Tesseract from 'tesseract.js';
-import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { AiOutlineCamera, AiOutlineFileImage, AiOutlineArrowRight } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from './cropImage'; 
 import divider from '../assets/divider.png'
@@ -169,7 +169,8 @@ const Scan = () => {
     transition={{ duration: 0.7, ease: 'easeInOut' }}
 >
     <div className="scan-container">
-      <h1 className='scan-header'>SKANN: INGREDIENSER</h1>
+    <AiOutlineArrowRight className="back-btn" onClick={() => navigate(-1)} />
+      <h1 className='scan-header'>Skann: Ingredienser</h1>
       <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
       <div className="rectangle-grid">
         <div className="icon-container">
