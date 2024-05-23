@@ -4,6 +4,15 @@ import Cropper from 'react-easy-crop';
 import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import EXIF from 'exif-js';
+import React, { useState, useRef, useEffect, useCallback,  } from 'react';
+import Tesseract from 'tesseract.js';
+import { AiOutlineCamera, AiOutlineFileImage, AiOutlineArrowRight } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from './cropImage'; 
+import divider from '../assets/divider.png'
+
+
 import './ScreenStyle/Scan.css';
 import { motion } from 'framer-motion';
 
@@ -20,6 +29,7 @@ const Scan = () => {
 
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const lastText = localStorage.getItem('lastRecognizedText');
@@ -167,6 +177,9 @@ const Scan = () => {
 >
     <div className="scan-container">
       <h1>Scan: Ingredienser</h1>
+    <AiOutlineArrowRight className="back-btn" onClick={() => navigate(-1)} />
+      <h1 className='scan-header'>Skann: Ingredienser</h1>
+      <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
       <div className="rectangle-grid">
         <div className="icon-container">
           <span className="icon-text" onClick={openDefaultCameraApp}>

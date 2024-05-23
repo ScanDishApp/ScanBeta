@@ -47,14 +47,14 @@ export default function SharedBooks() {
             if (userId) {
                 const response = await listBook(`/book/listShared?userId=${userId}`);
                 const responseData = await response.json();
-                setIsLoading(false);
+                
                 const rectanglesFromData = responseData.map((item, index) => ({
                     id: item.id,
                     title: item.title,
                     color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
                 }));
                 setRectangles(rectanglesFromData);
-            }
+            }setIsLoading(false);
         }
 
         fetchBooks();

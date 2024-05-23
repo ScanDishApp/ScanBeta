@@ -1,11 +1,19 @@
 
 .scan-container {
-  text-align: center;
+  
   margin-top: 0px;
   font-family: 'DM Serif Display', serif;
   overflow-x: hidden;
   overflow-y: auto;
   margin-bottom: 550px;
+}
+.scan-header{
+  margin-top: 0px;
+  text-align: center;
+}
+.scan-container h1{
+  margin-top: 0px;
+  margin-left: 10px;
 }
 
 
@@ -17,7 +25,14 @@
   vertical-align: middle; 
 
 }
-
+.back-btn{
+  font-size: 50px; 
+  background-color: #99B952 ;
+  padding: 5px;
+  border-radius: 10px;
+  height: 20px;
+  margin-left: calc(100% - 70px);
+}
 .icon-text {
   width: calc(100% - 30px);
   padding: 15px;
@@ -29,9 +44,8 @@
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
+  text-align: center;
 }
-
-
 
 .image-container {
   display: flex;

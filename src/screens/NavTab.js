@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineUser } from 'react-icons/ai'; 
+import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineUser, AiOutlineHeart } from 'react-icons/ai'; 
 import './ScreenStyle/NavTab.css'; 
 function NavTab() {
     return (
@@ -12,13 +12,13 @@ function NavTab() {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/scan">
-                        <AiOutlineExpand /> 
+                    <Link to="/MyBooks">
+                        <AiOutlineBook /> 
                     </Link>
                 </li>
                 <li>
-                    <Link to="/MyBooks">
-                        <AiOutlineBook /> 
+                    <Link to="/favorites-screen">
+                        <AiOutlineHeart/> 
                     </Link>
                 </li>
                 <li>

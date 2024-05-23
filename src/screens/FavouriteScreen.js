@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete, AiOutlineHeart, AiOutlineSave } from 'react-icons/ai';
+import LoadingModal from './LoadingModual';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -24,6 +25,10 @@ export default function Favorites() {
     const [content, setContent] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const userId = localStorage.getItem("userId")
+    const [isLoading, setIsLoading] = useState(false);
+    
+    let favorites = localStorage.getItem("offlineLike");
+    favorites = JSON.parse(favorites)
 
 
     useEffect(() => {
@@ -32,21 +37,40 @@ export default function Favorites() {
             async function getFavorite(url) {
                 return await fetchData(url, "GET");
             }
+            setIsLoading(true);
+            if (userId) {
+                const response = await fetchData(`/favorite/get?userId=${userId}`);
+                console.log(response);
+                if (response.ok) {
+                    const responseData = await response.json();
+                    let dbFavorite = responseData.dbFavorite
+                    console.log(dbFavorite);
+                    setContent(dbFavorite);
+                }
 
-            const response = await fetchData(`/favorite/get?userId=${userId}`);
-            console.log(response);
-            if(response.ok){
-            const responseData = await response.json();
-            let dbFavorite = responseData.dbFavorite
- 
+            } else {
+                if (favorites) {
+                    for (let like of favorites) {
 
-         console.log(dbFavorite);
-          setContent(dbFavorite);
-        }
+                        const response = await fetchData(`/favorite/getOffline?id=${like.id}`);
+                        console.log(response);
+                        if (response.ok) {
+                            const responseData = await response.json();
+                            let dbFavorite = responseData.dbFavorite
+                            setContent(dbFavorite);
+                        }
+                    }
+                }else{
+                    const bookContent = document.querySelector(".book-content");
+                    bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
+                }
+
+            } setIsLoading(false);
 
         };
         handleGetFavorite();
-    }, []);
+
+    }, [userId]);
 
 
     useEffect(() => {
@@ -83,15 +107,18 @@ export default function Favorites() {
                     </ul>
                     <div class="book-images">
                         ${images.map((image, index) => (
-                    `<img
+                `<img
                                 key=${index}
                                 src=${image.src}
                                 alt="Book Image"
                                 style="position: absolute; left: ${image.position.x}px; top: ${image.position.y}px; z-index: ${image.zIndex};"
                             />`
-                )).join('')}
+            )).join('')}
                     </div>
                 `;
+        }else{
+            const bookContent = document.querySelector(".book-content");
+            bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
         }
     };
 
@@ -116,14 +143,15 @@ export default function Favorites() {
         console.log(response);
         handlePage();
     };
-   
+
     return (
-        <div className="myFavorites-container" style={{ textAlign: 'center'}}>
-         <div className="icon-row" style={{ marginTop: '10px'}}>
+        <div className="myFavorites-container" style={{ textAlign: 'center' }}>
+            <LoadingModal isLoading={isLoading} />
+            <div className="icon-row" style={{ marginTop: '10px' }}>
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                 <AiOutlineDelete className="icon" onClick={handleFavorite} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
-                
+
             </div>
             <div className='book-content'></div>
         </div>

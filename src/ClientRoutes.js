@@ -58,6 +58,7 @@ export default function App() {
           <Route path="/Instructions" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/Ingredients" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/ScanInstruction" element={<Layout showNav={true}><ScanInstruction /></Layout>} />
+
           <Route path="/ChooseScan" element={<Layout showNav={true}><ChooseScan /></Layout>} />
           <Route path="/InfoCarousel" element={<Layout showNav={false} ><InfoCarousel /></Layout>} />
         </Routes>
