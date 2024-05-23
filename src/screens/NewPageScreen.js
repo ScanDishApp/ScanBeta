@@ -558,7 +558,7 @@ export default function NewPage() {
                         <Link to='/scan' className='option'>
                             Ingredienser
                         </Link>        <AiOutlineScan style={{ fontSize: '30px', color: '#fff' }} />
-                        <Link to='/scanmod' className='option'>
+                        <Link to='/ScanInstruction' className='option'>
                             Fremgangsmåte      </Link>
                     </div>
                 )}
