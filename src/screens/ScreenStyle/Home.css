@@ -58,10 +58,23 @@
   margin-top: 20px;
   padding-bottom: 5px;
 }
+.profile-img{
+  width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 75px;
+  right: -25px;
+  transform: translate(-50%, -50%);
+  color:#c0d86c;
+  border: solid 3px;
+  border-radius: 20px;
+  overflow: hidden;
+}
 
 .cover-rectangle {
-  height: 400px;
-  background-image: url('../../assets/Gandma.jpg');
+  height: 355px;
+  background-image: url('../../assets/Granny.jpg');
   background-size: cover;
   background-position: center;
   margin-bottom: 0px;

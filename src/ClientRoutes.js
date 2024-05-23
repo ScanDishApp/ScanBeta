@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/favorites-screen" element={<Layout showNav={true}><Favorites /></Layout>} />
           <Route path="/Instructions" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/Ingredients" element={<Layout showNav={true}><NewPage /></Layout>} />
-          <Route path="/ScanMod" element={<Layout showNav={true}><ScanMod /></Layout>} />
+          <Route path="/ScanMod" element={<Layout showNav={true} showHeader={true}><ScanMod /></Layout>} />
           <Route path="/ChooseScan" element={<Layout showNav={true}><ChooseScan /></Layout>} />
           <Route path="/InfoCarousel" element={<Layout showNav={false} ><InfoCarousel /></Layout>} />
         </Routes>

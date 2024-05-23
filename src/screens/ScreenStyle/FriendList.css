@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+   
 }
 
 .add-rectangle {
@@ -13,8 +14,11 @@
     width: calc(100% - 26px);
     background-color: #53a687;
     border-radius: 25px;
-height: auto;
-
+    height: auto;
+  
+}
+.add-rectangle h1{  
+    text-align: center;  
 }
 
 .hest {
@@ -70,8 +74,7 @@ height: auto;
     height: 100px;
     padding: 10px;
     margin-bottom: 10px;
-    align-items: center; 
-    justify-content: center;
+    flex-direction: row;   
 }
 
 .xIcon {
@@ -79,4 +82,10 @@ height: auto;
     background-color: #f2b885;
     padding: 10px;
     border-radius: 20px;
+    margin-right: 20px;   
+}
+
+.friend-name{
+    margin: 0px;
+    margin-left: 20px;
 }
