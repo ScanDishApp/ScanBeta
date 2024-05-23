@@ -102,6 +102,9 @@ USER_API.put('/:id', async (req, res) => {
         if (error.code === '54000' && error.constraint === 'Users_email_key') {
             return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Email already exists, cannot change to this email");
         }
+        if (error.constraint === 'PayloadTooLargeError') {
+            return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Img too large");
+        }
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 });
