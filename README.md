@@ -42,5 +42,6 @@ Du kan også se eventuelle feil i konsollen.
 ## Kontaktinformasjon
 Scandishapp@gmail.com 
 
+#
+![image](https://github.com/ScanDishApp/ScanBeta/assets/159899413/22a2bdc8-9ff8-48c8-85f8-8dade03011db)
 
-  
