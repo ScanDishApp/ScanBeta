@@ -54,45 +54,45 @@ export default function MyBooks() {
 
                 const response = await listBook(`/book/list?userId=${userId}`);
                 const responseData = await response.json();
-                if(responseData){
+                if (responseData) {
                     const rectanglesFromData = responseData.map((item, index) => ({
                         id: item.id,
                         title: item.title,
-    
+
                     }));
                     setRectangles(rectanglesFromData);
-                }else{
-                   
-                    const  rectangleGrid = document.querySelector(".rectangle-grid");
+                } else {
+
+                    const rectangleGrid = document.querySelector(".rectangle-grid");
                     rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
                 }
-               
+
             } else {
                 let books = localStorage.getItem("offlineBooks");
-                if(books){
-                books = JSON.parse(books);
+                if (books) {
+                    books = JSON.parse(books);
 
-                if(books){
-                    const rectanglesFromData = books.map((item, index) => ({
-                        id: item.bookId,
-                        title: item.title,
-    
-                    }));
-                    setRectangles(rectanglesFromData);
-                }else{
-                   
-                    const  rectangleGrid = document.querySelector(".rectangle-grid");
-                    rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
+                    if (books) {
+                        const rectanglesFromData = books.map((item, index) => ({
+                            id: item.bookId,
+                            title: item.title,
+
+                        }));
+                        setRectangles(rectanglesFromData);
+                    } else {
+
+                        const rectangleGrid = document.querySelector(".rectangle-grid");
+                        rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
+                    }
+
                 }
-                
+                setIsLoading(false);
+
             }
-            setIsLoading(false);
+            fetchBooks();
+
 
         }
-        fetchBooks();
-       
-
-
     }, [userId]);
 
     const addRectangle = async () => {
