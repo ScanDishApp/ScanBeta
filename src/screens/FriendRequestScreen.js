@@ -141,9 +141,9 @@ export default function FriendRequest() {
             <h1>Forespøsler</h1>
             <div className="add-request-rectangle">
                 <h1>Min bruker id: {userId}</h1>
-                <div className='input-rectangle'>
+               
                     <input placeholder='Legg til din venns bruker id:' className="friendId-input" ></input>
-                </div>
+              
                 <button className='send-button' onClick={handleSendFriendRequest}>Send forespørsel</button>
                 <p>{successMsg}</p>
             </div>
@@ -153,8 +153,10 @@ export default function FriendRequest() {
                     friendRequests.map(request => (
                         <div key={request.id} className="friend-request-item">
                             <h3>Navn: {request.name}</h3>
+                            <div className='btn-container'>
                             <AiOutlineCheck className="checkIcon" onClick={() => handleAccept(request.id)} />
                             <AiOutlineClose className="xIcon" onClick={() => handleDecline(request.id)} />
+                            </div>
                         </div>
                     ))}
             </div>

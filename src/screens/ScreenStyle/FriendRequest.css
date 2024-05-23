@@ -8,18 +8,23 @@
 .add-request-rectangle {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center; 
+    align-items: center;  
+    text-align: center;    
+    height: auto;           
     width: calc(100% - 26px);
     background-color: #53a687;
     border-radius: 25px;
-    height: 220px;
+   
     margin-bottom: 10px;
 
 
 }
 
-.add-request-rectangle input {
-    width: 285px;
+.friendId-input {
+    width: calc(100% - 100px);
+    margin-left: 0px;
+    outline: none;
     font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
 }
@@ -32,7 +37,7 @@
     width: calc(100% - 86px);
     height: 50px;
     margin-top: 10px;
-    margin-left: 13px;
+
     background-color: #c1d96c;
     color: #4B534A;
     display: flex;
@@ -47,13 +52,11 @@
 
 }
 
-.checkIcon,
-.xIcon {
-    cursor: pointer;
-}
 
+.Request{
+    width: calc(100% - 26px);
+}
 .friend-request-item {
-    width: 385px;
     background-color: #def294;
     border-radius: 25px;
     display: flex;
@@ -65,17 +68,16 @@
 }
 
 .checkIcon {
-    margin-left: 200px;
-    /* Adjust margin between icons */
+    
     background-color: #c1d96c;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
 .xIcon {
     margin-left: 10px;
-    /* Adjust margin between icons */
+    cursor: pointer;
     background-color: #f2b885;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 25px;  
 }
