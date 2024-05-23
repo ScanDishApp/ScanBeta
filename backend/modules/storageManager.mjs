@@ -453,6 +453,28 @@ class DBManager {
 
         return like;
     }
+    async getOfflineFavorite(id) {
+
+        const client = new pg.Client(this.#credentials);
+        let like = null;
+
+        try {
+            await client.connect();
+            const sql = 'SELECT * FROM "public"."favorites" WHERE "id" = $1'
+            const params = [id]
+            const output = await client.query(sql, params);
+
+            console.log(output);
+            like = output.rows;
+
+        } catch (error) {
+            console.error('Error in getting user :', error.stack);
+        } finally {
+            client.end();
+        }
+
+        return like;
+    }
 
     async createPage(page) {
 

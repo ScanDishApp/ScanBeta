@@ -249,6 +249,7 @@ const Scan = () => {
       </div>
     </motion.div>
   );
+  
 };
 
 export default Scan;

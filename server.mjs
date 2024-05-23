@@ -15,6 +15,9 @@ server.use(cors());
 const port = (process.env.PORT || 8080);
 server.set('port', port);
 
+server.use(express.json({ limit: '50mb' }));
+server.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 server.use(express.static('build'));
 server.use("/book", BOOK_API);
 server.use("/user", USER_API);

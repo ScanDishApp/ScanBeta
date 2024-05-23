@@ -28,6 +28,28 @@ FAVORITE_API.get('/get', async (req, res, next) => {
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
 })
+FAVORITE_API.get('/getOffline', async (req, res, next) => {
+    const { id } = req.query
+
+    try {
+        const like = new Favorites();
+        like.id = id;
+        const getLikeResult = await like.listOffline();
+
+        if (getLikeResult) {
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(getLikeResult).end();
+        } else {
+            console.error("Favorite Failed:");
+            if (getLikeResult.error) {
+                console.error("Detailed error:");
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid credentials");
+        }
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
+})
 
 FAVORITE_API.post('/', async (req, res, next) => {
 

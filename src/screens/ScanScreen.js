@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Tesseract from 'tesseract.js';
-import Cropper from 'react-easy-crop';
 import { AiOutlineCamera, AiOutlineFileImage } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import EXIF from 'exif-js';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from './cropImage'; 
+import divider from '../assets/divider.png'
+
 import './ScreenStyle/Scan.css';
 import { motion } from 'framer-motion';
 
@@ -20,6 +22,7 @@ const Scan = () => {
 
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const lastText = localStorage.getItem('lastRecognizedText');
@@ -166,7 +169,8 @@ const Scan = () => {
     transition={{ duration: 0.7, ease: 'easeInOut' }}
 >
     <div className="scan-container">
-      <h1>Scan: Ingredienser</h1>
+      <h1 className='scan-header'>SKANN: INGREDIENSER</h1>
+      <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
       <div className="rectangle-grid">
         <div className="icon-container">
           <span className="icon-text" onClick={openDefaultCameraApp}>
@@ -251,4 +255,6 @@ const Scan = () => {
 
 };
 
+
 export default Scan;
+
