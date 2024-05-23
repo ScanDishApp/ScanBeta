@@ -25,7 +25,7 @@ class DBManager {
 
         } catch (error) {
             console.error('Error in update user:', error.stack);
-
+            throw error;
         } finally {
             client.end();
         }
