@@ -27,6 +27,11 @@ export default function LookMyBooks() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [images, setImages] = useState([]);
     const userId = localStorage.getItem("userId")
+    const getOfflineFavorite = () => {
+        const like = localStorage.getItem("offlineLike");
+        return like ? JSON.parse(like) : [];
+    };
+    const [offlineFavorites, setofflineFavorites] = useState(getOfflineFavorite);
 
     useEffect(() => {
         let storedPages = localStorage.getItem("contents");
@@ -94,14 +99,24 @@ export default function LookMyBooks() {
         async function createFavorite(url, data) {
             return await fetchData(url, "POST", data);
         }
-
         const like = {
             userId: userId,
             contents: content[currentPageIndex],
         };
-        console.log(like);
         const response = await createFavorite("/favorite/", like);
-        console.log(response);
+        let responseData = await response.json();
+        responseData = JSON.parse(responseData)
+
+        if (response.ok) {
+            if (!userId) {
+                const offlineLike = {
+                    id: responseData.id,
+                };
+                const updatedofflineFavorites = [...offlineFavorites, offlineLike];
+                setofflineFavorites(updatedofflineFavorites);
+                localStorage.setItem("offlineLike", JSON.stringify(updatedofflineFavorites));
+            };
+        };
     };
 
     const downloadHtmlAsPDF = () => {

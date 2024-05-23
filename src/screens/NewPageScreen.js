@@ -214,8 +214,8 @@ export default function NewPage() {
      const handlePreviousPage = async() => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
         // await handleGetPages();
-        // console.log(pages[currentPageIndex].id);
-        // setPageId(pages[currentPageIndex].id);
+         //console.log(pages[currentPageIndex].id);
+         setPageId(pages[currentPageIndex].id);
         // await handleUpdate();
         localStorage.removeItem("lastRecognizedText");
         localStorage.removeItem("previousRecognizedText");
@@ -224,7 +224,7 @@ export default function NewPage() {
     const handleNextPage = async() => {
         setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
         // await handleGetPages();
-        // setPageId(pages[currentPageIndex].id);
+         setPageId(pages[currentPageIndex].id);
         // await handleUpdate();
         localStorage.removeItem("lastRecognizedText");
         localStorage.removeItem("previousRecognizedText");
