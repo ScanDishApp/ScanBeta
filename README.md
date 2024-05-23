@@ -27,7 +27,7 @@ under package.json legg til `"proxy": "http://localhost:8080"`
 ## Starte appen
 ### `npm start`
 
-* Kjører appen: *
+Kjører appen:
 Åpner [http://localhost:3000](http://localhost:3000) for visning i nettleser
 
 Siden vil lastes inn på nytt når du gjør endringer.
