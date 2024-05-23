@@ -24,7 +24,7 @@ Prosjektet gir oss muligheten til å anvende  ferdigheter innen webutvikling, mo
 ### `npm install`
 
 ### Legge til 'proxy'
-under package.json legg til:
+under **package.json** legg til:
 `"proxy": "http://localhost:8080"` 
 ### Starte appen
 ### `npm start`
