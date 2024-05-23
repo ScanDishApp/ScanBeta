@@ -182,7 +182,7 @@ export default function DummyPage() {
     if (userId) {
         return (
             <div className="profile-container">
-                <div className="rectangle-grid">
+                <div className="rectangle-grid-profile">
                     <div className="rectangle">
                         <h2>Velkommen tilbake!</h2>
                     </div>
