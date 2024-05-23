@@ -562,10 +562,9 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
-
                 <div className="icon-row-menu" >
 
-                    <AiOutlineFileText className="icon" onClick={() => toggleMenu('font')} />
+                    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
                     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
                     <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
                     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
