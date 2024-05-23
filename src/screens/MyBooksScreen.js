@@ -69,7 +69,9 @@ export default function MyBooks() {
                
             } else {
                 let books = localStorage.getItem("offlineBooks");
+                if(books){
                 books = JSON.parse(books);
+
                 if(books){
                     const rectanglesFromData = books.map((item, index) => ({
                         id: item.bookId,
@@ -85,9 +87,12 @@ export default function MyBooks() {
                 
             }
             setIsLoading(false);
+
         }
         fetchBooks();
-   
+       
+
+
     }, [userId]);
 
     const addRectangle = async () => {

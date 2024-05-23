@@ -235,6 +235,7 @@ export default function DummyPage() {
             <LoadingModal isLoading={isLoading} />
                 <div className="rectangle-grid">
                     <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
+                    <br></br>
                     <h1>Logg inn</h1>
                     <div className="login-rectangle">
                         <h2>E-post: </h2>
