@@ -111,6 +111,12 @@ export default function NewUser() {
         setIsLoading(true);
         const response = await createUser("/user/", user);
         console.log(response);
+        if(response.status == 500){
+            passwordInput.classList.add('error-border');
+            setErrorMsg("Email er allerede i bruk");
+            setIsLoading(false);
+            return;
+        }
         const responseData = await response.json();
         console.log("Response:", responseData);
         let userId = responseData.id

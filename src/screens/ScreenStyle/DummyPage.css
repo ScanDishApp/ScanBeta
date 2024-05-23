@@ -18,6 +18,15 @@ body {
   overflow: hidden;
   font-family: 'DM Serif Display', serif;
 }
+.rectangle-grid-profile{
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+  padding-bottom: 5px;
+}
 
 .square-grid {
   display: grid;

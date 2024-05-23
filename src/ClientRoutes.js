@@ -46,7 +46,7 @@ export default function App() {
           <Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} />
           <Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} />
           <Route path="/Calculator" element={<Layout showNav={true} showHeader={true}><Calculator /></Layout>} />
-          <Route path="/TemperatureConverter" element={<Layout showNav={true}>showHeader={true}<TemperatureConverter /></Layout>} />
+          <Route path="/TemperatureConverter" element={<Layout showNav={true} showHeader={true}><TemperatureConverter /></Layout>} />
           <Route path="/MyBooks" element={<Layout showNav={true}showHeader={true}><MyBooks /></Layout>} />
           <Route path="/NewPage" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/StickerMenu" element={<Layout showNav={true}><StickerMenu /></Layout>} />

@@ -123,11 +123,11 @@ export default function NewPage() {
             const responseData = await response.json();
             console.log(responseData);
             let storedPages = responseData;
-            //setPageId(storedPages[0][0].id)
             setPages(storedPages[0]);
+            if (pages) {
+                setPageId(storedPages[0][0].id)
+            }
             console.log(pages);
-            
-   
         }
     }
     
@@ -215,6 +215,7 @@ export default function NewPage() {
      const handlePreviousPage = async() => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
         setPageId(pages[currentPageIndex].id);
+        console.log(pageId);
         await handleUpdate();
         localStorage.removeItem("lastRecognizedText");
         localStorage.removeItem("previousRecognizedText");
@@ -223,6 +224,7 @@ export default function NewPage() {
     const handleNextPage = async() => {
         setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
         setPageId(pages[currentPageIndex].id);
+        console.log(pageId);
         await handleUpdate();
         localStorage.removeItem("lastRecognizedText");
         localStorage.removeItem("previousRecognizedText");
@@ -245,7 +247,6 @@ export default function NewPage() {
 
     const handleTitleChange = async(event) => {
         setTitle(event.target.value);
-        await handleUpdate();
     };
 
     const handleImageChange = (event) => {
@@ -382,7 +383,7 @@ export default function NewPage() {
         console.log(responseData);
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText");
-        console.log(pages[currentPageIndex], page, "hallo");
+        console.log(pages[currentPageIndex], currentPageIndex , page, "hallo");
         pages[currentPageIndex] = page;
 
     }
