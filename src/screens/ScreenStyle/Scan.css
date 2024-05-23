@@ -1,19 +1,11 @@
 
 .scan-container {
-  
+  text-align: center;
   margin-top: 0px;
   font-family: 'DM Serif Display', serif;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-bottom: 0px;
-}
-.scan-header{
-  margin-top: 0px;
-  text-align: center;
-}
-.scan-container h1{
-  margin-top: 0px;
-  margin-left: 10px;
+  margin-bottom: 550px;
 }
 
 
@@ -25,27 +17,21 @@
   vertical-align: middle; 
 
 }
-.back-btn{
-  font-size: 50px; 
-  background-color: #99B952 ;
-  padding: 5px;
-  border-radius: 10px;
-  height: 20px;
-  margin-left: calc(100% - 70px);
-}
+
 .icon-text {
   width: calc(100% - 30px);
   padding: 15px;
   font-size: 24px;
   vertical-align: middle; 
-  background-color: #9bba59;
+  background-color: #59a88a;
   margin-bottom: 10px;
   color: #4b534a;
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
-  text-align: center;
 }
+
+
 
 .image-container {
   display: flex;
@@ -58,8 +44,9 @@
 .image-container img {
   max-width: 100%;
   height: auto;
-  border: 3px solid #98b952;
+  border: 3px solid #f5b900;
   border-radius: 20px;
+  margin-top: 10px;
 }
 
 .recognized-text{
@@ -72,6 +59,7 @@
   background-color: #98b952;
   border-radius: 20px;
   padding: 10px;
+  margin-top: 10px;
 
 }
   
@@ -79,11 +67,27 @@
 .linkButton {
   text-decoration: none;
   padding: 8px 12px;
-  background-color: #def194;
   color: #4b534a;
   border-radius: 20px;
   display: inline-block;
   cursor: pointer;
+}
+
+.kopi-text{
+  text-decoration: none;
+  padding: 8px 12px;
+  color: #4b534a;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.kopi-text, .linkButton {
+  background-color: #def194;
+  font-family: 'DM Serif Display', serif;
+
 }
 
 .textRec{
@@ -94,22 +98,68 @@
   
 }
 
-
-
-.crop-button {
-  position: absolute;
-  bottom: 180px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  background-color: #98b952;
-  color: white;
-  border: none;
-  font-size: 20px;
-  font-weight: bolder;
-  padding: 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  z-index: 1000;
+.func-buttons {
+  display: flex;
+  justify-content: center;
 }
 
+.crop-button {
+background-color: #f5b900;
+border: none;
+padding: 10px;
+margin-bottom: 10px;
+border-radius: 10px;
+color: white;
+}
+
+
+
+.finish-crop-button, .crop-button{
+  font-family: 'DM Serif Display', serif;
+  color: white;
+  margin: 0 10px;
+
+
+}
+
+.finish-crop-button {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  border: 1px solid white;
+  padding: 5px 20px 5px 20px;
+  border-radius: 20px;
+  z-index: 999;
+  background-color: #f5b900;
+  width: auto; 
+  margin-left: -3px;
+}
+.crop-header {
+  position: absolute;
+  top: 100px;
+  left: 48%;
+  transform: translateX(-50%);
+  padding: 10px;
+  font-size: 20px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin: 10px;
+font-weight: bolder;
+font-size: 40px;
+white-space: nowrap;
+}
+
+  .custom-crop-area {
+border-radius: 20pX;
+border: 4px solid;
+color: white;
+height: auto;
+}
+
+.custom-container{
+  background-color: rgba(0, 0, 0, 0.7);
+
+}
