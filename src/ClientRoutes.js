@@ -39,12 +39,12 @@ export default function App() {
     <div>
       <Router>
         <Routes>
-        <Route path="/" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
+          <Route path="/" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
           <Route path="/Scan" element={<Layout showNav={true} showHeader={true}><Scan /></Layout>} />
           <Route path="/dummy-page" element={<Layout showNav={true}><DummyPage /></Layout>} />
           <Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} />
           <Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} />
-          <Route path="/Calculator" element={<Layout showNav={true}showHeader={true}><Calculator /></Layout>} />
+          <Route path="/Calculator" element={<Layout showNav={true} showHeader={true}><Calculator /></Layout>} />
           <Route path="/TemperatureConverter" element={<Layout showNav={true}>showHeader={true}<TemperatureConverter /></Layout>} />
           <Route path="/MyBooks" element={<Layout showNav={true}showHeader={true}><MyBooks /></Layout>} />
           <Route path="/NewPage" element={<Layout showNav={true}><NewPage /></Layout>} />
