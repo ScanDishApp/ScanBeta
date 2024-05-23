@@ -75,6 +75,7 @@ export default function NewPage() {
     const [showScanOptions, setShowScanOptions] = useState(false);
     const [pageId, setPageId] = useState(null);
     const [showStickerMenu, setShowStickerMenu] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMenu = (menuType) => {
         setShowFontMenu(menuType === 'font' ? !showFontMenu : false);
@@ -349,7 +350,7 @@ export default function NewPage() {
     };
 
     const handleInfoClick = () => {
-        window.location.assign('/InfoCarousel');
+        navigate('/InfoCarousel');
     };
 
     const toggleDeletemode = (index) => {
