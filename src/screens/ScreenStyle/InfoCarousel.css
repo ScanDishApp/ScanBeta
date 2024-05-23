@@ -20,10 +20,11 @@
   }
   
   .info-header {
-    width: 90%;
+      background-color: #9bba59;
+    width: calc(100% - 40px);
     color: rgb(255, 255, 255);
     z-index: 20;
-    background-color: #9bba59;
+  
     border-radius: 15px;
     padding: 10px;
     margin-bottom: 0px; 
@@ -35,6 +36,7 @@
     vertical-align: middle; 
 
   }
+
   
 
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AnimatedRoutes from './screens/AnitmatedRoutes';
 import Header from './screens/Header';
 import Home from './screens/HomeScreen';
 import Scan from './screens/ScanScreen';
@@ -41,6 +40,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
           <Route path="/Scan" element={<Layout showNav={true} showHeader={true}><Scan /></Layout>} />
+          <Route path="/Home" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
+
           <Route path="/dummy-page" element={<Layout showNav={true}><DummyPage /></Layout>} />
           <Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} />
           <Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} />
@@ -56,7 +57,7 @@ export default function App() {
           <Route path="/favorites-screen" element={<Layout showNav={true}><Favorites /></Layout>} />
           <Route path="/Instructions" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/Ingredients" element={<Layout showNav={true}><NewPage /></Layout>} />
-          <Route path="/ScanMod" element={<Layout showNav={true}><ScanMod /></Layout>} />
+          <Route path="/ScanMod" element={<Layout showNav={true} showHeader={true}><ScanMod /></Layout>} />
           <Route path="/ChooseScan" element={<Layout showNav={true}><ChooseScan /></Layout>} />
           <Route path="/InfoCarousel" element={<Layout showNav={false} ><InfoCarousel /></Layout>} />
         </Routes>
