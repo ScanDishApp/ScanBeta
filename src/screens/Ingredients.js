@@ -25,6 +25,7 @@ const Ingredients = forwardRef(({ value, selectedColor, selectedFont }, ref) => 
     }
   };
 
+
   const resetTextArea = () => {
     setNote('');
     adjustTextareaHeight();
@@ -45,6 +46,11 @@ const Ingredients = forwardRef(({ value, selectedColor, selectedFont }, ref) => 
       adjustTextareaHeight();
     }
   }, [value]);
+
+  useEffect(() => {
+      adjustTextareaHeight();
+
+  },);
 
 
 
