@@ -28,7 +28,22 @@ class Favorites {
     } else {
       return {
         success: false,
-        message: "request not found"
+        message: "favorite not found"
+      };
+    }
+  }
+  async listOffline() {
+    let dbFavorite = await DBManager.getOfflineFavorite(this.id);
+    if (dbFavorite) {
+      this.id = dbFavorite.id;
+      return {
+        success: true,
+        dbFavorite: dbFavorite
+      }
+    } else {
+      return {
+        success: false,
+        message: "favorite not found"
       };
     }
   }
