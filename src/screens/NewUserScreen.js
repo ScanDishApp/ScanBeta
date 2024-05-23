@@ -125,6 +125,7 @@ export default function NewUser() {
          <LoadingModal isLoading={isLoading} />
                 <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
             <div className="create-user-grid">
+                <br></br>
                 <h1>Lag en ny bruker</h1>
                 <div className="create-user-rectangle">
                     <h2>Brukernavn: </h2>

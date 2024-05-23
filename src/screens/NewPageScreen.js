@@ -261,26 +261,6 @@ useEffect(() => {
         setTitle(event.target.value);
     };
 
-    const handleIngridensChange = (event) => {
-        let newIngridens = event.target.value;
-        const lines = newIngridens.split('\n');
-        const bulletLines = lines.map(line => {
-
-            if (line.trim() && !line.trim().startsWith('\u2022')) {
-                return `\u2022 ${line}`;
-            }
-            return line;
-        });
-        setIngridens(bulletLines.join('\n'));
-        const textarea = document.getElementById('ingridens-input');
-        textarea.style.height = '';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-
-    };
-
-
-
-
     const handleImageChange = (event) => {
         const files = event.target.files;
         if (files) {

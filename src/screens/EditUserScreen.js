@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import sha256 from './sha256'
 import LoadingModal from './LoadingModual';
+import divider from '../assets/divider.png';
 import './ScreenStyle/EditUser.css';
 
 async function fetchData(url, method, data) {
@@ -199,7 +200,10 @@ export default function EditUser() {
                 <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)}  className="update-button">Oppdater bruker</button>
 
             </div>
-            <hr className='break-line'/>
+            <div className='divider-container'>
+            <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+
+            </div>
 
             <div className='edit-psw'>
             <h1>Endre passord</h1>
@@ -214,7 +218,10 @@ export default function EditUser() {
                 <button onClick={handleUpdatePassword} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
                 <p>{errorMsg}</p>
             </div>
-            <hr className='break-line'/>
+            <div className='divider-container'>
+            <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+
+            </div>
             <button onClick={handleDelete} className="delete-user-button" type='password'>Slett bruker</button>
         </div>
     );
