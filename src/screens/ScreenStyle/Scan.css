@@ -41,13 +41,21 @@
   
 }
 
+.rotated-image-container {
+  position: relative; /* Ensure relative positioning for absolute positioning of child elements */
+  z-index: 1; /* Set a higher z-index to ensure the image is above other elements */
+}
+
 .image-container img {
   max-width: 100%;
   height: auto;
   border: 3px solid #f5b900;
   border-radius: 20px;
   margin-top: 10px;
+
 }
+
+
 
 .recognized-text{
   background-color: #98b952;

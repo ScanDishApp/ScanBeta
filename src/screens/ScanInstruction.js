@@ -130,6 +130,12 @@ const Scan = () => {
     alert('Text copied to clipboard!');
   };
 
+  const handleRetryCapture = () => {
+    setSelectedImage(null); // Reset selected image
+    setDisplayedImage(false); // Hide displayed image
+  };
+
+
   const openDefaultCameraApp = () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -140,10 +146,8 @@ const Scan = () => {
       handleImageUpload(event);
     });
   };
-
   const captureImage = () => {
-    if (videoRef.current) {
-      videoRef.current.play();
+    if (videoRef.current && videoRef.current.readyState === 4) { 
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       canvas.width = videoRef.current.videoWidth;
@@ -152,8 +156,10 @@ const Scan = () => {
       const imageDataUrl = canvas.toDataURL('image/png');
       setSelectedImage(imageDataUrl);
       setDisplayedImage(true);
+    
     }
   };
+  
 
   const handleCropButtonClick = () => {
     setIsCropping(true); 
@@ -243,7 +249,11 @@ const Scan = () => {
               </button>
             </div>
           )}
-        
+              {!selectedImage && !displayedImage && (
+    <button className="retry-button" onClick={handleRetryCapture}>
+      Prøv Igjen
+    </button>
+  )}
 
         </div>
       </div>
