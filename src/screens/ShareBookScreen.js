@@ -47,14 +47,14 @@ export default function SharedBooks() {
             if (userId) {
                 const response = await listBook(`/book/listShared?userId=${userId}`);
                 const responseData = await response.json();
-                
+
                 const rectanglesFromData = responseData.map((item, index) => ({
                     id: item.id,
                     title: item.title,
                     color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
                 }));
                 setRectangles(rectanglesFromData);
-            }setIsLoading(false);
+            } setIsLoading(false);
         }
 
         fetchBooks();
@@ -76,25 +76,30 @@ export default function SharedBooks() {
     };
 
     const addRectangle = async (id) => {
+        if (userId) {
+            let contents = "";
+            const userIdWithFriends = `${userId},${selectedFriends.map(friend => friend.userId).join(',')}`;
+            const book = {
+                userId: userIdWithFriends,
+                contents: contents,
+                title: titleText
+            };
 
-        let contents = "";
-        const userIdWithFriends = `${userId},${selectedFriends.map(friend => friend.userId).join(',')}`;
-        const book = {
-            userId: userIdWithFriends,
-            contents: contents,
-            title: titleText
-        };
+            const updatedRectangles = [...rectangles, book];
+            setRectangles(updatedRectangles);
+            setShowModal(false);
+            setTitleText("");
+            saveRectangles(updatedRectangles);
 
-        const updatedRectangles = [...rectangles, book];
-        setRectangles(updatedRectangles);
-        setShowModal(false);
-        setTitleText("");
-        saveRectangles(updatedRectangles);
-
-        await saveToServer(book);
-        localStorage.removeItem("lastRecognizedText")
-        localStorage.removeItem("previousRecognizedText")
-        console.log("Book added successfully to the server:", book);
+            await saveToServer(book);
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText")
+            console.log("Book added successfully to the server:", book);
+        }else{
+            const rectangleGrid = document.querySelector(".rectangle-grid");
+            rectangleGrid.innerHTML = `<p>Logg inn for å bruke denne funksjonen.</p>`
+            setShowModal(false);
+        }
     };
 
     const deleteRectangle = async (id) => {

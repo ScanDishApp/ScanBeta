@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import temperatureImage from '../../src/assets/temperature.png';
 import addBookIcon from '../../src/assets/addbook.png';
 import calkIcon from '../../src/assets/calk.png';
+import LoadingModal from './LoadingModual';
 import { IoClose } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -39,6 +40,8 @@ const Home = () => {
     const userId = localStorage.getItem("userId");
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     let profileImg = localStorage.getItem("profileImg");
     const getOfflineBooks = () => {
         const books = localStorage.getItem("offlineBooks");
@@ -48,6 +51,11 @@ const Home = () => {
     const [offlineBooks, setOfflineBooks] = useState(getOfflineBooks);
 
     const addNewBook = async (event) => {
+        if (!titleText.trim()) {
+            document.querySelector('.input-text').classList.add('error-border');
+            setErrorMsg("Venligst fyll inn tittel!");
+            return;
+        }
         event.preventDefault();
 
         const openBook = async (id) => {
@@ -69,7 +77,7 @@ const Home = () => {
             contents: contents,
             title: titleText
         };
-        
+        setIsLoading(true);
         const response = await fetchData("/book/", "POST", book);
         if (response.ok) {
             const responseData = await response.json();
@@ -104,6 +112,7 @@ const Home = () => {
             } else {
                 await openBook(responsePageDataParse.id);
             }
+            setIsLoading(false);
         } else {
             console.log("Error saving book to server.");
         }
@@ -170,11 +179,12 @@ if(userId){
     return (
         <motion.div
             className="home-container"
+            
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.7, ease: 'easeInOut' }}
-        >
+        >   <LoadingModal isLoading={isLoading} />
             <div className="cover-rectangle"></div>
 
             <div className="boxes-container">
@@ -201,18 +211,15 @@ if(userId){
                 <div className="modal">
                     <div className="modal-content">
                         <IoClose className="close" onClick={() => setShowModal(false)} />
-                        <form onSubmit={addNewBook}>
-                            <input
-                                type="text"
-                                placeholder="Legg til en tittel..."
-                                value={titleText}
-                                onChange={(e) => setTitleText(e.target.value)}
-                                className="input-text"
-                            />
-                            <button type="submit" className="check-icon">
-                                <FaCheck />
-                            </button>
-                        </form>
+                        <input
+                            type="text"
+                            placeholder="Legg til en tittel..."
+                            value={titleText}
+                            onChange={(e) => setTitleText(e.target.value)}
+                            className="input-text"
+                        />
+                        <p>{errorMsg}</p>
+                        <FaCheck className="check-icon" onClick={addNewBook} />
                     </div>
                 </div>
             )}
