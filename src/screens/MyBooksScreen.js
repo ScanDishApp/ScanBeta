@@ -71,7 +71,6 @@ export default function MyBooks() {
                 let books = localStorage.getItem("offlineBooks");
                 if (books) {
                     books = JSON.parse(books);
-
                     if (books) {
                         const rectanglesFromData = books.map((item, index) => ({
                             id: item.bookId,
@@ -80,20 +79,13 @@ export default function MyBooks() {
                         }));
                         setRectangles(rectanglesFromData);
                     } else {
-
                         const rectangleGrid = document.querySelector(".rectangle-grid");
                         rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
                     }
-
                 }
-               
-
-
             } setIsLoading(false);
         }
         fetchBooks();
-
-
     }, [userId]);
 
     const addRectangle = async () => {
@@ -123,12 +115,19 @@ export default function MyBooks() {
     const deleteRectangle = async (id) => {
         const response = await deleteBookFromServer(id);
         if (response.ok) {
+
             const responsePage = await deletePageFromServer(id);
             console.log(responsePage);
             const updatedRectangles = rectangles.filter(rectangle => rectangle.id !== id);
             setRectangles(updatedRectangles);
             saveRectangles(updatedRectangles);
+
+            const updatedOfflineBooks = offlineBooks.filter(book => book.bookId !== id);
+            setOfflineBooks(updatedOfflineBooks);
+            localStorage.setItem("offlineBooks", JSON.stringify(updatedOfflineBooks));
+
             console.log("Book deleted successfully from the server:", id);
+            setIsLoading(false);
         } else {
             console.log("Error deleting book from the server.");
         }
@@ -180,11 +179,13 @@ export default function MyBooks() {
 
     const deleteBookFromServer = async (id) => {
         try {
+            setIsLoading(true);
             const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
         }
+
     };
 
     const deletePageFromServer = async (id) => {
@@ -206,6 +207,7 @@ export default function MyBooks() {
     };
 
     const handleLookAtBook = async (id) => {
+        setIsLoading(true);
         const response = await fetchData(`/page/get?bookId=${id}`, "GET");
         console.log(response);
         if (response.ok) {
@@ -215,6 +217,7 @@ export default function MyBooks() {
             localStorage.setItem("contents", responseDataParse);
             localStorage.setItem("bookId", id);
             navigate('/look-my-book');
+            setIsLoading(false);
         }
     };
 

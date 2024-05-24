@@ -3,6 +3,7 @@ import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgCo
 import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import { motion } from 'framer-motion';
+import LoadingModal from './LoadingModual';
 
 
 import { useNavigate } from 'react-router-dom';
@@ -76,6 +77,8 @@ export default function NewPage() {
     const [pageId, setPageId] = useState(null);
     const [showStickerMenu, setShowStickerMenu] = useState(false);
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const toggleMenu = (menuType) => {
         setShowFontMenu(menuType === 'font' ? !showFontMenu : false);
@@ -124,7 +127,7 @@ export default function NewPage() {
             console.log(responseData);
             let storedPages = responseData;
             setPages(storedPages[0]);
-            if (pages) {
+            if (storedPages.length > 0 ) {
                 setPageId(storedPages[0][0].id)
             }
             console.log(pages);
@@ -157,6 +160,7 @@ export default function NewPage() {
         const responseData = await response.json();
         console.log(responseData);
         await addNewPage()
+        setIsLoading(false);
     };
 
     const addNewPage = async () => {
@@ -171,6 +175,7 @@ export default function NewPage() {
             selectedColor: '#000000',
             selectedFont: 'DM Serif Display, serif'
         };
+        setIsLoading(true);
         const responsePage = await fetchData("/page/", "POST", newPage);
         const responsePageData = await responsePage.json();
         const responsePageDataParse = JSON.parse(responsePageData)
@@ -390,11 +395,13 @@ export default function NewPage() {
     }
     return (
         <motion.div className="NewPage-container"
+        
             initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }}
             animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }}
             exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }}
             transition={{ duration: 0.7, ease: 'easeInOut' }}
         >
+            <LoadingModal isLoading={isLoading} />
             <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
