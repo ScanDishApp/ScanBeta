@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import { motion } from 'framer-motion';
 
+
 import { useNavigate } from 'react-router-dom';
 
-import { useHistory } from 'react-router-dom';
 
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
@@ -349,10 +349,12 @@ export default function NewPage() {
             reader.readAsDataURL(file);
         }
     };
+    const navigate = useNavigate();
 
     const handleInfoClick = () => {
         navigate('/InfoCarousel');
     };
+
 
     const toggleDeletemode = (index) => {
         setDeleteImageIndex(deleteImageIndex === index ? null : index);
