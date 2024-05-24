@@ -13,7 +13,7 @@ import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
 
-const predefinedColors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#008080', '#808080'];
+const predefinedColors = ['#000000', '#FF0000', '#009E00', '#0000FF', '#FFC408', '#FF00FF', '#6FCBDC', '#800000', '#B73D6F', '#008080', '#808080'];
 
 const fontOptions = {
     Serif: 'DM Serif Display, sans-serif',
