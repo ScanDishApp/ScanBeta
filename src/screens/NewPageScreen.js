@@ -349,7 +349,6 @@ export default function NewPage() {
             reader.readAsDataURL(file);
         }
     };
-    const navigate = useNavigate();
 
     const handleInfoClick = () => {
         navigate('/InfoCarousel');
