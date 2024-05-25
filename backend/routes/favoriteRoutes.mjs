@@ -5,6 +5,119 @@ import { HttpCodes } from "../modules/httpCodes.mjs";
 
 const FAVORITE_API = express.Router();
 FAVORITE_API.use(express.json());
+/**
+ * @swagger
+ * /favorite/get:
+ *   get:
+ *     summary: Retrieve a favorite by user ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to retrieve favorites from. 
+ *     responses:
+ *       200:
+ *         description: Favorite found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 userId:
+ *                   type: string
+ *                 contents:
+ *                   type: string
+ *       401:
+ *         description: Invalid favorite credentials
+ *       500:
+ *         description: Internal server error
+ * 
+ * /favorite/getOffline:
+ *   get:
+ *     summary: Retrieve favorite by ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The id of the favorite to retive 
+ *     responses:
+ *       200:
+ *         description: Favorite found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 userId:
+ *                   type: string
+ *                 contents:
+ *                   type: string
+ *       401:
+ *         description: Invalid favorite credentials
+ *       500:
+ *         description: Internal server error
+ * /favorite/:
+ *   post:
+ *     summary: Creates a new favorite
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               contents:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Favorites created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 contents:
+ *                   type: string
+ *                 userId:
+ *                   type: string
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Missing data fields
+ * /favorite/delete:
+ *   delete:
+ *     summary: Deletes a favorites by ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the favorite to delete
+ *     responses:
+ *       200:
+ *         description: Favorite deleted successfully
+ *       500:
+ *         description: Internal server error
+ */
 
 FAVORITE_API.get('/get', async (req, res, next) => {
     const { userId } = req.query
@@ -66,7 +179,7 @@ FAVORITE_API.post('/', async (req, res, next) => {
             res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
         }
     } else {
-        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Mangler data felt").end();
+        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields").end();
     }
 
 });
@@ -77,7 +190,7 @@ FAVORITE_API.delete('/:id', async (req, res) => {
         const like = new Favorites();
         like.id = id;
         await like.delete();
-        res.status(HttpCodes.SuccesfullRespons.Ok).send("User was successfully deleted");
+        res.status(HttpCodes.SuccesfullRespons.Ok).send("Favorite deleted successfully");
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
