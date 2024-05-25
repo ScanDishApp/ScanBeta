@@ -22,7 +22,6 @@ import Favorites from './screens/FavouriteScreen';
 import Ingredients from './screens/Ingredients';
 import Instructions from './screens/Instructions';
 import ScanInstruction from './screens/ScanInstruction';
-import ChooseScan from './screens/ChooseScan';
 import InfoCarousel from './screens/infoCarousel'
 
 const Layout = ({ children, showNav, showHeader }) => (
@@ -41,7 +40,6 @@ export default function App() {
           <Route path="/" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
           <Route path="/Scan" element={<Layout showNav={true} showHeader={true}><Scan /></Layout>} />
           <Route path="/Home" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
-
           <Route path="/dummy-page" element={<Layout showNav={true}><DummyPage /></Layout>} />
           <Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} />
           <Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} />
@@ -58,7 +56,6 @@ export default function App() {
           <Route path="/Instructions" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/Ingredients" element={<Layout showNav={true}><NewPage /></Layout>} />
           <Route path="/ScanInstruction" element={<Layout showNav={true} showHeader={true}><ScanInstruction /></Layout>} />
-          <Route path="/ChooseScan" element={<Layout showNav={true}><ChooseScan /></Layout>} />
           <Route path="/InfoCarousel" element={<Layout showNav={false} ><InfoCarousel /></Layout>} />
         </Routes>
       </Router>

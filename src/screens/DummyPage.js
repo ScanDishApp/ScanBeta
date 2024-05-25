@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IoCameraOutline } from 'react-icons/io5';
 import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-icons/ai';
 import LoadingModal from './LoadingModual';
 import logo from '../assets/Logo_Big.png'
@@ -69,13 +68,11 @@ export default function DummyPage() {
         }
         const response = await getUser("/user/get", id);
         const responseData = await response.json();
-        console.log("Response:", responseData);
         let profileName = responseData.name
         localStorage.setItem("profileName", profileName)
         let profileEmail = responseData.email
         localStorage.setItem("profileEmail", profileEmail)
         let profileImg = responseData.img
-        console.log(profileImg);
         localStorage.setItem("profileImg", profileImg)
         setProfileImage(profileImg);
         localStorage.setItem("profileName", profileName)
@@ -132,7 +129,6 @@ export default function DummyPage() {
         }
   
         const responseData = await response.json();
-        console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId)
         navigate('/dummy-page');
@@ -148,7 +144,6 @@ export default function DummyPage() {
 
         const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
-        console.log("Response:", responseData);
         setFriendsList(responseData.length);
     };
 

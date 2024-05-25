@@ -117,48 +117,44 @@ const Home = () => {
             console.log("Error saving book to server.");
         }
     };
-if(userId){
-
-
-    return (
-        <motion.div
-            className="home-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: 'easeInOut' }}
-        >
-            <div className="cover-rectangle">
-            <Link to="/dummy-page" style={linkStyle}>
-            <img src={profileImg} alt='Profile img' className='profile-img' />
-            </Link>
-            </div>
-
-            <div className="boxes-container">
-                <div className="box1">
-                    <Link to="/Calculator" style={linkStyle}>
-                        <img src={calkIcon} alt='Add calk' className='add-icon-book' />
+    if (userId) {
+        return (
+            <motion.div
+                className="home-container"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, ease: 'easeInOut' }}
+            >
+                <div className="cover-rectangle">
+                    <Link to="/dummy-page" style={linkStyle}>
+                        <img src={profileImg} alt='Profile img' className='profile-img' />
                     </Link>
                 </div>
-                <div className="box2">
-                    <Link to="/TemperatureConverter" style={linkStyle}>
-                        <img src={temperatureImage} alt='Temperatur' className='add-icon-book' />
-                    </Link>
-                </div>
-            </div>
-            <div className="book-rectangle">
-                <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
-                <div className="nested-rectangle" onClick={() => setShowModal(true)}>
-                    LEGG TIL NY BOK
-                </div>
-            </div>
-            <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <IoClose className="close" onClick={() => setShowModal(false)} />
-                        <form onSubmit={addNewBook}>
+                <div className="boxes-container">
+                    <div className="box1">
+                        <Link to="/Calculator" style={linkStyle}>
+                            <img src={calkIcon} alt='Add calk' className='add-icon-book' />
+                        </Link>
+                    </div>
+                    <div className="box2">
+                        <Link to="/TemperatureConverter" style={linkStyle}>
+                            <img src={temperatureImage} alt='Temperatur' className='add-icon-book' />
+                        </Link>
+                    </div>
+                </div>
+                <div className="book-rectangle">
+                    <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
+                    <div className="nested-rectangle" onClick={() => setShowModal(true)}>
+                        LEGG TIL NY BOK
+                    </div>
+                </div>
+                <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <IoClose className="close" onClick={() => setShowModal(false)} />
                             <input
                                 type="text"
                                 placeholder="Legg til en tittel..."
@@ -166,66 +162,64 @@ if(userId){
                                 onChange={(e) => setTitleText(e.target.value)}
                                 className="input-text"
                             />
-                            <button type="submit" className="check-icon">
-                                <FaCheck />
-                            </button>
-                        </form>
+                            <p>{errorMsg}</p>
+                            <FaCheck className="check-icon" onClick={addNewBook} />
+                        </div>
+                    </div>
+                )}
+            </motion.div>
+        );
+    } else {
+        return (
+            <motion.div
+                className="home-container"
+
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, ease: 'easeInOut' }}
+            >   <LoadingModal isLoading={isLoading} />
+                <div className="cover-rectangle"></div>
+
+                <div className="boxes-container">
+                    <div className="box1">
+                        <Link to="/Calculator" style={linkStyle}>
+                            <img src={calkIcon} alt='Add calk' className='add-icon-book' />
+                        </Link>
+                    </div>
+                    <div className="box2">
+                        <Link to="/TemperatureConverter" style={linkStyle}>
+                            <img src={temperatureImage} alt='Temperatur' className='add-icon-book' />
+                        </Link>
                     </div>
                 </div>
-            )}
-        </motion.div>
-    );
-}else{
-    return (
-        <motion.div
-            className="home-container"
-            
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: 'easeInOut' }}
-        >   <LoadingModal isLoading={isLoading} />
-            <div className="cover-rectangle"></div>
-
-            <div className="boxes-container">
-                <div className="box1">
-                    <Link to="/Calculator" style={linkStyle}>
-                        <img src={calkIcon} alt='Add calk' className='add-icon-book' />
-                    </Link>
-                </div>
-                <div className="box2">
-                    <Link to="/TemperatureConverter" style={linkStyle}>
-                        <img src={temperatureImage} alt='Temperatur' className='add-icon-book' />
-                    </Link>
-                </div>
-            </div>
-            <div className="book-rectangle">
-                <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
-                <div className="nested-rectangle" onClick={() => setShowModal(true)}>
-                    Legg til ny bok 
-                </div>
-            </div>
-            <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
-
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <IoClose className="close" onClick={() => setShowModal(false)} />
-                        <input
-                            type="text"
-                            placeholder="Legg til en tittel..."
-                            value={titleText}
-                            onChange={(e) => setTitleText(e.target.value)}
-                            className="input-text"
-                        />
-                        <p>{errorMsg}</p>
-                        <FaCheck className="check-icon" onClick={addNewBook} />
+                <div className="book-rectangle">
+                    <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
+                    <div className="nested-rectangle" onClick={() => setShowModal(true)}>
+                        Legg til ny bok
                     </div>
                 </div>
-            )}
-        </motion.div>
-    ); 
-}
+                <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
+
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <IoClose className="close" onClick={() => setShowModal(false)} />
+                            <input
+                                type="text"
+                                placeholder="Legg til en tittel..."
+                                value={titleText}
+                                onChange={(e) => setTitleText(e.target.value)}
+                                className="input-text"
+                            />
+                            <p>{errorMsg}</p>
+                            <FaCheck className="check-icon" onClick={addNewBook} />
+                        </div>
+                    </div>
+                )}
+            </motion.div>
+        );
+    }
 };
 
 export default Home;

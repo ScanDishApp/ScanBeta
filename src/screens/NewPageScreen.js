@@ -4,11 +4,7 @@ import { Link } from 'react-router-dom';
 import Sticker from './Stickers';
 import { motion } from 'framer-motion';
 import LoadingModal from './LoadingModual';
-
-
 import { useNavigate } from 'react-router-dom';
-
-
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
@@ -52,7 +48,6 @@ export default function NewPage() {
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
     const [ingridens, setIngridens] = useState('');
-    const [content, setContent] = useState('');
     const [images, setImages] = useState([]);
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -121,29 +116,24 @@ export default function NewPage() {
     const handleGetPages = async () => {
         let id = localStorage.getItem("bookId")
         const response = await getPages(`/page/get?bookId=${id}`);
-        console.log(response);
         if (response.ok) {
             const responseData = await response.json();
-            console.log(responseData);
             let storedPages = responseData;
             setPages(storedPages[0]);
-            if (storedPages.length > 0 ) {
+            if (storedPages.length > 0) {
                 setPageId(storedPages[0][0].id)
             }
-            console.log(pages);
         }
     }
-    
-  
+
+
 
     const saveCurrentPage = async () => {
-        console.log(pageId);
         async function updatePage(url, data) {
             return await fetchData(url, "PUT", data);
         }
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
-        console.log(noteInput);
         const page = {
             id: pageId,
             bookId: localStorage.getItem("bookId"),
@@ -155,16 +145,13 @@ export default function NewPage() {
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
-        console.log(page);
         const response = await updatePage(`/page/${pageId}`, page);
         const responseData = await response.json();
-        console.log(responseData);
         await addNewPage()
         setIsLoading(false);
     };
 
     const addNewPage = async () => {
-        console.log(pageId + "inside new page");
         const newPage = {
             bookId: localStorage.getItem("bookId"),
             title: '',
@@ -179,10 +166,8 @@ export default function NewPage() {
         const responsePage = await fetchData("/page/", "POST", newPage);
         const responsePageData = await responsePage.json();
         const responsePageDataParse = JSON.parse(responsePageData)
-        console.log(responsePageDataParse);
         localStorage.setItem("pageId", responsePageDataParse.id)
         setPageId(responsePageDataParse.id)
-        console.log(pageId + "inside new page");
         resetPageState();
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
@@ -217,25 +202,23 @@ export default function NewPage() {
         setImages(prevImages => [...prevImages, newSticker]);
     };
 
-     const handlePreviousPage = async() => {
+    const handlePreviousPage = async () => {
         setCurrentPageIndex(prevIndex => Math.max(prevIndex - 1, 0));
         setPageId(pages[currentPageIndex].id);
-        console.log(pageId);
-        await handleUpdate();
-        localStorage.removeItem("lastRecognizedText");
-        localStorage.removeItem("previousRecognizedText");
-    };
-    
-    const handleNextPage = async() => {
-        setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
-        setPageId(pages[currentPageIndex].id);
-        console.log(pageId);
         await handleUpdate();
         localStorage.removeItem("lastRecognizedText");
         localStorage.removeItem("previousRecognizedText");
     };
 
-   
+    const handleNextPage = async () => {
+        setCurrentPageIndex(prevIndex => Math.min(prevIndex + 1, pages.length - 1));
+        setPageId(pages[currentPageIndex].id);
+        await handleUpdate();
+        localStorage.removeItem("lastRecognizedText");
+        localStorage.removeItem("previousRecognizedText");
+    };
+
+
     const loadPageData = (pageIndex) => {
         const page = pages[pageIndex];
         setTitle(page.title);
@@ -250,7 +233,7 @@ export default function NewPage() {
         setIsBulletListActive(page.isBulletListActive);
     };
 
-    const handleTitleChange = async(event) => {
+    const handleTitleChange = async (event) => {
         setTitle(event.target.value);
     };
 
@@ -269,11 +252,6 @@ export default function NewPage() {
                 reader.readAsDataURL(files[i]);
             }
         }
-    };
-
-    const handleImageChangeInContainer = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
     };
 
     const handleMouseDown = (event, index) => {
@@ -381,21 +359,15 @@ export default function NewPage() {
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
-        console.log(page);
-        console.log(pageId);
         const response = await updatePage(`/page/${pageId}`, page);
-        console.log(pageId);
         const responseData = await response.json();
-        console.log(responseData);
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText");
-        console.log(pages[currentPageIndex], currentPageIndex , page, "hallo");
         pages[currentPageIndex] = page;
-
     }
+
     return (
         <motion.div className="NewPage-container"
-        
             initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }}
             animate={{ opacity: 1, rotateY: 0, transformOrigin: 'left center' }}
             exit={{ opacity: 0, rotateY: -90, transformOrigin: 'left center' }}
@@ -495,7 +467,7 @@ export default function NewPage() {
                     value={ingridens}
                     selectedColor={selectedColor}
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
-                    
+
 
                 />
 
@@ -558,7 +530,6 @@ export default function NewPage() {
 
                 {showStickerMenu && (
                     <div className="sticker-menu">
-                        {/* Render the Sticker component */}
                         <Sticker addSticker={addSticker} />
                     </div>
                 )}
@@ -584,7 +555,4 @@ export default function NewPage() {
         </motion.div>
 
     );
-
-
-
 }

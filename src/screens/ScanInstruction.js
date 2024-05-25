@@ -131,8 +131,8 @@ const Scan = () => {
   };
 
   const handleRetryCapture = () => {
-    setSelectedImage(null); // Reset selected image
-    setDisplayedImage(false); // Hide displayed image
+    setSelectedImage(null); 
+    setDisplayedImage(false); 
   };
 
 

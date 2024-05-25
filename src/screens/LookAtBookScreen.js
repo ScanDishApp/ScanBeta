@@ -41,12 +41,10 @@ export default function LookMyBooks() {
 
         }
     }, []);
-    console.log(content);
 
     useEffect(() => {
         handlePage();
     }, [currentPageIndex]);
-
 
     useEffect(() => {
         handlePage();

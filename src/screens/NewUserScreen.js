@@ -48,16 +48,13 @@ export default function NewUser() {
             return await fetchData(paramUrl, "GET");
         }
 
-         const response = await getUser("/user/get", id);
+        const response = await getUser("/user/get", id);
         const responseData = await response.json();
-        console.log("Response:", responseData);
-
         let profileName = responseData.name
         localStorage.setItem("profileName", profileName)
         let profileEmail = responseData.email
         localStorage.setItem("profileEmail", profileEmail)
         let profileImg = responseData.img
-        console.log(profileImg);
         localStorage.setItem("profileImg", profileImg)
         setProfileImage(profileImg);
     };
@@ -66,7 +63,7 @@ export default function NewUser() {
         async function createUser(url, data) {
             return await fetchData(url, "POST", data);
         }
-        
+
         const nameInput = document.querySelector('.create-username');
         const passwordInput = document.querySelector('.create-password');
         const emailInput = document.querySelector('.create-email');
@@ -92,7 +89,7 @@ export default function NewUser() {
         } else {
             emailInput.classList.remove('error-border');
         }
-    
+
         if (!pswHash.trim()) {
             passwordInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn passord!");
@@ -100,25 +97,22 @@ export default function NewUser() {
         } else {
             passwordInput.classList.remove('error-border');
         }
-    
+
         const user = {
             name: name,
             pswHash: pswHash,
             email: email,
             img: img
         };
-        console.log(user);
         setIsLoading(true);
         const response = await createUser("/user/", user);
-        console.log(response);
-        if(response.status == 500){
+        if (response.status == 500) {
             passwordInput.classList.add('error-border');
             setErrorMsg("Email er allerede i bruk");
             setIsLoading(false);
             return;
         }
         const responseData = await response.json();
-        console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId);
         await handleGet(userId)
@@ -128,8 +122,8 @@ export default function NewUser() {
 
     return (
         <div className="create-user-container">
-         <LoadingModal isLoading={isLoading} />
-                <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
+            <LoadingModal isLoading={isLoading} />
+            <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
             <div className="create-user-grid">
                 <br></br>
                 <h1>Lag en ny bruker</h1>

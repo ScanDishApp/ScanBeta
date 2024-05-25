@@ -45,6 +45,7 @@ class DBManager {
         } catch (error) {
             console.error("Error deleting user:", error);
             throw error;
+        }finally{
             client.end();
         }
     }
@@ -153,8 +154,6 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."cookbooks" WHERE "id" = $1';
             const params = [id];
             const output = await client.query(sql, params);
-
-            console.log(output);
             book = output.rows[0];
 
         } catch (error) {
@@ -178,8 +177,6 @@ class DBManager {
 
             for (let i = 0; i < output.rows.length; i++) {
                 book.push(output.rows[i])
-                console.log(book);
-
             }
         } catch (error) {
             console.error('Error logging in:', error.stack);
@@ -200,12 +197,11 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."cookbooks" WHERE "userId" LIKE $1 OR "userId" LIKE $2';
             const params = [`%${userId},%`, `%,${userId}%`];
             const output = await client.query(sql, params);
-    
+
             for (let i = 0; i < output.rows.length; i++) {
                 book.push(output.rows[i])
-                console.log(book);
             }
-           
+
         } catch (error) {
             console.error('Error logging in:', error.stack);
         } finally {
@@ -224,8 +220,6 @@ class DBManager {
             const params = [book.contents, book.id];
             const output = await client.query(sql, params);
 
-
-
         } catch (error) {
             console.error('Error in update shoppinglist:', error.stack);
         } finally {
@@ -240,14 +234,10 @@ class DBManager {
 
         const client = new pg.Client(this.#credentials);
         try {
-
             await client.connect();
-
-            console.log('Connected to the database');
             const sql = 'DELETE FROM "public"."cookbooks" WHERE "id" = $1;'
             const params = [id];
             const output = await client.query(sql, params);
-            console.log('Query executed successfully');
             return true;
         } catch (error) {
             console.error("Error deleting user:", error);
@@ -255,8 +245,6 @@ class DBManager {
             return false;
         } finally {
             client.end();
-            console.log('Disconnected from the database');
-
         }
 
     }
@@ -317,11 +305,8 @@ class DBManager {
         try {
             await client.connect();
             const sql = 'UPDATE "public"."friends" SET "status" = $1 WHERE "id" = $2;'
-            console.log("hello" + request.status + request.id);
             const params = [request.status, request.id];
-            console.log("before");
             const output = await client.query(sql, params);
-            console.log("after");
 
         } catch (error) {
             console.error('Error in update user:', error.stack);
@@ -339,11 +324,8 @@ class DBManager {
         try {
             await client.connect();
             const sql = 'UPDATE "public"."friends" SET "status" = $1 WHERE "id" = $2;'
-            console.log("hello" + request.status + request.id);
             const params = [request.status, request.id];
-            console.log("before");
             const output = await client.query(sql, params);
-            console.log("after");
 
         } catch (error) {
             console.error('Error in update user:', error.stack);
@@ -356,39 +338,37 @@ class DBManager {
     }
 
     async sendRequest(request) {
-      
+
         const client = new pg.Client(this.#credentials);
-    
+
         try {
             await client.connect();
-    
+
             const sql1 = 'SELECT COUNT("friends"."id") AS count FROM "public"."friends" WHERE ("friends"."userId" = $1) AND ("friends"."friendId" = $2);';
             const parms1 = [request.userId, request.friendId];
             const output1 = await client.query(sql1, parms1);
-            console.log(output1);
-    
-            // Check if the count is less than 1
+
             if (output1.rows[0].count < 1) {
                 const sql = 'INSERT INTO "public"."friends"("userId", "friendId", "status", "name") VALUES($1::TEXT, $2::TEXT, $3::TEXT, $4::TEXT) RETURNING status;';
                 const parms = [request.userId, request.friendId, request.status, request.name];
-    
+
                 const output = await client.query(sql, parms);
-    
+
                 if (output.rows.length == 1) {
                     request.status = output.rows[0].status;
                 }
             }
-    
+
         } catch (error) {
             console.error(error);
             throw error;
         } finally {
             await client.end();
         }
-    
+
         return request;
     }
-    
+
     async favoritePage(like) {
         const client = new pg.Client(this.#credentials);
 
@@ -441,8 +421,6 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."favorites" WHERE "userId" = $1'
             const params = [userId]
             const output = await client.query(sql, params);
-
-            console.log(output);
             like = output.rows;
 
         } catch (error) {
@@ -463,8 +441,6 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."favorites" WHERE "id" = $1'
             const params = [id]
             const output = await client.query(sql, params);
-
-            console.log(output);
             like = output.rows;
 
         } catch (error) {
@@ -511,8 +487,6 @@ class DBManager {
             const sql = 'SELECT * FROM "public"."pages" WHERE "bookId" = $1';
             const params = [bookId];
             const output = await client.query(sql, params);
-
-            console.log(output);
             page.push(output.rows);
 
         } catch (error) {
@@ -529,7 +503,6 @@ class DBManager {
         try {
             await client.connect();
             const sql = 'UPDATE "public"."pages" set "ingridens" = $1, "title" = $2, "imageFile" = $3, "desc" = $4, "images" = $5, "selectedColor" = $6, "selectedFont" = $7 WHERE "id" = $8;'
-            console.log(page);
             const params = [page.ingridens, page.title, page.imageFile, page.desc, page.images, page.selectedColor, page.selectedFont, page.id];
             const output = await client.query(sql, params);
 
@@ -549,12 +522,9 @@ class DBManager {
         try {
 
             await client.connect();
-
-            console.log('Connected to the database');
             const sql = 'DELETE FROM "public"."pages" WHERE "bookId" = $1;'
             const params = [bookId];
             const output = await client.query(sql, params);
-            console.log('Query executed successfully');
             return true;
         } catch (error) {
             console.error("Error deleting user:", error);
@@ -562,8 +532,6 @@ class DBManager {
             return false;
         } finally {
             client.end();
-            console.log('Disconnected from the database');
-
         }
     }
 }

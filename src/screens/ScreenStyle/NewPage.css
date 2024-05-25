@@ -137,7 +137,7 @@ padding-left: 10px;
 }
 
 .image-preview {
-  position: absolute; /* Ensure images are positioned absolutely */
+  position: absolute;
   z-index: 1;
 }
 
@@ -156,13 +156,11 @@ padding-left: 10px;
   width: 20px;
   height: 20px;
   border-radius: 50px;
-  font-size: 10px; /* Adjust icon size as needed */
+  font-size: 10px; 
   background-color: #ff4d4f;
-  color: #fff; /* Red color for delete icon */
+  color: #fff; 
  border-radius: 5px;
 }
-
-
 
 .colorMenu {
   position: fixed;
@@ -178,7 +176,6 @@ padding-left: 10px;
       z-index: 0;
 }
 
-
 .color-button {
   width: 20px;
   height: 20px;
@@ -186,7 +183,6 @@ padding-left: 10px;
   border-radius: 50%;
   cursor: pointer;
   border: 1px solid #4b534a    ; 
-
 }
 
 .funky {
@@ -203,7 +199,7 @@ padding-left: 10px;
   justify-content: space-evenly; 
   margin-left: 3px;
   margin-right: 3px;
-  
+
   color: white;
 }
 .icon-row-top {
@@ -213,13 +209,11 @@ padding-left: 10px;
   justify-content: space-evenly; 
   margin-left: 3px;
   margin-right: 3px;
-  
   color: white;
 }
 .icon-top { 
   font-size: 20px; 
-  background-color: #99B952 
-  ;
+  background-color: #99B952;
   padding: 10px;
   border-radius: 10px;
   width: 100%;
@@ -227,14 +221,12 @@ padding-left: 10px;
 
 .icon {
   font-size: 30px; 
-  background-color: #99B952 
-  ;
+  background-color: #99B952;
   padding: 10px;
   border-radius: 10px;
   width: 100%;
   margin: 0 2.5px;
 }
-
 
 .font-menu {
   position: fixed;
@@ -263,8 +255,6 @@ padding-left: 10px;
   width: 100%;
 }
 
-
-
 .font-size-menu {
   position: fixed;
   bottom: 145px;
@@ -277,7 +267,6 @@ padding-left: 10px;
   padding: 11px;
   border-radius: 10px;
       z-index: 0;
-
 }
 
 .font-size-menu .font-size-option {
@@ -320,7 +309,6 @@ padding-left: 10px;
 }
 
 .preCoverText {
-
   text-align: center; 
 }
 .preCover{
@@ -333,17 +321,12 @@ padding-left: 10px;
   height: 200px;
   min-height: 200px;
   min-width: 277px;
-
   max-height: 140px;
   border-radius: 10px;
   border: dotted;
   justify-content: center;
   align-items: center;
-
-  
 }
-
-
 
 .undertitle {
   display: flex;
@@ -353,7 +336,6 @@ padding-left: 10px;
   font-weight: 400;
   margin-bottom: 3px;
   margin-top: 3px;
-
 }
 
 
@@ -366,7 +348,6 @@ padding-left: 10px;
   border-radius: 5px;
 }
 
-
 .ScanOptions {
 display: flex;
 margin: 5px;
@@ -376,10 +357,7 @@ padding: 7px;
 border-radius: 10px;
 background-color: #99b952;
 margin-bottom: 5px;
-
 }
-
-
 
 .option {
 padding: 5px;
@@ -391,6 +369,5 @@ background-color: #ffffff;
 border-radius: 5px;
 margin-left: 20px;
 margin-right: 20px;
-
 }
 

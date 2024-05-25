@@ -121,7 +121,6 @@ FAVORITE_API.use(express.json());
 
 FAVORITE_API.get('/get', async (req, res, next) => {
     const { userId } = req.query
-    console.log(userId);
     try {
         const like = new Favorites();
         like.userId = userId;

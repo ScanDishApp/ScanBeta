@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IoAdd, IoClose, IoTrash } from 'react-icons/io5';
-import { FaPencilAlt, FaCheck } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import LoadingModal from './LoadingModual';
 import divider from '../assets/divider.png'
@@ -115,17 +115,13 @@ export default function MyBooks() {
     const deleteRectangle = async (id) => {
         const response = await deleteBookFromServer(id);
         if (response.ok) {
-
             const responsePage = await deletePageFromServer(id);
-            console.log(responsePage);
             const updatedRectangles = rectangles.filter(rectangle => rectangle.id !== id);
             setRectangles(updatedRectangles);
             saveRectangles(updatedRectangles);
-
             const updatedOfflineBooks = offlineBooks.filter(book => book.bookId !== id);
             setOfflineBooks(updatedOfflineBooks);
             localStorage.setItem("offlineBooks", JSON.stringify(updatedOfflineBooks));
-
             console.log("Book deleted successfully from the server:", id);
             setIsLoading(false);
         } else {
@@ -209,11 +205,9 @@ export default function MyBooks() {
     const handleLookAtBook = async (id) => {
         setIsLoading(true);
         const response = await fetchData(`/page/get?bookId=${id}`, "GET");
-        console.log(response);
         if (response.ok) {
             const responseData = await response.json();
             const responseDataParse = JSON.stringify(responseData);
-            console.log(responseData);
             localStorage.setItem("contents", responseDataParse);
             localStorage.setItem("bookId", id);
             navigate('/look-my-book');

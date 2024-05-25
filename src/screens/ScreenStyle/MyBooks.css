@@ -1,5 +1,4 @@
 
-  
   .myBooks-container {
     text-align: center;
     margin-top: 0px; 
@@ -31,7 +30,6 @@
     padding: 5px;
     border-radius: 10px;
     z-index: 1;
-
 }
 
 .delete-icon {
@@ -66,12 +64,10 @@
 
 .check-icon,
 .close{
-    
     background-color: #c1d96c;
     color: #4B534A;
     padding: 10px;
     border-radius: 10px;
-
 }
 
 .modal-overlay {
@@ -102,8 +98,8 @@
 }
 .top-buttons-container{
     display: flex;
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
+  justify-content: center; 
+  align-items: center; 
 
 }
 

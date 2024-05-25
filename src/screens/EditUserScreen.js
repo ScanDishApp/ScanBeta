@@ -43,7 +43,6 @@ export default function EditUser() {
 
         reader.readAsDataURL(file);
     };
-    console.log(profileImage);
     const handleDelete = async () => {
         async function deleteUser(url) {
             return await fetchData(url, "DELETE");
@@ -67,8 +66,6 @@ export default function EditUser() {
 
         const response = await getUser("/user/get", id);
         const responseData = await response.json();
-        console.log("Response:", responseData);
-
         let profileName = responseData.name
         localStorage.setItem("profileName", profileName)
         let profileEmail = responseData.email
@@ -92,8 +89,6 @@ export default function EditUser() {
         let id = localStorage.getItem("userId")
         let img = profileImage;
         let pswHash = profilePswHash;
-        console.log(profileImage);
-        console.log(profilePswHash);
         const user = {
             name,
             pswHash,
@@ -101,23 +96,19 @@ export default function EditUser() {
             img,
             id,
         };
-
-        console.log(user + "this is user");
         setErrorMsg(null);
         setIsLoading(true);
         const response = await updateUser(`/user/${id}`, user);
         if (!response.ok) {
-            
+
             setErrorMsg("Emailen er i bruk");
             emailImp.classList.add('error-border');
-           
+
             setIsLoading(false);
-        } 
+        }
         const responseData = await response.json();
-        console.log("Response:", responseData);
         let userId = responseData.id
         localStorage.setItem("userId", userId);
-        console.log(userId);
         await handleGet(userId)
         navigate('/dummy-page')
         setIsLoading(false);
@@ -136,7 +127,6 @@ export default function EditUser() {
         pswHash = await sha256(pswHash);
         if (currentPswHash === profilePswHash) {
 
-
             let id = localStorage.getItem("userId")
             const user = {
                 name: profileName,
@@ -145,40 +135,33 @@ export default function EditUser() {
                 img: profileImage,
                 id: id,
             };
-            console.log(user);
             setErrorMsg(null);
             setIsLoading(true);
             const response = await updateUser(`/user/${id}`, user);
             const responseData = await response.json();
-            console.log("Response:", responseData);
             let userId = responseData.id
             localStorage.setItem("userId", userId);
-            console.log(userId);
             await handleGet(userId)
             navigate('/dummy-page')
             setIsLoading(false);
-           
+
         } else if (currentPswHash === pswHash) {
-            
+
             setErrorMsg("Passord kan ikke være like");
             currentPswHashInp.classList.add('error-border');
             pswHashInp.classList.add('error-border');
-           
+
             setIsLoading(false);
-        }  else {
+        } else {
             setErrorMsg("Ikke riktig passord!");
             currentPswHashInp.classList.add('error-border');
-          
             setIsLoading(false);
-            console.log(currentPswHash);
-            console.log(pswHash);
-            console.log(profilePswHash);
         }
-        
+
     };
 
     return (
-    <div className="edit-user-container">
+        <div className="edit-user-container">
             <LoadingModal isLoading={isLoading} />
             <div className="rectangle-grid-edit">
                 <h1>Endre bruker data</h1>
@@ -215,18 +198,18 @@ export default function EditUser() {
                     </label>
                 </div>
                 <p>{errorMsg}</p>
-                <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)}  className="update-button">Oppdater bruker</button>
+                <button onClick={handleUpdateUserInfo} onChange={(e) => setProfilePswHash(e.target.value)} className="update-button">Oppdater bruker</button>
 
             </div>
 
             <div className='divider-container'>
-            <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+                <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
 
             </div>
 
 
             <div className='edit-psw'>
-            <h1>Endre passord</h1>
+                <h1>Endre passord</h1>
                 <div className="edit-rectangle-psw">
                     <h2>Nåværende passord: </h2>
                     <input className="update-current-password" type='password'></input>
@@ -240,7 +223,7 @@ export default function EditUser() {
             </div>
 
             <div className='divider-container'>
-            <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+                <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
 
             </div>
 

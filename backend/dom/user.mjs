@@ -12,25 +12,20 @@ class User {
 
   async save() {
     if (this.id != null) {
-      console.log("hello");
       return await DBManager.updateUser(this);
     } else {
       return await DBManager.createUser(this);
-      
     }
   }
 
   async delete() {
-
     if (this.id != null) {
       return await DBManager.deleteUser(this);
     }
-
   }
 
   async getUser() {
     let dbUser = await DBManager.getUser(this.id);
-
     if (dbUser.id != null) {
       this.id = dbUser.id;
       this.name = dbUser.name;

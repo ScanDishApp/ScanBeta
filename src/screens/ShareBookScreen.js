@@ -94,7 +94,6 @@ export default function SharedBooks() {
             await saveToServer(book);
             localStorage.removeItem("lastRecognizedText")
             localStorage.removeItem("previousRecognizedText")
-            console.log("Book added successfully to the server:", book);
         }else{
             const rectangleGrid = document.querySelector(".rectangle-grid");
             rectangleGrid.innerHTML = `<p>Logg inn for å bruke denne funksjonen.</p>`
@@ -106,14 +105,10 @@ export default function SharedBooks() {
         const response = await deleteBookFromServer(id);
         if (response.ok) {
             const response = await deletePageFromServer(id);
-            console.log(response);
             const updatedRectangles = rectangles.filter(rectangle => rectangle.id !== id);
             setRectangles(updatedRectangles);
             saveRectangles(updatedRectangles);
-            console.log("Book deleted successfully from the server:", id);
-        } else {
-            console.log("Error deleting book from the server.");
-        }
+        } 
     };
 
     const saveToServer = async (book) => {
@@ -139,8 +134,6 @@ export default function SharedBooks() {
                 const responsePageData = await responsePage.json();
                 const responsePageDataParse = JSON.parse(responsePageData)
                 localStorage.setItem("pageId", responsePageDataParse.id)
-            } else {
-                console.log("Error saving book to server.");
             }
         } catch (error) {
             console.error("Error saving book to server:", error);
@@ -170,23 +163,16 @@ export default function SharedBooks() {
         localStorage.setItem('rectangles', JSON.stringify(rectangles));
     };
 
-
-
-
     const handleLookAtBook = async (id) => {
         async function getBook(url) {
             return await fetchData(url, "GET");
         }
 
         const response = await getBook(`/page/get?bookId=${id}`);
-        console.log(response);
         const responseData = await response.json();
-
-        console.log("Response:", responseData);
         localStorage.setItem("contents", responseData);
         try {
             const contentsArray = JSON.parse(responseData);
-            console.log("contentsArray:", contentsArray);
             localStorage.setItem("contentsArray", contentsArray);
         } catch (error) {
             console.error("Error parsing contentsString:", error);
@@ -200,11 +186,9 @@ export default function SharedBooks() {
             return await fetchData(url, "GET");
         }
         const response = await getPages(`/page/get?bookId=${id}`);
-        console.log(response);
         if (response.ok) {
             const responseData = await response.json();
             const responseDataParse = JSON.stringify(responseData)
-            console.log(responseData);
             localStorage.setItem("contents", responseDataParse);
             localStorage.setItem("bookId", id)
             navigate('/NewPage');

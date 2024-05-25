@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './ScreenStyle/Temp.css';
-import { AiOutlineCalculator } from 'react-icons/ai';
 
 export default function TemperatureConverter() {
     const [inputValue, setInputValue] = useState('');

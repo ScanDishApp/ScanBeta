@@ -1,9 +1,6 @@
-// swagger.mjs
-
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-// Swagger definition
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -13,23 +10,20 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:8080/', // Replace with your server URL
+      url: 'http://localhost:8080/', 
       description: 'Development server',
     },
     {
-      url: 'https://scanbeta.onrender.com/', // Replace with your server URL
+      url: 'https://scanbeta.onrender.com/', 
       description: 'Production server',
     },
   ],
 };
 
-// Options for the swagger docs
 const options = {
   swaggerDefinition,
-  apis: ['./backend/routes/*.mjs'], // Path to the API docs, adjust this according to your structure
+  apis: ['./backend/routes/*.mjs'], 
 };
 
-// Initialize swagger-jsdoc
 const swaggerSpec = swaggerJSDoc(options);
-
 export { swaggerUi, swaggerSpec };

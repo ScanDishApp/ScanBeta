@@ -27,8 +27,6 @@ server.use("/friends", FRIEND_API);
 server.use("/favorite", FAVORITE_API); 
 server.use("/page", PAGE_API);
 
-
-
 server.use(errorHandler);
 
 server.listen(server.get('port'), function () {

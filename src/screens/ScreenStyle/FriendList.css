@@ -1,8 +1,7 @@
 .friend-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-   
+    align-items: center; 
 }
 
 .add-rectangle {
@@ -15,7 +14,6 @@
     background-color: #53a687;
     border-radius: 25px;
     height: auto;
-  
 }
 .add-rectangle h1{  
     text-align: center;  
@@ -23,15 +21,14 @@
 
 .hest {
     display: flex;
-    justify-content: center; /* Horizontal centering */
-    align-items: center;    /* Vertical centering */
-    text-align: center;     /* Ensures text alignment within the flex container */
-    height: auto;           /* Ensures the flex container takes the full height of its parent */
-    width: 100%;            /* Ensures the flex container takes the full width of its parent */
+    justify-content: center; 
+    align-items: center;    
+    text-align: center;     
+    height: auto;          
+    width: 100%;           
     background-color: #def294;
     padding-top: 5px;
     padding-bottom: 5px;
-
     margin-top: 15px;    border-radius: 0px 0px 20px 20px;
 }
 
@@ -53,9 +50,6 @@
     z-index: 1;
     left: calc(100% - 50px);
 }
-
-
-
 
 .friends-rectangle {
     width: calc(100% - 26px);

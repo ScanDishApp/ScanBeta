@@ -179,7 +179,6 @@ USER_API.use(express.json());
  *         description: Internal server error
  */
 
-
 USER_API.get('/get', async (req, res, next) => {
     try {
         const { id } = req.query;
@@ -237,7 +236,6 @@ USER_API.post('/login', async (req, res, next) => {
 USER_API.post('/', async (req, res, next) => {
     try {
         const { name, email, pswHash, img } = req.body;
-        console.log(name+ email+pswHash + img );
         if (!name || !email || !pswHash) {
             return res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Missing data fields");
         }

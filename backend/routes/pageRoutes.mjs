@@ -208,27 +208,26 @@ PAGE_API.use(express.json());
  *         description: Internal server error
  */
 
-
 PAGE_API.get('/get', async (req, res, next) => {
-    const { bookId }  = req.query;
-     try {
+    const { bookId } = req.query;
+    try {
         const page = new Page();
         page.bookId = bookId;
-  
+
         const pageResult = await page.getPages();
 
         if (pageResult.success) {
             const page = pageResult.dbPage;
             res.status(HttpCodes.SuccesfullRespons.Ok).json(page).end();
         } else {
-            console.error("Login failed:", pageResult.message);
+            console.error("Page failed:", pageResult.message);
             if (pageResult.error) {
                 console.error("Detailed error:", pageResult.error);
             }
             res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Invalid book credentials");
         }
     } catch (error) {
-        
+
         console.error("Unexpected error:", error);
         res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
     }
@@ -236,7 +235,7 @@ PAGE_API.get('/get', async (req, res, next) => {
 
 PAGE_API.post('/', async (req, res, next) => {
 
-    const { bookId , title, ingridens, imageFile, desc, images, selectedColor,selectedFont} = req.body;
+    const { bookId, title, ingridens, imageFile, desc, images, selectedColor, selectedFont } = req.body;
 
     if (bookId != "") {
         let page = new Page();
@@ -248,10 +247,10 @@ PAGE_API.post('/', async (req, res, next) => {
         page.images = images;
         page.selectedColor = selectedColor;
         page.selectedFont = selectedFont;
-     try{
-        page = await page.save();
+        try {
+            page = await page.save();
             res.status(HttpCodes.SuccesfullRespons.Ok).json(JSON.stringify(page)).end();
-        }catch{
+        } catch {
             res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Something went wrong ").end();
         }
 
@@ -262,9 +261,9 @@ PAGE_API.post('/', async (req, res, next) => {
 });
 
 PAGE_API.put('/:id', async (req, res) => {
-    const {title, ingridens, imageFile, desc, images, selectedColor, selectedFont, id} = req.body;
-  
-    let dbPage = new Page(); 
+    const { title, ingridens, imageFile, desc, images, selectedColor, selectedFont, id } = req.body;
+
+    let dbPage = new Page();
     dbPage.id = id
     dbPage.title = title;
     dbPage.ingridens = ingridens;
@@ -273,7 +272,6 @@ PAGE_API.put('/:id', async (req, res) => {
     dbPage.images = images;
     dbPage.selectedColor = selectedColor;
     dbPage.selectedFont = selectedFont;
-    console.log(req.body);
     if (dbPage.id) {
 
         dbPage = await dbPage.save();
@@ -288,8 +286,6 @@ PAGE_API.delete('/delete', async (req, res) => {
     const { bookId } = req.query;
     const page = new Page();
     page.bookId = bookId;
-    console.log("delete page")
-
     try {
         await page.delete();
         res.status(HttpCodes.SuccesfullRespons.Ok).send("User was successfully deleted");

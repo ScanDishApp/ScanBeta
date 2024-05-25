@@ -53,7 +53,6 @@ export default function Friends() {
         setIsLoading(true);
         const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
-        console.log("Response:", responseData);
         setFriendsList(responseData);
         setIsLoading(false);
 
@@ -68,12 +67,10 @@ export default function Friends() {
             id: id,
             status: status,
         };
-        console.log(request);
 
         try {
             const response = await declineFriend("/friends/remove", request);
             const responseData = await response.json();
-            console.log("Response:", responseData);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -81,9 +78,7 @@ export default function Friends() {
 
     const handleDelete = async (id) => {
         try {
-            console.log("Accepted request with id:", id);
             await handleDeleteFriend(id);
-            console.log(id);
             await handleGetFriend(userId);
         } catch (error) {
             console.error("Error:", error);
@@ -91,9 +86,7 @@ export default function Friends() {
     }
 
     const handleRequest = async () => {
-
         navigate('/friend-request-screen');
-
     };
 
     const handleGetFriendRequest = async (id) => {
@@ -132,9 +125,9 @@ export default function Friends() {
     } else {
         return (
             <div className="friend-container">
-            <LoadingModal isLoading={isLoading} />
+                <LoadingModal isLoading={isLoading} />
                 <div onClick={handleRequest} className="add-rectangle">
-                    
+
                     <h1>Legg til nye venner!</h1>
                     <span className='hest'>Trykk her for å se om du har noen nye forespørseler</span>
 

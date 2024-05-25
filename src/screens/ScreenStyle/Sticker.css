@@ -1,29 +1,28 @@
-
 .sticker-menu {
   display: flex;
   justify-content: center;
-  background-color: #99B952 ;
+  background-color: #99B952;
   border-radius: 10px;
   margin: 10px;
   bottom: 130px;
   position: fixed;
   left: 58px;
-z-index: -1;
+  z-index: -1;
 }
 
 .toggle-menu {
   display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
+  justify-content: center;
+  align-items: center;
   width: 55px;
   height: 30px;
-  margin: 0 auto; /* Automatically center within parent container */
+  margin: 0 auto;
   position: fixed;
   bottom: 148px;
   left: 0px;
   animation: ease-in;
   z-index: -1;
-  
+
 }
 
 .toggle-menu:hover {
@@ -34,19 +33,16 @@ z-index: -1;
   font-size: 30px;
   color: #333;
   background-color: #99b952;
-padding: 7px;
-border-radius: 10px;
+  padding: 7px;
+  border-radius: 10px;
 
 }
 
-
-
 .sticker-item {
-padding: 5px;
+  padding: 5px;
   width: 35px;
   height: 35px;
   border-radius: 10px;
-  
 
 }
 
@@ -54,33 +50,28 @@ padding: 5px;
   transform: scale(1.1);
 }
 
-
-
 .selected-sticker img {
   width: 50px;
   height: 50px;
   margin-top: 0;
   border-radius: 5px;
 }
+
 .selected-sticker {
   position: fixed;
   position: absolute;
   margin-top: 20px;
-  z-index: -1; /* Ensure it appears above other elements */
+  z-index: -1;
   bottom: 200px;
 }
 
-/* Example media query for smaller devices */
+
 @media (max-width: 768px) {
-  /* Adjust styles for smaller screens */
   .selected-stickers-container {
-    /* Example: Adjust container width or overflow */
     width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    overflow-x: auto;
   }
-
 }
-
 
 .delete-icon-edit {
   padding: 5px;
@@ -88,8 +79,8 @@ padding: 5px;
   bottom: 5px;
   left: 55px;
   border-radius: 50px;
-  font-size: 10px; /* Adjust icon size as needed */
+  font-size: 10px;
   background-color: #ff4d4f;
-  color: #fff; /* Red color for delete icon */
- border-radius: 5px;
+  color: #fff;
+  border-radius: 5px;
 }

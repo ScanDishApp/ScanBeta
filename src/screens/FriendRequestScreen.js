@@ -43,7 +43,6 @@ export default function FriendRequest() {
             return await fetchData(paramUrl, "GET");
         }
         setIsLoading(true);
-
         const response = await getRequest("/friends/requests", id);
         const responseData = await response.json();
         setFriendRequests(responseData);
@@ -66,7 +65,6 @@ export default function FriendRequest() {
         try {
             const response = await fetchData("/friends/add", "POST", request);
             const responseData = await response.json();
-            console.log("Response:", responseData);
             setSuccessMsg("Forespørsel sendt");
         } catch (error) {
             console.error("Error:", error);
@@ -82,12 +80,10 @@ export default function FriendRequest() {
             id: id,
             status: status,
         };
-        console.log(request);
 
         try {
             const response = await addFriend("/friends/ans", request);
             const responseData = await response.json();
-            console.log("Response:", responseData);
             await handleGetFriendRequest(userId);
         } catch (error) {
             console.error("Error:", error);
@@ -103,13 +99,11 @@ export default function FriendRequest() {
             id: id,
             status: status,
         };
-        console.log(request);
 
         try {
 
             const response = await declineFriend("/friends/ans", request);
             const responseData = await response.json();
-            console.log("Response:", responseData);
             await handleGetFriendRequest(userId);
         } catch (error) {
             console.error("Error:", error);
@@ -119,7 +113,6 @@ export default function FriendRequest() {
 
     const handleAccept = async (id) => {
         try {
-            console.log("Accepted request with id:", id);
             await handleAddFriend(id);
         } catch (error) {
             console.error("Error:", error);
@@ -128,7 +121,6 @@ export default function FriendRequest() {
 
     const handleDecline = async (id) => {
         try {
-            console.log("Accepted request with id:", id);
             await handleDeclineFriend(id);
         } catch (error) {
             console.error("Error:", error);
@@ -141,9 +133,9 @@ export default function FriendRequest() {
             <h1>Forespøsler</h1>
             <div className="add-request-rectangle">
                 <h1>Min bruker id: {userId}</h1>
-               
-                    <input placeholder='Legg til din venns bruker id:' className="friendId-input" ></input>
-              
+
+                <input placeholder='Legg til din venns bruker id:' className="friendId-input" ></input>
+
                 <button className='send-button' onClick={handleSendFriendRequest}>Send forespørsel</button>
                 <p>{successMsg}</p>
             </div>
@@ -154,8 +146,8 @@ export default function FriendRequest() {
                         <div key={request.id} className="friend-request-item">
                             <h3>Navn: {request.name}</h3>
                             <div className='btn-container'>
-                            <AiOutlineCheck className="checkIcon" onClick={() => handleAccept(request.id)} />
-                            <AiOutlineClose className="xIcon" onClick={() => handleDecline(request.id)} />
+                                <AiOutlineCheck className="checkIcon" onClick={() => handleAccept(request.id)} />
+                                <AiOutlineClose className="xIcon" onClick={() => handleDecline(request.id)} />
                             </div>
                         </div>
                     ))}

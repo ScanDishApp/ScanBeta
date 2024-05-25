@@ -15,10 +15,7 @@
     width: calc(100% - 26px);
     background-color: #53a687;
     border-radius: 25px;
-   
     margin-bottom: 10px;
-
-
 }
 
 .friendId-input {
@@ -49,13 +46,12 @@
     font-size: x-large;
     font-family: 'DM Serif Display', serif;
     font-weight: bold;
-
 }
-
 
 .Request{
     width: calc(100% - 26px);
 }
+
 .friend-request-item {
     background-color: #def294;
     border-radius: 25px;
