@@ -29,15 +29,11 @@ const InfoCarousel = () => {
   };
 
   const goBack = () => {
-
-    console.log("Back button clicked");
-    navigate(-1); // back 1 gang
+    navigate(-1); 
   };
 
   const goHome = () => {
-    // Navigate to a specific route when "Home" button is clicked
-    console.log("Home button clicked");
-    navigate('/Home'); // hjem
+    navigate('/Home'); 
   };
 
   return (

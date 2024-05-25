@@ -8,9 +8,7 @@ const LoadingModal = ({ isLoading }) => {
   return (
     <div className="loading-modal">
       <div className="loading-content">
-      
         <img className="spinner"src={logo} alt="Logo"/>
-   
         <p>Laster...</p>
       </div>
     </div>

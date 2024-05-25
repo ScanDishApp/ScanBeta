@@ -26,9 +26,7 @@ class Page {
     if (this.bookId != null) {
       return await DBManager.deletePage(this.bookId);
     }
-
   }
-
 
   async getPages() {
     let dbPage = await DBManager.getPages(this.bookId);

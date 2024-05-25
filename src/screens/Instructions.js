@@ -29,10 +29,7 @@ const Instructions = forwardRef(({ value, selectedColor, selectedFont }, ref) =>
     resetTextArea,
   }));
 
- 
-
   const formatText = (text) => {
-    
     const formattedText = text.replace(/^- (.*)/gm, '• $1'); 
     return formattedText;
   };
@@ -47,7 +44,6 @@ const Instructions = forwardRef(({ value, selectedColor, selectedFont }, ref) =>
       adjustTextareaHeight();
     }
   }, [value]); 
-
 
   return (
     <div className="note-taker-container">

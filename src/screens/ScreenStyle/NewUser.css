@@ -114,7 +114,6 @@ body {
   font-family: testFont;
   height: 100vh;
   overflow: hidden;
-  /*overflow-y: scroll; */
   
 }
 .error-border {
@@ -307,12 +306,7 @@ body {
   font-family: 'DM Serif Display', serif;
   background-image: linear-gradient(to bottom, #53a687, #def294);
   height: 1000px;
-  
- 
-  
   margin-top: 0px;
-  
-  
 }
 .create-user-grid{
   margin-left: 16px;
@@ -329,7 +323,6 @@ body {
 }
 
 .create-user-rectangle{
-  
   height: 65px;
   background-color: #b1d261;
   border-radius: 15px;
@@ -341,8 +334,8 @@ body {
 }
 .create-user-rectangle h2 {
   padding: 10px;
-  margin-right: 10px; /* Adjust as needed */
-  width: 120px; /* Adjust width of label as needed */
+  margin-right: 10px; 
+  width: 120px; 
 }
 
 .create-button{
@@ -361,11 +354,9 @@ body {
   font-size: x-large;
   font-family: 'DM Serif Display', serif;
   font-weight: bold;
-  
 }
 
 .pfp-square-create {
-
   width: 100px;
   height: 100px;
 background-color: #ffffff;
@@ -379,7 +370,6 @@ justify-content: flex-start;
 }
 
 .pfp-square-create img {
- 
   object-fit: cover;
   z-index: 1;
  

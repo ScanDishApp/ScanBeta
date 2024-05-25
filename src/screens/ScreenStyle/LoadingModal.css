@@ -12,14 +12,12 @@
   }
   
   .loading-content {
-    
     padding: 20px;
     border-radius: 8px;
     text-align: center;
   }
   
   .spinner {
-    
    background: #c1d96c;
     border-radius: 50%;
     width: 74px;

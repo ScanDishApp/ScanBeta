@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete, AiOutlineHeart, AiOutlineSave } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
 import LoadingModal from './LoadingModual';
 
 async function fetchData(url, method, data) {
@@ -40,20 +40,16 @@ export default function Favorites() {
             setIsLoading(true);
             if (userId) {
                 const response = await fetchData(`/favorite/get?userId=${userId}`);
-                console.log(response);
                 if (response.ok) {
                     const responseData = await response.json();
                     let dbFavorite = responseData.dbFavorite
-                    console.log(dbFavorite);
                     setContent(dbFavorite);
                 }
 
             } else {
                 if (favorites) {
                     for (let like of favorites) {
-
                         const response = await fetchData(`/favorite/getOffline?id=${like.id}`);
-                        console.log(response);
                         if (response.ok) {
                             const responseData = await response.json();
                             let dbFavorite = responseData.dbFavorite
@@ -87,7 +83,6 @@ export default function Favorites() {
         if (content.length > 0 && content[currentPageIndex]) {
             let page = content[currentPageIndex].contents;
             page = JSON.parse(page)
-            console.log(page);
             const images = JSON.parse(page.images);
             bookContent.innerHTML = `
                 <h1 style="font-family: ${page.selectedFont}; color: ${page.selectedColor};">${page.title}</h1>
@@ -137,10 +132,7 @@ export default function Favorites() {
 
         let id = content[currentPageIndex].id
         id = JSON.parse(id)
-        console.log(id);
         const response = await deleteFavorite(`/favorite/${id}`);
-
-        console.log(response);
         handlePage();
     };
 

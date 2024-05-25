@@ -15,7 +15,6 @@ class Favorites {
   }
 
   async list() {
-    console.log(this.userId);
     let dbFavorite = await DBManager.getFavorite(this.userId);
     if (dbFavorite) {
       this.userId = dbFavorite.userId;
@@ -32,6 +31,7 @@ class Favorites {
       };
     }
   }
+  
   async listOffline() {
     let dbFavorite = await DBManager.getOfflineFavorite(this.id);
     if (dbFavorite) {

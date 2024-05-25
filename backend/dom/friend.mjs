@@ -12,8 +12,6 @@ class Friends {
   }
 
   async save() {
-
-    console.log(this.status + this.id);
     if ((this.id == null) && (this.status) == "pending") {
       return await DBManager.sendRequest(this);
     } else if ((this.status == "friend") && (this.id != null) || (this.status == "declined") && (this.id != null)) {
@@ -25,8 +23,6 @@ class Friends {
 
   async list() {
     let dbFriend = await DBManager.listFriends(this.userId);
-
-
     if (dbFriend) {
       this.userId = dbFriend.userId;
       this.friendId = dbFriend.friendId;

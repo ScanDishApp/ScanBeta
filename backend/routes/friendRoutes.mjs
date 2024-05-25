@@ -199,7 +199,6 @@ FRIEND_API.use(express.json());
  *         description: Internal server error
  */
 
-
 FRIEND_API.post('/add', async (req, res, next) => {
     const { userId, friendId, status, name } = req.body;
 
@@ -275,53 +274,51 @@ FRIEND_API.put('/remove', async (req, res) => {
 
 FRIEND_API.get('/requests', async (req, res) => {
     const { userId } = req.query;
-    console.log(userId);
     try {
-    const friend = new Friends();
-    friend.userId = userId;
-    const friendRequest = await friend.listRequest();
+        const friend = new Friends();
+        friend.userId = userId;
+        const friendRequest = await friend.listRequest();
 
-    if (friendRequest.success) {
-        const status = friendRequest.dbFriend;
-        res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
-    } else {
-        console.error("Getting requeste failed:", friendRequest.message);
-        if (friendRequest.error) {
-            console.error("Detailed error:", friendRequest.error);
+        if (friendRequest.success) {
+            const status = friendRequest.dbFriend;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
+        } else {
+            console.error("Getting requeste failed:", friendRequest.message);
+            if (friendRequest.error) {
+                console.error("Detailed error:", friendRequest.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Couldnt find request ");
         }
-        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Couldnt find request ");
-    }
-} catch (error) {
+    } catch (error) {
 
-    console.error("Unexpected error:", error);
-    res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
-}
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
 
 });
 
 FRIEND_API.get('/get', async (req, res) => {
     const { userId } = req.query;
-    console.log(userId);
     try {
-    const friend = new Friends();
-    friend.userId = userId;
-    const friendRequest = await friend.list();
+        const friend = new Friends();
+        friend.userId = userId;
+        const friendRequest = await friend.list();
 
-    if (friendRequest.success) {
-        const status = friendRequest.dbFriend;
-        res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
-    } else {
-        console.error("Getting friends failed:", friendRequest.message);
-        if (friendRequest.error) {
-            console.error("Detailed error:", friendRequest.error);
+        if (friendRequest.success) {
+            const status = friendRequest.dbFriend;
+            res.status(HttpCodes.SuccesfullRespons.Ok).json(status).end();
+        } else {
+            console.error("Getting friends failed:", friendRequest.message);
+            if (friendRequest.error) {
+                console.error("Detailed error:", friendRequest.error);
+            }
+            res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Couldnt find friends");
         }
-        res.status(HttpCodes.ClientSideErrorRespons.Unauthorized).send("Couldnt find friends");
-    }
-} catch (error) {
+    } catch (error) {
 
-    console.error("Unexpected error:", error);
-    res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
-}
+        console.error("Unexpected error:", error);
+        res.status(HttpCodes.ServerSideErrorRespons.InternalServerError).send("Internal server error");
+    }
 
 });
 

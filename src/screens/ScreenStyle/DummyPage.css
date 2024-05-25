@@ -18,7 +18,8 @@ body {
   overflow: hidden;
   font-family: 'DM Serif Display', serif;
 }
-.rectangle-grid-profile{
+
+.rectangle-grid-profile {
   margin: 10px;
   display: flex;
   justify-content: center;
@@ -36,9 +37,11 @@ body {
   margin: 10px;
   margin-top: 10px;
 }
+
 .error-border {
   border: 2px solid red;
 }
+
 .square {
   width: calc(100% - 6px);
   padding-top: 100%;
@@ -47,7 +50,8 @@ body {
   position: relative;
   border: 3px solid #def294;
 }
-.p{
+
+.p {
   font-weight: bold;
 }
 
@@ -77,7 +81,7 @@ body {
   align-items: center;
   outline: #4b534a;
   border: 3px solid #222;
- 
+
 }
 
 .rectangle h2 {
@@ -103,7 +107,7 @@ body {
   align-items: center;
   border-radius: 25px;
   margin-bottom: 80px;
-  
+
 }
 
 .option-text {
@@ -126,7 +130,7 @@ body {
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
- color: #fff;
+  color: #fff;
   margin-bottom: -5px;
   margin-top: 10px;
 }
@@ -163,7 +167,7 @@ body {
   top: 50%;
   left: 100px;
   transform: translate(-50%, -50%);
- 
+
   border-radius: 0 20px 20px 0;
   overflow: hidden;
 }
@@ -176,7 +180,7 @@ body {
   top: 50%;
   right: -25px;
   transform: translate(-50%, -50%);
- 
+
   border-radius: 20px;
   overflow: hidden;
 }
@@ -188,7 +192,7 @@ body {
   z-index: -1;
 }
 
-.square-icon{
+.square-icon {
   background-color: #fff;
   color: #53a687;
 }
@@ -201,23 +205,22 @@ body {
   background-image: linear-gradient(to bottom, #53a687, #def294);
   height: 1000px;
   margin-bottom: 0px;
-  
+
 }
+
 .login-rectangle input {
   width: 100%;
-  flex: 1; 
+  flex: 1;
   background-color: #f0ffcd;
   border-radius: 10px 4px 4px 10px;
   outline: none;
 }
 
 .login-rectangle input:focus {
-  outline: none; /* Remove outline when input is focused */
+  outline: none;
 }
 
-
-
-.login-rectangle{
+.login-rectangle {
   width: 100%;
   height: 65px;
   background-color: #b1d261;
@@ -227,33 +230,30 @@ body {
   outline: none;
   border: none;
 }
+
 .login-rectangle h2 {
   padding: 10px;
-  margin-right: 10px; /* Adjust as needed */
-  width: 120px; /* Adjust width of label as needed */
+  margin-right: 10px;
+  width: 120px;
 }
 
-.login-button, .createUser-button{
-width: 100%;
-margin: 10px;
-margin-right: 10px;
-background-color: #def294;
-border-radius: 20px;
-padding: 20px;
-border: none;
-color:#4B534A;
-font-size: x-large;
-font-weight: bold;
-font-family: 'DM Serif Display', serif;
-
-;
-  
+.login-button,
+.createUser-button {
+  width: 100%;
+  margin: 10px;
+  margin-right: 10px;
+  background-color: #def294;
+  border-radius: 20px;
+  padding: 20px;
+  border: none;
+  color: #4B534A;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: 'DM Serif Display', serif;
 }
-
-
 
 .break-dots {
-  border-top: 4px dotted; 
+  border-top: 4px dotted;
   width: calc(50%);
   margin-top: 20px;
   margin-bottom: 20px;

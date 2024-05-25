@@ -4,7 +4,6 @@ import { AiOutlineCamera, AiOutlineFileImage, AiOutlineArrowRight } from 'react-
 import { Link, useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
 import { motion } from 'framer-motion';
-import getCroppedImg from './cropImage';
 import divider from '../assets/divider.png';
 
 import './ScreenStyle/Scan.css';
@@ -45,8 +44,6 @@ const Scan = () => {
         const ctx = canvas.getContext('2d');
         let width = img.width;
         let height = img.height;
-
-        // Check if the image needs to be rotated
         if (width > height) {
           if (width > 1024) {
             height *= 1024 / width;
@@ -58,15 +55,10 @@ const Scan = () => {
             height = 1024;
           }
         }
-
-        // Set the canvas dimensions
         canvas.width = width;
         canvas.height = height;
-
-        // Draw the image onto the canvas
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Get the data URL of the transformed image
         const transformedImage = canvas.toDataURL('image/jpeg', 1.0);
 
         setSelectedImage(transformedImage);
@@ -129,7 +121,7 @@ const Scan = () => {
   };
 
   const handleRetryCapture = () => {
-    setSelectedImage(null); 
+    setSelectedImage(null);
     setDisplayedImage(false);
   };
 
@@ -155,114 +147,112 @@ const Scan = () => {
       setDisplayedImage(true);
     }
   };
-  
 
-    
-    const handleCropButtonClick = () => {
+  const handleCropButtonClick = () => {
     setIsCropping(true);
-    };
-    
-    const handleFinishCrop = () => {
+  };
+
+  const handleFinishCrop = () => {
     cropImage();
-    };
-    
-    return (
+  };
+
+  return (
     <motion.div
-    className="home-container"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.7, ease: 'easeInOut' }}
+      className="home-container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.7, ease: 'easeInOut' }}
     >
-    <div className="scan-container">
-    <AiOutlineArrowRight className="back-btn" onClick={() => navigate(-1)} />
-    <h1 className='scan-header'>Skann: Ingredienser</h1>
-    <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
-    <div className="rectangle-grid">
-    <div className="icon-container">
-    <span className="icon-text" onClick={openDefaultCameraApp}>
-    <AiOutlineCamera /> Åpne Kamera
-    </span>
-    <span className="icon-text" onClick={() => fileInputRef.current.click()}>
-    <AiOutlineFileImage /> Velg bildet
-    </span>
-    </div>
-    <input
-    type="file"
-    accept="image/*"
-    onChange={handleImageUpload}
-    ref={fileInputRef}
-    style={{ display: 'none' }}
-    />
-    <div className="image-container">
-    {selectedImage && displayedImage && !isCropping && <img src={selectedImage} alt="Selected" />}
-    </div>
-    {isCropping && (
-    <div className="crop-container">
-    <Cropper
-    image={selectedImage}
-    crop={crop}
-    zoom={zoom}
-    aspect={16 / 20}
-    onCropChange={setCrop}
-    onZoomChange={setZoom}
-    onCropComplete={onCropComplete}
-    classes={{
-    containerClassName: 'custom-container',
-    mediaClassName: 'custom-media',
-    cropAreaClassName: 'custom-crop-area',
-    cropButtonClassName: 'custom-crop-button',
-    }}
-    />
-    <h2 className="crop-header"> - Crop bildet -</h2>
-    <button className="finish-crop-button" onClick={handleFinishCrop}>Fulfør</button>
-    </div>
-    )}
-    <div className="func-buttons">
-    {displayedImage && !isCropping && (
-    <React.Fragment>
-    <button className="crop-button" onClick={handleCropButtonClick}>
-    Crop bildet
-    </button>
-    <button className="crop-button" onClick={() => setSelectedImage(null)}>Fjern bildet</button>
-    </React.Fragment>
-    )}
-    </div>
-    {lastRecognizedText && (
-    <div className="last-scan-container">
-    <div className="textRec">Gjenkjent tekst </div>
-    <p>{lastRecognizedText}</p>
-    <div>
-    <button className="kopi-text" onClick={copyToClipboard}>Kopier tekst</button>
-    </div>
-    <Link
-    to={{
-    pathname: "/Ingredients",
-    state: { lastRecognizedText }
-    }}
-    className="linkButton"
-    >
-    Legg til Ingredienser
-    </Link>
-    </div>
-    )}
-    {videoRef.current && (
-    <div className="camera-preview">
-    <video ref={videoRef} autoPlay muted />
-    <button className="capture-button" onClick={captureImage}>
-    Capture Image
-    </button>
-    </div>
-    )}
-      {!selectedImage && !displayedImage && (
-    <button className="retry-button" onClick={handleRetryCapture}>
-      Prøv Igjen
-    </button>
-  )}
-    </div>
-    </div>
+      <div className="scan-container">
+        <AiOutlineArrowRight className="back-btn" onClick={() => navigate(-1)} />
+        <h1 className='scan-header'>Skann: Ingredienser</h1>
+        <img src={divider} alt="Divider" style={{ maxHeight: '50px' }} />
+        <div className="rectangle-grid">
+          <div className="icon-container">
+            <span className="icon-text" onClick={openDefaultCameraApp}>
+              <AiOutlineCamera /> Åpne Kamera
+            </span>
+            <span className="icon-text" onClick={() => fileInputRef.current.click()}>
+              <AiOutlineFileImage /> Velg bildet
+            </span>
+          </div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+          />
+          <div className="image-container">
+            {selectedImage && displayedImage && !isCropping && <img src={selectedImage} alt="Selected" />}
+          </div>
+          {isCropping && (
+            <div className="crop-container">
+              <Cropper
+                image={selectedImage}
+                crop={crop}
+                zoom={zoom}
+                aspect={16 / 20}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+                classes={{
+                  containerClassName: 'custom-container',
+                  mediaClassName: 'custom-media',
+                  cropAreaClassName: 'custom-crop-area',
+                  cropButtonClassName: 'custom-crop-button',
+                }}
+              />
+              <h2 className="crop-header"> - Crop bildet -</h2>
+              <button className="finish-crop-button" onClick={handleFinishCrop}>Fulfør</button>
+            </div>
+          )}
+          <div className="func-buttons">
+            {displayedImage && !isCropping && (
+              <React.Fragment>
+                <button className="crop-button" onClick={handleCropButtonClick}>
+                  Crop bildet
+                </button>
+                <button className="crop-button" onClick={() => setSelectedImage(null)}>Fjern bildet</button>
+              </React.Fragment>
+            )}
+          </div>
+          {lastRecognizedText && (
+            <div className="last-scan-container">
+              <div className="textRec">Gjenkjent tekst </div>
+              <p>{lastRecognizedText}</p>
+              <div>
+                <button className="kopi-text" onClick={copyToClipboard}>Kopier tekst</button>
+              </div>
+              <Link
+                to={{
+                  pathname: "/Ingredients",
+                  state: { lastRecognizedText }
+                }}
+                className="linkButton"
+              >
+                Legg til Ingredienser
+              </Link>
+            </div>
+          )}
+          {videoRef.current && (
+            <div className="camera-preview">
+              <video ref={videoRef} autoPlay muted />
+              <button className="capture-button" onClick={captureImage}>
+                Capture Image
+              </button>
+            </div>
+          )}
+          {!selectedImage && !displayedImage && (
+            <button className="retry-button" onClick={handleRetryCapture}>
+              Prøv Igjen
+            </button>
+          )}
+        </div>
+      </div>
     </motion.div>
-    );
-    };
-    
-    export default Scan;
+  );
+};
+
+export default Scan;

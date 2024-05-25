@@ -50,6 +50,7 @@ class Book {
       };
     }
   }
+
   async listBook() {
 
     let dbBook = await DBManager.listBook(this.userId);
@@ -78,7 +79,6 @@ class Book {
       this.id = dbBook.id;
       this.userId = dbBook.userId;
       this.contents = dbBook.contents;
-      console.log(dbBook);
       return {
         success: true,
         dbBook: dbBook
@@ -92,10 +92,6 @@ class Book {
     }
   }
 
-
-
 }
-
-
 
 export default Book;
