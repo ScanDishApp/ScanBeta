@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IoAdd, IoClose, IoTrash } from 'react-icons/io5';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 import { useNavigate } from 'react-router-dom';
 
 

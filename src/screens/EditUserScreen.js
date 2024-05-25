@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import sha256 from './sha256'
-import LoadingModal from './LoadingModual';
+import sha256 from '../functions/sha256'
+import LoadingModal from '../functions/LoadingModual';
 import divider from '../assets/divider.png';
 import './ScreenStyle/EditUser.css';
 

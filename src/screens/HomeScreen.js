@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import temperatureImage from '../../src/assets/temperature.png';
 import addBookIcon from '../../src/assets/addbook.png';
 import calkIcon from '../../src/assets/calk.png';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 import { IoClose } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 import { motion } from 'framer-motion';
