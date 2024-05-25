@@ -8,8 +8,10 @@ import PAGE_API from './backend/routes/pageRoutes.mjs';
 import USER_API from './backend/routes/userRoutes.mjs'
 import errorHandler from './backend/modules/errorHandler.mjs';
 import cors from 'cors';
+import { swaggerUi, swaggerSpec } from './swagger.mjs'
 
 const server = express();
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 server.use(cors());
 
 const port = (process.env.PORT || 8080);

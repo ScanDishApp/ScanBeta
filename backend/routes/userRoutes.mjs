@@ -4,6 +4,180 @@ import { HttpCodes } from "../modules/httpCodes.mjs";
 
 const USER_API = express.Router();
 USER_API.use(express.json());
+/**
+ * @swagger
+ * /user/get:
+ *   get:
+ *     summary: Retrieve a user by id 
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the user to retrieve 
+ *     responses:
+ *       200:
+ *         description: User found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 img:
+ *                   type: string
+ *       401:
+ *         description: Could not find user
+ *       500:
+ *         description: Internal server error
+ * 
+ * /user/:
+ *   post:
+ *     summary: Creates a new User
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               pswHash:
+ *                 type: string
+ *               img:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 img:
+ *                   type: string
+ *       400:
+ *         description: Missing data fields or email already exists
+ *       500:
+ *         description: Internal server error 
+ * 
+ * /user/login:
+ *   post:
+ *     summary: Log in user 
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               pswHash:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 img:
+ *                   type: string
+ *       400:
+ *         description: Missing data fields
+ *       401:
+ *         description: Invalid login credentials
+ *       500:
+ *         description: Internal server error
+ * 
+ * /user/{id}:
+ *   put:
+ *     summary: Updates a User
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               pswHash:
+ *                 type: string
+ *               img:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 img:
+ *                   type: string
+ *       400:
+ *         description: Missing data fields or email already exists
+ *       500:
+ *         description: Internal server error
+ * 
+ * /user/delete:
+ *   delete:
+ *     summary: Deletes a user by id
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the user to delete
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *       500:
+ *         description: Internal server error
+ */
 
 
 USER_API.get('/get', async (req, res, next) => {
