@@ -1,5 +1,5 @@
 import React from 'react';
-import './ScreenStyle/Header.css';
+import '../screens/ScreenStyle/Header.css';
 import logo from '../assets/Logo.png'
 
 const Header = () => {

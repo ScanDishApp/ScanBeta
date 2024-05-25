@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 import './ScreenStyle/FriendList.css';
 
 async function fetchData(url, method, data) {

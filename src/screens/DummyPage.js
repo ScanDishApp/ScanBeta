@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-icons/ai';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
-import sha256 from './sha256'
+import sha256 from '../functions/sha256'
 import './ScreenStyle/DummyPage.css';
 
 async function fetchData(url, method, data) {

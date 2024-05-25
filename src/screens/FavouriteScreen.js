@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 
 async function fetchData(url, method, data) {
     const headers = {

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/NewUser.css';
 import defaultImage from '../assets/xug.png';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
-import sha256 from './sha256'
+import sha256 from '../functions/sha256'
 
 async function fetchData(url, method, data) {
     const headers = {

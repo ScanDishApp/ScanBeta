@@ -10,7 +10,7 @@ import image7 from '../assets/Info/7.png';
 import image8 from '../assets/Info/8.png';
 
 
-import './ScreenStyle/InfoCarousel.css'; 
+import '../screens/ScreenStyle/InfoCarousel.css'; 
 import { AiFillInfoCircle, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'; 
 
 const InfoCarousel = () => {

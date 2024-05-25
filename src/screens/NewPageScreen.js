@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineFontSize, AiOutlineUnorderedList, AiOutlineSave, AiOutlineBgColors, AiOutlineScan, AiOutlinePicture, AiOutlineFileText, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineFileAdd, AiOutlineSmile, AiOutlineDelete, AiOutlineInfoCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import Sticker from './Stickers';
+import Sticker from '../functions/Stickers';
 import { motion } from 'framer-motion';
-import LoadingModal from './LoadingModual';
+import LoadingModal from '../functions/LoadingModual';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';

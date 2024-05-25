@@ -1,5 +1,5 @@
 import React from 'react';
-import './ScreenStyle/LoadingModal.css'
+import '../screens/ScreenStyle/LoadingModal.css'
 import logo from '../assets/Loader.png'
 
 const LoadingModal = ({ isLoading }) => {

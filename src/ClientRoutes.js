@@ -1,10 +1,10 @@
 import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './screens/Header';
+import Header from './view/Header';
 import Home from './screens/HomeScreen';
 import Scan from './screens/ScanScreen';
-import NavTab from './screens/NavTab';
+import NavTab from './view/NavTab';
 import DummyPage from './screens/DummyPage';
 import MyBooks from './screens/MyBooksScreen';
 import NewUser from './screens/NewUserScreen';
@@ -14,7 +14,7 @@ import SharedBooks from './screens/ShareBookScreen';
 import Friends from './screens/FriendListScreen';
 import FriendRequest from './screens/FriendRequestScreen';
 import TemperatureConverter from './screens/TemperatureScreen';
-import StickerMenu from './screens/Stickers';
+import StickerMenu from './functions/Stickers';
 import Calculator from './screens/CalculatorScreen';
 import EditUser from './screens/EditUserScreen';
 import LookMyBooks from './screens/LookAtBookScreen';
@@ -22,7 +22,7 @@ import Favorites from './screens/FavouriteScreen';
 import Ingredients from './screens/Ingredients';
 import Instructions from './screens/Instructions';
 import ScanInstruction from './screens/ScanInstruction';
-import InfoCarousel from './screens/infoCarousel'
+import InfoCarousel from './view/infoCarousel'
 
 const Layout = ({ children, showNav, showHeader }) => (
   <div>

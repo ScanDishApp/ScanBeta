@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineUser, AiOutlineHeart } from 'react-icons/ai'; 
-import './ScreenStyle/NavTab.css'; 
+import '../screens/ScreenStyle/NavTab.css'; 
 function NavTab() {
     return (
         <nav className="nav-tab">

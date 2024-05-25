@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineRight, AiOutlineDelete } from 'react-icons/ai';
 import Draggable from 'react-draggable';
-import './ScreenStyle/Sticker.css';
+import '../screens/ScreenStyle/Sticker.css';
 
 import apple from '../assets/Fruit/Apple.png';
 import banana from '../assets/Fruit/Banana.png';
