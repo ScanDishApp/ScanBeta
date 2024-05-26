@@ -72,18 +72,6 @@ body {
 
 }
 
-.rectangle {
-  width: calc(100% - 20px);
-  height: 50px;
-  background-color: #FE6465;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  outline: #4b534a;
-  border: 3px solid #222;
-
-}
-
 .rectangle h2 {
   text-align: left;
   padding-left: 20px;

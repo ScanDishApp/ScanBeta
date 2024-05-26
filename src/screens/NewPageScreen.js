@@ -73,6 +73,9 @@ export default function NewPage() {
     const [showStickerMenu, setShowStickerMenu] = useState(false);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [savedRes, setSavedRes] = useState('');
+    const timeoutRef = useRef(null);
+
 
 
     const toggleMenu = (menuType) => {
@@ -120,13 +123,12 @@ export default function NewPage() {
             const responseData = await response.json();
             let storedPages = responseData;
             setPages(storedPages[0]);
-            if (storedPages.length > 0) {
+            if (storedPages[0].length > 0) {
+                console.log(storedPages.length );
                 setPageId(storedPages[0][0].id)
             }
         }
     }
-
-
 
     const saveCurrentPage = async () => {
         async function updatePage(url, data) {
@@ -145,6 +147,7 @@ export default function NewPage() {
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
+        setIsLoading(true);
         const response = await updatePage(`/page/${pageId}`, page);
         const responseData = await response.json();
         await addNewPage()
@@ -162,7 +165,7 @@ export default function NewPage() {
             selectedColor: '#000000',
             selectedFont: 'DM Serif Display, serif'
         };
-        setIsLoading(true);
+      
         const responsePage = await fetchData("/page/", "POST", newPage);
         const responsePageData = await responsePage.json();
         const responsePageDataParse = JSON.parse(responsePageData)
@@ -183,7 +186,6 @@ export default function NewPage() {
     };
 
     const resetPageState = () => {
-
         let noteInput = document.querySelector('.textarea')
         if (noteInput) {
             noteInput.innerHTML = "";
@@ -360,12 +362,22 @@ export default function NewPage() {
             selectedFont: selectedFont
         };
         const response = await updatePage(`/page/${pageId}`, page);
+        if(response.ok){
+            setSavedRes('Siden er lagret');
+        }
         const responseData = await response.json();
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText");
         pages[currentPageIndex] = page;
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        timeoutRef.current = setTimeout(() => {
+            setSavedRes(null);
+        }, 2000);
+        
     }
-
+    
     return (
         <motion.div className="NewPage-container"
             initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }}
@@ -374,6 +386,7 @@ export default function NewPage() {
             transition={{ duration: 0.7, ease: 'easeInOut' }}
         >
             <LoadingModal isLoading={isLoading} />
+           
             <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
@@ -383,6 +396,12 @@ export default function NewPage() {
                 <AiOutlineArrowRight className="icon-top" onClick={handleNextPage} />
 
             </div>
+            {savedRes && (
+            <div className="response-message">
+                {savedRes}
+                
+            </div>
+        )}
             <div className="coverPage"></div>
             <div className="input-container">
                 {images.map((image, index) => (

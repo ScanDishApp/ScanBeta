@@ -147,7 +147,7 @@ const Home = () => {
                 <div className="book-rectangle">
                     <img src={addBookIcon} alt='Add Book' className='add-icon-book' />
                     <div className="nested-rectangle" onClick={() => setShowModal(true)}>
-                        LEGG TIL NY BOK
+                        Legg til ny bok
                     </div>
                 </div>
                 <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>

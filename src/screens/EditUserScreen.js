@@ -228,6 +228,7 @@ export default function EditUser() {
             </div>
 
             <button onClick={handleDelete} className="delete-user-button">Slett bruker</button>
+            <br></br>
         </div>
     );
 }
