@@ -182,16 +182,11 @@ export default function MyBooks() {
     };
 
     const handleLookAtBook = async (id) => {
-        setIsLoading(true);
-        const response = await getPages(`/page/get?bookId=${id}`);
-        if (response.ok) {
-            const responseData = await response.json();
-            const responseDataParse = JSON.stringify(responseData);
-            localStorage.setItem("contents", responseDataParse);
-            localStorage.setItem("bookId", id);
-            navigate('/look-my-book');
-            setIsLoading(false);
-        }
+     
+        localStorage.setItem("bookId", id)
+        navigate('/look-my-book')
+   
+
     };
 
     const displayRectangleId = async (id) => {
@@ -224,7 +219,9 @@ export default function MyBooks() {
                     </div>
                 ))}
             </div>
-
+            <br></br>
+            <br></br>
+            <br></br>
             <div className={`modal-overlay ${showModal ? 'show' : ''}`} onClick={() => setShowModal(false)}></div>
 
             {showModal && (
