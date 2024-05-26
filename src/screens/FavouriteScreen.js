@@ -1,32 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-icons/ai';
+import { IoHeartDislikeOutline } from "react-icons/io5";
+import { getFavorite, deleteFavorite } from '../functions/fetch';
+import { useNavigate } from 'react-router-dom';
 import LoadingModal from '../functions/LoadingModual';
-
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
 
 export default function Favorites() {
     const [content, setContent] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const userId = localStorage.getItem("userId")
     const [isLoading, setIsLoading] = useState(false);
-    
+    const navigate = useNavigate();
     let favorites = localStorage.getItem("offlineLike");
     favorites = JSON.parse(favorites)
 
@@ -34,12 +18,10 @@ export default function Favorites() {
     useEffect(() => {
 
         const handleGetFavorite = async () => {
-            async function getFavorite(url) {
-                return await fetchData(url, "GET");
-            }
+            
             setIsLoading(true);
             if (userId) {
-                const response = await fetchData(`/favorite/get?userId=${userId}`);
+                const response = await getFavorite(`/favorite/get?userId=${userId}`);
                 if (response.ok) {
                     const responseData = await response.json();
                     let dbFavorite = responseData.dbFavorite
@@ -49,7 +31,7 @@ export default function Favorites() {
             } else {
                 if (favorites) {
                     for (let like of favorites) {
-                        const response = await fetchData(`/favorite/getOffline?id=${like.id}`);
+                        const response = await getFavorite(`/favorite/getOffline?id=${like.id}`);
                         if (response.ok) {
                             const responseData = await response.json();
                             let dbFavorite = responseData.dbFavorite
@@ -126,14 +108,11 @@ export default function Favorites() {
     };
 
     const handleFavorite = async () => {
-        async function deleteFavorite(url) {
-            return await fetchData(url, "DELETE");
-        }
-
+        
         let id = content[currentPageIndex].id
         id = JSON.parse(id)
         const response = await deleteFavorite(`/favorite/${id}`);
-        handlePage();
+        navigate('/favorites-screen');        
     };
 
     return (
@@ -141,7 +120,7 @@ export default function Favorites() {
             <LoadingModal isLoading={isLoading} />
             <div className="icon-row" style={{ marginTop: '10px' }}>
                 <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
-                <AiOutlineDelete className="icon" onClick={handleFavorite} />
+                <IoHeartDislikeOutline className="icon" onClick={handleFavorite} />
                 <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
 
             </div>

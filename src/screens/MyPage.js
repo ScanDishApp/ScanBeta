@@ -4,28 +4,10 @@ import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-
 import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from '../functions/sha256'
+import { getUser, loginUser, getFriend } from '../functions/fetch';
 import './ScreenStyle/MyPage.css';
 
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
-
-export default function DummyPage() {
+export default function MyPage() {
     let userId = localStorage.getItem("userId");
     let profileName = localStorage.getItem("profileName");
     let profileImg = localStorage.getItem("profileImg");
@@ -62,10 +44,7 @@ export default function DummyPage() {
     }, []);
 
     const handleGet = async (id) => {
-        async function getUser(url, data) {
-            const paramUrl = `${url}?id=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
+       
         const response = await getUser("/user/get", id);
         const responseData = await response.json();
         let profileName = responseData.name
@@ -81,10 +60,6 @@ export default function DummyPage() {
     };
 
     const handleLogin = async () => {
-        async function loginUser(url, data) {
-            return await fetchData(url, "POST", data);
-        }
-
         const emailInput = document.querySelector('.log-in-email');
         const passwordInput = document.querySelector('.log-in-password');
 
@@ -137,11 +112,7 @@ export default function DummyPage() {
     };
 
     const handleGetFriend = async (id) => {
-        async function getFriend(url, data) {
-            const paramUrl = `${url}?userId=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
-
+    
         const response = await getFriend("/friends/get", id);
         const responseData = await response.json();
         setFriendsList(responseData.length);

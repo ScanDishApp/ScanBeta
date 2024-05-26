@@ -2,26 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import LoadingModal from '../functions/LoadingModual';
+import { getRequest, sendRequest, addFriend, declineFriend} from '../functions/fetch';
 import './ScreenStyle/FriendRequest.css';
 
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
 
 export default function FriendRequest() {
     const userId = localStorage.getItem("userId");
@@ -38,10 +21,7 @@ export default function FriendRequest() {
     }, []);
 
     const handleGetFriendRequest = async (id) => {
-        async function getRequest(url, data) {
-            const paramUrl = `${url}?userId=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
+      
         setIsLoading(true);
         const response = await getRequest("/friends/requests", id);
         const responseData = await response.json();
@@ -63,7 +43,7 @@ export default function FriendRequest() {
         };
 
         try {
-            const response = await fetchData("/friends/add", "POST", request);
+            const response = await sendRequest("/friends/add", request);
             const responseData = await response.json();
             setSuccessMsg("Forespørsel sendt");
         } catch (error) {
@@ -72,9 +52,7 @@ export default function FriendRequest() {
     };
 
     const handleAddFriend = async (id) => {
-        async function addFriend(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
+       
         const status = "friend";
         const request = {
             id: id,
@@ -91,9 +69,6 @@ export default function FriendRequest() {
     };
 
     const handleDeclineFriend = async (id) => {
-        async function declineFriend(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
         const status = "declined";
         const request = {
             id: id,

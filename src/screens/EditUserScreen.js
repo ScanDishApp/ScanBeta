@@ -3,26 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import sha256 from '../functions/sha256'
 import LoadingModal from '../functions/LoadingModual';
 import divider from '../assets/divider.png';
+import { getUser, deleteUser, updateUser } from '../functions/fetch';
 import './ScreenStyle/EditUser.css';
-
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
 
 export default function EditUser() {
     const navigate = useNavigate();
@@ -44,11 +26,7 @@ export default function EditUser() {
         reader.readAsDataURL(file);
     };
     const handleDelete = async () => {
-        async function deleteUser(url) {
-            return await fetchData(url, "DELETE");
-        }
         let id = localStorage.getItem("userId");
-
         const response = await deleteUser(`/user/${id}`);
         localStorage.removeItem("profileName")
         localStorage.removeItem("profileEmail")
@@ -58,12 +36,6 @@ export default function EditUser() {
     };
 
     const handleGet = async (id) => {
-
-        async function getUser(url, data) {
-            const paramUrl = `${url}?id=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
-
         const response = await getUser("/user/get", id);
         const responseData = await response.json();
         let profileName = responseData.name
@@ -80,9 +52,6 @@ export default function EditUser() {
     };
 
     const handleUpdateUserInfo = async () => {
-        async function updateUser(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
         const name = document.querySelector('.update-username').value;
         const email = document.querySelector('.update-email').value;
         const emailImp = document.querySelector('.update-email');
@@ -116,9 +85,6 @@ export default function EditUser() {
     };
 
     const handleUpdatePassword = async () => {
-        async function updateUser(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
         let currentPswHashInp = document.querySelector('.update-current-password');
         let pswHashInp = document.querySelector('.update-new-password');
         let currentPswHash = document.querySelector('.update-current-password').value;

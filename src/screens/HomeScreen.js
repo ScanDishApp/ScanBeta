@@ -7,6 +7,7 @@ import LoadingModal from '../functions/LoadingModual';
 import { IoClose } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { getPages, createBook, createPage } from '../functions/fetch';
 
 const linkStyle = {
     textDecoration: 'none',
@@ -16,24 +17,6 @@ const linkStyle = {
     lineHeight: 'inherit',
 };
 
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
 
 const Home = () => {
     const navigate = useNavigate();
@@ -59,9 +42,7 @@ const Home = () => {
         event.preventDefault();
 
         const openBook = async (id) => {
-            async function getPages(url) {
-                return await fetchData(url, "GET");
-            }
+            
             const response = await getPages(`/page/get?bookId=${id}`);
             if (response.ok) {
                 const responseData = await response.json();
@@ -78,7 +59,7 @@ const Home = () => {
             title: titleText
         };
         setIsLoading(true);
-        const response = await fetchData("/book/", "POST", book);
+        const response = await createBook("/book/", book);
         if (response.ok) {
             const responseData = await response.json();
             const responseParse = JSON.parse(responseData);
@@ -94,7 +75,7 @@ const Home = () => {
                 selectedFont: 'DM Serif Display, serif'
             };
 
-            const responsePage = await fetchData("/page/", "POST", page);
+            const responsePage = await createPage("/page/", page);
             const responsePageData = await responsePage.json();
             const responsePageDataParse = JSON.parse(responsePageData);
             localStorage.setItem("pageId", responsePageDataParse.id);
