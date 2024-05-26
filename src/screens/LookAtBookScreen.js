@@ -5,6 +5,9 @@ import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import html2pdf from 'html2pdf.js';
 import { createFavorite } from '../functions/fetch';
 import './ScreenStyle/LookAtBook.css';
+import { getPages } from '../functions/fetch';
+import LoadingModal from '../functions/LoadingModual';
+
 
 
 export default function LookMyBooks() {
@@ -12,7 +15,10 @@ export default function LookMyBooks() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [isFavorited, setIsFavorited] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false);
+
     const userId = localStorage.getItem("userId")
+    
     const getOfflineFavorite = () => {
         const like = localStorage.getItem("offlineLike");
         return like ? JSON.parse(like) : [];
@@ -20,11 +26,9 @@ export default function LookMyBooks() {
     const [offlineFavorites, setofflineFavorites] = useState(getOfflineFavorite);
 
     useEffect(() => {
-        let storedPages = localStorage.getItem("contents");
-        if (storedPages) {
-            storedPages = JSON.parse(storedPages)
-            setContent(storedPages[0]);
-        }
+        let bookId = localStorage.getItem("bookId")
+        handleGetPages(bookId)
+    
     }, []);
 
     useEffect(() => {
@@ -36,6 +40,16 @@ export default function LookMyBooks() {
         handlePage();
         checkIfFavorited(); 
     }, [content]);
+
+    const handleGetPages = async (id) => {
+        setIsLoading(true);
+        const response = await getPages(`/page/get?bookId=${id}`);
+        if (response.ok) {
+            const responseData = await response.json();
+            setContent(responseData[0])
+            setIsLoading(false);
+        }
+    };
 
     const handlePage = () => {
         const bookContent = document.querySelector(".book-content");
@@ -129,7 +143,9 @@ export default function LookMyBooks() {
 
     if (isFavorited) {
         return (
+            
             <div className="myBooks-container">
+             <LoadingModal isLoading={isLoading} />
                 <div className="icon-row" style={{ marginTop: '10px' }}>
                     <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                     <FiDownload className="icon" onClick={downloadHtmlAsPDF} />
@@ -143,6 +159,7 @@ export default function LookMyBooks() {
     } else {
         return (
             <div className="myBooks-container">
+             <LoadingModal isLoading={isLoading} />
                 <div className="icon-row" style={{ marginTop: '10px' }}>
                     <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
                     <FiDownload className="icon" onClick={downloadHtmlAsPDF} />
