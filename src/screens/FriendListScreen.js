@@ -129,7 +129,7 @@ export default function Friends() {
                 <div onClick={handleRequest} className="add-rectangle">
 
                     <h1>Legg til nye venner!</h1>
-                    <span className='hest'>Trykk her for å se om du har noen nye forespørseler</span>
+                    <span className='request-page-link'>Trykk her for å se om du har noen nye forespørseler</span>
 
                 </div>
 

@@ -127,7 +127,7 @@ const Home = () => {
                 transition={{ duration: 0.7, ease: 'easeInOut' }}
             >
                 <div className="cover-rectangle">
-                    <Link to="/dummy-page" style={linkStyle}>
+                    <Link to="/my-page" style={linkStyle}>
                         <img src={profileImg} alt='Profile img' className='profile-img' />
                     </Link>
                 </div>

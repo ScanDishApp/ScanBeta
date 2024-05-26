@@ -54,7 +54,7 @@ export default function EditUser() {
         localStorage.removeItem("profileEmail")
         localStorage.removeItem("profileImg")
         localStorage.removeItem("userId")
-        navigate('/dummy-page')
+        navigate('/my-page')
     };
 
     const handleGet = async (id) => {
@@ -110,7 +110,7 @@ export default function EditUser() {
         let userId = responseData.id
         localStorage.setItem("userId", userId);
         await handleGet(userId)
-        navigate('/dummy-page')
+        navigate('/my-page')
         setIsLoading(false);
 
     };
@@ -142,7 +142,7 @@ export default function EditUser() {
             let userId = responseData.id
             localStorage.setItem("userId", userId);
             await handleGet(userId)
-            navigate('/dummy-page')
+            navigate('/my-page')
             setIsLoading(false);
 
         } else if (currentPswHash === pswHash) {
