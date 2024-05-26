@@ -253,8 +253,8 @@ export default function NewPage() {
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
             const updatedImages = [...images];
             updatedImages[index].position = {
-                x: clientX - updatedImages[index].offset.x,
-                y: clientY - updatedImages[index].offset.y
+                x: clientX - updatedImages[index].offset.x +20,
+                y: clientY - updatedImages[index].offset.y -100
             };
             setImages(updatedImages);
         }
@@ -320,6 +320,7 @@ export default function NewPage() {
     };
 
     const handleUpdate = async () => {
+      
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
