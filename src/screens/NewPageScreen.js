@@ -497,7 +497,7 @@ export default function NewPage() {
                     style={{ fontFamily: selectedFont, fontWeight: 'bold', color: selectedColor }}
                 />
             </div>
-            <div className="funky">
+            <div className="tools">
                 <div className="menu-placement">
                     {showFontMenu && (
                         <div className="font-menu">
@@ -528,7 +528,7 @@ export default function NewPage() {
                     )}
                 </div>
             </div>
-            <div className="funky"
+            <div className="tools"
             >
                 <div className="menu-placement">
                     {showColorMenu && (

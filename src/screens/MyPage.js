@@ -4,7 +4,7 @@ import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-
 import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from '../functions/sha256'
-import './ScreenStyle/DummyPage.css';
+import './ScreenStyle/MyPage.css';
 
 async function fetchData(url, method, data) {
     const headers = {
@@ -50,7 +50,7 @@ export default function DummyPage() {
 
     const handleLogOut = () => {
         localStorage.removeItem("userId")
-        navigate('/dummy-page');
+        navigate('/my-page');
     }
 
     const handleEditUser = () => {
@@ -131,7 +131,7 @@ export default function DummyPage() {
         const responseData = await response.json();
         let userId = responseData.id
         localStorage.setItem("userId", userId)
-        navigate('/dummy-page');
+        navigate('/my-page');
         setIsLoading(false);
         handleGet(userId)
     };

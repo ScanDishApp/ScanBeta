@@ -5,7 +5,7 @@ import Header from './view/Header';
 import Home from './screens/HomeScreen';
 import Scan from './screens/ScanScreen';
 import NavTab from './view/NavTab';
-import DummyPage from './screens/DummyPage';
+import MyPage from './screens/MyPage';
 import MyBooks from './screens/MyBooksScreen';
 import NewUser from './screens/NewUserScreen';
 import Temperatur from './screens/TemperatureScreen';
@@ -40,7 +40,7 @@ export default function App() {
           <Route path="/" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
           <Route path="/Scan" element={<Layout showNav={true} showHeader={true}><Scan /></Layout>} />
           <Route path="/Home" element={<Layout showNav={true} showHeader={true}><Home /></Layout>} />
-          <Route path="/dummy-page" element={<Layout showNav={true}><DummyPage /></Layout>} />
+          <Route path="/my-page" element={<Layout showNav={true}><MyPage /></Layout>} />
           <Route path="/new-user-page" element={<Layout showNav={true}><NewUser /></Layout>} />
           <Route path="/edit-user-page" element={<Layout showNav={true}><EditUser /></Layout>} />
           <Route path="/Calculator" element={<Layout showNav={true} showHeader={true}><Calculator /></Layout>} />

@@ -116,7 +116,7 @@ export default function NewUser() {
         let userId = responseData.id
         localStorage.setItem("userId", userId);
         await handleGet(userId)
-        navigate('/dummy-page')
+        navigate('/my-page')
         setIsLoading(false);
     };
 
