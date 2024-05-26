@@ -14,7 +14,6 @@ export default function Favorites() {
     let favorites = localStorage.getItem("offlineLike");
     favorites = JSON.parse(favorites)
 
-
     useEffect(() => {
 
         const handleGetFavorite = async () => {
