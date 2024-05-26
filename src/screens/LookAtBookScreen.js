@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineHeart, AiOutlineSave } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import {  FiDownload } from "react-icons/fi";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import html2pdf from 'html2pdf.js';
 import './ScreenStyle/LookAtBook.css';
 
@@ -26,6 +28,7 @@ export default function LookMyBooks() {
     const [content, setContent] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [images, setImages] = useState([]);
+    const [isFavorited, setIsFavorited] = useState(false); 
     const userId = localStorage.getItem("userId")
     const getOfflineFavorite = () => {
         const like = localStorage.getItem("offlineLike");
@@ -38,16 +41,17 @@ export default function LookMyBooks() {
         if (storedPages) {
             storedPages = JSON.parse(storedPages)
             setContent(storedPages[0]);
-
         }
     }, []);
 
     useEffect(() => {
         handlePage();
+        checkIfFavorited(); 
     }, [currentPageIndex]);
 
     useEffect(() => {
         handlePage();
+        checkIfFavorited(); 
     }, [content]);
 
     const handlePage = () => {
@@ -114,7 +118,14 @@ export default function LookMyBooks() {
                 setofflineFavorites(updatedofflineFavorites);
                 localStorage.setItem("offlineLike", JSON.stringify(updatedofflineFavorites));
             };
+            setIsFavorited(true); 
         };
+    };
+
+    const checkIfFavorited = () => {
+        const currentContent = content[currentPageIndex];
+        const isCurrentlyFavorited = offlineFavorites.some(fav => fav.id === currentContent.id);
+        setIsFavorited(isCurrentlyFavorited);
     };
 
     const downloadHtmlAsPDF = () => {
@@ -135,16 +146,33 @@ export default function LookMyBooks() {
         html2pdf().from(contentHTML).set(opt).save();
     };
 
-    return (
-        <div className="myBooks-container">
-            <div className="icon-row" style={{ marginTop: '10px' }}>
-                <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
-                <AiOutlineSave className="icon" onClick={downloadHtmlAsPDF} />
-                <AiOutlineHeart className="icon" onClick={handleFavorite} />
-                <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
+    if (isFavorited) {
+        return (
+            <div className="myBooks-container">
+                <div className="icon-row" style={{ marginTop: '10px' }}>
+                    <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
+                    <FiDownload className="icon" onClick={downloadHtmlAsPDF} />
+                    <FaBookmark className="icon" onClick={handleFavorite} />
+                    <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
+                </div>
+                <div className="book-content" >
+                </div>
             </div>
-            <div className="book-content" >
+        );
+    } else {
+        return (
+            <div className="myBooks-container">
+                <div className="icon-row" style={{ marginTop: '10px' }}>
+                    <AiOutlineArrowLeft className="icon" onClick={handlePreviousPage} />
+                    <FiDownload className="icon" onClick={downloadHtmlAsPDF} />
+                    <FaRegBookmark className="icon" onClick={handleFavorite} />
+                    <AiOutlineArrowRight className="icon" onClick={handleNextPage} />
+                </div>
+                <div className="book-content" >
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
+
+
 }

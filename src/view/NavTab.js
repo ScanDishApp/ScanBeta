@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { BiBookOpen } from "react-icons/bi";
 import { AiOutlineHome, AiOutlineExpand, AiOutlineBook, AiOutlineUser, AiOutlineHeart } from 'react-icons/ai'; 
 import '../screens/ScreenStyle/NavTab.css'; 
 function NavTab() {
@@ -13,7 +14,7 @@ function NavTab() {
                 </li>
                 <li>
                     <Link to="/MyBooks">
-                        <AiOutlineBook /> 
+                        <BiBookOpen /> 
                     </Link>
                 </li>
                 <li>
