@@ -9,6 +9,7 @@ import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
+import { getPages, updatePage, createPage } from '../functions/fetch';
 
 const predefinedColors = ['#000000', '#FF0000', '#009E00', '#0000FF', '#FFC408', '#FF00FF', '#6FCBDC', '#800000', '#B73D6F', '#008080', '#808080'];
 
@@ -19,29 +20,6 @@ const fontOptions = {
 };
 
 const fontSizes = ['14px', '16px', '18px', '20px', '24px', '28px', '32px'];
-
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
-
-async function getPages(url) {
-    return await fetchData(url, "GET");
-}
 
 export default function NewPage() {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -124,16 +102,13 @@ export default function NewPage() {
             let storedPages = responseData;
             setPages(storedPages[0]);
             if (storedPages[0].length > 0) {
-                console.log(storedPages.length );
                 setPageId(storedPages[0][0].id)
             }
         }
     }
 
     const saveCurrentPage = async () => {
-        async function updatePage(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
+       
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
@@ -166,7 +141,7 @@ export default function NewPage() {
             selectedFont: 'DM Serif Display, serif'
         };
       
-        const responsePage = await fetchData("/page/", "POST", newPage);
+        const responsePage = await createPage("/page/", newPage);
         const responsePageData = await responsePage.json();
         const responsePageDataParse = JSON.parse(responsePageData)
         localStorage.setItem("pageId", responsePageDataParse.id)
@@ -345,9 +320,6 @@ export default function NewPage() {
     };
 
     const handleUpdate = async () => {
-        async function updatePage(url, data) {
-            return await fetchData(url, "PUT", data);
-        }
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {

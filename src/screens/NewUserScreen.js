@@ -5,25 +5,8 @@ import defaultImage from '../assets/xug.png';
 import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from '../functions/sha256'
+import { getUser, createUser } from '../functions/fetch';
 
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
 
 export default function NewUser() {
     const navigate = useNavigate();
@@ -43,11 +26,6 @@ export default function NewUser() {
     };
 
     const handleGet = async (id) => {
-        async function getUser(url, data) {
-            const paramUrl = `${url}?id=${data}`;
-            return await fetchData(paramUrl, "GET");
-        }
-
         const response = await getUser("/user/get", id);
         const responseData = await response.json();
         let profileName = responseData.name
@@ -60,9 +38,6 @@ export default function NewUser() {
     };
 
     const handleCreate = async () => {
-        async function createUser(url, data) {
-            return await fetchData(url, "POST", data);
-        }
 
         const nameInput = document.querySelector('.create-username');
         const passwordInput = document.querySelector('.create-password');

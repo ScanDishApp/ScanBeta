@@ -3,26 +3,9 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineHeart, AiFillHeart } 
 import {  FiDownload } from "react-icons/fi";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import html2pdf from 'html2pdf.js';
+import { createFavorite } from '../functions/fetch';
 import './ScreenStyle/LookAtBook.css';
 
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-};
 
 export default function LookMyBooks() {
     const [content, setContent] = useState([]);
@@ -98,9 +81,7 @@ export default function LookMyBooks() {
     };
 
     const handleFavorite = async () => {
-        async function createFavorite(url, data) {
-            return await fetchData(url, "POST", data);
-        }
+       
         const like = {
             userId: userId,
             contents: content[currentPageIndex],

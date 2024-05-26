@@ -5,30 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import LoadingModal from '../functions/LoadingModual';
 import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
+import { listBook ,getPages, createPage, createBook, deletePage, deleteBook} from '../functions/fetch';
 import { AiFillEye, AiOutlineEye } from 'react-icons/ai';
 
-async function fetchData(url, method, data) {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-    };
-
-    const options = {
-        method,
-        headers,
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    const response = await fetch(url, options);
-    return response;
-}
-
-async function listBook(url) {
-    return await fetchData(url, "GET");
-}
 
 export default function MyBooks() {
     const navigate = useNavigate();
@@ -133,7 +112,7 @@ export default function MyBooks() {
 
         try {
             setIsLoading(true);
-            const response = await fetchData("/book/", "POST", book);
+            const response = await createBook("/book/", book);
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse = JSON.parse(responseData);
@@ -149,7 +128,7 @@ export default function MyBooks() {
                     selectedColor: '#000000',
                     selectedFont: 'DM Serif Display, serif'
                 };
-                const responsePage = await fetchData("/page/", "POST", page);
+                const responsePage = await createPage("/page/", page);
                 const responsePageData = await responsePage.json();
                 const responsePageDataParse = JSON.parse(responsePageData);
                 localStorage.setItem("pageId", responsePageDataParse.id);
@@ -176,7 +155,7 @@ export default function MyBooks() {
     const deleteBookFromServer = async (id) => {
         try {
             setIsLoading(true);
-            const response = await fetchData(`/book/delete?id=${id}`, "DELETE");
+            const response = await deleteBook(`/book/delete?id=${id}`);
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -186,7 +165,7 @@ export default function MyBooks() {
 
     const deletePageFromServer = async (id) => {
         try {
-            const response = await fetchData(`/page/delete?bookId=${id}`, "DELETE");
+            const response = await deletePage(`/page/delete?bookId=${id}`);
             return response;
         } catch (error) {
             console.error("Error deleting book from server:", error);
@@ -204,7 +183,7 @@ export default function MyBooks() {
 
     const handleLookAtBook = async (id) => {
         setIsLoading(true);
-        const response = await fetchData(`/page/get?bookId=${id}`, "GET");
+        const response = await getPages(`/page/get?bookId=${id}`);
         if (response.ok) {
             const responseData = await response.json();
             const responseDataParse = JSON.stringify(responseData);
