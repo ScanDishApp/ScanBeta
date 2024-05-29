@@ -540,7 +540,7 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
-                <NavTab className={isKeyboardOpen ? 'hidden' : ''} />
+                <NavTab className={isKeyboardOpen ? 'hidden' : ''} />  
 
                 <div className="last-scan-page">
                 </div>
