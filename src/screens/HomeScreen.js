@@ -7,6 +7,9 @@ import LoadingModal from '../functions/LoadingModual';
 import { IoClose } from 'react-icons/io5';
 import { FaCheck } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { userManager } from '../functions/user';
+import { bookManager } from '../functions/book';
+import { pageManager } from '../functions/page';
 import { getPages, createBook, createPage } from '../functions/fetch';
 
 const linkStyle = {
@@ -20,12 +23,12 @@ const linkStyle = {
 
 const Home = () => {
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userId");
+    const userId = userManager.id;
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
     const [errorMsg, setErrorMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    let profileImg = localStorage.getItem("profileImg");
+    let profileImg = userManager.img;
     const getOfflineBooks = () => {
         const books = localStorage.getItem("offlineBooks");
         return books ? JSON.parse(books) : [];
@@ -47,7 +50,7 @@ const Home = () => {
                 if (response.ok) {
                     const responseData = await response.json();
                     localStorage.setItem("contents", JSON.stringify(responseData));
-                    localStorage.setItem("bookId", id);
+                    bookManager.setId(id)
                     navigate('/NewPage');
                 }
             } catch (error) {
@@ -69,7 +72,7 @@ const Home = () => {
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse = JSON.parse(responseData);
-                localStorage.setItem("bookId", responseParse.id);
+                bookManager.setId(responseParse.id)
                 const page = {
                     bookId: responseParse.id,
                     title: '',
@@ -84,7 +87,7 @@ const Home = () => {
                 const responsePage = await createPage("/page/", page);
                 const responsePageData = await responsePage.json();
                 const responsePageDataParse = JSON.parse(responsePageData);
-                localStorage.setItem("pageId", responsePageDataParse.id);
+                pageManager.setId(responsePageDataParse.id)
 
                 if (!userId) {
                     const offlineBook = {

@@ -3,11 +3,12 @@ import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import LoadingModal from '../functions/LoadingModual';
 import { getRequest, sendRequest, addFriend, declineFriend} from '../functions/fetch';
+import { userManager } from '../functions/user';
 import './ScreenStyle/FriendRequest.css';
 
 
 export default function FriendRequest() {
-    const userId = localStorage.getItem("userId");
+    const userId = userManager.id; 
     const [friendRequests, setFriendRequests] = useState([]);
     const [successMsg, setSuccessMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -37,8 +38,8 @@ export default function FriendRequest() {
     };
 
     const handleSendFriendRequest = async () => {
-        const userId = localStorage.getItem("userId");
-        const name = localStorage.getItem("profileName");
+        const userId = userManager.id;
+        const name = userManager.name;
         const friendId = document.querySelector('.friendId-input').value;
         const status = "pending";
         const request = {

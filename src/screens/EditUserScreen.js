@@ -4,6 +4,7 @@ import sha256 from '../functions/sha256'
 import LoadingModal from '../functions/LoadingModual';
 import divider from '../assets/divider.png';
 import { getUser, deleteUser, updateUser } from '../functions/fetch';
+import { userManager } from '../functions/user';
 import './ScreenStyle/EditUser.css';
 
 export default function EditUser() {
@@ -14,6 +15,8 @@ export default function EditUser() {
     const [profilePswHash, setProfilePswHash] = useState(localStorage.getItem("profilePswHash"));
     const [profileImage, setProfileImage] = useState(localStorage.getItem("profileImg"));
     const [isLoading, setIsLoading] = useState(false);
+
+   
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -27,12 +30,13 @@ export default function EditUser() {
     };
     const handleDelete = async () => {
         try {
-            let id = localStorage.getItem("userId");
+            let id = userManager.id
             const response = await deleteUser(`/user/${id}`);
-            localStorage.removeItem("profileName")
-            localStorage.removeItem("profileEmail")
-            localStorage.removeItem("profileImg")
-            localStorage.removeItem("userId")
+            userManager.removeId()
+            userManager.removeEmail()
+            userManager.removeImg()
+            userManager.removeName()
+            userManager.removePsw()
             navigate('/my-page')
         } catch (error) {
             alert("Kan ikke slette bruker, prøv igjen senere")
@@ -46,15 +50,16 @@ export default function EditUser() {
             const response = await getUser("/user/get", id);
             const responseData = await response.json();
             let profileName = responseData.name
-            localStorage.setItem("profileName", profileName)
+           
+            userManager.setName(profileName)
             let profileEmail = responseData.email
-            localStorage.setItem("profileEmail", profileEmail)
+            userManager.setEmail(profileEmail)
             let profileImg = responseData.img
-            localStorage.setItem("profileImg", profileImg)
+            userManager.setImg(profileImage)
             setProfileImage(profileImg);
             let profilePswHash = responseData.pswHash
             setProfilePswHash(profilePswHash)
-            localStorage.setItem("profilePswHash", profilePswHash)
+            userManager.setPsw(profilePswHash)
         } catch (error) {
             alert("Kan ikke hente bruker, prøv igjen senere")
             console.error('Error fetching user:', error);
@@ -67,7 +72,7 @@ export default function EditUser() {
         const name = document.querySelector('.update-username').value;
         const email = document.querySelector('.update-email').value;
         const emailImp = document.querySelector('.update-email');
-        let id = localStorage.getItem("userId")
+        let id = userManager.id
         let img = profileImage;
         let pswHash = profilePswHash;
         const user = {
@@ -91,7 +96,7 @@ export default function EditUser() {
             }
             const responseData = await response.json();
             let userId = responseData.id
-            localStorage.setItem("userId", userId);
+            userManager.setId(userId)
             await handleGet(userId)
             navigate('/my-page')
             setIsLoading(false);
@@ -110,7 +115,7 @@ export default function EditUser() {
         pswHash = await sha256(pswHash);
         if (currentPswHash === profilePswHash) {
 
-            let id = localStorage.getItem("userId")
+            let id = userManager.id
             const user = {
                 name: profileName,
                 pswHash: pswHash,
@@ -119,21 +124,21 @@ export default function EditUser() {
                 id: id,
             };
             setErrorMsg(null);
-           
-            try{
+
+            try {
                 setIsLoading(true);
                 const response = await updateUser(`/user/${id}`, user);
                 const responseData = await response.json();
                 let userId = responseData.id
-                localStorage.setItem("userId", userId);
+                userManager.setId(userId)
                 await handleGet(userId)
                 navigate('/my-page')
                 setIsLoading(false);
-            }catch(error){
+            } catch (error) {
                 alert("Kan ikke oppdatere bruker, prøv igjen senere")
                 console.error('Error updating user:', error);
             }
-            
+
 
         } else if (currentPswHash === pswHash) {
 

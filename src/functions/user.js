@@ -1,0 +1,17 @@
+export const userManager = {
+    id: localStorage.getItem("userId") || null,
+    name: localStorage.getItem("profileName") || null,
+    email: localStorage.getItem("profileEmail") || null,
+    img: localStorage.getItem("profileImg") || null,
+    pswHash: localStorage.getItem("profilePswHash") || null,
+    setId: (id) => { localStorage.setItem("userId", id) },
+    setName: (name) => { localStorage.setItem("profileName", name) },
+    setEmail: (email) => { localStorage.setItem("profileEmail", email) },
+    setImg: (img) => { localStorage.setItem("profileImg", img) },
+    setPsw: (pswHash) => { localStorage.setItem("profilePswHash", pswHash) },
+    removeId: () => { localStorage.removeItem("userId") },
+    removeName: () => { localStorage.removeItem("profileName") },
+    removeEmail: () => { localStorage.removeItem("profileEmail") },
+    removeImg: () => { localStorage.removeItem("profileImg") },
+    removePsw: () => { localStorage.removeItem("profilePswHash") },
+}

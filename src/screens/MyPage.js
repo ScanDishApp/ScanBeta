@@ -4,13 +4,14 @@ import { AiOutlineBook, AiOutlineTeam, AiFillHeart, AiFillSetting } from 'react-
 import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from '../functions/sha256'
+import { userManager } from '../functions/user';
 import { getUser, loginUser, getFriend } from '../functions/fetch';
 import './ScreenStyle/MyPage.css';
 
 export default function MyPage() {
-    let userId = localStorage.getItem("userId");
-    let profileName = localStorage.getItem("profileName");
-    let profileImg = localStorage.getItem("profileImg");
+    let userId = userManager.id;
+    let profileName = userManager.name;
+    let profileImg = userManager.img;
     const [errorMsg, setErrorMsg] = useState(null);
     const [friendsList, setFriendsList] = useState([]);
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function MyPage() {
     };
 
     const handleLogOut = () => {
-        localStorage.removeItem("userId")
+        userManager.removeId();
         navigate('/my-page');
     }
 
@@ -47,16 +48,15 @@ export default function MyPage() {
         try {
             const response = await getUser("/user/get", id);
             const responseData = await response.json();
-            let profileName = responseData.name
-            localStorage.setItem("profileName", profileName)
-            let profileEmail = responseData.email
-            localStorage.setItem("profileEmail", profileEmail)
-            let profileImg = responseData.img
-            localStorage.setItem("profileImg", profileImg)
+            let profileName = responseData.name;
+            userManager.setName(profileName);
+            let profileEmail = responseData.email;
+            userManager.setEmail(profileEmail);
+            let profileImg = responseData.img;
+            userManager.setImg(profileImg);
             setProfileImage(profileImg);
-            localStorage.setItem("profileName", profileName)
-            let profilePswHash = responseData.pswHash
-            localStorage.setItem("profilePswHash", profilePswHash)
+            let profilePswHash = responseData.pswHash;
+            userManager.setPsw(profilePswHash);
         } catch (error) {
             alert("Kan ikke hente bruker, prøv igjen senere")
             console.error('Error fetching user data:', error);
@@ -92,7 +92,7 @@ export default function MyPage() {
         } else {
             passwordInput.classList.remove('error-border');
         }
-       
+
         setIsLoading(true);
         try {
             const response = await loginUser("/user/login", user);
@@ -106,7 +106,7 @@ export default function MyPage() {
             }
             const responseData = await response.json();
             let userId = responseData.id
-            localStorage.setItem("userId", userId)
+            userManager.setId(userId)
             navigate('/my-page');
             handleGet(userId)
         } catch (error) {
@@ -118,15 +118,15 @@ export default function MyPage() {
     };
 
     const handleGetFriend = async (id) => {
-        try{
+        try {
             const response = await getFriend("/friends/get", id);
             const responseData = await response.json();
             setFriendsList(responseData.length);
-        }catch(error){
+        } catch (error) {
             alert("Kan ikke hente venner, prøv igjen senere")
             console.error('Error fetching friends:', error);
         }
-      
+
     };
 
     useEffect(() => {

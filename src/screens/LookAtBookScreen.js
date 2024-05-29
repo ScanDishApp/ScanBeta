@@ -6,6 +6,9 @@ import html2pdf from 'html2pdf.js';
 import { createFavorite } from '../functions/fetch';
 import './ScreenStyle/LookAtBook.css';
 import { getPages } from '../functions/fetch';
+import { bookManager } from '../functions/book';
+import { pageManager } from '../functions/page';
+import { userManager } from '../functions/user';
 import LoadingModal from '../functions/LoadingModual';
 
 
@@ -17,7 +20,7 @@ export default function LookMyBooks() {
     const [isFavorited, setIsFavorited] = useState(false); 
     const [isLoading, setIsLoading] = useState(false);
 
-    const userId = localStorage.getItem("userId")
+    const userId = userManager.id;
     
     const getOfflineFavorite = () => {
         const like = localStorage.getItem("offlineLike");
@@ -26,7 +29,7 @@ export default function LookMyBooks() {
     const [offlineFavorites, setofflineFavorites] = useState(getOfflineFavorite);
 
     useEffect(() => {
-        let bookId = localStorage.getItem("bookId")
+        let bookId = bookManager.id;
         handleGetPages(bookId)
     
     }, []);

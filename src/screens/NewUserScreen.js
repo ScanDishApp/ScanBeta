@@ -5,6 +5,7 @@ import defaultImage from '../assets/xug.png';
 import LoadingModal from '../functions/LoadingModual';
 import logo from '../assets/Logo_Big.png'
 import sha256 from '../functions/sha256'
+import { userManager } from '../functions/user';
 import { getUser, createUser } from '../functions/fetch';
 
 
@@ -30,17 +31,16 @@ export default function NewUser() {
             const response = await getUser("/user/get", id);
             const responseData = await response.json();
             let profileName = responseData.name
-            localStorage.setItem("profileName", profileName)
+            userManager.setName(profileName)
             let profileEmail = responseData.email
-            localStorage.setItem("profileEmail", profileEmail)
+            userManager.setEmail(profileEmail)
             let profileImg = responseData.img
-            localStorage.setItem("profileImg", profileImg)
+            userManager.setImg(profileImg)
             setProfileImage(profileImg);
         }catch(error){
             alert("Kan ikke hente bruker, prøv igjen senere")
             console.error('Error fethcing user:', error);  
         }
-
     };
 
     const handleCreate = async () => {
@@ -96,7 +96,7 @@ export default function NewUser() {
             }
             const responseData = await response.json();
             let userId = responseData.id
-            localStorage.setItem("userId", userId);
+            userManager.setId(userId)
             await handleGet(userId)
             navigate('/my-page')
         }catch(error){
