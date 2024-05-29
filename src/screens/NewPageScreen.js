@@ -5,6 +5,7 @@ import Sticker from '../functions/Stickers';
 import { motion } from 'framer-motion';
 import LoadingModal from '../functions/LoadingModual';
 import { useNavigate } from 'react-router-dom';
+import NavTab from '../view/NavTab';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
@@ -55,6 +56,7 @@ export default function NewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [savedRes, setSavedRes] = useState('');
     const timeoutRef = useRef(null);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
 
 
@@ -78,6 +80,26 @@ export default function NewPage() {
             setPreviousText(storedText);
         }
     }, []);
+
+
+    useEffect(() => {
+        const handleViewportChange = () => {
+            const viewportHeight = window.visualViewport.height;
+            const windowHeight = window.innerHeight;
+            const keyboardOpen = viewportHeight < windowHeight;
+            setIsKeyboardOpen(keyboardOpen);
+            console.log('isKeyboardOpen:', keyboardOpen); // Log the value of isKeyboardOpen
+        };
+    
+        window.visualViewport.addEventListener('resize', handleViewportChange);
+    
+        handleViewportChange();
+    
+        return () => {
+            window.visualViewport.removeEventListener('resize', handleViewportChange);
+        };
+    }, []);
+
 
     useEffect(() => {
         const storedPageId = pageManager.id;
@@ -558,14 +580,16 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
-                <div className="icon-row-menu" >
+                
+    <div className={`icon-row-menu ${isKeyboardOpen ? 'hidden' : ''}`}>
+    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
+    <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
+    <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
+    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
+    <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
+</div>
+{!isKeyboardOpen && <NavTab />}
 
-                    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
-                    <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
-                    <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
-                    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-                    <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
-                </div>
             </div>
         </motion.div>
 

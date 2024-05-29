@@ -32,7 +32,13 @@ export default function MyPage() {
     };
 
     const handleLogOut = () => {
-        userManager.removeId();
+
+       userManager.removeId();
+      userManager.removeName();
+      userManager.removeEmail();
+      userManager.removeImg();
+      userManager.removePsw();
+   
         navigate('/my-page');
     }
 

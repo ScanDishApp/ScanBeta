@@ -27,13 +27,19 @@ export default function NewUser() {
     };
 
     const handleGet = async (id) => {
+
         try{
             const response = await getUser("/user/get", id);
             const responseData = await response.json();
             let profileName = responseData.name
             userManager.setName(profileName)
             let profileEmail = responseData.email
+
             userManager.setEmail(profileEmail)
+
+           let profilePswHash = responseData.pswHash
+         userManager.setPsw(profilePswHash)
+
             let profileImg = responseData.img
             userManager.setImg(profileImg)
             setProfileImage(profileImg);
