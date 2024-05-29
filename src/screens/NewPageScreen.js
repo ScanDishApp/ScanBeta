@@ -53,7 +53,6 @@ export default function NewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [savedRes, setSavedRes] = useState('');
     const timeoutRef = useRef(null);
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
 
 
@@ -80,30 +79,22 @@ export default function NewPage() {
 
 
     useEffect(() => {
-        const handleFocus = () => {
-            setIsKeyboardOpen(true);
+        const handleViewportChange = () => {
+            const viewportHeight = window.visualViewport.height;
+            const windowHeight = window.innerHeight;
+            
+            setIsKeyboardOpen(viewportHeight < windowHeight);
         };
-
-        const handleBlur = () => {
-            setIsKeyboardOpen(false);
-        };
-
-        const inputs = document.querySelectorAll('textarea, input, select');
-        inputs.forEach(input => {
-            input.addEventListener('focus', handleFocus);
-            input.addEventListener('blur', handleBlur);
-        });
-
+    
+        window.visualViewport.addEventListener('resize', handleViewportChange);
+    
+        handleViewportChange();
+    
         return () => {
-            inputs.forEach(input => {
-                input.removeEventListener('focus', handleFocus);
-                input.removeEventListener('blur', handleBlur);
-            });
+            window.visualViewport.removeEventListener('resize', handleViewportChange);
         };
     }, []);
-
-
-
+    
 
 
     useEffect(() => {
@@ -564,17 +555,14 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
-            <div className={`icon-row-menu ${isKeyboardOpen ? 'hidden' : ''}`}>
-                <AiOutlineFontSize onClick={() => toggleMenu('font')} />
-                <AiOutlineUnorderedList onClick={() => setIsBulletListActive(!isBulletListActive)} />
-                <AiOutlineBgColors onClick={() => toggleMenu('color')} />
-                <AiOutlineScan onClick={() => toggleMenu('scan')} />
-                <AiOutlinePicture onClick={() => toggleMenu('image')} />
-                <AiOutlineFileText onClick={() => toggleMenu('text')} />
-                <AiOutlineSmile onClick={() => toggleMenu('sticker')} />
-                <AiOutlineDelete onClick={() => toggleMenu('delete')} />
-                <AiOutlineInfoCircle onClick={() => toggleMenu('info')} />
-            </div>
+    <div className={`icon-row-menu ${isKeyboardOpen ? 'hidden' : ''}`}>
+    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
+    <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
+    <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
+    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
+    <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
+</div>
+
             </div>
         </motion.div>
 
