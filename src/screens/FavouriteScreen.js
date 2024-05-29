@@ -107,11 +107,14 @@ export default function Favorites() {
     };
 
     const handleFavorite = async () => {
-        
-        let id = content[currentPageIndex].id
-        id = JSON.parse(id)
+        let id = content[currentPageIndex].id;
+        id = JSON.parse(id);
         const response = await deleteFavorite(`/favorite/${id}`);
-        navigate('/favorites-screen');        
+        if (response.ok) {
+            window.location.reload(); // This will refresh the page
+        } else {
+            console.error('Failed to delete favorite');
+        }
     };
 
     return (
