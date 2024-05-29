@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingModal from '../functions/LoadingModual';
 import divider from '../assets/divider.png'
 import './ScreenStyle/MyBooks.css';
-import { listBook ,getPages, createPage, createBook, deletePage, deleteBook} from '../functions/fetch';
+import { listBook, getPages, createPage, createBook, deletePage, deleteBook } from '../functions/fetch';
 import { AiFillEye, AiOutlineEye } from 'react-icons/ai';
 
 
@@ -30,21 +30,26 @@ export default function MyBooks() {
         async function fetchBooks() {
             setIsLoading(true);
             if (userId) {
+                try {
+                    const response = await listBook(`/book/list?userId=${userId}`);
+                    const responseData = await response.json();
+                    if (responseData) {
+                        const rectanglesFromData = responseData.map((item, index) => ({
+                            id: item.id,
+                            title: item.title,
 
-                const response = await listBook(`/book/list?userId=${userId}`);
-                const responseData = await response.json();
-                if (responseData) {
-                    const rectanglesFromData = responseData.map((item, index) => ({
-                        id: item.id,
-                        title: item.title,
+                        }));
+                        setRectangles(rectanglesFromData);
+                    } else {
 
-                    }));
-                    setRectangles(rectanglesFromData);
-                } else {
-
-                    const rectangleGrid = document.querySelector(".rectangle-grid");
-                    rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
+                        const rectangleGrid = document.querySelector(".rectangle-grid");
+                        rectangleGrid.innerHTML = `<p>Ingen bøker enda.</p>`
+                    }
+                }catch(error){
+                    alert("Kan ikke hente bøker, prøv igjen senere")
+                console.error('Error fethcing books:', error);
                 }
+               
 
             } else {
                 let books = localStorage.getItem("offlineBooks");
@@ -148,7 +153,8 @@ export default function MyBooks() {
                 console.log("Error saving book to server.");
             }
         } catch (error) {
-            console.error("Error saving book to server:", error);
+            alert("Kan ikke lagre bok, prøv igjen senere")
+                console.error('Error saving book:', error);
         }
     };
 
@@ -158,6 +164,7 @@ export default function MyBooks() {
             const response = await deleteBook(`/book/delete?id=${id}`);
             return response;
         } catch (error) {
+            alert("Kan ikke slette bok, prøv igjen senere")
             console.error("Error deleting book from server:", error);
         }
 
@@ -182,10 +189,10 @@ export default function MyBooks() {
     };
 
     const handleLookAtBook = async (id) => {
-     
+
         localStorage.setItem("bookId", id)
         navigate('/look-my-book')
-   
+
 
     };
 

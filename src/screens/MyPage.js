@@ -32,6 +32,11 @@ export default function MyPage() {
 
     const handleLogOut = () => {
         localStorage.removeItem("userId")
+        localStorage.removeItem("profilePswHash")
+        localStorage.removeItem("profileImg")
+        localStorage.removeItem("profileEmail")
+        localStorage.removeItem("profileName")
+
         navigate('/my-page');
     }
 
@@ -44,19 +49,24 @@ export default function MyPage() {
     }, []);
 
     const handleGet = async (id) => {
-       
-        const response = await getUser("/user/get", id);
-        const responseData = await response.json();
-        let profileName = responseData.name
-        localStorage.setItem("profileName", profileName)
-        let profileEmail = responseData.email
-        localStorage.setItem("profileEmail", profileEmail)
-        let profileImg = responseData.img
-        localStorage.setItem("profileImg", profileImg)
-        setProfileImage(profileImg);
-        localStorage.setItem("profileName", profileName)
-        let profilePswHash = responseData.pswHash
-        localStorage.setItem("profilePswHash", profilePswHash)
+        try {
+            const response = await getUser("/user/get", id);
+            const responseData = await response.json();
+            let profileName = responseData.name
+            localStorage.setItem("profileName", profileName)
+            let profileEmail = responseData.email
+            localStorage.setItem("profileEmail", profileEmail)
+            let profileImg = responseData.img
+            localStorage.setItem("profileImg", profileImg)
+            setProfileImage(profileImg);
+            localStorage.setItem("profileName", profileName)
+            let profilePswHash = responseData.pswHash
+            localStorage.setItem("profilePswHash", profilePswHash)
+        } catch (error) {
+            alert("Kan ikke hente bruker, prøv igjen senere")
+            console.error('Error fetching user data:', error);
+        }
+
     };
 
     const handleLogin = async () => {
@@ -71,13 +81,10 @@ export default function MyPage() {
             pswHash: pswHash,
             email: email
         };
-        setIsLoading(true);
-        const response = await loginUser("/user/login", user);
 
         if (!email.trim()) {
             emailInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn emailen!");
-            setIsLoading(false);
             return;
         } else {
             emailInput.classList.remove('error-border');
@@ -86,36 +93,45 @@ export default function MyPage() {
         if (!pswHash.trim()) {
             passwordInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn passord!");
-            setIsLoading(false);
             return;
         } else {
             passwordInput.classList.remove('error-border');
         }
-
-        if (response.status == 401 || response.status == 500) {
-            emailInput.classList.add('error-border');
-            passwordInput.classList.add('error-border');
-            setErrorMsg("Feil brukernavn eller passord!");
+       
+        setIsLoading(true);
+        try {
+            const response = await loginUser("/user/login", user);
+            if (response.status == 401 || response.status == 500) {
+                emailInput.classList.add('error-border');
+                passwordInput.classList.add('error-border');
+                setErrorMsg("Feil brukernavn eller passord!");
+            } else {
+                passwordInput.classList.remove('error-border');
+                emailInput.classList.remove('error-border');
+            }
+            const responseData = await response.json();
+            let userId = responseData.id
+            localStorage.setItem("userId", userId)
+            navigate('/my-page');
+            handleGet(userId)
+        } catch (error) {
+            alert("Kan ikke logge inn, prøv igjen senere")
+            console.error('Error logging in user:', error);
+        } finally {
             setIsLoading(false);
-        } else {
-            passwordInput.classList.remove('error-border');
-            emailInput.classList.remove('error-border');
-           
         }
-  
-        const responseData = await response.json();
-        let userId = responseData.id
-        localStorage.setItem("userId", userId)
-        navigate('/my-page');
-        setIsLoading(false);
-        handleGet(userId)
     };
 
     const handleGetFriend = async (id) => {
-    
-        const response = await getFriend("/friends/get", id);
-        const responseData = await response.json();
-        setFriendsList(responseData.length);
+        try{
+            const response = await getFriend("/friends/get", id);
+            const responseData = await response.json();
+            setFriendsList(responseData.length);
+        }catch(error){
+            alert("Kan ikke hente venner, prøv igjen senere")
+            console.error('Error fetching friends:', error);
+        }
+      
     };
 
     useEffect(() => {
@@ -198,7 +214,7 @@ export default function MyPage() {
     } else {
         return (
             <div className="login-container">
-            <LoadingModal isLoading={isLoading} />
+                <LoadingModal isLoading={isLoading} />
                 <div className="rectangle-grid">
                     <img src={logo} alt="Logo" style={{ maxHeight: '200px' }} />
                     <br></br>
@@ -207,13 +223,13 @@ export default function MyPage() {
                         <h2>E-post: </h2>
                         <input className="log-in-email" placeholder='E-postadrese'></input>
                     </div>
-                    
+
                     <br></br>
                     <div className="login-rectangle">
                         <h2>Passord: </h2>
                         <input className="log-in-password" type='password' placeholder='Passord' ></input>
                     </div>
-                    
+
                     <p>{errorMsg}</p>
 
                     <button onClick={handleLogin} className="login-button" data-placeholder="Logg inn">Logg inn</button>

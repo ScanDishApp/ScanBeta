@@ -42,14 +42,19 @@ const Home = () => {
         event.preventDefault();
 
         const openBook = async (id) => {
-            
-            const response = await getPages(`/page/get?bookId=${id}`);
-            if (response.ok) {
-                const responseData = await response.json();
-                localStorage.setItem("contents", JSON.stringify(responseData));
-                localStorage.setItem("bookId", id);
-                navigate('/NewPage');
+            try {
+                const response = await getPages(`/page/get?bookId=${id}`);
+                if (response.ok) {
+                    const responseData = await response.json();
+                    localStorage.setItem("contents", JSON.stringify(responseData));
+                    localStorage.setItem("bookId", id);
+                    navigate('/NewPage');
+                }
+            } catch (error) {
+                alert("Kan ikke åpne book, prøv igjen senere")
+                console.error('Error fethcing page:', error);
             }
+
         };
 
         let contents = "";
@@ -59,43 +64,50 @@ const Home = () => {
             title: titleText
         };
         setIsLoading(true);
-        const response = await createBook("/book/", book);
-        if (response.ok) {
-            const responseData = await response.json();
-            const responseParse = JSON.parse(responseData);
-            localStorage.setItem("bookId", responseParse.id);
-            const page = {
-                bookId: responseParse.id,
-                title: '',
-                ingredients: '',
-                imageFile: null,
-                desc: '',
-                images: [],
-                selectedColor: '#000000',
-                selectedFont: 'DM Serif Display, serif'
-            };
-
-            const responsePage = await createPage("/page/", page);
-            const responsePageData = await responsePage.json();
-            const responsePageDataParse = JSON.parse(responsePageData);
-            localStorage.setItem("pageId", responsePageDataParse.id);
-
-            if (!userId) {
-                const offlineBook = {
+        try {
+            const response = await createBook("/book/", book);
+            if (response.ok) {
+                const responseData = await response.json();
+                const responseParse = JSON.parse(responseData);
+                localStorage.setItem("bookId", responseParse.id);
+                const page = {
                     bookId: responseParse.id,
-                    title: responseParse.title,
-                    pageId: responsePageDataParse.id
+                    title: '',
+                    ingredients: '',
+                    imageFile: null,
+                    desc: '',
+                    images: [],
+                    selectedColor: '#000000',
+                    selectedFont: 'DM Serif Display, serif'
                 };
-                const updatedOfflineBooks = [...offlineBooks, offlineBook];
-                setOfflineBooks(updatedOfflineBooks);
-                localStorage.setItem("offlineBooks", JSON.stringify(updatedOfflineBooks));
-                await openBook(responsePageDataParse.id);
+
+                const responsePage = await createPage("/page/", page);
+                const responsePageData = await responsePage.json();
+                const responsePageDataParse = JSON.parse(responsePageData);
+                localStorage.setItem("pageId", responsePageDataParse.id);
+
+                if (!userId) {
+                    const offlineBook = {
+                        bookId: responseParse.id,
+                        title: responseParse.title,
+                        pageId: responsePageDataParse.id
+                    };
+                    const updatedOfflineBooks = [...offlineBooks, offlineBook];
+                    setOfflineBooks(updatedOfflineBooks);
+                    localStorage.setItem("offlineBooks", JSON.stringify(updatedOfflineBooks));
+                    await openBook(responsePageDataParse.id);
+                } else {
+                    await openBook(responsePageDataParse.id);
+                }
+
             } else {
-                await openBook(responsePageDataParse.id);
+                console.log("Error saving book to server.");
             }
+        } catch (error) {
+            alert("Kan ikke lage book, prøv igjen senere")
+            console.error('Error creating book:', error);
+        } finally {
             setIsLoading(false);
-        } else {
-            console.log("Error saving book to server.");
         }
     };
     if (userId) {

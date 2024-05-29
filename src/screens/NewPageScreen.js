@@ -5,9 +5,9 @@ import Sticker from '../functions/Stickers';
 import { motion } from 'framer-motion';
 import LoadingModal from '../functions/LoadingModual';
 import { useNavigate } from 'react-router-dom';
+import NavTab from '../view/NavTab';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
-import NavTab from '../view/NavTab';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
 import { getPages, updatePage, createPage } from '../functions/fetch';
@@ -97,7 +97,6 @@ export default function NewPage() {
             window.visualViewport.removeEventListener('resize', handleViewportChange);
         };
     }, []);
-    
 
 
     useEffect(() => {
@@ -119,19 +118,25 @@ export default function NewPage() {
 
     const handleGetPages = async () => {
         let id = localStorage.getItem("bookId")
-        const response = await getPages(`/page/get?bookId=${id}`);
-        if (response.ok) {
-            const responseData = await response.json();
-            let storedPages = responseData;
-            setPages(storedPages[0]);
-            if (storedPages[0].length > 0) {
-                setPageId(storedPages[0][0].id)
+        try {
+            const response = await getPages(`/page/get?bookId=${id}`);
+            if (response.ok) {
+                const responseData = await response.json();
+                let storedPages = responseData;
+                setPages(storedPages[0]);
+                if (storedPages[0].length > 0) {
+                    setPageId(storedPages[0][0].id)
+                }
             }
+        } catch (error) {
+            alert("Kan ikke hente side, prøv igjen senere")
+            console.error('Error fethcing page:', error);
         }
+
     }
 
     const saveCurrentPage = async () => {
-       
+
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
@@ -146,10 +151,16 @@ export default function NewPage() {
             selectedFont: selectedFont
         };
         setIsLoading(true);
-        const response = await updatePage(`/page/${pageId}`, page);
-        const responseData = await response.json();
-        await addNewPage()
-        setIsLoading(false);
+        try {
+            const response = await updatePage(`/page/${pageId}`, page);
+            const responseData = await response.json();
+            await addNewPage()
+        } catch (error) {
+            alert("Kan ikke lagre side, prøv igjen senere")
+            console.error('Error updating page:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const addNewPage = async () => {
@@ -163,24 +174,29 @@ export default function NewPage() {
             selectedColor: '#000000',
             selectedFont: 'DM Serif Display, serif'
         };
-      
-        const responsePage = await createPage("/page/", newPage);
-        const responsePageData = await responsePage.json();
-        const responsePageDataParse = JSON.parse(responsePageData)
-        localStorage.setItem("pageId", responsePageDataParse.id)
-        setPageId(responsePageDataParse.id)
-        resetPageState();
-        localStorage.removeItem("lastRecognizedText")
-        localStorage.removeItem("previousRecognizedText")
+        try {
+            const responsePage = await createPage("/page/", newPage);
+            const responsePageData = await responsePage.json();
+            const responsePageDataParse = JSON.parse(responsePageData)
+            localStorage.setItem("pageId", responsePageDataParse.id)
+            setPageId(responsePageDataParse.id)
+            resetPageState();
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText")
 
-        if (textareaRef.current) {
+            if (textareaRef.current) {
 
-            textareaRef.current.resetTextArea();
+                textareaRef.current.resetTextArea();
+            }
+            if (textareaRefIns.current) {
+                textareaRefIns.current.resetTextArea();
+            }
+            resetPageState();
+        } catch (error) {
+            alert("Kan ikke lage side, prøv igjen senere")
+            console.error('Error creating page:', error);
         }
-        if (textareaRefIns.current) {
-            textareaRefIns.current.resetTextArea();
-        }
-        resetPageState();
+
     };
 
     const resetPageState = () => {
@@ -276,8 +292,8 @@ export default function NewPage() {
             const clientY = event.clientY || (event.touches && event.touches[0].clientY);
             const updatedImages = [...images];
             updatedImages[index].position = {
-                x: clientX - updatedImages[index].offset.x +20,
-                y: clientY - updatedImages[index].offset.y -100
+                x: clientX - updatedImages[index].offset.x + 20,
+                y: clientY - updatedImages[index].offset.y - 100
             };
             setImages(updatedImages);
         }
@@ -343,7 +359,7 @@ export default function NewPage() {
     };
 
     const handleUpdate = async () => {
-      
+
         let noteInput = document.querySelector('.note-input').value
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
@@ -357,23 +373,27 @@ export default function NewPage() {
             selectedColor: selectedColor,
             selectedFont: selectedFont
         };
-        const response = await updatePage(`/page/${pageId}`, page);
-        if(response.ok){
-            setSavedRes('Siden er lagret');
+        try {
+            const response = await updatePage(`/page/${pageId}`, page);
+            if (response.ok) {
+                setSavedRes('Siden er lagret');
+            }
+            const responseData = await response.json();
+            localStorage.removeItem("lastRecognizedText")
+            localStorage.removeItem("previousRecognizedText");
+            pages[currentPageIndex] = page;
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+            timeoutRef.current = setTimeout(() => {
+                setSavedRes(null);
+            }, 2000);
+        } catch (error) {
+            alert("Kan ikke lagre side, prøv igjen senere")
+            console.error('Error updating page:', error);
         }
-        const responseData = await response.json();
-        localStorage.removeItem("lastRecognizedText")
-        localStorage.removeItem("previousRecognizedText");
-        pages[currentPageIndex] = page;
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-        timeoutRef.current = setTimeout(() => {
-            setSavedRes(null);
-        }, 2000);
-        
     }
-    
+
     return (
         <motion.div className="NewPage-container"
             initial={{ opacity: 0, rotateY: 90, transformOrigin: 'left center' }}
@@ -382,7 +402,7 @@ export default function NewPage() {
             transition={{ duration: 0.7, ease: 'easeInOut' }}
         >
             <LoadingModal isLoading={isLoading} />
-           
+
             <h1 style={{ fontFamily: 'DM Serif Display, sans-serif' }}>Design din bok</h1>
             <div className="icon-row-top">
                 <AiOutlineArrowLeft className="icon-top" onClick={handlePreviousPage} />
@@ -393,11 +413,11 @@ export default function NewPage() {
 
             </div>
             {savedRes && (
-            <div className="response-message">
-                {savedRes}
-                
-            </div>
-        )}
+                <div className="response-message">
+                    {savedRes}
+
+                </div>
+            )}
             <div className="coverPage"></div>
             <div className="input-container">
                 {images.map((image, index) => (
@@ -526,7 +546,6 @@ export default function NewPage() {
             </div>
             <div className="tools"
             >
-
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -541,8 +560,6 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
-                
-
                 <div className="last-scan-page">
                 </div>
 
@@ -552,7 +569,6 @@ export default function NewPage() {
                     </div>
                 )}
 
-                
                 {showScanOptions && (
                     <div className='ScanOptions'>
                         <Link to='/scan' className='option'>
@@ -562,9 +578,7 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
-
-{!isKeyboardOpen && <NavTab />}
-
+                
     <div className={`icon-row-menu ${isKeyboardOpen ? 'hidden' : ''}`}>
     <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
@@ -572,11 +586,10 @@ export default function NewPage() {
     <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
     <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
 </div>
+{!isKeyboardOpen && <NavTab />}
 
             </div>
-
         </motion.div>
-
 
     );
 }

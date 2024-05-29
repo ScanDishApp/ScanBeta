@@ -43,12 +43,20 @@ export default function LookMyBooks() {
 
     const handleGetPages = async (id) => {
         setIsLoading(true);
-        const response = await getPages(`/page/get?bookId=${id}`);
-        if (response.ok) {
-            const responseData = await response.json();
-            setContent(responseData[0])
+        try{
+            const response = await getPages(`/page/get?bookId=${id}`);
+            if (response.ok) {
+                const responseData = await response.json();
+                setContent(responseData[0])
+                
+            }
+        }catch(error){
+            alert("Kan ikke åpne book, prøv igjen senere")
+            console.error('Error fethcing page:', error);
+        }finally{
             setIsLoading(false);
         }
+       
     };
 
     const handlePage = () => {
@@ -100,21 +108,27 @@ export default function LookMyBooks() {
             userId: userId,
             contents: content[currentPageIndex],
         };
-        const response = await createFavorite("/favorite/", like);
-        let responseData = await response.json();
-        responseData = JSON.parse(responseData)
-
-        if (response.ok) {
-            if (!userId) {
-                const offlineLike = {
-                    id: responseData.id,
+        try{
+            const response = await createFavorite("/favorite/", like);
+            let responseData = await response.json();
+            responseData = JSON.parse(responseData)
+    
+            if (response.ok) {
+                if (!userId) {
+                    const offlineLike = {
+                        id: responseData.id,
+                    };
+                    const updatedofflineFavorites = [...offlineFavorites, offlineLike];
+                    setofflineFavorites(updatedofflineFavorites);
+                    localStorage.setItem("offlineLike", JSON.stringify(updatedofflineFavorites));
                 };
-                const updatedofflineFavorites = [...offlineFavorites, offlineLike];
-                setofflineFavorites(updatedofflineFavorites);
-                localStorage.setItem("offlineLike", JSON.stringify(updatedofflineFavorites));
+                setIsFavorited(true); 
             };
-            setIsFavorited(true); 
-        };
+        }catch(error){
+            alert("Kan ikke lagre som favoritter, prøv igjen senere")
+            console.error('Error creating favorites:', error);
+        }
+        
     };
 
     const checkIfFavorited = () => {
