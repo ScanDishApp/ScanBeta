@@ -53,7 +53,6 @@ export default function NewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [savedRes, setSavedRes] = useState('');
     const timeoutRef = useRef(null);
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
 
 
@@ -77,28 +76,6 @@ export default function NewPage() {
             setPreviousText(storedText);
         }
     }, []);
-
-
-    useEffect(() => {
-        const handleViewportChange = () => {
-            const viewportHeight = window.visualViewport.height;
-            const windowHeight = window.innerHeight;
-            
-            setIsKeyboardOpen(viewportHeight < windowHeight);
-        };
-    
-        window.visualViewport.addEventListener('resize', handleViewportChange);
-    
-        handleViewportChange();
-    
-        return () => {
-            window.visualViewport.removeEventListener('resize', handleViewportChange);
-        };
-    }, []);
-
-
-
-
 
     useEffect(() => {
         const storedPageId = localStorage.getItem("pageId");
@@ -558,14 +535,14 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
-   <div className={`icon-row-menu ${isKeyboardOpen ? 'hidden' : ''}`}>
-    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
-    <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
-    <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
-    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
-    <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
-</div>
+                <div className="icon-row-menu" >
 
+                    <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
+                    <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
+                    <AiOutlineSmile className="icon" onClick={() => toggleMenu('sticker')} />
+                    <AiOutlinePicture className="icon" onClick={() => document.getElementById('file-input').click()} />
+                    <AiOutlineBgColors className="icon" onClick={() => toggleMenu('color')} />
+                </div>
             </div>
         </motion.div>
 
