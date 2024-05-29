@@ -3,12 +3,13 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDelete } from 'react-
 import { IoHeartDislikeOutline } from "react-icons/io5";
 import { getFavorite, deleteFavorite } from '../functions/fetch';
 import { useNavigate } from 'react-router-dom';
+import { userManager } from '../functions/user';
 import LoadingModal from '../functions/LoadingModual';
 
 export default function Favorites() {
     const [content, setContent] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
-    const userId = localStorage.getItem("userId")
+    const userId = userManager.id;
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     let favorites = localStorage.getItem("offlineLike");

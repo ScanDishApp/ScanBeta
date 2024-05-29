@@ -10,6 +10,8 @@ import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
+import { bookManager } from '../functions/book';
+import { pageManager } from '../functions/page';
 import { getPages, updatePage, createPage } from '../functions/fetch';
 
 const predefinedColors = ['#000000', '#FF0000', '#009E00', '#0000FF', '#FFC408', '#FF00FF', '#6FCBDC', '#800000', '#B73D6F', '#008080', '#808080'];
@@ -100,7 +102,7 @@ export default function NewPage() {
 
 
     useEffect(() => {
-        const storedPageId = localStorage.getItem("pageId");
+        const storedPageId = pageManager.id;
         if (storedPageId) {
             setPageId(storedPageId);
         }
@@ -117,7 +119,7 @@ export default function NewPage() {
     }, [pages, currentPageIndex]);
 
     const handleGetPages = async () => {
-        let id = localStorage.getItem("bookId")
+        let id = bookManager.id;
         try {
             const response = await getPages(`/page/get?bookId=${id}`);
             if (response.ok) {
@@ -141,7 +143,7 @@ export default function NewPage() {
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
-            bookId: localStorage.getItem("bookId"),
+            bookId: bookManager.id,
             title: title,
             ingridens: noteInput,
             imageFile: imageFile,
@@ -165,7 +167,7 @@ export default function NewPage() {
 
     const addNewPage = async () => {
         const newPage = {
-            bookId: localStorage.getItem("bookId"),
+            bookId: bookManager.id,
             title: '',
             ingridens: '',
             imageFile: null,
@@ -178,7 +180,7 @@ export default function NewPage() {
             const responsePage = await createPage("/page/", newPage);
             const responsePageData = await responsePage.json();
             const responsePageDataParse = JSON.parse(responsePageData)
-            localStorage.setItem("pageId", responsePageDataParse.id)
+            bookManager.setId(responsePageDataParse.id)
             setPageId(responsePageDataParse.id)
             resetPageState();
             localStorage.removeItem("lastRecognizedText")
@@ -364,7 +366,7 @@ export default function NewPage() {
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
-            bookId: localStorage.getItem("bookId"),
+            bookId: bookManager,id,
             title: title,
             ingridens: noteInput,
             imageFile: imageFile,

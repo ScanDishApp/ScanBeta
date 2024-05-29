@@ -4,6 +4,9 @@ import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import LoadingModal from '../functions/LoadingModual';
 import divider from '../assets/divider.png'
+import { userManager } from '../functions/user';
+import { bookManager } from '../functions/book';
+import { pageManager } from '../functions/page';
 import './ScreenStyle/MyBooks.css';
 import { listBook, getPages, createPage, createBook, deletePage, deleteBook } from '../functions/fetch';
 import { AiFillEye, AiOutlineEye } from 'react-icons/ai';
@@ -15,7 +18,7 @@ export default function MyBooks() {
     const [rectangles, setRectangles] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
-    const userId = localStorage.getItem("userId");
+    const userId = userManager.id;
     const [errorMsg, setErrorMsg] = useState(null);
 
     const getOfflineBooks = () => {
@@ -121,7 +124,7 @@ export default function MyBooks() {
             if (response.ok) {
                 const responseData = await response.json();
                 const responseParse = JSON.parse(responseData);
-                localStorage.setItem("bookId", responseParse.id);
+                bookManager.setId(responseParse.id)
                 displayRectangleId(responseParse.id);
                 const page = {
                     bookId: responseParse.id,
@@ -136,7 +139,8 @@ export default function MyBooks() {
                 const responsePage = await createPage("/page/", page);
                 const responsePageData = await responsePage.json();
                 const responsePageDataParse = JSON.parse(responsePageData);
-                localStorage.setItem("pageId", responsePageDataParse.id);
+                
+                pageManager.setId(responsePageDataParse.id)
 
                 if (!userId) {
                     const offlineBook = {
@@ -189,15 +193,12 @@ export default function MyBooks() {
     };
 
     const handleLookAtBook = async (id) => {
-
-        localStorage.setItem("bookId", id)
+        bookManager.setId(id)
         navigate('/look-my-book')
-
-
     };
 
     const displayRectangleId = async (id) => {
-        localStorage.setItem("bookId", id);
+        bookManager.setId(id)
         localStorage.removeItem("lastRecognizedText")
         localStorage.removeItem("previousRecognizedText")
         navigate('/NewPage');
