@@ -7,6 +7,7 @@ import LoadingModal from '../functions/LoadingModual';
 import { useNavigate } from 'react-router-dom';
 import './ScreenStyle/Home.css';
 import './ScreenStyle/NewPage.css';
+import NavTab from '../view/NavTab';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
 import { getPages, updatePage, createPage } from '../functions/fetch';
@@ -547,6 +548,8 @@ export default function NewPage() {
                     </div>
                 )}
 
+<NavTab className={isKeyboardOpen ? 'hidden' : ''} />
+                
                 {showScanOptions && (
                     <div className='ScanOptions'>
                         <Link to='/scan' className='option'>
@@ -565,7 +568,9 @@ export default function NewPage() {
 </div>
 
             </div>
+
         </motion.div>
+
 
     );
 }
