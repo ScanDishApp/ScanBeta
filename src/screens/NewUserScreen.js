@@ -26,6 +26,7 @@ export default function NewUser() {
     };
 
     const handleGet = async (id) => {
+
         try{
             const response = await getUser("/user/get", id);
             const responseData = await response.json();
@@ -33,6 +34,8 @@ export default function NewUser() {
             localStorage.setItem("profileName", profileName)
             let profileEmail = responseData.email
             localStorage.setItem("profileEmail", profileEmail)
+           let profilePswHash = responseData.pswHash
+        localStorage.setItem("profilePswHash", profilePswHash)
             let profileImg = responseData.img
             localStorage.setItem("profileImg", profileImg)
             setProfileImage(profileImg);

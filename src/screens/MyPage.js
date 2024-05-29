@@ -32,6 +32,11 @@ export default function MyPage() {
 
     const handleLogOut = () => {
         localStorage.removeItem("userId")
+        localStorage.removeItem("profilePswHash")
+        localStorage.removeItem("profileImg")
+        localStorage.removeItem("profileEmail")
+        localStorage.removeItem("profileName")
+
         navigate('/my-page');
     }
 
