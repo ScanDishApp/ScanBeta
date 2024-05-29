@@ -17,31 +17,40 @@ export default function Favorites() {
     useEffect(() => {
 
         const handleGetFavorite = async () => {
-            
+
             setIsLoading(true);
             if (userId) {
-                const response = await getFavorite(`/favorite/get?userId=${userId}`);
-                if (response.ok) {
-                    const responseData = await response.json();
-                    let dbFavorite = responseData.dbFavorite
-                    setContent(dbFavorite);
+                try {
+                    const response = await getFavorite(`/favorite/get?userId=${userId}`);
+                    if (response.ok) {
+                        const responseData = await response.json();
+                        let dbFavorite = responseData.dbFavorite
+                        setContent(dbFavorite);
+                    }
+                } catch (error) {
+                    alert("Kan ikke hente favoritter, prøv igjen senere")
+                    console.error('Error fethcing favorites:', error);
                 }
 
             } else {
-                if (favorites) {
-                    for (let like of favorites) {
-                        const response = await getFavorite(`/favorite/getOffline?id=${like.id}`);
-                        if (response.ok) {
-                            const responseData = await response.json();
-                            let dbFavorite = responseData.dbFavorite
-                            setContent(dbFavorite);
+                try {
+                    if (favorites) {
+                        for (let like of favorites) {
+                            const response = await getFavorite(`/favorite/getOffline?id=${like.id}`);
+                            if (response.ok) {
+                                const responseData = await response.json();
+                                let dbFavorite = responseData.dbFavorite
+                                setContent(dbFavorite);
+                            }
                         }
+                    } else {
+                        const bookContent = document.querySelector(".book-content");
+                        bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
                     }
-                }else{
-                    const bookContent = document.querySelector(".book-content");
-                    bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
+                } catch (error) {
+                    alert("Kan ikke hente favoritter, prøv igjen senere")
+                    console.error('Error fethcing favorites:', error);
                 }
-
             } setIsLoading(false);
 
         };
@@ -92,7 +101,7 @@ export default function Favorites() {
             )).join('')}
                     </div>
                 `;
-        }else{
+        } else {
             const bookContent = document.querySelector(".book-content");
             bookContent.innerHTML = `<p>Ingen favoritter enda.</p>`
         }
@@ -107,14 +116,21 @@ export default function Favorites() {
     };
 
     const handleFavorite = async () => {
+
         let id = content[currentPageIndex].id;
         id = JSON.parse(id);
+      try{
         const response = await deleteFavorite(`/favorite/${id}`);
         if (response.ok) {
             window.location.reload(); // This will refresh the page
-        } else {
+            } else {
             console.error('Failed to delete favorite');
+          }
+        } catch (error) {
+            alert("Kan ikke fjerne favoritter, prøv igjen senere")
+            console.error('Error deleting favorites:', error);
         }
+
     };
 
     return (
