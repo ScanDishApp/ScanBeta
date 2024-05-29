@@ -540,7 +540,7 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
-                <NavTab className={isKeyboardOpen ? 'hidden' : ''} />  
+                
 
                 <div className="last-scan-page">
                 </div>
@@ -561,6 +561,9 @@ export default function NewPage() {
                             Fremgangsmåte      </Link>
                     </div>
                 )}
+
+{!isKeyboardOpen && <NavTab />}
+
     <div className={`icon-row-menu ${isKeyboardOpen ? 'hidden' : ''}`}>
     <AiOutlineFontSize className="icon" onClick={() => toggleMenu('font')} />
     <AiOutlineScan className="icon" onClick={() => toggleMenu('scan')} />
