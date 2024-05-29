@@ -46,7 +46,7 @@ export default function App() {
           <Route path="/Calculator" element={<Layout showNav={true} showHeader={true}><Calculator /></Layout>} />
           <Route path="/TemperatureConverter" element={<Layout showNav={true} showHeader={true}><TemperatureConverter /></Layout>} />
           <Route path="/MyBooks" element={<Layout showNav={true}showHeader={true}><MyBooks /></Layout>} />
-          <Route path="/NewPage" element={<Layout showNav={true}><NewPage /></Layout>} />
+          <Route path="/NewPage" element={<Layout showNav={false}><NewPage /></Layout>} />
           <Route path="/StickerMenu" element={<Layout showNav={true}><StickerMenu /></Layout>} />
           <Route path="/Friends" element={<Layout showNav={true}showHeader={true}><Friends /></Layout>} />
           <Route path="/friend-request-screen" element={<Layout showNav={true}showHeader={true}><FriendRequest /></Layout>} />
