@@ -21,18 +21,24 @@ export default function SharedBooks() {
         async function fetchBooks() {
             setIsLoading(true);
             if (userId) {
-                const response = await listBook(`/book/listShared?userId=${userId}`);
-                const responseData = await response.json();
+                try {
+                    const response = await listBook(`/book/listShared?userId=${userId}`);
+                    const responseData = await response.json();
 
-                const rectanglesFromData = responseData.map((item, index) => ({
-                    id: item.id,
-                    title: item.title,
-                    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
-                }));
-                setRectangles(rectanglesFromData);
-            } setIsLoading(false);
+                    const rectanglesFromData = responseData.map((item, index) => ({
+                        id: item.id,
+                        title: item.title,
+                        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+                    }));
+                    setRectangles(rectanglesFromData);
+                } catch (error) {
+                    alert("Kan ikke hente bøker, prøv igjen senere")
+                    console.error('Error fetching books:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            }
         }
-
         fetchBooks();
 
     }, [userId]);
@@ -42,10 +48,14 @@ export default function SharedBooks() {
     },);
 
     const handleGetFriend = async (id) => {
-      
-        const response = await getFriend("/friends/get", id);
-        const responseData = await response.json();
-        setFriendsList(responseData);
+        try {
+            const response = await getFriend("/friends/get", id);
+            const responseData = await response.json();
+            setFriendsList(responseData);
+        } catch (error) {
+            alert("Kan ikke hente venner, prøv igjen senere")
+            console.error('Error fetching friends:', error);
+        }
     };
 
     const addRectangle = async (id) => {
@@ -67,7 +77,7 @@ export default function SharedBooks() {
             await saveToServer(book);
             localStorage.removeItem("lastRecognizedText")
             localStorage.removeItem("previousRecognizedText")
-        }else{
+        } else {
             const rectangleGrid = document.querySelector(".rectangle-grid");
             rectangleGrid.innerHTML = `<p>Logg inn for å bruke denne funksjonen.</p>`
             setShowModal(false);
@@ -81,7 +91,7 @@ export default function SharedBooks() {
             const updatedRectangles = rectangles.filter(rectangle => rectangle.id !== id);
             setRectangles(updatedRectangles);
             saveRectangles(updatedRectangles);
-        } 
+        }
     };
 
     const saveToServer = async (book) => {
@@ -109,7 +119,8 @@ export default function SharedBooks() {
                 localStorage.setItem("pageId", responsePageDataParse.id)
             }
         } catch (error) {
-            console.error("Error saving book to server:", error);
+            alert("Kan ikke lagre bok, prøv igjen senere")
+            console.error('Error saving book:', error);
         }
     };
 
@@ -119,6 +130,7 @@ export default function SharedBooks() {
             return response
 
         } catch (error) {
+            alert("Kan ikke slette bok, prøv igjen senere")
             console.error("Error deleting book from server:", error);
         }
     };
@@ -128,6 +140,7 @@ export default function SharedBooks() {
             return response
 
         } catch (error) {
+            alert("Kan ikke slette bok, prøv igjen senere")
             console.error("Error deleting book from server:", error);
         }
     };
@@ -137,7 +150,7 @@ export default function SharedBooks() {
     };
 
     const handleLookAtBook = async (id) => {
-        
+
 
         const response = await getBook(`/page/get?bookId=${id}`);
         const responseData = await response.json();
@@ -153,7 +166,7 @@ export default function SharedBooks() {
     };
 
     const displayRectangleId = async (id) => {
-        
+
         const response = await getPages(`/page/get?bookId=${id}`);
         if (response.ok) {
             const responseData = await response.json();

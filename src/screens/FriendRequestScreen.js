@@ -23,10 +23,16 @@ export default function FriendRequest() {
     const handleGetFriendRequest = async (id) => {
       
         setIsLoading(true);
-        const response = await getRequest("/friends/requests", id);
-        const responseData = await response.json();
-        setFriendRequests(responseData);
-        setIsLoading(false);
+        try{
+            const response = await getRequest("/friends/requests", id);
+            const responseData = await response.json();
+            setFriendRequests(responseData);
+        }catch(error){
+            alert("Kan ikke hente forespørsler, prøv igjen senere")
+            console.error('Error fetching requestes:', error);
+        }finally{
+            setIsLoading(false);
+        };
 
     };
 
@@ -47,7 +53,8 @@ export default function FriendRequest() {
             const responseData = await response.json();
             setSuccessMsg("Forespørsel sendt");
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke legge til venn, prøv igjen senere")
+            console.error('Error updating requestes:', error);
         }
     };
 
@@ -64,7 +71,8 @@ export default function FriendRequest() {
             const responseData = await response.json();
             await handleGetFriendRequest(userId);
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke legge til venn, prøv igjen senere")
+            console.error('Error updating requestes:', error);
         }
     };
 
@@ -81,7 +89,8 @@ export default function FriendRequest() {
             const responseData = await response.json();
             await handleGetFriendRequest(userId);
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke fjerne venn, prøv igjen senere")
+            console.error('Error updating requestes:', error);
         }
 
     };
@@ -90,7 +99,8 @@ export default function FriendRequest() {
         try {
             await handleAddFriend(id);
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke legge til venn, prøv igjen senere")
+            console.error('Error updating requestes:', error);
         }
     }
 
@@ -98,7 +108,8 @@ export default function FriendRequest() {
         try {
             await handleDeclineFriend(id);
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke fjerne venn, prøv igjen senere")
+            console.error('Error updating requestes:', error);
         }
     }
 

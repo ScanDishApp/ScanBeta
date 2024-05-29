@@ -30,11 +30,16 @@ export default function Friends() {
     const handleGetFriend = async (id) => {
       
         setIsLoading(true);
-        const response = await getFriend("/friends/get", id);
-        const responseData = await response.json();
-        setFriendsList(responseData);
-        setIsLoading(false);
-
+        try{
+            const response = await getFriend("/friends/get", id);
+            const responseData = await response.json();
+            setFriendsList(responseData);
+        }catch(error){
+            alert("Kan ikke hante venner, prøv igjen senere")
+            console.error('Error fetching friends:', error);
+        }finally{
+            setIsLoading(false);
+        }
     };
 
     const handleDeleteFriend = async (id) => {
@@ -49,7 +54,8 @@ export default function Friends() {
             const response = await declineFriend("/friends/remove", request);
             const responseData = await response.json();
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke fjerne venne, prøv igjen senere")
+            console.error('Error deleting friends:', error);
         }
     };
 
@@ -58,7 +64,8 @@ export default function Friends() {
             await handleDeleteFriend(id);
             await handleGetFriend(userId);
         } catch (error) {
-            console.error("Error:", error);
+            alert("Kan ikke fjerne venne, prøv igjen senere")
+            console.error('Error deleting friends:', error);
         }
     }
 
@@ -67,12 +74,15 @@ export default function Friends() {
     };
 
     const handleGetFriendRequest = async (id) => {
-        
-
-        const response = await getRequest("/friends/requests", id);
-        const responseData = await response.json();
-        let waitingRequest = responseData.length
-        setFriendRequests(waitingRequest);
+        try{
+            const response = await getRequest("/friends/requests", id);
+            const responseData = await response.json();
+            let waitingRequest = responseData.length
+            setFriendRequests(waitingRequest);
+        }catch(error){
+            alert("Kan ikke hente forespørsler, prøv igjen senere")
+            console.error('Error fetching requestes:', error);
+        }     
     };
 
     if (friendRequests > 0) {
