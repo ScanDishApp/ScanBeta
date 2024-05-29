@@ -53,6 +53,7 @@ export default function NewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [savedRes, setSavedRes] = useState('');
     const timeoutRef = useRef(null);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
 
 
