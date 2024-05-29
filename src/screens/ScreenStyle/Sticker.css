@@ -1,6 +1,5 @@
 .sticker-menu {
   display: flex;
-  justify-content: center;
   background-color: #99B952;
   border-radius: 10px;
   margin: 10px;
@@ -8,6 +7,9 @@
   position: fixed;
   left: 58px;
   z-index: -1;
+  overflow-x: auto;
+  height: 50px;
+  width: 330px;
 }
 
 .toggle-menu {
