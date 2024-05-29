@@ -53,6 +53,7 @@ export default function NewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [savedRes, setSavedRes] = useState('');
     const timeoutRef = useRef(null);
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
 
 
@@ -76,6 +77,28 @@ export default function NewPage() {
             setPreviousText(storedText);
         }
     }, []);
+
+
+    useEffect(() => {
+        const handleViewportChange = () => {
+            const viewportHeight = window.visualViewport.height;
+            const windowHeight = window.innerHeight;
+            
+            setIsKeyboardOpen(viewportHeight < windowHeight);
+        };
+    
+        window.visualViewport.addEventListener('resize', handleViewportChange);
+    
+        handleViewportChange();
+    
+        return () => {
+            window.visualViewport.removeEventListener('resize', handleViewportChange);
+        };
+    }, []);
+
+
+
+
 
     useEffect(() => {
         const storedPageId = localStorage.getItem("pageId");
