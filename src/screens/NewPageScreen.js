@@ -84,8 +84,9 @@ export default function NewPage() {
         const handleViewportChange = () => {
             const viewportHeight = window.visualViewport.height;
             const windowHeight = window.innerHeight;
-            
-            setIsKeyboardOpen(viewportHeight < windowHeight);
+            const keyboardOpen = viewportHeight < windowHeight;
+            setIsKeyboardOpen(keyboardOpen);
+            console.log('isKeyboardOpen:', keyboardOpen); // Log the value of isKeyboardOpen
         };
     
         window.visualViewport.addEventListener('resize', handleViewportChange);
