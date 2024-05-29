@@ -26,15 +26,21 @@ export default function NewUser() {
     };
 
     const handleGet = async (id) => {
-        const response = await getUser("/user/get", id);
-        const responseData = await response.json();
-        let profileName = responseData.name
-        localStorage.setItem("profileName", profileName)
-        let profileEmail = responseData.email
-        localStorage.setItem("profileEmail", profileEmail)
-        let profileImg = responseData.img
-        localStorage.setItem("profileImg", profileImg)
-        setProfileImage(profileImg);
+        try{
+            const response = await getUser("/user/get", id);
+            const responseData = await response.json();
+            let profileName = responseData.name
+            localStorage.setItem("profileName", profileName)
+            let profileEmail = responseData.email
+            localStorage.setItem("profileEmail", profileEmail)
+            let profileImg = responseData.img
+            localStorage.setItem("profileImg", profileImg)
+            setProfileImage(profileImg);
+        }catch(error){
+            alert("Kan ikke hente bruker, prøv igjen senere")
+            console.error('Error fethcing user:', error);  
+        }
+
     };
 
     const handleCreate = async () => {
@@ -80,19 +86,25 @@ export default function NewUser() {
             img: img
         };
         setIsLoading(true);
-        const response = await createUser("/user/", user);
-        if (response.status == 500) {
-            passwordInput.classList.add('error-border');
-            setErrorMsg("Email er allerede i bruk");
+        try{
+            const response = await createUser("/user/", user);
+            if (response.status == 500) {
+                passwordInput.classList.add('error-border');
+                setErrorMsg("Email er allerede i bruk");
+                setIsLoading(false);
+                return;
+            }
+            const responseData = await response.json();
+            let userId = responseData.id
+            localStorage.setItem("userId", userId);
+            await handleGet(userId)
+            navigate('/my-page')
+        }catch(error){
+            alert("Kan ikke lage bruker, prøv igjen senere")
+            console.error('Error creating user:', error); 
+        }finally{
             setIsLoading(false);
-            return;
         }
-        const responseData = await response.json();
-        let userId = responseData.id
-        localStorage.setItem("userId", userId);
-        await handleGet(userId)
-        navigate('/my-page')
-        setIsLoading(false);
     };
 
     return (
