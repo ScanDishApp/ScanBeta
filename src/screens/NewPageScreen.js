@@ -525,6 +525,7 @@ export default function NewPage() {
             </div>
             <div className="tools"
             >
+
                 <div className="menu-placement">
                     {showColorMenu && (
                         <div className="colorMenu">
@@ -539,6 +540,8 @@ export default function NewPage() {
                         </div>
                     )}
                 </div>
+                <NavTab className={isKeyboardOpen ? 'hidden' : ''} />
+
                 <div className="last-scan-page">
                 </div>
 
@@ -548,7 +551,6 @@ export default function NewPage() {
                     </div>
                 )}
 
-<NavTab className={isKeyboardOpen ? 'hidden' : ''} />
                 
                 {showScanOptions && (
                     <div className='ScanOptions'>
