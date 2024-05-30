@@ -50,18 +50,21 @@ export default function NewUser() {
     };
 
     const handleCreate = async () => {
-
         const nameInput = document.querySelector('.create-username');
         const passwordInput = document.querySelector('.create-password');
         const emailInput = document.querySelector('.create-email');
         let pswHash = passwordInput.value;
         pswHash = await sha256(pswHash);
+
         const email = emailInput.value;
         const name = nameInput.value;
+
         let img = image;
+
         if (!img) {
             img = defaultImage;
         }
+
         if (!name.trim()) {
             nameInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn brukernavn!");
@@ -69,6 +72,7 @@ export default function NewUser() {
         } else {
             nameInput.classList.remove('error-border');
         }
+
         if (!email.trim()) {
             emailInput.classList.add('error-border');
             setErrorMsg("Venligst fyll inn emailen!");
@@ -91,6 +95,7 @@ export default function NewUser() {
             email: email,
             img: img
         };
+
         setIsLoading(true);
         try{
             const response = await createUser("/user/", user);
@@ -105,6 +110,7 @@ export default function NewUser() {
             userManager.setId(userId)
             await handleGet(userId)
             navigate('/my-page')
+            
         }catch(error){
             alert("Kan ikke lage bruker, prøv igjen senere")
             console.error('Error creating user:', error); 

@@ -123,7 +123,7 @@ export default function Favorites() {
       try{
         const response = await deleteFavorite(`/favorite/${id}`);
         if (response.ok) {
-            window.location.reload(); // This will refresh the page
+            window.location.reload();
             } else {
             console.error('Failed to delete favorite');
           }

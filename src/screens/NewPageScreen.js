@@ -366,7 +366,7 @@ export default function NewPage() {
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
-            bookId: bookManager,id,
+            bookId: bookManager.idid,
             title: title,
             ingridens: noteInput,
             imageFile: imageFile,
