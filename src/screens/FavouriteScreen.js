@@ -9,7 +9,7 @@ import LoadingModal from '../functions/LoadingModual';
 export default function Favorites() {
     const [content, setContent] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
-    const userId = userManager.id;
+    const userId  = localStorage.getItem("userId");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     let favorites = localStorage.getItem("offlineLike");

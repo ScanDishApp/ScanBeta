@@ -23,7 +23,7 @@ const linkStyle = {
 
 const Home = () => {
     const navigate = useNavigate();
-    const userId = userManager.id;
+    const userId = localStorage.getItem("userId");
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
     const [errorMsg, setErrorMsg] = useState(null);

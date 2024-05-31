@@ -18,7 +18,7 @@ export default function MyBooks() {
     const [rectangles, setRectangles] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [titleText, setTitleText] = useState("");
-    const userId = userManager.id;
+    const userId = localStorage.getItem("userId")
     const [errorMsg, setErrorMsg] = useState(null);
 
     const getOfflineBooks = () => {

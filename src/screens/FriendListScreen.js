@@ -7,7 +7,7 @@ import { userManager } from '../functions/user';
 import { getFriend, declineFriend, getRequest  } from '../functions/fetch';
 
 export default function Friends() {
-    let userId = userManager.id;
+    let userId = localStorage.getItem("userId");
     const navigate = useNavigate();
     const [friendsList, setFriendsList] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
