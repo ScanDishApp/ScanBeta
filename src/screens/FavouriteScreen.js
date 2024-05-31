@@ -122,11 +122,7 @@ export default function Favorites() {
         id = JSON.parse(id);
       try{
         const response = await deleteFavorite(`/favorite/${id}`);
-        if (response.ok) {
-            window.location.reload();
-            } else {
-            console.error('Failed to delete favorite');
-          }
+        
         } catch (error) {
             alert("Kan ikke fjerne favoritter, prøv igjen senere")
             console.error('Error deleting favorites:', error);
