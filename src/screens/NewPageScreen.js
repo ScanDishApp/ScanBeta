@@ -102,7 +102,7 @@ export default function NewPage() {
 
 
     useEffect(() => {
-        const storedPageId = pageManager.id;
+        const storedPageId = localStorage.getItem("pageId")
         if (storedPageId) {
             setPageId(storedPageId);
         }
@@ -119,7 +119,7 @@ export default function NewPage() {
     }, [pages, currentPageIndex]);
 
     const handleGetPages = async () => {
-        let id = bookManager.id;
+        let id = localStorage.getItem("bookId");
         try {
             const response = await getPages(`/page/get?bookId=${id}`);
             if (response.ok) {
@@ -143,7 +143,7 @@ export default function NewPage() {
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
-            bookId: bookManager.id,
+            bookId: localStorage.getItem("bookId"),
             title: title,
             ingridens: noteInput,
             imageFile: imageFile,
@@ -167,7 +167,7 @@ export default function NewPage() {
 
     const addNewPage = async () => {
         const newPage = {
-            bookId: bookManager.id,
+            bookId: localStorage.getItem("bookId"),
             title: '',
             ingridens: '',
             imageFile: null,
@@ -366,7 +366,7 @@ export default function NewPage() {
         let noteInputIns = document.querySelector('.note-input-ins').value
         const page = {
             id: pageId,
-            bookId: bookManager.idid,
+            bookId: localStorage.getItem("bookId"), 
             title: title,
             ingridens: noteInput,
             imageFile: imageFile,

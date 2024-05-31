@@ -30,7 +30,7 @@ export default function EditUser() {
     };
     const handleDelete = async () => {
         try {
-            let id = userManager.id
+            let id = localStorage.getItem("userId")
             const response = await deleteUser(`/user/${id}`);
             userManager.removeId()
             userManager.removeEmail()
@@ -72,7 +72,7 @@ export default function EditUser() {
         const name = document.querySelector('.update-username').value;
         const email = document.querySelector('.update-email').value;
         const emailImp = document.querySelector('.update-email');
-        let id = userManager.id
+        let id = localStorage.getItem("userId")
         let img = profileImage;
         let pswHash = profilePswHash;
         const user = {
@@ -115,7 +115,7 @@ export default function EditUser() {
         pswHash = await sha256(pswHash);
         if (currentPswHash === profilePswHash) {
 
-            let id = userManager.id
+            let id = localStorage.getItem("userId")
             const user = {
                 name: profileName,
                 pswHash: pswHash,

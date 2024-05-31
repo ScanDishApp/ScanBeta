@@ -8,7 +8,7 @@ import './ScreenStyle/FriendRequest.css';
 
 
 export default function FriendRequest() {
-    const userId = userManager.id; 
+    const userId = localStorage.getItem("userId");
     const [friendRequests, setFriendRequests] = useState([]);
     const [successMsg, setSuccessMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ export default function FriendRequest() {
     };
 
     const handleSendFriendRequest = async () => {
-        const userId = userManager.id;
+        const userId =localStorage.getItem("userId");
         const name = userManager.name;
         const friendId = document.querySelector('.friendId-input').value;
         const status = "pending";

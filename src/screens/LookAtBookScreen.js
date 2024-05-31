@@ -20,7 +20,7 @@ export default function LookMyBooks() {
     const [isFavorited, setIsFavorited] = useState(false); 
     const [isLoading, setIsLoading] = useState(false);
 
-    const userId = userManager.id;
+    const userId = localStorage.getItem("userId")
     
     const getOfflineFavorite = () => {
         const like = localStorage.getItem("offlineLike");
@@ -29,7 +29,7 @@ export default function LookMyBooks() {
     const [offlineFavorites, setofflineFavorites] = useState(getOfflineFavorite);
 
     useEffect(() => {
-        let bookId = bookManager.id;
+        let bookId = localStorage.getItem("bookId");
         handleGetPages(bookId)
     
     }, []);
